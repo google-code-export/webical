@@ -1,4 +1,4 @@
-#labels Developer,Story,Featured
+#labels Developer,Story
 #Edit recurring events
 
 = Short Description =
