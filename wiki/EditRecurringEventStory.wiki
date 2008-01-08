@@ -23,6 +23,7 @@ Always copy the original event, before editing it.
   # Add the start date of the new event to the exclusion rule of the original event
   # Set the Uid of the new event to `null` so the DAO will store it as a new event
   # Set the eventId to null so hibernate won't override the original event in the database and eventually the calendar file
+  # Clear the recurrence of the new event
   # Store the original event
   # Store the new event
 
