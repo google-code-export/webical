@@ -2,16 +2,25 @@
 #Edit recurring events
 
 = Short Description =
-The user should have the option to alter recurring events, all of them or specific events in the range.
+The user should have the option to alter recurring events. Via the Event Details page the user can edit an Event. The date of the recurring event should be updated in the edit form to the date of the day the selected event was on.
 
 = Functional specifications =
-Recurring events need to editable: either edit or delete.
-If the user edits or deletes a recurring event, he or she should be presented 4 options:
+The user should be able to alter recurring events. 
+If the user edits or deletes a recurring event, four choices should be presented:
   * Alter this instance of the event
   * Alter all instances of this event
   * Alter all following instances of this event
 
 = Tasks =
+|| Task || Status ||
+|| Show correct date for recurring event details || ||
+|| Update date when editing recurring event || ||
+|| Edit this instance || ||
+|| Edit all instances || ||
+|| Edit following instances || ||
+|| Delete this instance || ||
+|| Delete all instances || ||
+|| Delete following instances || ||
 
 = Technical implementation =
 Always copy the original event, before editing it.
