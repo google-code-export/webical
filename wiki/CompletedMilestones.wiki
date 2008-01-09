@@ -6,20 +6,20 @@
 These milestones were completed:
 
 === Milestone 0.1 ===
-|| Release date: || n/a ||
-|| Announcement: || http://sourceforge.net/forum/forum.php?forum_id=653219 ||
-|| Download: || n/a ||
-|| SVN Tag: || n/a ||
+|| *Release date:* || n/a ||
+|| *Announcement:* || http://sourceforge.net/forum/forum.php?forum_id=653219 ||
+|| *Download:* || n/a ||
+|| *SVN Tag:* || n/a ||
 
 === Milestone 0.2 ===
-|| Release date: || 25 September 2007 ||
-|| Announcement: || http://blog.webical.org/archives/4-Webical-0.2-available-for-download.html ||
-|| Download: || http://sourceforge.net/project/showfiles.php?group_id=176849&package_id=203503&release_id=477457 ||
-|| SVN Tag: || n/a ||
+|| *Release date:* || 25 September 2007 ||
+|| *Announcement:* || http://blog.webical.org/archives/4-Webical-0.2-available-for-download.html ||
+|| *Download:* || http://sourceforge.net/project/showfiles.php?group_id=176849&package_id=203503&release_id=477457 ||
+|| *SVN Tag:* || n/a ||
 
 === Milestone 0.3 ===
 This milestone was never officially released,
-|| Release date: || n/a ||
-|| Announcement: || n/a ||
-|| Download: || n/a ||
-|| SVN Tag: || [https://webical.svn.sourceforge.net/svnroot/webical/tags/release-0.3 release-0.3] ||
+|| *Release date:* || n/a ||
+|| *Announcement:* || n/a ||
+|| *Download:* || n/a ||
+|| *SVN Tag:* || [https://webical.svn.sourceforge.net/svnroot/webical/tags/release-0.3 release-0.3] ||
