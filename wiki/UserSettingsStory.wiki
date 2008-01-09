@@ -1,0 +1,37 @@
+#labels Developer,Story
+#Webical user settings
+= Introduction =
+
+Many aspects of the calendar can be changed by the user. This is an overview of the settings the user can change, and if these settings are implemented.
+
+= Available settings =
+
+The following settings should be available to the user:
+  * First name
+  * Last name prefix
+  * Last name
+  * Birthdate
+  * E-mail
+  * First day of week
+  * Default calendar view
+  * Number of agenda days
+  * Date format
+  * Time format
+  * Show end time
+  * Show weekend
+
+= Implementation =
+
+|| *Setting* || *Description* || *Implemented* ||
+|| First name || The user first name || Implemented ||
+|| Last name prefix || The user last name prefix || Implemented ||
+|| Last name || The user last name || yes ||
+|| Birthdate || The user date of birth || Implemented ||
+|| E-mail || The user's e-mail adress to be used when sending reminders or invitations || Will be implemented when either reminder or invitation support will be added ||
+|| First day of week || The day to use as the first day of the week || yes ||
+|| Default calendar view || The calendar view to show by default || yes ||
+|| Number of agenda days || The number of days shown in the `Next X Days` tab || yes ||
+|| Date format || The format of the date || yes ||
+|| Time format || The format of time || yes ||
+|| Show end time || If the event end time should be displayd in event lists || no ||
+|| Show weekend || If weekend days (Saturday, Sunday) should be shown || no ||
