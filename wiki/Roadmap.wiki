@@ -25,7 +25,7 @@ Implemented Features:
 
 Implemented Features:
 || *Name* || *Description* || *Stories* ||
-|| Full Recurrence support || Full support for editing and deleting recurrent event || EditRecurrenceStory ||
+|| Full Recurrence support || Full support for editing and deleting recurrent event and excluding events from recurrence ranges || EditRecurringEventStory ||
 
 .
 === Milestone 0.6 ===
