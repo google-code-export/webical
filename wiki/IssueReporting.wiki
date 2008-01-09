@@ -1,4 +1,4 @@
-#labels Featured,Resource,User
+#labels Resource,User
 #How to report an issue
 
 = Introduction =
