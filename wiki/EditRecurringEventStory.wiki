@@ -22,6 +22,7 @@ If the user edits or deletes a recurring event, four choices should be presented
 || Delete all instances || ||
 || Delete following instances || ||
 
+
 = Technical implementation =
 Always copy the original event, before editing it.
 
