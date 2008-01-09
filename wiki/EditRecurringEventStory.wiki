@@ -16,7 +16,7 @@ If the user edits or deletes a recurring event, four choices should be presented
 || Show correct date for recurring event details || done ||
 || Update date when editing recurring event || done ||
 || Edit this instance || ||
-|| Edit all instances || ||
+|| Edit all instances || done ||
 || Edit following instances || ||
 || Delete this instance || ||
 || Delete all instances || ||
