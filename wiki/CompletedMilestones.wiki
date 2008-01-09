@@ -6,7 +6,14 @@
 These milestones were completed:
 
 === Milestone 0.1 ===
+Announcement: http://sourceforge.net/forum/forum.php?forum_id=653219
 
 === Milestone 0.2 ===
+Release date: 25 September 2007
+Announcement: http://blog.webical.org/archives/4-Webical-0.2-available-for-download.html
 
 === Milestone 0.3 ===
+This milestone was never officially released,
+Release date: n/a
+Announcement: n/a
+SVN Tag: [https://webical.svn.sourceforge.net/svnroot/webical/tags/release-0.3 release-0.3]
