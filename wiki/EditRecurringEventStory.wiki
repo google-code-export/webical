@@ -19,7 +19,7 @@ If the user edits or deletes a recurring event, four choices should be presented
 || Edit all instances || done ||
 || Edit following instances || ||
 || Delete this instance || ||
-|| Delete all instances || ||
+|| Delete all instances || done ||
 || Delete following instances || ||
 
 
