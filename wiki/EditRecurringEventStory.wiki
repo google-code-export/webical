@@ -12,7 +12,7 @@ If the user edits or deletes a recurring event, four choices should be presented
   * Alter all following instances of this event
 
 = Tasks =
-|| Task || Status ||
+|| *Task* || *Status* ||
 || Show correct date for recurring event details || ||
 || Update date when editing recurring event || ||
 || Edit this instance || ||
