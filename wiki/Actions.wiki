@@ -1,0 +1,20 @@
+#labels Developer,Resource
+#Webical actions
+
+= Introduction =
+
+Overview of the actions available in webical and their use.
+
+The following actions are available:
+  * AddEventAction
+  * CalendarSelectedAction
+  * DaySelectedAction
+  * EditEventAction
+  * EventSelectedAction
+  * FormFishedAction
+  * PeriodChangedAction
+  * ShowCalendarAction
+  * SwitchCalendarVisibilityAction
+  * WeekSelectedAction
+
+= Details =
