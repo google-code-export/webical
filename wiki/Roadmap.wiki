@@ -3,4 +3,21 @@
 
 = Introduction =
 
-This is the Webical roadmap.
+The Webical roadmap determines what functionality will be implemented at what time.
+
+As you can see the roadmap is devided in _Milstones_. A milestone is set of implemented functions that lead to a release.
+Each milestone has a target release date. This date is determined by looking at the functionalities that are to be implemented in the milestone and guessing the time it will cost to do so.
+
+=== Milestone 0.3 ===
+
+=== Milestone 0.4 ===
+
+=== Milestone 0.5 ===
+
+=== Milestone 0.6 ===
+
+=== ... ===
+
+=== Milestone 1.0 ===
+
+=== Milestone 2.0 ===
