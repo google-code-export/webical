@@ -19,6 +19,8 @@ The following settings should be available to the user:
   * Time format
   * Show end time
   * Show weekend
+  * Timezone
+  * Location
 
 = Implementation =
 
@@ -35,3 +37,5 @@ The following settings should be available to the user:
 || Time format || The format of time || yes ||
 || Show end time || If the event end time should be displayd in event lists || no ||
 || Show weekend || If weekend days (Saturday, Sunday) should be shown || no ||
+|| Timezone || The timezone the user wants his events to be shown in || no ||
+|| Location || The location the user is at || no ||
