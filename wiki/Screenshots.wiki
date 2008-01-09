@@ -2,3 +2,24 @@
 #Webical screenshots
 
 = Introduction =
+Below you will find some screenshot of Webical.
+
+== Month view ==
+The webical month view:
+
+[http://webical.googlecode.com/files/monthview.jpg]
+
+== Week view ==
+The webical week view:
+
+[http://webical.googlecode.com/files/weekview.jpg]
+
+== Add event ==
+Adding an event in Webical.
+
+[http://webical.googlecode.com/files/addevent.jpg]
+
+== User settings ==
+Webical user settings. User can set their application preferences.
+
+[http://webical.googlecode.com/files/usersettings.jpg]
