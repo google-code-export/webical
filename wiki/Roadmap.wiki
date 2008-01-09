@@ -19,7 +19,7 @@ Implemented Features:
 || *Name* || *Description* || *Stories* ||
 || User Settings || A user settings page where users can update their application prefrences || UserSettingsStory ||
 
-.
+>>
 === Milestone 0.5 ===
 || *Target Release date:* || To be determined ||
 
@@ -27,7 +27,7 @@ Implemented Features:
 || *Name* || *Description* || *Stories* ||
 || Full Recurrence support || Full support for editing and deleting recurrent event and excluding events from recurrence ranges || EditRecurringEventStory ||
 
-.
+>>
 === Milestone 0.6 ===
 
 === ... ===
@@ -35,3 +35,8 @@ Implemented Features:
 === Milestone 1.0 ===
 
 === Milestone 2.0 ===
+
+>> 
+== Whishlist ==
+These functionalities are reqeusted/needed but have to be assigned to a milestone:
+  * Templating System
