@@ -1,0 +1,12 @@
+#labels User,Developer,Resource
+#Completed milestones
+
+= Introduction =
+
+These milestones were completed:
+
+=== Milestone 0.1 ===
+
+=== Milestone 0.2 ===
+
+=== Milestone 0.3 ===
