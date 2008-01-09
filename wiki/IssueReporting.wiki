@@ -1,0 +1,6 @@
+#How to report an issue
+
+= Introduction =
+Too bad you found an issue in Webical :( But we are very happy you want to take the time to report it and make Webical better. This is a short explenation of how to report an issue.
+
+|| *TODO: Complete this guide* ||
