@@ -1,4 +1,7 @@
 #labels User,Featured
 #Webical Features
 
-= Introduction =
+= Feature list =
+
+= Screenshots =
+For screenshots see our [Screenshots screenshot page].
