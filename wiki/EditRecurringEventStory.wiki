@@ -15,7 +15,7 @@ If the user edits or deletes a recurring event, four choices should be presented
 || *Task* || *Status* ||
 || Show correct date for recurring event details || done ||
 || Update date when editing recurring event || done ||
-|| Edit this instance || ||
+|| Edit this instance || done ||
 || Edit all instances || done ||
 || Edit following instances || ||
 || Delete this instance || ||
