@@ -5,13 +5,12 @@
 
   * Read and Edit iCalendar files stored anywhere
   * support for iCalendar standard
-  * progessive enhancement
-  * 
+  * Progessive Enhancement
 
 == Feature details ==
 
  === Progressive Enhancement ===
- We believe that the application should be buidl with accessibility as it's base. We see fancy and juicy bits as extras. This does not mean we don't include juicy features.
+ We believe that the application should be build with accessibility as it's foudation. The application should in principle be accessible to anyone, the fancy/juicy bits are extras. This does not mean we don't include juicy features, there just not the foundation for the use of our application.
 
 == Screenshots ==
 
