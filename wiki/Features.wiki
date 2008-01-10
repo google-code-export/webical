@@ -1,7 +1,18 @@
 #labels User,Featured
 #Webical Features
 
-= Feature list =
+== Feature list ==
 
-= Screenshots =
+  * Read and Edit iCalendar files stored anywhere
+  * support for iCalendar standard
+  * progessive enhancement
+  * 
+
+== Feature details ==
+
+ === Progressive Enhancement ===
+ We believe that the application should be buidl with accessibility as it's base. We see fancy and juicy bits as extras. This does not mean we don't include juicy features.
+
+== Screenshots ==
+
 For screenshots see our [Screenshots screenshot page].
