@@ -15,3 +15,6 @@
 == Screenshots ==
 
 For screenshots see our [Screenshots screenshot page].
+
+== Changelog ==
+For detailed functionality see our [Changelog changelog].
