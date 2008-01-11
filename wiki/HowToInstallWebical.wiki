@@ -5,14 +5,25 @@
 This guide will tell you what is needed to install Webical and how to do this step by step.
 
 == Requirements ==
+You need to have a couple of things installed on your machine, in order to run Webical.
+
+  * Java 1.5 or higher: http://java.sun.com/javase/downloads/index.jsp
+  * Tomcat 5.5 or higher: http://tomcat.apache.org/
+  * MySQL 5 or higher: http://dev.mysql.com/downloads/
+  * MySQL Connector/J from: http://dev.mysql.com/downloads/connector/j/ 
 
 == Getting the application ==
+There are two ways of obtaining Webical. You can either download the pre build war file to deploy in Tomcat. Or you can get the Webical source from our svn repository and compile it yourself. Both methods are explained below.
 
-=== Prebuild ===
+=== Pre build ===
+The latest pre build war is available in our [http://code.google.com/p/webical/downloads/list download section]. A readme file is included in the Archive with the a short version of this guid. 
+
+If you download the pre build war, you can continue to the `Installation` steps below.
 
 ===  Building from Source ===
 
 == Installation == 
+This guide assumes you have Tomcat 5.5 running on http://localhost:8080/ and you have MySQL 5 running on localhost:3306 .
 
 === Default Installation ===
 
