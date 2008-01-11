@@ -23,7 +23,7 @@ If you download the pre build war, you can continue to the `Installation` steps 
 ===  Building from Source ===
 You can use your favorite svn client to checkout the latest webical source. The url is http://webical.googlecode.com/svn/trunk/.
 
-Execute `svn co http://webical.googlecode.com/svn/trunk/ ./webical` to download the latest source with the svn commandline client
+Execute {{{svn co http://webical.googlecode.com/svn/trunk/ ./webical}}} to download the latest source with the svn commandline client
 
 To have maven build a war for you, enter the `webical` directory and execute `mvn -Denv=release clean package`. 
 If you don't have Maven, get it from [http://maven.apache.org/ the apache maven site]. The maven manual is also found on that website.
