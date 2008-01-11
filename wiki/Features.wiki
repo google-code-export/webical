@@ -1,5 +1,5 @@
 #labels User,Featured
-#Webical Features
+We have built Webical to be the Squirrelmail of iCalendars. What Squirrelmail is for IMAP, Webical is for iCalendars. This means that support of standards, accessibility and extendability are primary goals.
 
   * [http://www.ietf.org/rfc/rfc2445.txt iCalendar standard] support
   * Multiple calendars
