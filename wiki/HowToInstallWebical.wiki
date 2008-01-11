@@ -21,11 +21,20 @@ The latest pre build war is available in our [http://code.google.com/p/webical/d
 If you download the pre build war, you can continue to the `Installation` steps below.
 
 ===  Building from Source ===
+You can use your favorite svn client to checkout the latest webical source. The url is https://webical.svn.sourceforge.net/svnroot/webical/trunk.
+Execute svn co https://webical.svn.sourceforge.net/svnroot/webical/trunk webical-parent to download the latest source with the svn commandline client
+
+To have maven build a war for you, enter the webical-parent directory and execute mvn -Denv=release clean package. If you don't have Maven, get it from http://maven.apache.org/download.html. The maven manual is also found on that website.
+
+If all went well, you now have a WAR called ROOT.war in the webical-war/target/release/ directory. 
 
 == Installation == 
-This guide assumes you have Tomcat 5.5 running on http://localhost:8080/ and you have MySQL 5 running on localhost:3306 .
+Webical comes with a default installation setup. This is a quick way of getting Webical up and running. 
+
+If you plan on running Webical on a live production server, we suggest you continue with the `Custom installation` part.
 
 === Default Installation ===
+This guide assumes you have Tomcat 5.5 running on http://localhost:8080/ and MySQL 5 running on localhost:3306 for the default installation.
 
 === Custom installation ===
 
