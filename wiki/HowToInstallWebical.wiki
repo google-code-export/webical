@@ -1,0 +1,21 @@
+#labels User,Resource
+#Guide on how to install Webical
+
+= Introduction =
+This guide will tell you what is needed to install Webical and how to do this step by step.
+
+== Requirements ==
+
+== Getting the application ==
+
+=== Prebuild ===
+
+===  Building from Source ===
+
+== Installation == 
+
+=== Default Installation ===
+
+=== Custom installation ===
+
+== Troubleshooting ==
