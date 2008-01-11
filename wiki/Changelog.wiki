@@ -1,0 +1,17 @@
+#labels User,Developer,Resource
+#Webical Changelog
+
+==== 0.4 ====
+  * Improved usability
+
+>>
+==== 0.3 ====
+  * New event form
+
+>>
+==== 0.2 ====
+  * New readme for installation
+
+>>
+==== 0.1 ====
+  * First release
