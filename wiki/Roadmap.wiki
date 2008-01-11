@@ -1,11 +1,7 @@
 #labels Featured,User,Developer
-#Webical roadmap
+The Webical road map determines what functionality will be implemented at what time.
 
-= Introduction =
-
-The Webical roadmap determines what functionality will be implemented at what time.
-
-As you can see the roadmap is devided in _Milstones_. A milestone is set of implemented functions that lead to a release.
+As you can see the road map is divided in _milestones_. A milestone is set of implemented functions that lead to a release.
 
 Each milestone has a target release date. This date is determined by looking at the functionalities for that milestone and loosely guessing the time it will cost to implement those functionalities.
 
@@ -13,13 +9,13 @@ For a list of complete milestones check out the [CompletedMilestones completed m
 
 
 === Milestone 0.4 ===
-|| *Target Release date:* || 11 Januari 2008 ||
+|| *Target Release date:* || 11 January 2008 ||
 
 Implemented Features:
 || *Name* || *Description* || *Stories* ||
-|| User Settings || A user settings page where users can update their application prefrences || UserSettingsStory ||
+|| User Settings || A user settings page where users can update their application preferences || UserSettingsStory ||
 
->>
+
 === Milestone 0.5 ===
 || *Target Release date:* || To be determined ||
 
@@ -27,16 +23,29 @@ Implemented Features:
 || *Name* || *Description* || *Stories* ||
 || Full Recurrence support || Full support for editing and deleting recurrent event and excluding events from recurrence ranges || EditRecurringEventStory ||
 
->>
-=== Milestone 0.6 ===
 
-=== ... ===
+=== Milestone 0.6 ===
+...
 
 === Milestone 1.0 ===
+Full AJAX enabled version, with accessible fall back.
 
 === Milestone 2.0 ===
+...
 
->> 
-== Whishlist ==
-These functionalities are reqeusted/needed but have to be assigned to a milestone:
-  * Templating System
+== Wish list ==
+These functionalities are requested/needed but have to be assigned to a milestone:
+  * Plug ins, lots of them! Here are some ideas:
+    * weather plug in:
+      * show temperature/forecast in location (or geotag) of an entry
+    * remember the milk plug in:
+      * todo list manager integration
+      * http://www.rememberthemilk.com/services/api/
+    * LDAP address book plug in
+    * geo plug in:
+      * geo tab to show all events on a map
+      * geo tag events using a geo-coder (e.g. using OpenStreetMap / Google Maps API)
+    * off line version:
+      * google gears
+  * Template system:
+    * dowload/select Webical skins
