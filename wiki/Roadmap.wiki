@@ -35,6 +35,8 @@ Full AJAX enabled version, with accessible fall back.
 
 == Wish list ==
 These functionalities are requested/needed but have to be assigned to a milestone:
+  * Reminders:
+    * popup / email / sms
   * Plug ins, lots of them! Here are some ideas:
     * weather plug in:
       * show temperature/forecast in location (or geotag) of an entry
