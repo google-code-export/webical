@@ -46,7 +46,7 @@ These functionalities are requested/needed but have to be assigned to a mileston
     * LDAP address book plug in
     * geo plug in:
       * geo tab to show all events on a map
-      * geo tag events using a geo-coder (e.g. using OpenStreetMap / Google Maps API)
+      * geo tag events using a geo-coder (e.g. using [http://www.mapstraction.com/ OpenStreetMap / Google Maps API])
     * off line version:
       * google gears
   * Template system:
