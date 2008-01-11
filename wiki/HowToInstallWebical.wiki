@@ -16,17 +16,19 @@ You need to have a couple of things installed on your machine, in order to run W
 There are two ways of obtaining Webical. You can either download the pre build war file to deploy in Tomcat. Or you can get the Webical source from our svn repository and compile it yourself. Both methods are explained below.
 
 === Pre build ===
-The latest pre build war is available in our [http://code.google.com/p/webical/downloads/list download section]. A readme file is included in the Archive with the a short version of this guid. 
+The latest pre build war is available in our [http://code.google.com/p/webical/downloads/list download section]. A readme file is included in the Archive with the a short version of this guide. 
 
 If you download the pre build war, you can continue to the `Installation` steps below.
 
 ===  Building from Source ===
-You can use your favorite svn client to checkout the latest webical source. The url is https://webical.svn.sourceforge.net/svnroot/webical/trunk.
-Execute svn co https://webical.svn.sourceforge.net/svnroot/webical/trunk webical-parent to download the latest source with the svn commandline client
+You can use your favorite svn client to checkout the latest webical source. The url is http://webical.googlecode.com/svn/trunk/.
 
-To have maven build a war for you, enter the webical-parent directory and execute mvn -Denv=release clean package. If you don't have Maven, get it from http://maven.apache.org/download.html. The maven manual is also found on that website.
+Execute `svn co http://webical.googlecode.com/svn/trunk/ ./webical` to download the latest source with the svn commandline client
 
-If all went well, you now have a WAR called ROOT.war in the webical-war/target/release/ directory. 
+To have maven build a war for you, enter the `webical` directory and execute `mvn -Denv=release clean package`. 
+If you don't have Maven, get it from [http://maven.apache.org/ the apache maven site]. The maven manual is also found on that website.
+
+If all went well, you now have a WAR called ROOT.war in the `webical/webical-war/target/release/` directory. 
 
 == Installation == 
 Webical comes with a default installation setup. This is a quick way of getting Webical up and running. 
