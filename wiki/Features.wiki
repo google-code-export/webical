@@ -1,20 +1,15 @@
 #labels User,Featured
 #Webical Features
 
-== Feature list ==
+  * [http://www.ietf.org/rfc/rfc2445.txt iCalendar standard] support
+  * Multiple calendars
+  * HTTPS URLs supported (also self signed certificates)
+  * WebDAV support
+  * CalDAV support in (experimental) plug in
+  * Plug in architecture (with both back end and front end hooks)
+  * Authentication configured on container (e.g. Tomcat with database, LDAP, etc.)
+  * Uses any JDBC database (MySQL, Hypersonic, etc)
+  * Cross browser support (Firefox, Internet Explorer, Safari, Mobile)
+  * Section 508 compliant (almost :)
 
-  * Read and Edit iCalendar files stored anywhere
-  * support for iCalendar standard
-  * Progessive Enhancement
-
-== Feature details ==
-
- === Progressive Enhancement ===
- We believe that the application should be build with accessibility as it's foudation. The application should in principle be accessible to anyone, the fancy/juicy bits are extras. This does not mean we don't include juicy features, there just not the foundation for the use of our application.
-
-== Screenshots ==
-
-For screenshots see our [Screenshots screenshot page].
-
-== Changelog ==
-For detailed functionality see our [Changelog changelog].
+Also check out the [Screenshots screenshots] and [Changelog changelog].
