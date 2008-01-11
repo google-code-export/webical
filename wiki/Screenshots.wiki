@@ -1,8 +1,5 @@
 #labels User,Featured
-#Webical screenshots
-
-= Introduction =
-Below you will find some screenshot of Webical.
+Below are Webical screenshots. See the latest for yourself in the [http://demo.webical.org/ demo site] or [http://nightly.webical.org/ nightly build site].
 
 == Month view ==
 The webical month view:
