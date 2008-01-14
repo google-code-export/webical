@@ -64,7 +64,7 @@ After Maven has created the Eclipse project for us, we can import it into Eclips
 Select the folder you downloaded the source into and Eclipse will show you the Eclipse projects you can import. Webical consists of two Eclipse projects: webical-core and webical-war. Both of them need to be imported.
 
 == Starting Webical in development mode ==
-Starting Webical for development is easy. Webical-war comes with an integrated Java server  called [http://jetty.mortbay.org/ Jetty]. To start Webical in development mode, select the webical-war project from the project explorer en choose _Run > Run As > Java Application_. From the list, search and choose _ StartWebApplication _ from the package `org.webical.web`. The output should appear in the console and once the application is loaded you can visit it at http://localhost:8888/webical/.
+Starting Webical for development is easy. Webical-war comes with an integrated Java server  called [http://jetty.mortbay.org/ Jetty]. To start Webical in development mode, select the webical-war project from the project explorer en choose _Run > Run As > Java Application_. From the list, search and choose `StartWebApplication` from the package `org.webical.web`. The output should appear in the console and once the application is loaded you can visit it at http://localhost:8888/webical/.
 
 == POM Changes ==
 Every time changes are made in the pom.xml file of one of the Webical projects, Maven needs to recompile the projects. So every time you change a POM file you have to execute the following line of code from the Webical source directory:
