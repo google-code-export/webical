@@ -124,14 +124,14 @@ The realm part looks like this:
 ...
    <Realm className="org.apache.catalina.realm.JDBCRealm" 
       debug="4"
-          driverName="com.mysql.jdbc.Driver"
+      driverName="com.mysql.jdbc.Driver"
       connectionName="webical" 
       connectionPassword="webical" 
       connectionURL="jdbc:mysql://localhost:3306/webical?autoReconnect=true"
-          userTable="_auth_user" 
+      userTable="_auth_user" 
       userNameCol="username" 
       userCredCol="userpass"
-          userRoleTable="_auth_userrole" 
+      userRoleTable="_auth_userrole" 
       roleNameCol="role"/>
 ...
 }}}
@@ -147,4 +147,26 @@ You can change the database used to authenticate by replacing the following para
 
 Make sure that the user roles are the same as in `WEB-INF/web.xml`. 
 
+If you would like to use LDAP for authentication, here is an example:
+{{{
+    <Realm className="org.apache.catalina.realm.JNDIRealm"
+	debug="4"
+	connectionURL="ldaps://ldap.webical.org"
+	secure="true"
+        connectionName="ou=System,dc=webical,dc=org"
+        connectionPassword=""
+        userPattern="uid={0},ou=Users,dc=webical,dc=org"
+        roleBase="ou=Groups,dc=webical,dc=org"
+        roleName="cn"
+        roleSearch="(memberUid={1})"/>
+}}}
+
 == Troubleshooting ==
+=== $CATALINA_HOME ??? ===
+$CATALINA_HOME refers to the installation directory of Tomcat. In other words: The directory you installed or extracted Tomcat to. 
+
+=== It does not work ===
+Check `$CATALINA_HOME/logs/webical.log` for possible causes. Also check our issue tracker if this problem occurred with other users and if their is a solution. Don't hesitate to [IssueReporting file an issue]
+
+=== It still does not work ===
+Consult our developers on [http://groups.google.com/group/webical-developers our mailing list].
