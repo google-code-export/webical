@@ -41,7 +41,7 @@ If all the values in the release.properties file are correct, and all the pom fi
 {{{
  mvn release:prepare release:perform
 }}}
-This will alter the pom files to the new version you entered in the _dry run_, create and commit a tag and commit the new pom files.
+This command will *NOT* ask you the questions again. The values you entered are stored in the _release.properties_ file and the release plugin assumes these values are still correct. The command above will alter the pom files to the new version, create and commit a tag and commit the new pom files. All with the values you enetered in the _dry run_.
 
 == Start over? ==
 If you are not satisfied with the generated pom files or the release.properties file from the dry run you can reset the release. This can be done in two ways:
@@ -55,5 +55,6 @@ If you are not satisfied with the generated pom files or the release.properties 
 This will start the process again and will ask you to answer the questions again.
 
 == Resources ==
+For more information check these websites.
   * [http://apache.maven.org Maven homepage]
   * [http://maven.apache.org/plugins/maven-release-plugin/ Maven release plugin homepage]
