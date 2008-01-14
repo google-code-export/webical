@@ -20,7 +20,7 @@ This is where the maven release plugin comes in. The plugin offers you several c
   * Commit the modified POMs
 
 == Constraints for a release ==
-First of all, the scm (Source controle management) type and url need to be specified in the pom.xml. For Webical this url is:
+First of all, the scm (Source controle management) type and url need to be specified in the pom.xml. For Webical this url looks like this:
 {{{
 ...
  <!-- 
@@ -35,9 +35,11 @@ First of all, the scm (Source controle management) type and url need to be speci
  </scm>
 ...
 }}}
-The release plugin checks for a few things when you want to release a new version. It checks that there are no changes in the project you want to release. It is wise to export your project you want to release to a separate directory to be sure there are no changes.
+The release plugin checks for a few things when you want to release a new version. It checks that there are no changes in the project you want to release. It is wise to export the project you want to release to a separate directory to be sure there are no changes. The release plugin will notify you if any changes exist and will abort the release procedure.
 
 The release plugin also checks you don't have any dependencies with a SNAPSHOT version in your project. All dependencies in your project must be an actual release.
+
+The release plugin starts a second instance of Maven to perform some tasks for you. It can only do this if you added Maven to your PATH. If this is not the case, the release procedure will abort with an error.
 
 == Usage ==
 It is wise you start with a _dry run_. This creates the pom files as if they were going to be commited to your svn repository. To perform a dry run, enter the directory of the project you want to release and execute the following command: 
