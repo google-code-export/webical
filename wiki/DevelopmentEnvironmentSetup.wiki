@@ -14,6 +14,14 @@ This guide assumes you use the default setup. Derivations are possible, but you 
 
 Install the above software in places you find suitable.
 
+== Setting up Maven ==
+The maven website states the following:
+ Maven is a software project management and comprehension tool. Based on the concept of a project object model (POM), Maven can manage a project's build, reporting and documentation from a central piece of information.
+
+We use maven to compile and package Webical and manage all the dependencies in a clear way. Maven works with pom (Project Object Model) files. These xml files are used to configure the project.
+
+To set up Maven2, download it and add it to your system path. Guides on [http://www.troubleshooters.com/linux/prepostpath.htm Linux], [http://vlaurie.com/computers2/Articles/environment.htm Windows] and [http://www.brooksandrus.com/blog/2006/05/24/setting-mac-unix-environment-variables-adding-executables-to-the-system-path/ Mac OSX] are available.
+
 == Setting up Eclipse ==
 Download eclipse from the above location and extract it in a suitable directory. Make sure you have java 5 installed.
 
@@ -23,13 +31,7 @@ The plugin is available from the _Eclipse Europe Discovery Site_. For more infor
 
 For more Eclipse settings see the [EclipseShortcuts Eclipse shortcuts page].
 
-== Setting up Maven ==
-The maven website states the following:
- Maven is a software project management and comprehension tool. Based on the concept of a project object model (POM), Maven can manage a project's build, reporting and documentation from a central piece of information.
-
-We use maven to compile and package Webical and manage all the dependencies in a clear way. Maven works with pom (Project Object Model) files. These xml files are used to configure the project.
-
-To set up Maven2, download it and add it to your system path. Guides on [http://www.troubleshooters.com/linux/prepostpath.htm Linux], [http://vlaurie.com/computers2/Articles/environment.htm Windows] and [http://www.brooksandrus.com/blog/2006/05/24/setting-mac-unix-environment-variables-adding-executables-to-the-system-path/ Mac OSX] are available.
+The next step is to add the Maven2 repository to your Eclipse variables so Eclipse can find the dependencies downloaded by Maven2. To do this open Window > Preferences > Java > Build Path > Classpath Variables. Add a variable named `M2_REPO` that points to _/home/'your_name'/.m2/repository_.
 
 == Getting the source ==
 To start development on Webical, you need its source. We use Subversion as our source control software. You can check out the source, using subversion from http://webical.googlecode.com/svn/trunk/.
