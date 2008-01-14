@@ -52,7 +52,7 @@ You can do this by using the `svn` command line tool, or a graphical interface. 
  svn checkout http://webical.googlecode.com/svn/trunk/ webical
 }}}
 
-== Setting up the project ==
+== Setting up the project for Eclipse ==
 To open the project in Eclipse, we are going to let Maven build the Eclipse project files. Enter the directory you checked out the Webical source to. Inside the directory execute the following command:
 {{{
  mvn -Dwtpversion=1.5 -DdownloadSource=true eclipse:eclipse
