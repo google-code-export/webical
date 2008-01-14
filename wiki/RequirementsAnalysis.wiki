@@ -40,7 +40,7 @@ This analysis is for the requirements for Webical.
 === Scheduling ===
   * Todo/Task support
   * Fburl support
-  * Meeting request: itip http://www.ietf.org/rfc/rfc2446.txt
+  * Meeting request: [http://www.ietf.org/rfc/rfc2446.txt itip]
   * Invite others
 === Other ===
   * LDAP addressbook (as a plugin)
@@ -60,5 +60,6 @@ What features are requested by others?
     * off line version: google gears
   * Template system: download & select Webical skins
 
-The features above will be integrated with the use of the [Roadmap Webical Roadmap]. See the roadmap for the planned and integrated functionality.
+== Roadmap ==
+The features above will be implemented according to the [Roadmap Webical Roadmap]. See the roadmap for the planned and integrated functionalities.
   
