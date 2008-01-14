@@ -64,6 +64,21 @@ The default installation is compelete!
 After (re)starting tomcat, you can visit http://localhost:8080/webical to view the installation. You can log in with webical/webical. On the first visit, you will be redirected to the configuration page after login. You can go to the configuration page manualy by visiting http://localhost:8080/webical/app/configuration.
 
 === Custom installation ===
-If you want to alter the default installation, you first have to complete the default installation. After webical is deployed, Tomcat has unpacked the war to `$CATALINA_HOME/webapps/webical` and the xml files can be changed. 
+If you downloaded the pre build war file, and you want to alter the default setup you first have to complete the *default installation* steps above. After webical is deployed, Tomcat has unpacked the war to `$CATALINA_HOME/webapps/webical` and the xml files can be changed. 
+
+If you downloaded the source, you can alter the files before packaging them. The files can be found in the `webical-war/etc/environments/release` directory.
+
+==== Change login settings ====
+With the default installation a user is created from the `AUTH_setup.sql` script. If you want to change the login settings for the user, change them in this file. The following 2 inserts contain the information for the user:
+{{{
+-- Create a new user
+INSERT INTO _auth_user (username, userpass) VALUES ("webical", "webical");
+
+-- Create a new userrole
+INSERT INTO _auth_userrole (username, role) VALUES ("webical", "webicaluser");
+}}}
+The first insert creates a new user, the second insert connects it to a user role. If you change the user name in the first insert, make sure you change the first value of the second insert as well.
+
+If you decide to change the name of the user role, make sure it corresponds to the `<role-name>` in `WEB-INF/web.xml`.
 
 == Troubleshooting ==
