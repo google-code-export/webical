@@ -1,3 +1,4 @@
+#labels Resource
 # _List of Webical like software_
 
 [http://freshmeat.net/search/?q=icalendar&section=projects&Go.x=0&Go.y=0  Freshmeat search]
