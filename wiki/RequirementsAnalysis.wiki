@@ -3,16 +3,16 @@
 
 = Introduction =
 
-This analysis is for the requirements for Webical.
+This is the list of requirements set up before Webical was started. This list was expanded if other useful functionalities were suggested.
 
 == Assumptions ==
-
+These assumptions are made when talking about Webical:
   * Webical is a web GUI for managing (remote) iCalendars
   * All [http://www.faqs.org/rfcs/rfc2445.html rfc 2445] attributes are supported (not more)
   * Authentication & Authorisation is handled by the container 
 
 == Functionality ==
-
+The following functionalities will have to be incorporated into Webical:
 
 === View ===
   * Configure of one or multiple calendars for an account
