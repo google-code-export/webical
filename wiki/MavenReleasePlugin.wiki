@@ -1,0 +1,25 @@
+# _How to use the Maven2 release plugin
+
+== Introduction ==
+
+Maven2 has a really nice plugin which is called release :) This plugin lets you release a version of your project controlled by Maven in a breeze.
+
+== Details ==
+A Maven project consists of pom files which define a prject. One of the aspects of a project is its version. Every release of your project changes the version in the pom file. And if your project consists of several pom files it is very difficult and error prone to keep all the version numbers in sync.
+
+This is where the maven release plugin comes in. The plugin offers you several commands to update all the versions in your pom files, update them to your svn repository and create a tag for the version.
+
+== Usage ==
+It is wise you start with a _dry run_. This creates the pom files as if they were going to be commited to your svn repository. To perform a dry run, enter the directory of the project you want to release and execute the following command: 
+{{{
+ mvn release:prepare -DdryRun=true
+}}}
+A series of questions is presented to you on the screen including the new version number and the name of the tag. You are also asked to give the version of any sub-projects.
+
+The command creates a release.properties file with all the values needed for the release. It also creates several pom files which you can check:
+  * pom.xml.next - The pom file for the next version
+  * pom.xml.tag - The pom file for copy in the _Tags_ directory of your svn repository.
+The original pom.xml file is left intact since this is a _dry run_.
+== Resources ==
+  * [http://apache.maven.org Maven homepage]
+  * [http://maven.apache.org/plugins/maven-release-plugin/ Maven release plugin homepage]
