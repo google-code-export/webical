@@ -1,4 +1,5 @@
 #labels User,Developer,Resource
+Completed milestones from the [Roadmap Webical Roadmap].
 === Milestone 0.4 ===
 || *Release date:* || 11 January 2008  ||
 || *Announcement:* || n/a ||
