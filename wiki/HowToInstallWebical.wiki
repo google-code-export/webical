@@ -43,7 +43,7 @@ This guide assumes you have Tomcat 5.5 running on `http://localhost:8080/` and M
 If you have build webical from source, rename the ROOT.war to webical.war.
 
 ==== Setting up the database ====
-Webical uses a database to cache the calendar data. By default, it uses a MySQL database. The default installation assumes you have a database named `webical` and a database user `webical` with password `webical`. This user needs at least SELECT, INSERT, UPDATE, DELETE, ALTER, INDEX, CREATE and DROP access to the _webical_ database.
+Webical uses a database to cache the calendar data. By default, it uses a MySQL database. The default installation assumes you have a database named `webical` and a database user `webical` with password `webical`. This user needs at least SELECT, INSERT, UPDATE, DELETE, ALTER, INDEX, CREATE and DROP access to the `webical` database.
 
 With the pre build war, 2 SQL scripts are included. If you checked out the source from svn, these scripts can be found in the _doc_ directory.
 Apply `DB_setup.sql` to your database to create the tables needed for the calendar cache.
@@ -52,8 +52,18 @@ The default installation uses the same MySQL database for the Tomcat authenticat
 Apply `AUTH_setup.sql` to your database to create the tables needed by Tomcat to authenticate. This script also inserts the first user into the database. 
 
 ==== Setting up Tomcat ====
+Tomcat needs the MySQL Connector/J driver to connect to a MySQL database.
+Unpack the MySQL Connector/J package and copy the .jar file to the `$CATALINA_HOME/common/lib/` directory.
 
+Next, copy the `webical.war` file to the `$CATALINA_HOME/webapps` directory. Once you start Tomcat, Tomcat will deploy it into the /webical context.
+
+As an alternative, you can use the Tomcat manager to deploy the war to your Tomcat server. The manager can be reached at http://localhost:8080/manager/html. Documentation on how to use the Tomcat manager can be found at http://tomcat.apache.org/tomcat-5.0-doc/manager-howto.html.
+
+The default installation is compelete!
+
+After (re)starting tomcat, you can visit http://localhost:8080/webical to view the installation. You can log in with webical/webical. On the first visit, you will be redirected to the configuration page after login. You can go to the configuration page manualy by visiting http://localhost:8080/webical/app/configuration.
 
 === Custom installation ===
+If you want to alter the default installation, you first have to complete the default installation. After webical is deployed, Tomcat has unpacked the war to `$CATALINA_HOME/webapps/webical` and the xml files can be changed. 
 
 == Troubleshooting ==
