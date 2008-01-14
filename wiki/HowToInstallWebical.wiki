@@ -136,14 +136,14 @@ The realm part looks like this:
 ...
 }}}
 You can change the database used to authenticate by replacing the following paramaters:
-  * connectionName: the username to use when connecting to the database
-  * connectionPassword: the password to use when connectig to the database
-  * connectionURL: the url to the database. The format is jdbc:connectorName://hostname:port/databaseName
-  * userTabel: the table where the user data is stored (will not be written)
-  * userNameCol: the column in userTable to use as the username
-  * userCredCol: the column in userTable to use as the user password
-  * userRoleTable: the table to user for user roles
-  * roleNameCol: the column to use in userRoleTable as the name for the user roles 
+  * *connectionName:* the username to use when connecting to the database
+  * *connectionPassword:* the password to use when connectig to the database
+  * *connectionURL:* the url to the database. The format is jdbc:connectorName://hostname:port/databaseName
+  * *userTabel:* the table where the user data is stored (will not be written)
+  * *userNameCol:* the column in userTable to use as the username
+  * *userCredCol:* the column in userTable to use as the user password
+  * *userRoleTable:* the table to user for user roles
+  * *roleNameCol:* the column to use in userRoleTable as the name for the user roles 
 
 Make sure that the user roles are the same as in `WEB-INF/web.xml`. 
 
