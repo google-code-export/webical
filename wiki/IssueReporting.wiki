@@ -1,5 +1,5 @@
 #labels Resource,User
-_A guide on how best to file an issue for the developers._
+# _A guide on how best to file an issue for the developers._
 
 = Introduction =
 Too bad you found an issue with Webical :( But we are very happy you are willing to take the time to report it and help us out. This is a short story on how we like issues to be filed so we can jump on them as quick as possible.
@@ -19,4 +19,3 @@ Be sure to include the following information in your issue report:
 == Bugs / Defects ==
 
 == Issue life cycle ==
-
