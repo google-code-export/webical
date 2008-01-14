@@ -115,4 +115,36 @@ Change the following line to the driver for your database:
 }}}
 For more information on the proper database driver contact your database provider/vendor (or Google :) ).
 
+==== Alternate Realm setup ====
+The default installation uses a MySQL database for the Tomcat authentication realm. It is however possible to use a different method of authentication.
+You can use a separate database for authentication if you already have a database with users you want to use. To do this, you have to edit the `META-INF/context.xml` file.
+
+The realm part looks like this:
+{{{
+...
+   <Realm className="org.apache.catalina.realm.JDBCRealm" 
+      debug="4"
+          driverName="com.mysql.jdbc.Driver"
+      connectionName="webical" 
+      connectionPassword="webical" 
+      connectionURL="jdbc:mysql://localhost:3306/webical?autoReconnect=true"
+          userTable="_auth_user" 
+      userNameCol="username" 
+      userCredCol="userpass"
+          userRoleTable="_auth_userrole" 
+      roleNameCol="role"/>
+...
+}}}
+You can change the database used to authenticate by replacing the following paramaters:
+  * connectionName: the username to use when connecting to the database
+  * connectionPassword: the password to use when connectig to the database
+  * connectionURL: the url to the database. The format is jdbc:connectorName://hostname:port/databaseName
+  * userTabel: the table where the user data is stored (will not be written)
+  * userNameCol: the column in userTable to use as the username
+  * userCredCol: the column in userTable to use as the user password
+  * userRoleTable: the table to user for user roles
+  * roleNameCol: the column to use in userRoleTable as the name for the user roles 
+
+Make sure that the user roles are the same as in `WEB-INF/web.xml`. 
+
 == Troubleshooting ==
