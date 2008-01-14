@@ -59,6 +59,9 @@ To open the project in Eclipse, we are going to let Maven build the Eclipse proj
 }}}
 This command will create an Eclipse project for us which we can import into Eclipse. The parameter `-DdownloadSources=true` is optional and is only needed the first time. This parameter makes sure Maven downloads all the project dependencies for us.
 
-After Maven has created the Eclipse project for us, we can import it into Eclipse. Start Eclipse and select your workspace. Import the Webical project via File > Import.
+After Maven has created the Eclipse project for us, we can import it into Eclipse. Start Eclipse and select your workspace. Import the Webical project via _File > Import_.
 
 Select the folder you downloaded the source into and Eclipse will show you the Eclipse projects you can import. Webical consists of two Eclipse projects: webical-core and webical-war. Both of them need to be imported.
+
+== Starting Webical in development mode ==
+Starting Webical for development is easy. Webical-war comes with an integrated Java server  called [http://jetty.mortbay.org/ Jetty]. To start Webical in development mode, select the webical-war project from the project explorer en choose _Run > Run As > Java Application_. From the list, search and choose _StartWebApplication_ from the package `org.webical.web`. The output should appear in the console and once the application is loaded you can visit it at http://localhost:8888/webical/.
