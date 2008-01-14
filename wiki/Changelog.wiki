@@ -3,9 +3,12 @@
 
 ---- 0.4 ---- 
   * Improved usability
+  * New Datepicker
+  * Support for user settings
 
 ----  0.3 ---- 
   * New event form
+  * Reduced server load
 
 ----  0.2 ---- 
   * New readme for installation
