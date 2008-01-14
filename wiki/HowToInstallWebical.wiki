@@ -36,7 +36,23 @@ Webical comes with a default installation setup. This is a quick way of getting 
 If you plan on running Webical on a live production server, we suggest you continue with the `Custom installation` part.
 
 === Default Installation ===
+Webical comes with settings for a default installation. If you want to changes these settings, read `Custom installation` below. 
+
 This guide assumes you have Tomcat 5.5 running on http://localhost:8080/ and MySQL 5 running on localhost:3306 for the default installation.
+
+If you have build webical from source, rename the ROOT.war to webical.war.
+
+==== Setting up the database ====
+Webical uses a database to cache the calendar data. By default, it uses a MySQL database. The default installation assumes you have a database named _webical_ and a database user _webical_ with password _webical_. This user needs at least SELECT, INSERT, UPDATE, DELETE, ALTER, INDEX, CREATE and DROP access to the _webical_ database.
+
+With the pre build war, 2 SQL scripts are included. If you checked out the source from svn, these scripts can be found in the _doc_ directory.
+Apply _DB_setup.sql_ to your database to create the tables needed for the calendar cache.
+
+The default installation uses the same MySQL database for the Tomcat authentication realm. If you want to change to a different way of authenticating, or if you have an existing database with user, read `Custom installation`.
+Apply _AUTH_setup.sql_ to your database to create the tables needed by Tomcat to authenticate. This script also inserts the first user into the database. 
+
+==== Setting up Tomcat ====
+
 
 === Custom installation ===
 
