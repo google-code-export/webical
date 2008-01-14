@@ -20,6 +20,23 @@ The command creates a release.properties file with all the values needed for the
   * pom.xml.next - The pom file for the next version
   * pom.xml.tag - The pom file for copy in the _Tags_ directory of your svn repository.
 The original pom.xml file is left intact since this is a _dry run_.
+
+== The actual release ==
+If all the values in the release.properties file are correct, and all the pom files ar correct you can perform the actual release. This will do the following for you:
+  * Check that there are no uncommitted changes in the sources
+  * Check that there are no SNAPSHOT dependencies
+  * Change the version in the poms from x-SNAPSHOT to a new version (you will be prompted for the versions to use)
+  * Transform the SCM information in the POM to include the final destination of the tag
+  * Run the project tests against the modified POMs to confirm everything is in working order
+  * Commit the modified POMs
+  * Tag the code in the SCM with a version name (this will be prompted for)
+  * Bump the version in the POMs to a new value y-SNAPSHOT (these values will also be prompted for)
+  * Commit the modified POMs
+
+
+
+
+
 == Resources ==
   * [http://apache.maven.org Maven homepage]
   * [http://maven.apache.org/plugins/maven-release-plugin/ Maven release plugin homepage]
