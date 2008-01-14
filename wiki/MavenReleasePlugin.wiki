@@ -48,6 +48,7 @@ If you are not satisfied with the generated pom files or the release.properties 
 {{{
  // the release:clean goal
  mvn release:clean release:perform -DdryRun=true
+
  // the -Dresume=false option
  mvn release:perform -Dresume=false -DdryRun=true
 }}}
