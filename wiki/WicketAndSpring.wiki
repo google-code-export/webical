@@ -17,5 +17,5 @@ To test components like panels simply subclass the WebicalApplicationTest and se
 
 == Resources ==
 
-    * Wicket-Spring and injection
-    * Wicket testing 
+    * [http://www.wicket-wiki.org.uk/wiki/index.php/Spring Wicket-Spring and injection]
+    * [http://www.wicket-wiki.org.uk/wiki/index.php/Testing Wicket testing]
