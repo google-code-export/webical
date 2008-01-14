@@ -1,0 +1,20 @@
+#labels Resource,Developer
+For the daos that make use of hibernate [http://dbunit.sourceforge.net/ DBunit] is used to insert test data before each test. In order to use dbunit for the test (and set up hibernate aswell) sublcass `org.webical.dao.impl.DataBaseTest` (located in _src/test/java_).
+
+== Configuring dbunit ==
+The configuration of dbunit is located in _src/test/resources/dbunit-test-configuration.xml_. The following properties are used:
+
+  * driverclass - the class of the jdbc driver used for the connection
+  * url - the url of the jdbc connection
+  * username - the username used to connect
+  * password - the password used to connect
+  * dialect- the dialect used by hibernate to talk to the driver 
+
+== Adapting the dataset inserted before each test ==
+The dataset inserted by dbunit is located in _src/test/resources/dbunit-test-dataset.xml_. You can add additional elements to this file in order to insert them before each test. To try out the test data run `org.webical.dao.impl.DataBaseTest` in eclipse.
+
+== Resources ==
+
+  * [http://dbunit.sourceforge.net/ DBunit]
+  * [http://www.onjava.com/pub/a/onjava/2004/01/21/dbunit.html onjava article] (recommended)
+  * [http://dbunit.sourceforge.net/howto.html DBunit wiki]
