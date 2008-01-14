@@ -40,7 +40,7 @@ This analysis is for the requirements for Webical.
 === Scheduling ===
   * Todo/Task support
   * Fburl support
-  * Meeting request: [http://www.ietf.org/rfc/rfc2446.txt itip]
+  * Meeting request ([http://www.ietf.org/rfc/rfc2446.txt itip])
   * Invite others
 === Other ===
   * LDAP addressbook (as a plugin)
