@@ -11,7 +11,7 @@ All wicket testcases are subclassed from `WebicalApplicationTest`. This class se
 
   * The WicketTester to be used to assert all requirements
   * The AnnotApplicationContextMock to insert dependencies that are supposed to be injected by Spring
-  * A DummyHomePage to be used in links etc when any page does. 
+  * A [http://wicket.sourceforge.net/apidocs/wicket/util/tester/DummyHomePage.html DummyHomePage] to be used in links etc when any page does. 
 
 To test components like panels simply subclass the WebicalApplicationTest and set the PanelTestPage as the startpage inluding your panel/component as the content.
 
