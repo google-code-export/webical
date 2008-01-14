@@ -13,6 +13,8 @@ This analysis is for the requirements for Webical.
 
 == Functionality ==
 
+
+=== View ===
   * Configure of one or multiple calendars for an account
   * Multiple views on aggregated calendar data
     * Day view
@@ -20,8 +22,22 @@ This analysis is for the requirements for Webical.
     * Month view
     * 'Next X days' view
   * rss/xml data voor aggregated calendar data
+  * Color coded calendars
+  * Date picker
+  * Turn on/off specific calendars
+=== Events ===
   * Detailed event view
   * Adding and editing events
-  * Color coded calendars
-  * Turn on/off specific calendars
-  * Date picker
+  * Quick add event
+  * Support for recurring events
+  * Event Search
+=== Settings ===
+  * i18n
+  * View preferences
+  * Scheduling preferences
+  * Manage accounts
+  * Notifications (how and when)
+=== Scheduling ===
+  * Todo/Task support
+  * Fburl support
+  
