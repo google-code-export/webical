@@ -6,7 +6,7 @@
 Maven2 has a really nice plugin which is called release :) This plugin lets you release a version of your project controlled by Maven in a breeze.
 
 == Details ==
-A Maven project consists of pom files which define a prject. One of the aspects of a project is its version. Every release of your project changes the version in the pom file. And if your project consists of several pom files it is very difficult and error prone to keep all the version numbers in sync.
+A Maven project consists of a pom file which defines a project. One of the aspects of a project is its version. Every release of your project changes the version in the pom file. If your project consists of several pom files it is very difficult and error prone to keep all the version numbers in sync.
 
 This is where the maven release plugin comes in. The plugin offers you several commands to update all the versions in your pom files, update them to your svn repository and create a tag for the version. The plugin does the following steps for you:
   * Check that there are no uncommitted changes in the sources
@@ -20,6 +20,21 @@ This is where the maven release plugin comes in. The plugin offers you several c
   * Commit the modified POMs
 
 == Constraints for a release ==
+First of all, the scm (Source controle management) type and url need to be specified in the pom.xml. For Webical this url is:
+{{{
+...
+ <!-- 
+   svn connectivity
+   use: mvn scm:update to update the project sources 
+   use: mvn scm:checkin to commit the project sources 
+ -->
+ <scm>
+    <connection>
+        scm:svn:https://webical.svn.sourceforge.net/svnroot/webical/trunk
+    </connection>
+ </scm>
+...
+}}}
 The release plugin checks for a few things when you want to release a new version. It checks that there are no changes in the project you want to release. It is wise to export your project you want to release to a separate directory to be sure there are no changes.
 
 The release plugin also checks you don't have any dependencies with a SNAPSHOT version in your project. All dependencies in your project must be an actual release.
