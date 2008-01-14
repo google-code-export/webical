@@ -3,41 +3,41 @@
 
 This page should clarify what a Webical release is and what has to be done to get a release out. This page should contain the conditions of when it's allowed to do a release.
 
-Release versions
+== Release versions ==
 The version number should only be updated when new functionality is introduced to the trunk and integrated in the new release. The Roadmap determines what functionality is going to be developed in what milestone. This means the roadmap determines the version number for a release.
 Bug fixes and other minor changes should be restricted to point releases and can be done independent from the roadmap.
 
-Release constraints
+== Release constraints ==
 All these constraints should be accounted for when doing a release. The release should be postponed when one of the constraints is not met.
 
-    * No changes should be made to the core without an issue being opened in the tracker.
-    * Releases should not lead to regression
-    * No critical bugs should be present in the release
-    * All functionality should be completely finished. Functionality that is not finished, should be moved to a new milestone and not be part of the release.
-    * All test must pass 
+  * No changes should be made to the core without an issue being opened in the tracker.
+  * Releases should not lead to regression
+  * No critical bugs should be present in the release
+  * All functionality should be completely finished. Functionality that is not finished, should be moved to a new milestone and not be part of the release.
+  * All test must pass 
 
-Preparing a release
+== Preparing a release ==
 
-    * Update version numbers (pom.xml, readme, wiki)
-    * Update readme
-    * Check database scripts
-    * Update changelog (can be done with svn) 
+  * Update version numbers (pom.xml, readme, wiki)
+  * Update readme
+  * Check database scripts
+  * Update changelog (can be done with svn) 
 
-Release procedure
+== Release procedure ==
 If all constraints are met, the release procedure can be set into motion.
 
-   1. tag the trunk with "release-[release version]"
-   2. Create a release package
-          * export the release to a directory
-          * run mvn clean test
-          * run mvn clean package -Denv=release
-          * Create a .zip and .tar.gz package with the war, the source, the readme and the license 
-   3. Deploy a demo
-   4. Upload package to sourceforge
-   5. Update the wiki
-   6. Post release notes to sourceforge, freshmeat and the blog 
+  # tag the trunk with "release-[release version]"
+  # Create a release package
+    * export the release to a directory
+    * run mvn clean test
+    * run mvn clean package -Denv=release
+    * Create a .zip and .tar.gz package with the war, the README file and the LICENSE file
+  # Deploy a demo
+  # Upload package to sourceforge
+  # Update the wiki
+  # Post release notes to sourceforge, freshmeat and the blog 
 
-Refrences
+== Refrences ==
 
     * http://wiki.creativecommons.org/Software_Release_Procedure
     * http://subversion.tigris.org/release-process.html 
