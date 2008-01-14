@@ -163,7 +163,7 @@ If you would like to use LDAP for authentication, here is an example:
 
 == Troubleshooting ==
 === $CATALINA_HOME ??? ===
-$CATALINA_HOME refers to the installation directory of Tomcat. In other words: The directory you installed or extracted Tomcat to. 
+`$CATALINA_HOME` refers to the installation directory of Tomcat. In other words: The directory you installed or extracted Tomcat to. 
 
 === It does not work ===
 Check `$CATALINA_HOME/logs/webical.log` for possible causes. Also check our issue tracker if this problem occurred with other users and if their is a solution. Don't hesitate to [IssueReporting file an issue]
