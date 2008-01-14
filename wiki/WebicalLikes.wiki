@@ -1,0 +1,25 @@
+# _List of Webical like software_
+
+[http://freshmeat.net/search/?q=icalendar&section=projects&Go.x=0&Go.y=0  Freshmeat search]
+
+== Web Software ==
+
+  * http://www.k5n.us/webcalendar.php
+  * http://sourceforge.net/projects/phpicalendar/
+  * http://www.scheduleworld.com/
+  * http://www.planscalendar.com/index.php?p=competition 
+
+== Desktop Software ==
+
+  * http://www.mozilla.org/projects/calendar/
+  * http://www.apple.com/macosx/features/ical/
+  * http://remotecalendars.sourceforge.net/ 
+
+== Services ==
+
+  * http://www.google.com/calendar/
+  * http://www.calendarhub.com/
+  * http://kiko.com/
+  * http://mosuki.com/
+  * http://eventful.com/
+  * http://upcoming.org/ 
