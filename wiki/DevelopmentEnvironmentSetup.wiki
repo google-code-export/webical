@@ -14,10 +14,10 @@ This guide assumes you use the default setup. Derivations are possible, but you 
 
 Install the above software in places you find suitable.
 
-== Getting the source ==
-To start development on Webical, you need its source. We use Subversion as our source control software. You can check out the source, using subversion from http://webical.googlecode.com/svn/trunk/.
+== Setting up Eclipse ==
+Download eclipse from the above location and extract it in a suitable directory. Make sure you have java 5 installed.
 
-You can do this by using the `svn` command line tool, or a graphical interface.
+In order to use Eclipse for Webical development you need to install the `Aspect for J` plugin. This plugin can be downloaded from within Eclispe using the _Install software_ option from: 
 
 == Setting up Maven ==
 The maven website states the following:
@@ -26,3 +26,8 @@ The maven website states the following:
 We use maven to compile and package Webical and manage all the dependencies in a clear way. Maven works with pom (Project Object Model) files. These xml files are used to configure the project.
 
 To set up Maven2, download it and add it to your system path. Guides on [http://www.troubleshooters.com/linux/prepostpath.htm Linux], [http://vlaurie.com/computers2/Articles/environment.htm Windows] and [http://www.brooksandrus.com/blog/2006/05/24/setting-mac-unix-environment-variables-adding-executables-to-the-system-path/ Mac OSX] are available.
+
+== Getting the source ==
+To start development on Webical, you need its source. We use Subversion as our source control software. You can check out the source, using subversion from http://webical.googlecode.com/svn/trunk/.
+
+You can do this by using the `svn` command line tool, or a graphical interface.
