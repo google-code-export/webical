@@ -9,6 +9,7 @@ Maven2 has a really nice plugin which is called release :) This plugin lets you 
 A Maven project consists of a pom file which defines a project. One of the aspects of a project is its version. Every release of your project changes the version in the pom file. If your project consists of several pom files it is very difficult and error prone to keep all the version numbers in sync.
 
 This is where the maven release plugin comes in. The plugin offers you several commands to update all the versions in your pom files, update them to your svn repository and create a tag for the version. The plugin does the following steps for you:
+{{{
   * Check that there are no uncommitted changes in the sources
   * Check that there are no SNAPSHOT dependencies
   * Change the version in the poms from x-SNAPSHOT to a new version (you will be prompted for the versions to use)
@@ -18,7 +19,8 @@ This is where the maven release plugin comes in. The plugin offers you several c
   * Tag the code in the SCM with a version name (this will be prompted for)
   * Bump the version in the POMs to a new value y-SNAPSHOT (these values will also be prompted for)
   * Commit the modified POMs
-
+}}}
+_Copied from the Maven Release Plugin Homepage^1^
 == Constraints for a release ==
 First of all, the scm (Source controle management) type and url need to be specified in the pom.xml. For Webical this url looks like this:
 {{{
@@ -71,7 +73,6 @@ If you are not satisfied with the generated pom files or the release.properties 
 }}}
 This will start the process again and will ask you to answer the questions again.
 
-== Resources ==
-For more information check these websites.
-  * [http://apache.maven.org Maven homepage]
-  * [http://maven.apache.org/plugins/maven-release-plugin/ Maven release plugin homepage]
+== Refrences ==
+  # [http://maven.apache.org/plugins/maven-release-plugin/ Maven release plugin homepage]
+  # [http://apache.maven.org Maven homepage]
