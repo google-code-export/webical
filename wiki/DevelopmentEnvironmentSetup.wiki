@@ -22,6 +22,11 @@ We use maven to compile and package Webical and manage all the dependencies in a
 
 To set up Maven2, download it and add it to your system path. Guides on [http://www.troubleshooters.com/linux/prepostpath.htm Linux], [http://vlaurie.com/computers2/Articles/environment.htm Windows] and [http://www.brooksandrus.com/blog/2006/05/24/setting-mac-unix-environment-variables-adding-executables-to-the-system-path/ Mac OSX] are available.
 
+Because of license issues Maven doesn't have the JTA classes in its repository. You have to download them yourself and install them manually for Maven. The JTA classes can be downloaded from [http://java.sun.com/products/jta/ the sun website].
+
+Once downloaded install the JTA classes with the following command: 
+`mvn install:install-file -DgroupId=javax.transaction -DartifactId=jta -Dversion=1.0.1B -Dpackaging=jar -Dfile=jta-1.0.1B-classes.zip -DgeneratePom=true`
+
 == Setting up Eclipse ==
 Download eclipse from the above location and extract it in a suitable directory. Make sure you have java 5 installed.
 
