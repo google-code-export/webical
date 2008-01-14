@@ -7,12 +7,7 @@ Too bad you found an issue with Webical :( But we are very happy you are willing
 == General reporting ==
 When you file an issue for us to look at, regardless of whether it is a bug, a feature request or something else entirely, please be as specific as possible. The more specific you are, the more likely we are to know exactly what you mean. This allows us to hopefully quickly and efficiently deal with the matter.
 
-When you typed you very specific description of the issue, be sure to double check it before submitting. You only get one chance! Issue are not editable after they are submitted, and we want to prevent endless replies from the start to correct faults in the issue report.
-
-Be sure to include the following information in your issue report:
-  * Version of webical you are using
-  * Name and version of your servlet compatible container.
-  * The database you are using
+When you typed your very specific description of the issue, be sure to double check it before submitting. You only get one chance! Issue are not editable after they are submitted, and we want to prevent endless replies from the start to correct faults in the issue report.
 
 == Feature requests ==
 If you found that Webical is missing a very important feature in your use of Webical we are most happy to be informed of this. But before you post an issue, be sure to check our [Roadmap] and [http://code.google.com/p/webical/issues/list issue tracker] if the feature was already reported and maybe even assigned to a milestone.
@@ -20,6 +15,13 @@ If you found that Webical is missing a very important feature in your use of Web
 If you found that nobody noticed the feature was missing, be sure to set the `Type` label for the new issue on `Type-Enhancement`. It will be clear for the developers the issue is concerning a feature request.
 
 == Bugs / Defects ==
+Bugs are common in every piece of software. So it would be ignorant to say Webical doesn't contain bugs. Knowing this, reporting a bug or defect issue starts with a seach on the existing issues. Because your bug or defect might have been noticed by other users and may have been solved.
+
+If your issue isn't reported yet, a start text will help you with the filing of the issue,
+Be sure to include the following information in your issue report:
+  * Version of webical you are using
+  * Name and version of your servlet compatible container
+  * The database vendor and version you are using
 
 === Information! ===
 When you report an issue concerning a bug or defect in Webical, make sure you provide us with as much information as possible. Webical error pages contain detailed stack traces and possible error causes. Be sure to include those in your issue report.
