@@ -1,3 +1,4 @@
+#labels Developer,Resource
 # _How to use the Maven2 release plugin
 
 == Introduction ==
@@ -33,15 +34,24 @@ A series of questions is presented to you on the screen including the new versio
 The command creates a release.properties file with all the values needed for the release. It also creates several pom files which you can check:
   * pom.xml.next - The pom file for the next version
   * pom.xml.tag - The pom file for copy in the _Tags_ directory of your svn repository.
-The original pom.xml file is left intact since this is a _dry run_.
+This is done for all the project and all of its sub-projects. The original pom.xml files are left intact since this is a _dry run_.
 
 == The actual release ==
-If all the values in the release.properties file are correct, and all the pom files ar correct you can perform the actual release. This will do the following for you:
+If all the values in the release.properties file are correct, and all the pom files are correct you can perform the actual release. This is done with the following command:
+{{{
+ mvn release:prepare release:perform
+}}}
+This will alter the pom files to the new version you entered in the _dry run_, create and commit a tag and commit the new pom files.
 
-
-
-
-
+== Start over? ==
+If you are not satisfied with the generated pom files or the release.properties file from the dry run you can reset the release. This can be done in two ways:
+{{{
+ // the release:clean goal
+ mvn release:clean release:perform -DdryRun=true
+ // the -Dresume=false option
+ mvn release:perform -Dresume=false -DdryRun=true
+}}}
+This will start the process again and will ask you to answer the questions again.
 
 == Resources ==
   * [http://apache.maven.org Maven homepage]
