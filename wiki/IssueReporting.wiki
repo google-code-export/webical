@@ -37,3 +37,14 @@ An issue labeled `Accepted` does not mean the issue is going to be fixed right a
 
 === We spring into action ===
 When a resource comes available, the issue will be labeled 'Assigned' and the owner will change to the assigned developer. You will still be in the CC field of the issue and receive updates on the status. The developer will label the issue as `Started` when the developer actually starts work on the issue.
+
+=== Verifying the result ===
+When the developer is finished with the issue, it will be labeled as `Fixed`. But the issue only really fixed if it's verified. We ask the reporter of the issue to verify the fix. Alternatively the fix can be verified by one of our testers.
+
+=== Fixing not possible ===
+It can happen an issue is moved directly to `Invalid` or Won't Fix`. This means the issue report is incomplete, we couldn't replicate the issue etc.
+
+=== Not satisfied? ===
+When you are not satisfied with the result of the issue, you can discuss this in the issue thread. If the issue is verified, but you still encounter the same error you can bring this to our intention in the issue thread.
+
+If your issue is closed without fixing, or the feature you requested will not be honored by us, you can convince us to reopen the issue if you think it is of real importance. Use the existing issue thread for this, please don't file a new issue.
