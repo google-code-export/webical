@@ -1,4 +1,4 @@
-#labels Resource
+#labels Resource,User,Developer
 # An overview of the requirements for Webical
 
 = Introduction =
@@ -59,4 +59,6 @@ What features are requested by others?
       * geo tag events using a geo-coder (e.g. using [http://www.mapstraction.com/ OpenStreetMap / Google Maps API])
     * off line version: google gears
   * Template system: download & select Webical skins
+
+The features above will be integrated with the use of the [Roadmap Webical Roadmap]. See the roadmap for the planned and integrated functionality.
   
