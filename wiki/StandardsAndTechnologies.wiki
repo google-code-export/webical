@@ -1,0 +1,13 @@
+#labels Resource,Developer
+# A list of standards and technologies used in Webical
+
+== Introduction ==
+
+The following standards and technologies are used by Webical
+
+=== Standards ===
+  * [http://www.ietf.org/rfc/rfc2445.txt iCalendar]
+  * [http://www.section508.gov/ Section 508]
+  * [http://www.webdav.org/ WebDav]
+  * CalDav
+  * [http://www.calconnect.org/ The Calendaring and Scheduling Consortium]
