@@ -15,7 +15,15 @@ Be sure to include the following information in your issue report:
   * The database you are using
 
 == Feature requests ==
+If you found that Webical is missing a very important feature in your use of Webical we are most happy to be informed of this. But before you post an issue, be sure to check our [Roadmap] and [http://code.google.com/p/webical/issues/list issue tracker] if the feature was already reported and maybe even assigned to a milestone.
+
+If you found that nobody noticed the feature was missing, be sure to set the `Type` label for the new issue on `Type-Enhancement`. It will be clear for the developers the issue is concerning a feature request.
 
 == Bugs / Defects ==
+
+=== Information! ===
+When you report an issue concerning a bug or defect in Webical, make sure you provide us with as much information as possible. Webical error pages contain detailed stack traces and possible error causes. Be sure to include those in your issue report.
+
+Provide as much information on your Webical installation and how the error occurred and how it (possibly) can be replicated. To help us even further, you can include the `OpSys` and `Browser` labels so we have more information on the issue.
 
 == Issue life cycle ==
