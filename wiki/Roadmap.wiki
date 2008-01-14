@@ -7,15 +7,6 @@ Each milestone has a target release date. This date is determined by looking at 
 
 For a list of complete milestones check out the [CompletedMilestones completed milestones page].
 
-
-=== Milestone 0.4 ===
-|| *Target Release date:* || 11 January 2008 ||
-
-Implemented Features:
-|| *Name* || *Description* || *Stories* ||
-|| User Settings || A user settings page where users can update their application preferences || UserSettingsStory ||
-
-
 === Milestone 0.5 ===
 || *Target Release date:* || To be determined ||
 
@@ -23,8 +14,12 @@ Implemented Features:
 || *Name* || *Description* || *Stories* ||
 || Full Recurrence support || Full support for editing and deleting recurrent event and excluding events from recurrence ranges || EditRecurringEventStory ||
 
+Planned bug fixes: Milestone 0.5 tagged bugs
 
 === Milestone 0.6 ===
+
+=== Milestone 0.7 ===
+
 ...
 
 === Milestone 1.0 ===
