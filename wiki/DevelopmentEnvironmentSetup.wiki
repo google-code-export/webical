@@ -31,9 +31,12 @@ The plugin is available from the _Eclipse Europe Discovery Site_. For more infor
 
 For more Eclipse settings see the [EclipseShortcuts Eclipse shortcuts page].
 
-The next step is to add the Maven2 repository to your Eclipse variables so Eclipse can find the dependencies downloaded by Maven2. To do this open Window > Preferences > Java > Build Path > Classpath Variables. Add a variable named `M2_REPO` that points to _/home/'your_name'/.m2/repository_.
+The next step is to add the Maven2 repository to your Eclipse variables so Eclipse can find the dependencies downloaded by Maven2. To do this open Window > Preferences > Java > Build Path > Classpath Variables. Add a variable named `M2_REPO` that points to _/home/YOUR_NAME/.m2/repository_.
 
 == Getting the source ==
 To start development on Webical, you need its source. We use Subversion as our source control software. You can check out the source, using subversion from http://webical.googlecode.com/svn/trunk/.
 
 You can do this by using the `svn` command line tool, or a graphical interface.
+
+== Setting up the Database ==
+For Webical development we use a MySQL database. When running the development version of Webical it will automatically create the database tables. You only have to provide a database named `webical` and a user named `webical` with password `webical` that has all rights to that database. The default settings assume your database is running at _localhost:3306_.
