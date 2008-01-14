@@ -47,4 +47,14 @@ For Webical development we use a MySQL database. When running the development ve
 == Getting the source ==
 To start development on Webical, you need its source. We use Subversion as our source control software. You can check out the source, using subversion from http://webical.googlecode.com/svn/trunk/.
 
-You can do this by using the `svn` command line tool, or a graphical interface.
+You can do this by using the `svn` command line tool, or a graphical interface. The following line of code will download the webical project to a new directory inside the current directory named _webical_:
+{{{
+ svn checkout http://webical.googlecode.com/svn/trunk/ webical
+}}}
+
+== Setting up the project ==
+To open the project in Eclipse, we are going to let Maven build the Eclipse project files. Enter the directory you checked out the Webical source to. Inside the directory execute the following command:
+{{{
+ mvn -Dwtpversion=1.5 -DdownloadSource=true eclipse:eclipse
+}}}
+This command will create an Eclipse project for us which we can import into Eclipse. The parameter `-DdownloadSources=true` is optional and is only needed the first time. This parameter makes sure Maven downloads all the project dependencies for us.
