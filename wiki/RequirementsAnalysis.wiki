@@ -36,8 +36,27 @@ This analysis is for the requirements for Webical.
   * View preferences
   * Scheduling preferences
   * Manage accounts
-  * Notifications (how and when)
+  * Notifications. How: popup / email / sms
 === Scheduling ===
   * Todo/Task support
   * Fburl support
+  * Meeting request: itip http://www.ietf.org/rfc/rfc2446.txt
+  * Invite others
+=== Other ===
+  * LDAP addressbook (as a plugin)
+  * Print calendar (html/pdf)
+
+== Wishlist ==
+What features are requested by others?
+
+  * Export calendar data
+  * Share calendars
+  * Plug ins, lots of them! Here are some ideas:
+    * weather plug in: show temperature/forecast in location (or geotag) of an entry
+    * [http://www.rememberthemilk.com/services/api/ remember the milk] plug in: todo list manager integration
+    * geo plug in:
+      * geo tab to show all events on a map
+      * geo tag events using a geo-coder (e.g. using [http://www.mapstraction.com/ OpenStreetMap / Google Maps API])
+    * off line version: google gears
+  * Template system: download & select Webical skins
   
