@@ -68,6 +68,8 @@ If you downloaded the pre build war file, and you want to alter the default setu
 
 If you downloaded the source, you can alter the files before packaging them. The files can be found in the `webical-war/etc/environments/release` directory.
 
+All paths in this installation step are relative from either `$CATALINA_HOME/webical/` for the deployed war or `PATH/TO/WEBICAL/SOURCE/webical-war/target/release/` for the unpackaged source.
+
 ==== Change login settings ====
 With the default installation a user is created from the `AUTH_setup.sql` script. If you want to change the login settings for the user, change them in this file. The following 2 inserts contain the information for the user:
 {{{
@@ -80,5 +82,37 @@ INSERT INTO _auth_userrole (username, role) VALUES ("webical", "webicaluser");
 The first insert creates a new user, the second insert connects it to a user role. If you change the user name in the first insert, make sure you change the first value of the second insert as well.
 
 If you decide to change the name of the user role, make sure it corresponds to the `<role-name>` in `WEB-INF/web.xml`.
+
+==== Use a different database ====
+The database settings are stored in `META-INF/context.xml`. You can change the settings for the database in this file. The resource part looks like this:
+{{{
+...
+   <Resource 
+      name="jdbc/calendarDataBase" 
+      auth="Container" 
+      type="javax.sql.DataSource" 
+      factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory" 
+      username="webical" 
+      password="webical" 
+      driverClassName="com.mysql.jdbc.Driver" 
+      url="jdbc:mysql://localhost:3306/webical?autoReconnect=true" />
+...
+}}}
+Replace webical in the `url` string to use a different database.
+Change the `username` and `password` strings if you have a different database user for the webical installation.
+
+Make sure that the database user has sufficient rights on the database. The user should have at least SELECT, INSERT, UPDATE, DELETE, ALTER, INDEX, CREATE and DROP access to the database you plan to use for webical.
+
+==== Use a different database provider ====
+Webical uses a MySQL database by default. But it's not a requirement, webical can make use of a different database, like Oracle for instance.
+
+To do this, you have to install your own JDBC driver for Tomcat to use in `$CATALINA_HOME/common/lib`, and change the driver in `META-INF/context.xml`.
+Change the following line to the driver for your database:
+{{{
+...
+      driverClassName="com.mysql.jdbc.Driver" 
+...
+}}}
+For more information on the proper database driver contact your database provider/vendor (or Google :) ).
 
 == Troubleshooting ==
