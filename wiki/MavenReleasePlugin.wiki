@@ -30,7 +30,7 @@ First of all, the scm (Source controle management) type and url need to be speci
  -->
  <scm>
     <connection>
-        scm:svn:https://webical.svn.sourceforge.net/svnroot/webical/trunk
+        scm:svn:http://webical.googlecode.com/svn/trunk
     </connection>
  </scm>
 ...
