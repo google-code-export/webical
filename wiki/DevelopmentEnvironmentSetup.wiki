@@ -11,3 +11,18 @@ This guide assumes you use the default setup. Derivations are possible, but you 
   * Maven2 - http://maven.apache.org/download.html
   * Subversion - http://subversion.tigris.org
   * MySQL - http://dev.mysql.com/downloads/mysql/5.0.html
+
+Install the above software in places you find suitable.
+
+== Getting the source ==
+To start development on Webical, you need its source. We use Subversion as our source control software. You can check out the source, using subversion from http://webical.googlecode.com/svn/trunk/.
+
+You can do this by using the `svn` command line tool, or a graphical interface.
+
+== Setting up Maven ==
+The maven website states the following:
+ Maven is a software project management and comprehension tool. Based on the concept of a project object model (POM), Maven can manage a project's build, reporting and documentation from a central piece of information.
+
+We use maven to compile and package Webical and manage all the dependencies in a clear way. Maven works with pom (Project Object Model) files. These xml files are used to configure the project.
+
+To set up Maven2, download it and add it to your system path. Guides on [http://www.troubleshooters.com/linux/prepostpath.htm Linux], [http://vlaurie.com/computers2/Articles/environment.htm Windows] and [http://www.brooksandrus.com/blog/2006/05/24/setting-mac-unix-environment-variables-adding-executables-to-the-system-path/ Mac OSX] are available.
