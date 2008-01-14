@@ -1,0 +1,27 @@
+#labels Resource
+# An overview of the requirements for Webical
+
+= Introduction =
+
+This analysis is for the requirements for Webical.
+
+== Assumptions ==
+
+  * Webical is a web GUI for managing (remote) iCalendars
+  * All [http://www.faqs.org/rfcs/rfc2445.html rfc 2445] attributes are supported (not more)
+  * Authentication & Authorisation is handled by the container 
+
+== Functionality ==
+
+  * Configure of one or multiple calendars for an account
+  * Multiple views on aggregated calendar data
+    * Day view
+    * Week view
+    * Month view
+    * 'Next X days' view
+  * rss/xml data voor aggregated calendar data
+  * Detailed event view
+  * Adding and editing events
+  * Color coded calendars
+  * Turn on/off specific calendars
+  * Date picker
