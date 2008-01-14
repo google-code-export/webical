@@ -5,6 +5,7 @@
   * Improved usability
   * New Datepicker
   * Support for user settings
+  * Issue from the old tracker fixed
 
 ----  0.3 ---- 
   * New event form
