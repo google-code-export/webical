@@ -13,12 +13,12 @@ All these constraints should be accounted for when doing a release. The release 
   * No changes should be made to the core without an issue being opened in the tracker.
   * Releases should not lead to regression
   * No critical bugs should be present in the release
+  * All issues labeled as _Fixed_ should be verified and labeled as _Verified_.
   * All functionality should be completely finished. Functionality that is not finished, should be moved to a new milestone and not be part of the release.
   * All test must pass 
 
 == Preparing a release ==
 
-  * Update version numbers (pom.xml, readme, wiki)
   * Update readme
   * Check database scripts
   * Update changelog (can be done with svn) 
@@ -26,16 +26,24 @@ All these constraints should be accounted for when doing a release. The release 
 == Release procedure ==
 If all constraints are met, the release procedure can be set into motion.
 
-  # tag the trunk with "release-[release version]"
+At least one Release Candidate should be presented. When a release candidate is released, the trunk is frozen for new functionality. Only bug fixes are allowed. Because a release candidate is a possible release, all functionality should be done and no new functionality should be introduced.
+
+If the release candidate is stable, and all issues tagged for the release are resolved the release procedure can be started:
+
+  # run `mvn release:prepare -DdryRun=true`
+  # check the new pon.xml files to make sure the version numbers are correct.
+  # run `mvn release:prepare release:perform` to tag the trunk and update the version numbers
   # Create a release package
-    * export the release to a directory
+    * Export the tag in a separate director
     * run mvn clean test
     * run mvn clean package -Denv=release
     * Create a .zip and .tar.gz package with the war, the README file and the LICENSE file
-  # Deploy a demo
-  # Upload package to sourceforge
+  # Upload package to google code
   # Update the wiki
   # Post release notes to sourceforge, freshmeat and the blog 
+  # Deploy a demo
+
+The deployment of the demo can be done at a later stage, but it should not be forgotten.
 
 == Refrences ==
 
