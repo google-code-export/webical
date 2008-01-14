@@ -7,7 +7,21 @@ Maven2 has a really nice plugin which is called release :) This plugin lets you 
 == Details ==
 A Maven project consists of pom files which define a prject. One of the aspects of a project is its version. Every release of your project changes the version in the pom file. And if your project consists of several pom files it is very difficult and error prone to keep all the version numbers in sync.
 
-This is where the maven release plugin comes in. The plugin offers you several commands to update all the versions in your pom files, update them to your svn repository and create a tag for the version.
+This is where the maven release plugin comes in. The plugin offers you several commands to update all the versions in your pom files, update them to your svn repository and create a tag for the version. The plugin does the following steps for you:
+  * Check that there are no uncommitted changes in the sources
+  * Check that there are no SNAPSHOT dependencies
+  * Change the version in the poms from x-SNAPSHOT to a new version (you will be prompted for the versions to use)
+  * Transform the SCM information in the POM to include the final destination of the tag
+  * Run the project tests against the modified POMs to confirm everything is in working order
+  * Commit the modified POMs
+  * Tag the code in the SCM with a version name (this will be prompted for)
+  * Bump the version in the POMs to a new value y-SNAPSHOT (these values will also be prompted for)
+  * Commit the modified POMs
+
+== Constraints for a release ==
+The release plugin checks for a few things when you want to release a new version. It checks that there are no changes in the project you want to release. It is wise to export your project you want to release to a separate directory to be sure there are no changes.
+
+The release plugin also checks you don't have any dependencies with a SNAPSHOT version in your project. All dependencies in your project must be an actual release.
 
 == Usage ==
 It is wise you start with a _dry run_. This creates the pom files as if they were going to be commited to your svn repository. To perform a dry run, enter the directory of the project you want to release and execute the following command: 
@@ -23,15 +37,7 @@ The original pom.xml file is left intact since this is a _dry run_.
 
 == The actual release ==
 If all the values in the release.properties file are correct, and all the pom files ar correct you can perform the actual release. This will do the following for you:
-  * Check that there are no uncommitted changes in the sources
-  * Check that there are no SNAPSHOT dependencies
-  * Change the version in the poms from x-SNAPSHOT to a new version (you will be prompted for the versions to use)
-  * Transform the SCM information in the POM to include the final destination of the tag
-  * Run the project tests against the modified POMs to confirm everything is in working order
-  * Commit the modified POMs
-  * Tag the code in the SCM with a version name (this will be prompted for)
-  * Bump the version in the POMs to a new value y-SNAPSHOT (these values will also be prompted for)
-  * Commit the modified POMs
+
 
 
 
