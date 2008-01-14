@@ -3,7 +3,7 @@
 || *Release date:* || 11 January 2008  ||
 || *Announcement:* || n/a ||
 || *Download:* || [[http://webical.googlecode.com/files/webical-0.4.zip Download from google code] ||
-|| *SVN Tag:* || [https://webical.svn.sourceforge.net/svnroot/webical/tags/webical-0.4 
+|| *SVN Tag:* || [https://webical.svn.sourceforge.net/svnroot/webical/tags/webical-0.4 ||
 
 Implemented Features:
 || *Name* || *Description* || *Stories* ||
