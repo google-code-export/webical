@@ -5,9 +5,22 @@
 
 The following standards and technologies are used by Webical
 
-=== Standards ===
+== Standards ==
   * [http://www.ietf.org/rfc/rfc2445.txt iCalendar]
   * [http://www.section508.gov/ Section 508]
   * [http://www.webdav.org/ WebDav]
   * CalDav
   * [http://www.calconnect.org/ The Calendaring and Scheduling Consortium]
+
+== Technologies ==
+
+=== GUI ===
+  * [http://wicket.apache.org Wicket]
+  * [http://developer.yahoo.com/yui/ The YAHOO! Interface Library (YUI)]
+=== iCalendar ===
+  * [http://ical4j.sourceforge.net/ ical4j]
+=== Business Logic ===
+  * [http://www.springframework.org/ Spring framework]
+=== Persistence ===
+    * [http://www.hibernate.org/ Hibernate]
+    * [http://www.mysql.com MySQL]
