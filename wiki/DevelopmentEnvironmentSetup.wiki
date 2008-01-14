@@ -1,0 +1,13 @@
+#labels Resource,Developer
+# How to set up your development environment
+
+== Introduction ==
+To start developing webical there are a few steps you need to take. This page lists the requirements and necessary steps to set up the development environment that is need to develop webical. This environment is based on open source software.
+
+This guide assumes you use the default setup. Derivations are possible, but you should have some more understanding of development environments and the components used in Webical.
+
+== Requirements ==
+  * Eclipse - http://www.eclipse.org/downloads/
+  * Maven2 - http://maven.apache.org/download.html
+  * Subversion - http://subversion.tigris.org
+  * MySQL - http://dev.mysql.com/downloads/mysql/5.0.html
