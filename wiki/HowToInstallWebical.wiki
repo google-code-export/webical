@@ -161,6 +161,9 @@ If you would like to use LDAP for authentication, here is an example:
         roleSearch="(memberUid={1})"/>
 }}}
 
+=== Installing on JBoss ===
+Comming soon
+
 == Troubleshooting ==
 === $CATALINA_HOME ??? ===
 `$CATALINA_HOME` refers to the installation directory of Tomcat. In other words: The directory you installed or extracted Tomcat to. 
