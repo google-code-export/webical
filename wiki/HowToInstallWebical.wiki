@@ -161,8 +161,6 @@ If you would like to use LDAP for authentication, here is an example:
         roleSearch="(memberUid={1})"/>
 }}}
 
-=== Installing on JBoss ===
-Comming soon
 
 == Troubleshooting ==
 === $CATALINA_HOME ??? ===
