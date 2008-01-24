@@ -1,5 +1,13 @@
 #labels Developer,Featured
 #Developer start page
 
+  * [Roadmap]
+  * [Changelog]
   * DevelopmentEnvironmentSetup
   * [Actions]
+  * ReleaseStrategy
+  * MavenReleasePlugin
+  * StandardsAndTechnologies
+  * WicketAndSpring
+  * HibernateDaoTestSetup
+  * RequirementsAnalysis
