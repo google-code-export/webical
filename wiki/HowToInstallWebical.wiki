@@ -57,7 +57,7 @@ Unpack the MySQL Connector/J package and copy the .jar file to the `$CATALINA_HO
 
 Next, copy the `webical.war` file to the `$CATALINA_HOME/webapps` directory. Once you start Tomcat, Tomcat will deploy it into the /webical context.
 
-As an alternative, you can use the Tomcat manager to deploy the war to your Tomcat server. The manager can be reached at http://localhost:8080/manager/html. Documentation on how to use the Tomcat manager can be found at http://tomcat.apache.org/tomcat-5.0-doc/manager-howto.html.
+As an alternative, you can use the Tomcat manager to deploy the war to your Tomcat server. The manager can be reached at http://localhost:8080/manager/html. Documentation on how to use the Tomcat manager can be found at http://tomcat.apache.org/tomcat-5.5-doc/manager-howto.html.
 
 The default installation is compelete!
 
