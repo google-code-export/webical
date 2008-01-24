@@ -1,19 +1,19 @@
 #labels User,Developer,Resource
 #Webical Changelog
 
----- 0.4 ---- 
+== Webical 0.4 ==
   * Improved usability
   * New Datepicker
   * Support for user settings
   * Issue from the old tracker fixed
   * Project page moved
 
-----  0.3 ---- 
+== Webical 0.3 ==
   * New event form
   * Reduced server load
 
-----  0.2 ---- 
+== Webical 0.2 ==
   * New readme for installation
 
-----  0.1 ---- 
-  * First release
+== Webical  0.1 ==
+  * Initial release
