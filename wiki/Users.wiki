@@ -1,12 +1,7 @@
 #labels User,Featured
 #Webical users page
 
-= Introduction =
-
-Add your content here.
-
-
 = Topics =
 
   * [Features Webical Features]
-  * [HowToInstall How to install webical]
+  * [HowToInstallWebical How to install webical]
