@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:wicket="http://wicket.sourceforge.net/">
+<body>
+	<wicket:extend>
+		<h1><wicket:message key="Calendars.label">Calendars</wicket:message></h1>
+		<ul wicket:id="calendarListView" id="calendarListPanel">
+			<li>
+				<span class="calendarName" wicket:id="calendarName"></span>
+				<span class="calendarModifyLinks">
+					<a class="editCalendarLink" wicket:id="editCalendarLink"><wicket:message key="editcalendar.label">edit calendar</wicket:message></a>
+					<a class="removeCalendarLink" wicket:id="removeCalendarLink"><wicket:message key="removecalendar.label">remove calendar</wicket:message></a>
+				</span>
+				<div class="clr"></div>
+			</li>
+		</ul>
+		<div id="pagingNavigator" wicket:id="pagingNavigator"></div>
+	</wicket:extend>
+</body>
+</html>

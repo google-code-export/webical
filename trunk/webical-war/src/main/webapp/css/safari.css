@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+/* Safari Stylesheet */
+
+/*  -------- Selectors in alphabetical order!  ------- */
+
+/* Calendar Views Tabs */
+
+.calendarView .tab-row, #contentPanel_calendarViewsTabs .tab-row, .tab-row {
+  top: 8px;
+}
+
+/* Month view */
+
+#calendarViewPanel .eventsInMonth, #calendarViewPanel .eventsInList {
+  height: 85%;
+	position: absolute;
+ 	width: 13.7%;
+}
+
+#weekView td.weekColumn, #weekView td.todayWeekColumn {
+ 	height: 100%;
+}
+
+#calendarViewPanel .eventsInMonth{
+	height: 11em;
+}
