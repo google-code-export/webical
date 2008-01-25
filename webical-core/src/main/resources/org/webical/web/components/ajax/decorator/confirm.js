@@ -1,0 +1,1 @@
+if( !confirm('${CONFIRM_MESSAGE}')) { return false; } ${SCRIPT}

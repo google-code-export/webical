@@ -1,0 +1,19 @@
+<html xmlns:wicket="http://wicket.sourceforge.net/">
+<head>
+	<link href="css/style.css" rel="stylesheet" type="text/css"> 
+</head>
+<body>
+	<wicket:extend>
+		<div class="quicknav">
+			<ul>
+				<li><a href="#calendar"><wicket:message key="quicklink_calendar_label"/></a></li>
+				<li><a href="#datepicker"><wicket:message key="quicklink_datepicker_label"/></a></li>
+				<li><a href="#calendarpicker"><wicket:message key="quicklink_calendarpicker_label"/></a></li>
+			</ul>
+		</div>
+		<div id="headerPanel" wicket:id="headerPanel"></div>
+		<div id="logoPanel"><a href="http://www.webical.org" target="_blanc" title="webical homepage"><img alt="Logo Webical" src="img/webicallogo.gif" /></a></div>
+		<div id="contentPanelArea"><div wicket:id="contentPanel" id="contentPanel"></div></div>
+	</wicket:extend>
+</body>
+</html>

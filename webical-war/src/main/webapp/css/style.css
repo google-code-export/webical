@@ -1,0 +1,1083 @@
+@charset "UTF-8";
+/*
+ * Main Stylesheet for Webical
+ * http://www.webical.org
+ */
+/* ------------------------------------------------ */
+/* 		Element styles 								*/
+/* ------------------------------------------------ */
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+body {
+	background: #E9E9EE;
+  font: 62.5% / 170% Arial, Helvetica, sans-serif;
+  height: 100%;
+}
+
+p {
+  margin: 0 0 .8em;
+}
+
+img {
+  border: 0;
+}
+
+ul, ul li {
+}
+
+form {
+}
+
+fieldset {
+  border: 0;
+}
+
+legend {
+  color: #1F1F1F;
+  font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
+  font-size: 1.2em;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin: 0;
+  margin-bottom: .6em;
+}
+
+input, textarea, select {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 1em;
+}
+
+/* headings */
+
+h1 {
+  background: #51636A url(../img/topbar2.png) repeat-x 0px -1px;
+  border-top: 1px solid #51636A;
+  border-bottom: 1px solid #51636A;
+  color: #fff;
+  font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
+  font-size: 1em;
+  letter-spacing: 1px;
+  padding: 2px;
+  font-weight: normal;
+}
+
+#login h1 {
+  background: none;
+  border: 0;
+  color: #1F1F1F;
+  font-size: 1.2em;
+	font-weight: bold;
+  margin: 10px 0px .6em;
+  padding: 0;
+}
+
+h2, h3, h4, h5, h6 {
+}
+
+/* links */
+
+a {
+  color: #51636A;
+}
+
+a:focus, a:hover, a:active {
+  color: #8EB9ED;
+}
+
+#addEventPanel {
+  left: -14.5em;
+  position: absolute;
+  top: 50px;
+  width: 14em;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+#addEventPanel a {
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+#addEventPanel a:hover {
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------ */
+/* 		Basic layout styles 						*/
+/* ------------------------------------------------ */
+
+#container {
+  font-size: 1.1em;
+  height: 100%;
+  min-height: 400px;
+  min-width: 790px;
+  position: relative;
+}
+
+#logoPanel {
+  position: absolute;
+  top: 30px;
+  width: 164px;
+  height: 52px;
+  /*background: url(../img/webicallogo.png) no-repeat 0px -4px;*/
+  z-index: 10;
+}
+
+#headerPanel {
+  height: 27px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 8;
+  background: #E9E9EE url(../img/topbar2.png) repeat-x 0px -1px;
+}
+
+#ajaxPanel {
+  position: absolute;
+  left: 6px;
+  bottom: 10px;
+  z-index: 100;
+  visibility: hidden;
+  display: none;
+}
+
+#left_area {
+}
+
+#content_area {
+}
+
+#content {
+}
+
+#content_block {
+}
+
+#footer_area {
+}
+
+/* ------------------------------------------------ */
+/* 		Panels										*/
+/* ------------------------------------------------ */
+
+#contentPanelArea {
+  /*background: #9cc url(../img/contentpanelareabg.gif) repeat-x;*/
+  /*background: #E9E9EE url(../img/webicallogo.png) no-repeat 6px -8px;*/
+  /*border: 1px solid #51636A;
+   border-width: 1px 0;*/
+  background: #E9E9EE;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  top: 35px;
+}
+
+#contentPanel {
+  height: 100%;
+  left: 18em;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+#calendarViewPanel {
+  bottom: 10px; 
+  clear: both;
+  position: absolute;
+  top: 3.3em;
+  width: 100%;
+  z-index: 0;
+}
+
+#calendarViewPanelContentBlock {
+  background: #FFF;
+  border: 1px solid #51636A;
+  bottom: 0;
+  height: 100%;
+  left: 0;
+  margin-right: 8px;
+  overflow: auto;
+  right: 0;
+  position: absolute;
+  top: 0;
+}
+
+#calendarViewPanelContentNoMargin {
+  height: 100%;
+}
+
+#dayViewPanelContent {
+  padding: 1em;
+}
+
+#settingsPanel {
+  bottom: 1em;
+  clear: both;
+  position: absolute;
+  top: 3.3em;
+  width: 100%;
+  z-index: 0;
+}
+
+#settingsPanelContentBlock {
+  background: #FFF;
+  border: 1px solid #51636A;
+  bottom: 0;
+  height: 100%;
+  left: 0;
+  margin-right: 8px;
+  overflow: auto;
+  right: 0;
+  position: absolute;
+  top: 0;
+}
+
+#settingsPanel h1 {
+  margin: 10px 0px;
+}
+ 
+#settingsPanel .formItem {
+  padding: 2px 0px;
+  border-bottom: 1px solid #d3d3d3;
+}
+
+#settingsPanel .formItem label {
+  width: 200px;
+  text-align: left;
+}
+
+/* ***** sub panel hack ***** */
+.panelContent #calendarViewPanel, .panelContent #calendarViewPanelContentBlock, .panelContent .panelContent {
+  height: auto;
+  position: static;
+  width: auto;
+}
+
+/* ------------------------------------------------ */
+/* 		Basic Panels								*/
+/* ------------------------------------------------ */
+
+.smallpanel {
+  border: 1px solid #51636A;
+  background-color: #fff;
+  width: 185px;
+}
+
+.smallpanel h1 {
+  background-color: #51636A;
+  font-weight: normal;
+  color: #fff;
+  text-align: center;
+  border-top: 0px;
+}
+
+.panelContent {
+  padding: 15px;
+}
+
+.smallpanel .panelContent {
+  padding: 5px;
+}
+
+.panelContent ul {
+/*  margin-left: 15px;*/
+}
+
+/* Header Panel */
+
+#headerPanel ul, #headerPanel li {
+  list-style: none;
+}
+
+#headerPanel ul {
+  position: absolute;
+  right: 10px;
+}
+
+#headerPanel li {
+  color: #fff;
+  float: left;
+  height: 22px;
+  border-left: 1px solid #839fb0;
+  padding: 0px;
+}
+
+#headerPanel li.welcome {
+  color: #E3E7F2;
+  font-size: 1em;
+  padding: 2px 10px 4px 10px;
+  border-left: 0px;
+}
+
+#headerPanel li.last {
+  border-right: 1px solid #ADADAD;
+}
+
+#headerPanel li a {
+  color: #E3E7F2;
+  display: block;
+  font-size: 1.1em;
+  padding: 2px 10px 4px 10px;
+  text-decoration: none;
+}
+
+#headerPanel li a:hover {
+  color: #393d3e;
+  background: #D5D6DB url(../img/topbar.png) repeat-x 0px -1px;
+}
+
+/* Date Picker Panel */
+
+#datePickerPanel {
+  left: -198px;
+  margin-left: 5px;
+  position: absolute;
+  top: 73px;
+  width: 192px;
+  border: 1px solid #51636A;
+  border-right: 1px solid #B3B3B3;
+  background-color: #fff;
+  z-index: 5;
+}
+
+#datePickerPanel h1 {
+  margin-bottom: 2px;
+  background: #51636A url(../img/topbar2.png) repeat-x 0px -1px;
+  
+  border-top: 0px;
+  text-align: center;
+  font-weight: normal;
+  color: #fff;
+}
+
+#datePickerPanel #datePickerCalendar {
+  
+}
+
+#datePickerCalendar #datePickerCalendarTable {
+  width: 100%;
+}
+
+#datePickerCalendar #datePickerCalendarTable th {
+	text-align: center;
+	background-color: #EEEEEE;
+	border-bottom: 1px solid #DEDEDE;
+}
+
+#datePickerCalendar #datePickerCalendarTable td {
+  padding: 2px;
+  text-align: center;
+}
+
+#datePickerCalendar #datePickerCalendarTable td.datePickerWeekNumber {
+	background-color: #EEEEEE;
+	border-right: 1px solid #DEDEDE;
+}
+
+#datePickerCalendar #datePickerCalendarTable td.inRange {
+  background: #C5D7ED;
+}
+
+#datePickerCalendar #datePickerCalendarTable td.calendarTodayItem {
+  background: #FFFFBA;
+  border: 1px solid #F90;
+}
+
+#datePickerCalendar .otherMonth {
+  color: #bbb;
+}
+
+#datePickerPanel #datePickerForm {
+  border-top: 1px solid #51636A;
+}
+
+#datePickerPanel #datePickerForm h1{
+	display: none;
+}
+
+#datePickerForm #datePickerFormElements {
+  padding: 6px 2px;
+}
+
+#datePickerForm #datePickerFormElements .inputText {
+  min-width: 50px;
+  width: 75px;
+}
+
+#datePickerForm #datePickerFormElements .inputButton {
+	margin: 0;
+  padding: 1px;
+}
+
+/* Date Switcher Panel */
+
+#dateSwitcherPanel ul, #dateSwitcherPanel li, ul#dateSwitcher, ul#dateSwitcher li {
+  list-style: none;
+}
+
+#dateSwitcherPanel li, ul#dateSwitcher li {
+  float: left;
+  margin-right: .5em;
+}
+
+#dateSwitcherPanel, #dateSwitcher {
+  position: absolute;
+  right: 2em;
+  top: .4em;
+  height: 32px;
+}
+
+#dateSwitcher li {
+  height: 32px;
+  display: block;
+  padding-top: 6px;
+}
+
+#previousLink, #nextLink {
+  background: url("../img/icoPrev.gif") no-repeat;
+  display: block;
+  height: 20px;
+  text-decoration: none;
+  width: 20px;
+}
+
+#nextLink {
+  background: url("../img/icoNext.gif") no-repeat;
+}
+
+#previousLink span, #nextLink span {
+  font-size: 1px;
+  line-height: 1px;
+  visibility: hidden;
+}
+
+/* Calendar Panel */
+
+#calendarPanel {
+  left: -193px; 
+  position: absolute;
+  top: 24em;
+  z-index: 100;
+}
+
+#calendarPanel ul, #calendarPanel li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#calendarPanel li {
+  height: 1%;
+  position: relative;
+}
+
+#calendarPanel ul li img {
+  left: 0;
+  top: -1px;
+  position: absolute;
+}
+
+#calendarPanel ul li a img {
+  border-bottom: 2px solid #fff;
+}
+
+#calendarPanel ul li a:hover img {
+  border-bottom: 2px solid #51636A;
+}
+
+#calendarPanel ul li a {
+  display: block;
+  padding-left: 20px;
+  text-decoration: none;
+}
+
+#calendarPanel ul li a:hover {
+  text-decoration: underline;
+}
+
+#addCalendarLink {
+  background: url("../img/icoPlus.gif") no-repeat 0 .6em;
+  display: block;
+  font-weight: bold;
+  line-height: 180%;
+  margin: 5px 0;
+  padding-left: 15px;
+}
+
+#calendarPanel #addCalendarLink {
+  /*float: right;*/
+  margin-left: 8px;
+}
+
+/* Calendar Views Tabs */
+
+.calendarView .tab-row, #contentPanel_calendarViewsTabs .tab-row, .tab-row {
+	left: 6px;
+  position: absolute;
+  top: 7px;
+  z-index: 100;
+}
+
+.calendarView .tab-row ul, .calendarView .tab-row li, .tab-row ul, .tab-row li {
+  list-style: none;
+}
+
+.calendarView .tab-row li, .tab-row li {
+  float: left;
+  margin-right: 6px;
+}
+
+.calendarView .tab-row li a, .tab-row li a {
+  border: 1px solid #829DAD;
+  border-bottom-color: #51636A;
+  background-color: #D5D6DB;
+  color: #666;
+  display: block;
+  text-decoration: none;
+  z-index: 0;
+}
+
+.calendarView .tab-row li a span, .tab-row li a span {
+	cursor: pointer;
+  display: block;
+  margin: 0 .4em;
+  min-width: 6em;
+	padding: .5em 0;
+  text-align: center;
+}
+
+.calendarView .tab-row li a:hover, .tab-row li a:hover {
+  background: #fff;
+}
+
+.calendarView .tab-row li.selected a, .tab-row li.selected a {
+  background: #fff;
+  border: 1px solid #51636A;
+  border-bottom: 1px solid #fff;
+	cursor: default;  
+	font-weight: bold;
+  margin-top: 0px;
+  margin-bottom: 0px;
+	padding-bottom: 0px;
+	z-index: 100; 
+}
+
+.calendarView .tab-row li.selected a span, .tab-row li.selected a span{
+	cursor: default;
+}
+
+/* Calendar View Panel */
+
+#calendarViewPanel ul ul, #dayViewEvents {
+  padding-left: 1.5em;
+}
+
+#calendarViewPanel li {
+  list-style-type: disc;
+}
+
+#calendarViewPanel li.today {
+  background: #ececd3;
+}
+
+#calendarViewPanel li.dayItem {
+  border-bottom: 1px solid #FFF;
+  list-style: none;
+  padding: 1em .5em;
+}
+
+#calendarViewPanel li.dayItem a {
+  font-weight: bold;
+  line-height: 180%;
+}
+
+#calendarViewPanel li.dayItem li a {
+  font-weight: normal;
+  line-height: normal;
+}
+
+.addEventLink {
+  background: url("../img/icoPlus.gif") no-repeat 0 .6em;
+	display: block;
+	float: left;
+  font-weight: bold;
+  line-height: 180%;
+  margin: 1em 0 0;
+  padding-left: 12px;
+  z-index: 100;
+}
+
+.weekTop .addEventLink,
+#monthView .addEventLink {
+	background-position: 0 0;
+	height: 12px;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	right: 0;
+	top: .45em;
+	width: 12px;
+}
+
+#monthView .addEventLink{
+	float: right;
+	margin-top: .4em;
+	position: static;
+}
+
+.addEventLink span {
+  display: none;
+  height: 0;
+  position: absolute;
+  visibility: hidden;
+  width: 0;
+}
+
+/* Month view */
+
+#monthView {
+  height: 100%;
+  width: 100%;
+}
+
+#monthView td, #monthView th {
+  margin: 0;
+  padding: 0;
+}
+
+#monthView th {
+  height: 1.9em;
+  padding: 3px 0px;
+  text-align: center;
+}
+
+.weekHeader,
+#monthView .weekHeader {
+  background-color: #EEEEEE;
+  border: 1px solid #DEDEDE;
+  color: #BBBBBB;
+	font-size: 0.90em;
+  padding: 0 2px;
+  width: 15px;
+}
+
+#calendarViewPanel li.dayItemMonthHeader {
+  background: #99B1BA;
+  border: 1px solid #99B1BA;
+  float: left;
+  height: 1.5em;
+  list-style: none;
+  text-align: center;
+  width: 13.9%;
+}
+
+.monthTop {
+  background-color: #D7DDF1;
+  border-top: 1px solid #B3B3B3;
+  border-bottom: 1px solid #C4DCDC;
+  text-align: right;
+  padding-right: 2px;
+}
+
+.monthTop a.dayLink{
+	float: right;
+	margin-right: 2px;
+}
+
+.monthTop a {
+  text-decoration: none;
+}
+
+.monthTop a:hover {
+  text-decoration: underline;
+}
+
+.dayItemMonth, .todayItemMonth {
+  height: 12.5em;
+  width: 14.25%;
+  border: 0px;
+  border-right: 1px solid #B3B3B3;
+}
+
+.todayItemMonth .monthTop {
+  background-color: #85A0B2;
+}
+
+.todayItemMonth .monthTop a {
+  color: #fff;
+}
+
+.todayItemMonth .eventsInMonth {
+  background-color: #FFFFBA;
+}
+
+#calendarViewPanel .eventsInMonth, #calendarViewPanel .eventsInList {
+  height: 92%;
+  overflow: auto;
+ 	width: 100%;
+}
+
+#calendarViewPanel .eventsInMonth ul, #calendarViewPanel .eventsInMonth li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#calendarViewPanel .eventsInMonth ul {
+  margin: 18px 3px 3px;
+}
+
+.eventsInMonth .eventItem, .eventsInList .eventItem {
+  white-space: nowrap;
+  padding-left: 2px;
+}
+
+/* Week View */
+
+#calendarViewPanelContent h1{
+	display: none;
+}
+
+#weekView {
+  width: 100%;
+  position: absolute; 
+  height: 100%;
+  top: 0;
+}
+
+#weekView th {
+  height: 2%;
+  padding: 3px 0px;
+  text-align: center;
+	vertical-align: baseline;
+}
+
+
+#weekView td.weekColumn, #weekView td.todayWeekColumn {
+  border-top: 1px solid #B3B3B3;
+  border-right: 1px solid #B3B3B3;
+ 	height: 90%;
+	padding: 0px;
+	width: 14%;
+}
+
+#weekView td.weekHeader{
+	line-height: 100%;
+	padding: 2px;
+	text-align: center;
+}
+
+#weekView .weekPanel {
+	height: 98%;
+  margin: 0px;
+}
+
+#weekView .weekPanel .weekTop {
+  background-color: #D7DDF1;
+  border-bottom: 1px solid #C4DCDC;
+	padding: 1px 0;
+	position: relative;
+  text-align: right;
+}
+
+#weekView .todayWeekColumn .weekPanel .weekTop {
+  background-color: #51636A;
+}
+
+#weekView .todayWeekColumn .weekPanel .weekTop a {
+  color: #fff;
+}
+
+#weekView .weekPanel .weekTop a.dayLink{
+	margin-right: 14px;
+}
+
+#weekView .todayWeekColumn {
+  background-color: #FFFFBA;
+}
+
+#weekView .firstItem {
+}
+
+#weekView .lastItem {
+  border-right: 0px;
+}
+
+/* Day view */
+
+#dayViewPanelContent ul{
+	border-top: 1px solid #d3d3d3;
+}
+
+#dayViewPanelContent li{
+	border-bottom: 1px solid #d3d3d3;
+	list-style: none;
+	padding: 2px 0;
+}
+
+
+/* User settings */
+
+#userSettingsPanel {
+}
+
+#userSettingsPanel .formItem {
+  padding: 2px 0px;
+  border-bottom: 1px solid #d3d3d3;
+}
+
+#userSettingsPanel .formItem label {
+  width: 200px;
+  text-align: left;
+}
+
+/* Application Settings Configuration Page */
+
+#feedbackPanel, #pluginPathListContainer, #pluginPathAddConfigurationItemPanel, #resourcePathListContainer, #resourcePathAddConfigurationItemPanel {
+  margin-bottom: 1em;
+}
+
+#configurationPageContentPanel {
+  background-color: #FFFFFF;
+}
+
+#configurationPageContentPanel h1 {
+  margin: 10px 0px;
+}
+
+#configurationPageLeftColumn {
+  float: left;
+  width: 400px;
+}
+
+#configurationPageRightColumn {
+  float: left;
+  width: 350px;
+  margin-left: 2px;
+}
+
+#configurationPageOptions {
+  clear: both;
+  width: 750px;
+  padding-top: 10px;
+}
+
+/* Login styles */
+
+#login h1 {
+  margin-bottom: 1em;
+}
+
+#login {
+  background: #dae9ee;
+  border: 2px solid #99B1BA;
+  margin: 20px auto 0;
+  padding: 1em 2em 2em;
+  width: 27em;
+}
+
+#login .button {
+  float: none;
+  margin: .5em 0 0 11em;
+}
+
+/* Content styles */
+
+/* Form styles */
+
+.formItem {
+  clear: both;
+  margin-bottom: .3em;
+  overflow: hidden;
+  vertical-align: top;
+  /*width: 100%;*/
+}
+
+.formItem label {
+  display: block;
+  float: left;
+  margin-right: 1em;
+  padding: 2px 0 0 0;
+  text-align: right;
+  width: 120px;
+}
+
+.inputText, .inputPassword, .formItem textarea, .formItem select {
+  padding: 2px;
+  min-width: 150px;
+  width: 150px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #376171;
+}
+
+.dateField {
+	min-width: 6em;
+	width: 6em;
+}
+
+.timeField {
+	min-width: 5em;
+	width: 5em;
+}
+
+.valid { /*border-color: #376171;*/
+}
+
+.invalid {
+  border-color: red;
+}
+
+#applicationSettingsForm .formItem {
+  width: auto;
+}
+
+#applicationSettingsForm .formControls {
+  margin-left: 26em;
+}
+
+#applicationSettingsForm label {
+  width: 25em;
+}
+
+.formControls {
+  margin-left: 11em;
+  width: auto;
+}
+
+.button{	
+	background-color: #ccc;
+  border: 1px solid #b3b3b3;
+	color: #666;
+	cursor: pointer;
+	font-size: 1em;  
+	line-height: 160%;
+	overflow: visible;
+  margin: .5em .5em 0 0;
+	padding: .2em .5em;
+	text-decoration: none;
+	width: auto;
+}
+
+a.button{
+	color: #666;
+	display: block;
+	float: left;
+	line-height: 140%;
+}
+
+#pagingNavigator {
+  margin-top: .8em;
+}
+
+/* Table styles */
+
+td, th {
+  padding: 0 1em 0 0;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  font-weight: bold;
+}
+
+.datatable {
+	width: 100%;
+}
+
+.datatable .label {
+  font-weight: bold;
+  padding-right: 20px;
+  width: 200px;
+}
+
+/* Progress indicator */
+
+.wicket-ajax-indicator {
+  position: fixed;
+  left: 15.4em;
+  top: 6em;
+}
+
+/* Misc. styles */
+
+.invisible {
+  font-size: 1px;
+  line-height: 1px;
+  position: absolute;
+  visibility: hidden;
+}
+
+.clr {
+  clear: both;
+  font-size: 0;
+  line-height: 0px;
+}
+
+.quicknav{
+	left: -1000px;
+	height: 0;
+	position: absolute;
+	visibility: hidden;
+	width: 0;
+}
+
+#formFeedback{
+	color: red;
+	margin-left: 15px;
+}
+
+/* Settings panel */
+
+.panel_heading {
+  color: #1F1F1F;
+  font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
+  font-size: 1.2em;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin: 0pt 0pt 0.6em;
+}
+
+#contentPanel_settingsTabs_panel_calendarSettingsPanelContent {
+  background: #DAE9EE none repeat scroll 0%;
+  border: 2px solid #99B1BA;
+  height: 100%;
+  margin-right: 8px;
+  overflow: auto;
+}
+
+/* Calendar Settings Panel */
+
+#calendarListPanel li{
+	border-bottom: 1px solid #d3d3d3;
+	list-style: none;
+	padding: 5px 0;
+}
+
+#calendarListPanel .calendarName{
+	float: left;
+	font-weight: bold;
+}
+
+#calendarListPanel .calendarModifyLinks{
+	float: right;
+}
+
+#calendarListPanel .calendarModifyLinks a{
+	margin-left: 1em;
+}
+
+
