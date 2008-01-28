@@ -1,9 +1,8 @@
 #labels Developer,Story
 == Description ==
-
-== Functional specifications ==
 An ldap adressbook to be used when editing tasks/events. The ldap settings should be configurable from the settingspanel.
 
+== Functional specifications ==
 
 == Tasks ==
 
@@ -22,24 +21,24 @@ An ldap adressbook to be used when editing tasks/events. The ldap settings shoul
 
 == Technical implementation ==
 
-    * Domain objects
-          o Contact
-                + Firstname
-                + Lastname prefix
-                + Lastname
-                + Email adress 
-    * Dao's
-          o ContactDao
-          o ContactDaoLdapImpl 
-    * Managers
-          o ContactManager 
-    * Wicket
-          o ContactSettingsPanel
-                + LdapSettingsPanel
-                      # LdapSettingsForm 
-                + Added to the EventViewsPanel 
-          o ContactPanel
-                + ContactSearchPanel
-                      # ContactSearchForm 
-                + Returns a List of contacts
-                + Link added on the AddEditEventPanel and the AddEditTaskPage 
+  * Domain objects
+    * Contact
+      * Firstname
+      * Lastname prefix
+      * Lastname
+      * Email adress 
+  * Dao's
+    * ContactDao
+    * ContactDaoLdapImpl 
+  * Managers
+    * ContactManager 
+  * Wicket
+    * ContactSettingsPanel
+      * LdapSettingsPanel
+        * LdapSettingsForm 
+      * Added to the EventViewsPanel 
+    * ContactPanel
+      * ContactSearchPanel
+        * ContactSearchForm 
+      * Returns a List of contacts
+      * Link added on the AddEditEventPanel and the AddEditTaskPage 
