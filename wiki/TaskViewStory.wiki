@@ -1,0 +1,72 @@
+#labels Developer,Story
+== Description ==
+
+== Functional specifications ==
+The view of Calendar task/todo data
+
+    * Calendar data is already retrieved
+    * A view must be designed to render the iCal task data 
+
+Technical interpretation
+
+    * Domain object + hibernate mapping
+          o Task/todo (see the spec below or the original document) 
+    * Dao's
+          o Extend the DaoFactory with TaskDaoWebDavHibernateBufferedImpl
+          o TaskDao
+          o TaskDaoWebDavHibernateBufferedImpl
+                + Extend WebDavCalendarSynchronisation with parsing a task 
+    * Managers
+          o TaskManager 
+    * Wicket
+          o TaskViewPanel
+                + Listview of the todos
+                + To be placed on the homepage 
+
+== Tasks ==
+
+|| *task* || *hours* || *todo* ||
+|| Domain object + hibernate mapping || 3 || 3 ||
+|| Extend the DaoFactory || 1 || 1 ||
+|| TaskDao || 1 || 1 ||
+|| Extend WebDavCalendarSynchronisation || 6 || 6 ||
+|| TaskDaoWebDavHibernateBufferedImpl || 4 || 4 ||
+|| TaskManager || 2 || 2 ||
+|| TaskViewPanel || 6 || 6 ||
+|| _Total_ || 23 || 23 ||
+
+== Technical Implementation ==
+
+=== Event specification ===
+{{{
+   Formal Definition: A "VTODO" calendar component is defined by the
+   following notation:
+
+     todoc      = "BEGIN" ":" "VTODO" CRLF
+                  todoprop *alarmc
+                  "END" ":" "VTODO" CRLF
+
+     todoprop   = *(
+
+                ; the following are optional,
+                ; but MUST NOT occur more than once
+
+                class / completed / created / description / dtstamp /
+                dtstart / geo / last-mod / location / organizer /
+                percent / priority / recurid / seq / status /
+                summary / uid / url /
+
+                ; either 'due' or 'duration' may appear in
+                ; a 'todoprop', but 'due' and 'duration'
+                ; MUST NOT occur in the same 'todoprop'
+
+                due / duration /
+
+                ; the following are optional,
+                ; and MAY occur more than once
+                attach / attendee / categories / comment / contact /
+                exdate / exrule / rstatus / related / resources /
+                rdate / rrule / x-prop
+
+                )
+}}} 
