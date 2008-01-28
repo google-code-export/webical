@@ -1,0 +1,23 @@
+#labels Developer,Story
+== Description == 
+Quick add is provides the user the possibility to add an event in the calendar in one textbox, eg. breakfast in the english pub 10am tomorrow. When the input is not recognized, a normal add event form should be displayed to the user.
+
+== Functional specifications ==
+
+== Tasks ==
+
+Budget/Hours
+
+|| *task* || *hours* || *todo* ||
+|| QuickAddEventHandler || 8 || 8 ||
+|| QuickAddEventPanel || 8 || 8 ||
+|| _Total_ || 16 || 16 ||
+
+== Technical interpretation ==
+
+    * Domain
+          o QuickAddEventHandler 
+
+    * Wicket
+          o QuickAddEventPanel 
+
