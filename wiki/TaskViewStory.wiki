@@ -4,24 +4,24 @@
 == Functional specifications ==
 The view of Calendar task/todo data
 
-    * Calendar data is already retrieved
-    * A view must be designed to render the iCal task data 
+  * Calendar data is already retrieved
+  * A view must be designed to render the iCal task data 
 
 Technical interpretation
 
-    * Domain object + hibernate mapping
-          o Task/todo (see the spec below or the original document) 
-    * Dao's
-          o Extend the DaoFactory with TaskDaoWebDavHibernateBufferedImpl
-          o TaskDao
-          o TaskDaoWebDavHibernateBufferedImpl
-                + Extend WebDavCalendarSynchronisation with parsing a task 
-    * Managers
-          o TaskManager 
-    * Wicket
-          o TaskViewPanel
-                + Listview of the todos
-                + To be placed on the homepage 
+  * Domain object + hibernate mapping
+    * Task/todo (see the spec below or the original document) 
+  * Dao's
+    * Extend the DaoFactory with TaskDaoWebDavHibernateBufferedImpl
+    * TaskDao
+    * TaskDaoWebDavHibernateBufferedImpl
+      * Extend WebDavCalendarSynchronisation with parsing a task 
+  * Managers
+    * TaskManager 
+  * Wicket
+    * TaskViewPanel
+      * Listview of the todos
+      * To be placed on the homepage 
 
 == Tasks ==
 
