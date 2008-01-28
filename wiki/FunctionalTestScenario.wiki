@@ -1,0 +1,93 @@
+#labels Developer,Resource
+Log In:
+
+enter username and password > click log in (you see the day view, week view, month view or calendar view today depending on the settings of the user)
+
+Add event:
+
+click todays event (you see event details: what, when, where and description)
+
+    * click edit event (you see the event editor)
+          o delete all values > click edit you see:
+                + What' is a required field.
+                + Field 'tmStart' is required.
+                + 'When' is a required field.
+                + Field 'tmEnd' is required.
+                + 'End' is a required field. 
+          o enter what: 'test1'
+          o enter when: today's date and time (d-mm-yy hh:mm)
+          o enter till: today's date and time + 1 hour
+          o enter where: 'place'
+          o enter description: 'a test'
+          o enter repeat: drop-down menu: 'weekly'
+          o enter repeat interval: 'four'
+          o enter count: '4'
+          o click edit (you see: 'four' is not a valid type of integer_)
+          o change 'four' to '4' > click change (you see todays day view) 
+    * click calendar > click month > check if 'test1' is repeated every week for four times 
+
+Change event:
+
+click todays event (you see event details: what, when, where and description)
+
+    * click edit event
+          o click all day (the time is removed) click edit 
+
+click todays event (you see event details: what, when, where and description)
+
+    * click edit event
+          o remove count: '4' > enter repeat until: 'the date that's three weeks away (+1 day)' > click change (that days view is shown) 
+    * click month > check if 'test1' is repeated every week for three times instead of four
+          o click > > click show date on the left > you see today 
+
+Show week view:
+
+Click week (week view is shown with monday to sunday)
+
+    * click > (the next week is shown)
+    * click < (the previous week is shown)
+    * click > again > click today in top right (you go to todays week view)
+    * click first event (you see: event details)
+          o click edit event
+                + change description to test2 > click edit (you see: that days day view) 
+
+Show month view:
+
+Click maand (month view is shown in table, event names that are too long will result in a scrollbar in the cell)
+
+    * click > (the next month is shown)
+    * click < (the previous month shown)
+    * click > again > click today in top right (you go to todays month view) 
+
+Show next 4 days view:
+
+Click next 4 days (today and the next three days are shown)
+
+    * click > (the next 4 days are shown)
+    * click < (the previous 4 days are shown)
+    * click > again > click today in top right (you go to todays next 4 days view) 
+
+Add agenda:
+
+Click +new calendar (you see calendar editor)
+
+    * leave fields empty and click add (you see: field 'name' and 'url' is required)
+    * enter name: 'test'
+    * enter type: drop-down menu: 'webical'
+    * enter Url: 'http://...'
+    * click add (you see: agenda editor, under calendars on the left'test' is added)
+    * change 'test' to 'test1' > click save (under calendars on the left'test' is changed to 'test1')
+    * click month > click the green check on the left in front of the webical calendar (all the events in that calendar are not visible, check is now a red 'x')
+    * click the red 'x' (the events in that calendar are shown again)
+    * click test1 > click delete calendar (calendar is deleted and removed from list on the left) 
+
+calendar settings:
+
+click Settings (you see calendar editor: user)
+
+    * Change First weekday drop down to 'tuesday'
+    * Change Default calendar view drop down to 'day view'
+    * Change Number of agenda days drop down to 'tuesday'
+    * Change Date display drop down to 'mm/dd/yyyy'
+    * Change Time display drop down to 'hh:mm PM'
+    * Click Submit > you see todays day view (check if the changes you made have taken effect) 
