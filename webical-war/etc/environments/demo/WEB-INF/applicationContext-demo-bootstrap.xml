@@ -14,7 +14,7 @@
 					Referenced beans before referers
 				-->
 				<ref bean="applicationSettings"/>
-				<ref bean="demoUser"/>
+				<ref bean="demoUserr"/>
 				<ref bean="calendar_demoUser"/>
 				<ref bean="userSettings_demoUser" />
 			</list>
@@ -23,35 +23,33 @@
 
 	<!-- ApplicationSettings -->
 	<bean id="applicationSettings" class="org.webical.ApplicationSettings">
-		<property name="customPageTitle" value="Webical Demo" />
 		<property name="pluginWorkPath" value="${java.io.tmpdir}" />
-		<property name="pluginPackageExtension" value=".zip" />
 		<property name="pluginCleanupEnabled" value="false"/>
 		<property name="configurationUsername" value="admin"/>
-		<property name="configurationPassword" value="noneofyourbusiness"/>
+		<property name="configurationPassword" value="admin"/>
 		<property name="calendarRefreshTimeMs" value="50000"/>
 	</bean>
 
-	<!-- Add a fixed user for demo -->	
+	<!-- Add a fixed user for development -->	
 	<bean id="demoUser" class="org.webical.User">
 	    <property name="userId" value="webical" />
-	    <property name="firstName" value="Demo"/>
-	    <property name="lastNamePrefix" value=""/>
+	    <property name="firstName" value="Nightly"/>
+	    <property name="lastNamePrefix" value="Build"/>
 	    <property name="lastName" value="User"/>
 	    <property name="birthDate"><ref bean="birthDate" /></property>
 	</bean>
 	
-    <!-- Birth Date for the demo user -->
+    <!-- Birth Date for the fixed user -->
     <bean id="birthDate" class="java.util.Date">
-		<constructor-arg><value>January 25, 2008, 00:00:00 GMT</value></constructor-arg>
+		<constructor-arg><value>January 11, 2008, 00:00:00 GMT</value></constructor-arg>
 		<!-- <constructor-arg><value type="long">60242569200000</value></constructor-arg> -->
 	</bean>
 	
-	<!-- A test calendar for demo user -->
+	<!-- A test calendar for fixedUser -->
 	<bean id="calendar_demoUser" class="org.webical.Calendar">
-		<property name="name" value="Webical Demo Calendar"/>
+		<property name="name" value="Webical Roadmap"/>
 		<property name="type" value="ical-webdav"/>
-		<property name="url" value="http://demo.webical.org/dav/webicaldemo.ics"/>
+		<property name="url" value="http://nightly.webical.org/dav/webicalnightly.ics"/>
 		<property name="visible" value="true"/>
 		<property name="user"><ref bean="demoUser"/></property>
 	</bean>

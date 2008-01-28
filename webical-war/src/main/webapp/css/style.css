@@ -292,7 +292,7 @@ a:focus, a:hover, a:active {
 }
 
 .panelContent ul {
-/*  margin-left: 15px;*/
+  margin-left: 15px;
 }
 
 /* Header Panel */
@@ -403,10 +403,6 @@ a:focus, a:hover, a:active {
   border-top: 1px solid #51636A;
 }
 
-#datePickerPanel #datePickerForm h1{
-	display: none;
-}
-
 #datePickerForm #datePickerFormElements {
   padding: 6px 2px;
 }
@@ -468,7 +464,7 @@ a:focus, a:hover, a:active {
 #calendarPanel {
   left: -193px; 
   position: absolute;
-  top: 24em;
+  top: 27.4em;
   z-index: 100;
 }
 
@@ -616,6 +612,7 @@ a:focus, a:hover, a:active {
   line-height: 180%;
   margin: 1em 0 0;
   padding-left: 12px;
+  position: relative;
   z-index: 100;
 }
 
@@ -667,6 +664,7 @@ a:focus, a:hover, a:active {
 #monthView .weekHeader {
   background-color: #EEEEEE;
   border: 1px solid #DEDEDE;
+  border-left: 1px solid #fff;
   color: #BBBBBB;
 	font-size: 0.90em;
   padding: 0 2px;
@@ -705,7 +703,8 @@ a:focus, a:hover, a:active {
 }
 
 .dayItemMonth, .todayItemMonth {
-  height: 12.5em;
+  height: 11em;
+  /* height: 18%; */
   width: 14.25%;
   border: 0px;
   border-right: 1px solid #B3B3B3;
@@ -782,10 +781,11 @@ a:focus, a:hover, a:active {
 #weekView .weekPanel {
 	height: 98%;
   margin: 0px;
+  padding: 2px;
 }
 
 #weekView .weekPanel .weekTop {
-  background-color: #D7DDF1;
+  background-color: #C5D7ED;
   border-bottom: 1px solid #C4DCDC;
 	padding: 1px 0;
 	position: relative;
@@ -902,7 +902,7 @@ a:focus, a:hover, a:active {
   margin-bottom: .3em;
   overflow: hidden;
   vertical-align: top;
-  /*width: 100%;*/
+  width: 100%;
 }
 
 .formItem label {
@@ -1035,11 +1035,6 @@ th {
 	width: 0;
 }
 
-#formFeedback{
-	color: red;
-	margin-left: 15px;
-}
-
 /* Settings panel */
 
 .panel_heading {
@@ -1061,23 +1056,21 @@ th {
 
 /* Calendar Settings Panel */
 
-#calendarListPanel li{
+#calendarListPanel{
+	width: 100%;
+}
+
+#calendarListPanel td{
 	border-bottom: 1px solid #d3d3d3;
-	list-style: none;
-	padding: 5px 0;
+	padding: 2px 0;
 }
 
-#calendarListPanel .calendarName{
-	float: left;
-	font-weight: bold;
+#calendarListPanel .edit{
+	text-align: right;
+	width: 10em;
 }
 
-#calendarListPanel .calendarModifyLinks{
-	float: right;
+#calendarListPanel .delete{
+	text-align: right;
+	width: 10em;
 }
-
-#calendarListPanel .calendarModifyLinks a{
-	margin-left: 1em;
-}
-
-

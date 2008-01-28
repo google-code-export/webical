@@ -1,18 +1,14 @@
 <Context path="/webical-refactoring" debug="5" reloadable="true" crossContext="true">
 
         <!-- Authentication realm -->
-		<Realm className="org.apache.catalina.realm.JDBCRealm" 
-			debug="4" 
-		    driverName="com.mysql.jdbc.Driver"
-			connectionName="org_webical_demo" 
-			connectionPassword="org_webical_demo" 
-			connectionURL="jdbc:mysql://localhost:3306/org_webical_demo?autoReconnect=true" 
-		    userTable="_auth_user" 
-			userNameCol="username" 
-			userCredCol="userpass" 
-		    userRoleTable="_auth_userrole" 
-			roleNameCol="role"/>
-			
+        <!--<Realm className="org.apache.catalina.realm.MemoryRealm"/>-->
+
+        <Realm className="org.apache.catalina.realm.JDBCRealm" debug="99"
+            driverName="com.mysql.jdbc.Driver"
+                connectionURL="jdbc:mysql://localhost:3306/org_webical_demo?autoReconnect=true&amp;user=org_webical_demo&amp;password=org_webical_demo"
+            userTable="_auth_user" userNameCol="username" userCredCol="userpass"
+            userRoleTable="auth_userrole" roleNameCol="role"/>
+
         <!-- The database resource for hibernate -->
         <Resource 
                 name="jdbc/calendarDataBase" 

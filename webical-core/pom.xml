@@ -3,14 +3,14 @@
 	<parent>
 		<artifactId>webical-parent</artifactId>
 		<groupId>org.webical.calendar</groupId>
-		<version>0.5-SNAPSHOT</version>
+		<version>0.4</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.webical.calendar</groupId>
 	<artifactId>webical-core</artifactId>
 	<name>webical-core</name>
-	<version>0.5-SNAPSHOT</version>
+	<version>0.4</version>
 	<url>http://maven.apache.org</url>
 
 	<build>

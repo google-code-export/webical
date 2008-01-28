@@ -3,16 +3,13 @@
 <body>
 	<wicket:extend>
 		<h1><wicket:message key="Calendars.label">Calendars</wicket:message></h1>
-		<ul wicket:id="calendarListView" id="calendarListPanel">
-			<li>
-				<span class="calendarName" wicket:id="calendarName"></span>
-				<span class="calendarModifyLinks">
-					<a class="editCalendarLink" wicket:id="editCalendarLink"><wicket:message key="editcalendar.label">edit calendar</wicket:message></a>
-					<a class="removeCalendarLink" wicket:id="removeCalendarLink"><wicket:message key="removecalendar.label">remove calendar</wicket:message></a>
-				</span>
-				<div class="clr"></div>
-			</li>
-		</ul>
+		<table cellspacing="0" id="calendarListPanel">
+			<tr wicket:id="calendarListView">
+				<td><strong><span wicket:id="calendarName"></span></strong></td>
+				<td class="edit"><a id="editCalendarLink" wicket:id="editCalendarLink"><wicket:message key="editcalendar.label">edit calendar</wicket:message></a></td>
+				<td class="delete"><a id="removeCalendarLink" wicket:id="removeCalendarLink"><wicket:message key="removecalendar.label">remove calendar</wicket:message></a></td>
+			</tr>
+		</table>
 		<div id="pagingNavigator" wicket:id="pagingNavigator"></div>
 	</wicket:extend>
 </body>

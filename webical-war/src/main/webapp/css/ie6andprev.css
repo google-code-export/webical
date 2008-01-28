@@ -4,36 +4,14 @@
 
 /*  -------- Selectors in alphabetical order!  ------- */
 
-html{
-	padding: 94px 19px 10px 200px;
-	position: relative;
-}
-
-body{
-	background: #E9E9EE url(../img/topbar2.png) repeat-x 0px -1px;
-}
-
-/* links */
-
-#addEventPanel {
-  left: 0;
-  position: absolute;
-  top: 92px;
-}
-
 /* Basic layout styles */
 
 #container{
-	position: static;
-	
+	width: expression(document.body.clientWidth < 792 ? "790px" : "auto");
 }
 
 #headerPanel{
 	right: 0;
-}
-
-#logoPanel {
-	left: 0;
 }
 
 /* Login styles */
@@ -43,42 +21,15 @@ body{
 	margin-left: 11.3em;
 }
 
-/* Date Picker Panel */
-
-#datePickerPanel{
-	left: 2px;
-	top: 112px;
-}
-
-/* Date Switcher Panel */
-
-#dateSwitcherPanel, #dateSwitcher {
-	top: 42px;
-}
-
-
 /* Calendar Panel */
 
 #calendarPanel{
-  top: 26em;
-	left: 7px;
+  top: 25.8em;
 }
 
 /* Calendar Views Tabs */
 
-.calendarView .tab-row,
-#settingsTabs .tab-row{
-	left: 207px;
-	top: 47px;
-}
-
-.calendarView .tab-row li a{
-	float: left;
-	height: 1%; /* Has Layout */
-}
-
-.calendarView .tab-row li a span, 
-.tab-row li a span{
+.calendarView .tab-row li a span, .tab-row li a span {
   width: 6em;
 	white-space: nowrap;
 }
@@ -86,177 +37,41 @@ body{
 /* Content Panel */
 
 #contentPanelArea{
-	height: 100%;
-	position: static;
+	height: expression((document.documentElement.clientHeight > 0) ? (document.documentElement.clientHeight - 35) + "px" : (document.body.clientHeight - 35) + "px");
+	top: 35px;
 }
 
 #contentPanel{
 	height: 100%;
-	margin: 0;
-	position: static;
+	left: 0;
+	margin: 0 8px 0 18em;
+	position: relative;
+	top: 0;
 }
 
 #calendarViewPanel{
-	height: 100%;
-	position: static;
+	height: expression((document.documentElement.clientHeight > 0) ? (document.documentElement.clientHeight - 70) + "px" : (document.body.clientHeight - 70) + "px");  
+	top: 32px;
 }
 
 #calendarViewPanelContentBlock{
-	border-top: 0;
 	margin: 0;
 	position: static;
 }
 
 /* Month/Week view */
 
-.monthViewContainer #calendarViewPanelContentBlock,
-.weekViewContainer #calendarViewPanelContentBlock{
-	border: 0;
-	border-bottom: 1px solid #51636a;
+#calendarViewPanel .eventsInMonth, #calendarViewPanel .eventsInList {
+	height: 95%;
+ 	width: expression((this.parentNode.parentNode.offsetWidth - 10) + "px");
 }
 
-.monthViewContainer #calendarViewPanelContentBlock td.lastItem,
-.weekViewContainer #calendarViewPanelContentBlock td.lastItem{
-	border-right-color: #51636a;
-}
-
-.monthViewContainer #monthView .weekHeader,
-.weekViewContainer .weekHeader{
-	border: 0;
-	border-left: 1px solid #51636a;
-	border-top: 1px solid #dedede;
-}
-
-#weekView{
-	position: static;
-}
-
-#weekView td.weekColumn,
-#weekView .weekPanel{
-	height: 100%;
-}
-
-#weekView td.weekColumn{
-	border-top: 0;
-}
-
-.dayItemMonth, 
-.todayItemMonth {
-  height: auto;
-	position: relative;
-}
-
-#calendarViewPanel .eventsInMonth{
-	height: 100px;
-	height: expression((this.parentNode.parentNode.offsetHeight - 16) + "px");
-	width: 100%;
-	position: absolute;
-}
-
-#calendarViewPanel .eventsInList{
-	height: 90%;
-	height: expression((this.parentNode.parentNode.offsetHeight - 22) + "px");
-	margin-top: 4px;
-	position: absolute;
-}
-
-#calendarViewPanel .eventsInList li.eventItem{
-	padding: 0 2px;
+#weekView .weekPanel .weekTop {
+	padding: 2px 0;
 }
 
 #monthView .addEventLink{
 	margin-top: .3em;
-}
-
-.calendarTopHeaders{
-	background: #FFF;
-	position: absolute;
-	top: 72px;
-}
-
-#monthView .calendarTopHeaders th,
-#weekView .calendarTopHeaders th{
-	border: 1px solid #51636A;
-	border-width: 1px 0 0;
-	height: 18px;
-	padding-bottom: 0;
-}
-
-#weekView .calendarTopHeaders th{
-	border-bottom: 1px solid #B3B3B3;
-}
-
-#monthView .calendarTopHeaders th.first,
-#weekView .calendarTopHeaders th.first{
-	border-left: 1px solid #51636A;
-}
-
-#monthView .calendarTopHeaders th.last,
-#weekView .calendarTopHeaders th.last{
-	border-right: 1px solid #51636A;
-}
-
-#monthView .monthTop,
-#weekView .weekPanel .weekTop{
-	height: 1.3em;
-	position: relative;
-}
-
-#weekView .weekPanel .weekTop{
-	top: 1px;
-}
-
-#monthView .monthTop a,
-#weekView .weekPanel .weekTop a{
-	position: relative;
-	z-index: 100;
-}
-
-#monthView .monthTop a.dayLink,
-#weekView .weekPanel .weekTop a.dayLink{
-	margin: 0;
-	position: absolute;
-	right: 12px;
-}
-
-#weekView .weekPanel .weekTop a.dayLink{
-	right: 14px;
-}
-
-#monthView .monthTop a.addEventLink,
-#weekView .weekPanel .weekTop a.addEventLink{
-	position: absolute;
-	right: 0;
-	top: 0;
-}
-
-#weekView .weekPanel .weekTop a.addEventLink{
-	top: 4px;
-}
-
-/* Day view */
-
-#panelContentHeaderBlock{
-	background: #FFF;
-	border: 1px solid #000;
-	border-width: 1px 1px 0;
-	height: 21px;
-	position: absolute;
-	top: 72px;
-	width: 100%;
-}
-
-#dayViewPanelContent{
-	padding-top: 0;
-}
-
-.dayViewContainer{
-	border: 1px solid #51636a;
-	border-top: 0;
-}
-
-.dayViewContainer #calendarViewPanelContentBlock{
-	border: 0;
 }
 
 /* Date Switcher Panel */
@@ -268,27 +83,7 @@ body{
 /* Settings Panel */
 
 #settingsPanel {
-	height: 100%;
-  position: static;
-}
-
-#settingsPanelContentBlock{
-	border-top: 0;
-	margin: 0;
-	position: static;
-	width: 100%;
-}
-
-#settingsPanelContentBlock .panelContent{
-	padding-top: 0;
-}
-
-#settingsPanel h1{
-	margin-top: 0;
-}
-
-#settingsPanel .formElements{
-	margin-bottom: 2em;
+  top: 2.9em;
 }
 
 /* Form styles */
