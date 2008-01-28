@@ -1,9 +1,8 @@
 #labels Developer,Story
 == Description ==
+A user can invite an other person for a meeting. The request is send to the invited person by mail.
 
 == Functional specification ==
-
-A user can invite an other person for a meeting. The request is send by mail.
 
 
 == Tasks ==
@@ -17,10 +16,10 @@ A user can invite an other person for a meeting. The request is send by mail.
 
 == Technical implementation ==
 
-    * Domainobject
-          o NotificationSender
-                + NotificationSenderMailImpl 
-    * Manager
-          o NotificationManager 
-    * Wicket
-          o AttendeesPanel 
+  * Domainobject
+    * NotificationSender
+      * NotificationSenderMailImpl 
+  * Manager
+    * NotificationManager 
+  * Wicket
+    * AttendeesPanel 
