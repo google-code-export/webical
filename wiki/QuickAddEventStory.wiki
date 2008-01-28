@@ -15,9 +15,7 @@ Budget/Hours
 
 == Technical interpretation ==
 
-    * Domain
-          o QuickAddEventHandler 
-
-    * Wicket
-          o QuickAddEventPanel 
-
+  * Domain
+    * QuickAddEventHandler 
+  * Wicket
+    * QuickAddEventPanel 
