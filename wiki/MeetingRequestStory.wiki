@@ -1,0 +1,26 @@
+#labels Developer,Story
+== Description ==
+
+== Functional specification ==
+
+A user can invite an other person for a meeting. The request is send by mail.
+
+
+== Tasks ==
+
+|| *task* || *hours* || *todo* ||
+|| NotificationSender || 1 || 1 ||
+|| NotificationSenderMailImpl || 6 || 6 ||
+|| NotificationManager || 2 || 2 ||
+|| AttendeesPanel || 5 || 5 ||
+|| _Total_ || 14 || 14  ||
+
+== Technical implementation ==
+
+    * Domainobject
+          o NotificationSender
+                + NotificationSenderMailImpl 
+    * Manager
+          o NotificationManager 
+    * Wicket
+          o AttendeesPanel 
