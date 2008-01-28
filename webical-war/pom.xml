@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project>
 	<modelVersion>4.0.0</modelVersion>
 	
 	<parent>
 		<artifactId>webical-parent</artifactId>
 		<groupId>org.webical.calendar</groupId>
-		<version>0.5-SNAPSHOT</version>
+		<version>0.3</version>
 	</parent>
 	
 	<groupId>org.webical.calendar</groupId>
 	<artifactId>webical-war</artifactId>
 	<name>webical-war</name>
-	<version>0.5-SNAPSHOT</version>
+	<version>0.3</version>
 	<packaging>war</packaging>
 	<url>http://www.webical.org/twiki</url>
 	
@@ -175,11 +175,11 @@
 								</echo>
 								
 								<!-- Set current date in property DSTAMP -->
-								<tstamp />
+								<tstamp/>
 								
 								<replace dir="${basedir}/src/main" casesensitive="true" token="@WEBICAL_VERSION@" value="${version}">
-									<include name="**/*.xml" />
-									<include name="**/*.properties" />
+									<include name="**/*.xml"/>
+									<include name="**/*.properties"/>
 								</replace>
 								<replace dir="${basedir}/etc/environments/${deployment-env}" casesensitive="true" token="@WEBICAL_VERSION@" value="${version}">
 									<include name="**/*.xml" />

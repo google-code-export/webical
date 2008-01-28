@@ -31,7 +31,6 @@ import org.apache.wicket.model.Model;
 import org.webical.web.action.DaySelectedAction;
 import org.webical.web.action.IAction;
 import org.webical.web.component.AbstractBasePanel;
-import org.webical.web.component.calendar.model.DatePickerModel;
 
 public abstract class DatePickerColumnPanel extends AbstractBasePanel {
 	private static final long serialVersionUID = 1L;
@@ -41,18 +40,16 @@ public abstract class DatePickerColumnPanel extends AbstractBasePanel {
 	@SuppressWarnings("unchecked")
 	protected static Class[] PANELACTIONS = new Class[] { };
 
-	private DatePickerModel datePickerModel;
 	private GregorianCalendar currentDate;
 	private GregorianCalendar dayCalendar;
 
 	private Label dateLabel;
 
-	public DatePickerColumnPanel(String markupId, Calendar dayCalendar, DatePickerModel datePickerModel) {
+	public DatePickerColumnPanel(String markupId, Calendar dayCalendar, Calendar currentDate) {
 		super(markupId, DatePickerColumnPanel.class);
 
-		this.datePickerModel = datePickerModel;
 		this.currentDate = new GregorianCalendar();
-		this.currentDate.setTime(datePickerModel.getCurrentDate().getTime());
+		this.currentDate.setTime(currentDate.getTime());
 		this.dayCalendar = new GregorianCalendar();
 		this.dayCalendar.setTime(dayCalendar.getTime());
 

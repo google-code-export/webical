@@ -30,6 +30,7 @@ import org.apache.wicket.model.StringResourceModel;
 import org.webical.Calendar;
 import org.webical.web.action.IAction;
 import org.webical.web.component.AbstractBasePanel;
+import org.webical.web.components.ajax.tabs.IndicatingAjaxTabbedPanel;
 
 /**
  * SettingsPanel holds a tabbed panel containing all tabs
@@ -39,10 +40,8 @@ import org.webical.web.component.AbstractBasePanel;
 public abstract class SettingsPanelsPanel extends AbstractBasePanel {
 	private static final long serialVersionUID = 1L;
 
-	public static final int USER_SETTINGS_TAB_INDEX = 0;
-	public static final int CALENDAR_SETTINGS_TAB_INDEX = 1;
+	public static final int CALENDAR_SETTINGS_TAB_INDEX = 0;
 	private static final String CALENDAR_SETTINGS_TAB_LABEL = "Calendar_settings_tab_label";
-	private static final String USER_SETTINGS_TAB_LABEL = "User_settings_tab_label";
 	private static final String SETTINGS_TABS_MARKUP_ID = "settingsTabs";
 
 	private TabbedPanel tabbedPanel;
@@ -59,31 +58,7 @@ public abstract class SettingsPanelsPanel extends AbstractBasePanel {
 	public SettingsPanelsPanel(String markupId) {
 		super(markupId, SettingsPanelsPanel.class);
 
-		// Setup the user tab
-		tabs.add(new AbstractTab(new StringResourceModel(USER_SETTINGS_TAB_LABEL, this, null)) {
-			private static final long serialVersionUID = 1L;
-
-			/* (non-Javadoc)
-			 * @see org.apache.wicket.extensions.markup.html.tabs.AbstractTab#getPanel(java.lang.String)
-			 */
-			@Override
-			public Panel getPanel(String markupId) {
-				return new UserSettingsPanel(markupId) {
-					private static final long serialVersionUID = 1L;
-
-					/* (non-Javadoc)
-					 * @see org.webical.web.component.settings.UserSettingsPanel#onAction(org.webical.web.action.IAction)
-					 */
-					@Override
-					public void onAction(IAction action) {
-						SettingsPanelsPanel.this.onAction(action);
-					}
-
-				};
-			}
-
-		});
-		// Setup the calendars tab
+		//Setup the tabs
 		tabs.add(new AbstractTab(new StringResourceModel(CALENDAR_SETTINGS_TAB_LABEL, this, null)) {
 			private static final long serialVersionUID = 1L;
 
@@ -122,7 +97,13 @@ public abstract class SettingsPanelsPanel extends AbstractBasePanel {
 	}
 
 	public void setupNonAccessibleComponents() {
-
+		tabbedPanel = new IndicatingAjaxTabbedPanel(SETTINGS_TABS_MARKUP_ID, tabs) {
+			private static final long serialVersionUID = 1L;
+		};
+		if(selectedTab != 0) {
+			tabbedPanel.setSelectedTab(selectedTab);
+		}
+		addOrReplace(tabbedPanel);
 	}
 
 	/**

@@ -105,8 +105,10 @@ public class WeekViewPanelTest extends WebicalApplicationTest{
 		final List<Event> allEvents = new ArrayList<Event>();
 
 		final GregorianCalendar currentDate = new GregorianCalendar();
-		Date midWeek = CalendarUtils.getFirstDayOfWeek(currentDate.getTime(), webicalSession.getUserSettings().getFirstDayOfWeek());
+		currentDate.setFirstDayOfWeek(java.util.Calendar.MONDAY);
+		Date midWeek = CalendarUtils.getFirstDayOfWeek(currentDate.getTime(), java.util.Calendar.MONDAY);
 		midWeek = CalendarUtils.addDays(midWeek, 3);
+		midWeek = CalendarUtils.addHours(midWeek, 6);
 
 		/* CREATE EVENTS TO RENDER */
 		GregorianCalendar cal = new GregorianCalendar();
@@ -116,9 +118,8 @@ public class WeekViewPanelTest extends WebicalApplicationTest{
 		event.setSummary("Normal Event Description");
 
 		cal.setTime(midWeek);
-		cal.set(Calendar.HOUR_OF_DAY, 12);
 		event.setDtStart(cal.getTime());
-		cal.add(Calendar.HOUR_OF_DAY, 2);
+		cal.add(java.util.Calendar.HOUR_OF_DAY, 2);
 		event.setDtEnd(cal.getTime());
 
 		System.out.println("Adding event: " + event.getDescription() + " -> " + event.getDtStart() + " - " + event.getDtEnd());
@@ -131,12 +132,11 @@ public class WeekViewPanelTest extends WebicalApplicationTest{
 		event.setSummary("Recurring Event Yesterday");
 
 		cal.setTime(midWeek);
-		cal.set(Calendar.HOUR_OF_DAY, 12);
-		cal.add(Calendar.DAY_OF_MONTH, -1);
+		cal.add(java.util.Calendar.DAY_OF_MONTH, -1);
 		event.setDtStart(cal.getTime());
-		cal.add(Calendar.HOUR_OF_DAY,	2);
+		cal.add(java.util.Calendar.HOUR_OF_DAY,	2);
 		event.setDtEnd(cal.getTime());
-		cal.add(Calendar.DAY_OF_MONTH, 3);
+		cal.add(java.util.Calendar.DAY_OF_MONTH, 3);
 		RecurrenceUtil.setRecurrenceRule(event, new Recurrence(Recurrence.DAILY, 1, cal.getTime()));
 
 		System.out.println("Adding event: " + event.getDescription() + " -> " + event.getDtStart() + " - " + event.getDtEnd());
@@ -150,12 +150,11 @@ public class WeekViewPanelTest extends WebicalApplicationTest{
 		event.setSummary("Recurring Event Last Month");
 
 		cal.setTime(midWeek);
-		cal.set(Calendar.HOUR_OF_DAY, 12);
-		cal.add(Calendar.WEEK_OF_YEAR, -1);
+		cal.add(java.util.Calendar.WEEK_OF_YEAR, -1);
 		event.setDtStart(cal.getTime());
-		cal.add(Calendar.HOUR_OF_DAY,	2);
+		cal.add(java.util.Calendar.HOUR_OF_DAY,	2);
 		event.setDtEnd(cal.getTime());
-		cal.add(Calendar.WEEK_OF_YEAR, 3);
+		cal.add(java.util.Calendar.WEEK_OF_YEAR, 3);
 		RecurrenceUtil.setRecurrenceRule(event, new Recurrence(Recurrence.DAILY, 1, cal.getTime()));
 
 		System.out.println("Adding event: " + event.getDescription() + " -> " + event.getDtStart() + " - " + event.getDtEnd());
@@ -164,8 +163,8 @@ public class WeekViewPanelTest extends WebicalApplicationTest{
 		bothRecurringEventsList.add(event);
 		oneRecurringEventList.add(event);
 
-		Date startDate = CalendarUtils.getFirstDayOfWeek(currentDate.getTime(), webicalSession.getUserSettings().getFirstDayOfWeek());
-		Date endDate = CalendarUtils.getEndOfDay(CalendarUtils.getLastDayOfWeek(currentDate.getTime(), webicalSession.getUserSettings().getFirstDayOfWeek()));
+		Date startDate = CalendarUtils.getFirstDayOfWeek(currentDate.getTime(), java.util.Calendar.MONDAY);
+		Date endDate = CalendarUtils.getEndOfDay(CalendarUtils.getLastDayOfWeek(currentDate.getTime(), java.util.Calendar.MONDAY));
 
 		// Add an EventManager through EasyMock with the Events.
 		EventManager eventManagerMock = createMock(EventManager.class);
@@ -198,20 +197,20 @@ public class WeekViewPanelTest extends WebicalApplicationTest{
 		 * it's ectually in the week after on an english calendar
 		 */
 		GregorianCalendar weekFirstDayCalendar = new GregorianCalendar();
-		weekFirstDayCalendar.setFirstDayOfWeek(webicalSession.getUserSettings().getFirstDayOfWeek());
+		weekFirstDayCalendar.setFirstDayOfWeek(java.util.Calendar.MONDAY);
 
 		GregorianCalendar weekLastDayCalendar = new GregorianCalendar();
-		weekLastDayCalendar.setFirstDayOfWeek(webicalSession.getUserSettings().getFirstDayOfWeek());
+		weekLastDayCalendar.setFirstDayOfWeek(java.util.Calendar.MONDAY);
 
 		GregorianCalendar normalEventCalendar = new GregorianCalendar();
-		normalEventCalendar.setFirstDayOfWeek(webicalSession.getUserSettings().getFirstDayOfWeek());
+		normalEventCalendar.setFirstDayOfWeek(java.util.Calendar.MONDAY);
 
 		GregorianCalendar shortRecurringEventCalendar = new GregorianCalendar();
-		shortRecurringEventCalendar.setFirstDayOfWeek(webicalSession.getUserSettings().getFirstDayOfWeek());
+		shortRecurringEventCalendar.setFirstDayOfWeek(java.util.Calendar.MONDAY);
 
 		// Set the correct dates to find the first and last day of the week
-		weekFirstDayCalendar.setTime(CalendarUtils.getFirstDayOfWeek(currentDate.getTime(), webicalSession.getUserSettings().getFirstDayOfWeek()));
-		weekLastDayCalendar.setTime(CalendarUtils.getLastDayOfWeek(currentDate.getTime(), webicalSession.getUserSettings().getFirstDayOfWeek()));
+		weekFirstDayCalendar.setTime(CalendarUtils.getFirstDayOfWeek(currentDate.getTime(), java.util.Calendar.MONDAY));
+		weekLastDayCalendar.setTime(CalendarUtils.getLastDayOfWeek(currentDate.getTime(), java.util.Calendar.MONDAY));
 
 		// Assert the first day in the view
 		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + weekFirstDayCalendar.get(java.util.Calendar.DAY_OF_YEAR), WeekDayPanel.class);
@@ -222,29 +221,29 @@ public class WeekViewPanelTest extends WebicalApplicationTest{
 		// Assert normal event
 		normalEventCalendar.setTime(midWeek);
 
-		WeekDayPanel randomDayEventsListView = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + normalEventCalendar.get(Calendar.DAY_OF_YEAR));
+		WeekDayPanel randomDayEventsListView = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + normalEventCalendar.get(java.util.Calendar.DAY_OF_YEAR));
 		wicketTester.assertListView(randomDayEventsListView.getPageRelativePath() + ":eventItem", randomDayEventsList);
 
 		// Assert short recurring event
 		shortRecurringEventCalendar.setTime(CalendarUtils.addDays(midWeek, -2));
-		WeekDayPanel beforeStartDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + shortRecurringEventCalendar.get(Calendar.DAY_OF_YEAR));
+		WeekDayPanel beforeStartDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + shortRecurringEventCalendar.get(java.util.Calendar.DAY_OF_YEAR));
 		wicketTester.assertListView(beforeStartDayPanel.getPageRelativePath() + ":eventItem", oneRecurringEventList);
 
 		shortRecurringEventCalendar.setTime(CalendarUtils.addDays(midWeek, -1));
-		WeekDayPanel startDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + shortRecurringEventCalendar.get(Calendar.DAY_OF_YEAR));
+		WeekDayPanel startDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + shortRecurringEventCalendar.get(java.util.Calendar.DAY_OF_YEAR));
 		wicketTester.assertListView(startDayPanel.getPageRelativePath() + ":eventItem", bothRecurringEventsList);
 
 		shortRecurringEventCalendar.setTime(CalendarUtils.addDays(midWeek, 1));
-		WeekDayPanel endDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + shortRecurringEventCalendar.get(Calendar.DAY_OF_YEAR));
+		WeekDayPanel endDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + shortRecurringEventCalendar.get(java.util.Calendar.DAY_OF_YEAR));
 		wicketTester.assertListView(endDayPanel.getPageRelativePath() + ":eventItem", bothRecurringEventsList);
 
 		shortRecurringEventCalendar.setTime(CalendarUtils.addDays(midWeek, 2));
-		WeekDayPanel afterEndDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + shortRecurringEventCalendar.get(Calendar.DAY_OF_YEAR));
+		WeekDayPanel afterEndDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + shortRecurringEventCalendar.get(java.util.Calendar.DAY_OF_YEAR));
 		wicketTester.assertListView(afterEndDayPanel.getPageRelativePath() + ":eventItem", oneRecurringEventList);
 
 		// Assert long recurring event
-		WeekDayPanel firstWeekDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + weekFirstDayCalendar.get(Calendar.DAY_OF_YEAR));
-		WeekDayPanel lastWeekDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + weekLastDayCalendar.get(Calendar.DAY_OF_YEAR));
+		WeekDayPanel firstWeekDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + weekFirstDayCalendar.get(java.util.Calendar.DAY_OF_YEAR));
+		WeekDayPanel lastWeekDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + weekLastDayCalendar.get(java.util.Calendar.DAY_OF_YEAR));
 
 		wicketTester.assertListView(firstWeekDayPanel.getPageRelativePath() + ":eventItem", oneRecurringEventList);
 		wicketTester.assertListView(lastWeekDayPanel.getPageRelativePath() + ":eventItem", oneRecurringEventList);
@@ -256,7 +255,7 @@ public class WeekViewPanelTest extends WebicalApplicationTest{
 	 * @throws WebicalException
 	 */
 	public void testNonWeekUse() throws WebicalException {
-		// FIXME mattijs: test fails when run at 23:30 (probably also between 22:00 and 00:00)
+
 		// Define the current date
 		final GregorianCalendar currentDate = new GregorianCalendar();
 		currentDate.setFirstDayOfWeek(Calendar.MONDAY);
@@ -266,21 +265,16 @@ public class WeekViewPanelTest extends WebicalApplicationTest{
 		List<Event> oneEventsList = new ArrayList<Event>();
 		List<Event> twoEventsList = new ArrayList<Event>();
 
-		GregorianCalendar refcal = new GregorianCalendar();
-		refcal.add(Calendar.DAY_OF_MONTH, 1);
-		refcal.set(Calendar.HOUR_OF_DAY, 12);
-		refcal.set(Calendar.MINUTE, 0);
-		refcal.set(Calendar.SECOND, 0);
 		GregorianCalendar cal = new GregorianCalendar();
-		
+		cal.add(java.util.Calendar.DAY_OF_MONTH, 1);
+
 		// Add a normal event
 		Event event = new Event();
 		event.setUid("e1");
 		event.setSummary("Normal Event Description");
 
-		cal.setTime(refcal.getTime());
 		event.setDtStart(cal.getTime());
-		cal.add(Calendar.HOUR_OF_DAY, 2);
+		cal.add(java.util.Calendar.HOUR_OF_DAY, 2);
 		event.setDtEnd(cal.getTime());
 
 		System.out.println("Adding event: " + event.getDescription() + " -> " + event.getDtStart() + " - " + event.getDtEnd());
@@ -291,12 +285,11 @@ public class WeekViewPanelTest extends WebicalApplicationTest{
 		event.setUid("e2");
 		event.setSummary("Recurring Event Yesterday");
 
-		cal.setTime(refcal.getTime());
-		cal.add(Calendar.DAY_OF_MONTH, -1);
+		cal.add(java.util.Calendar.DAY_OF_MONTH, -1);
 		event.setDtStart(cal.getTime());
-		cal.add(Calendar.HOUR_OF_DAY,	2);
+		cal.add(java.util.Calendar.HOUR_OF_DAY,	2);
 		event.setDtEnd(cal.getTime());
-		cal.add(Calendar.DAY_OF_MONTH, 3);
+		cal.add(java.util.Calendar.DAY_OF_MONTH, 3);
 		RecurrenceUtil.setRecurrenceRule(event, new Recurrence(Recurrence.DAILY, 1, cal.getTime()));
 
 		System.out.println("Adding event: " + event.getDescription() + " -> " + event.getDtStart() + " - " + event.getDtEnd());
@@ -308,12 +301,11 @@ public class WeekViewPanelTest extends WebicalApplicationTest{
 		event.setUid("e3");
 		event.setSummary("Recurring Event Last Month");
 
-		cal.setTime(refcal.getTime());
-		cal.add(Calendar.WEEK_OF_YEAR, -1);
+		cal.add(java.util.Calendar.WEEK_OF_YEAR, -1);
 		event.setDtStart(cal.getTime());
-		cal.add(Calendar.HOUR_OF_DAY,	2);
+		cal.add(java.util.Calendar.HOUR_OF_DAY,	2);
 		event.setDtEnd(cal.getTime());
-		cal.add(Calendar.WEEK_OF_YEAR, 3);
+		cal.add(java.util.Calendar.WEEK_OF_YEAR, 3);
 		RecurrenceUtil.setRecurrenceRule(event, new Recurrence(Recurrence.DAILY, 1, cal.getTime()));
 
 		System.out.println("Adding event: " + event.getDescription() + " -> " + event.getDtStart() + " - " + event.getDtEnd());
@@ -358,43 +350,46 @@ public class WeekViewPanelTest extends WebicalApplicationTest{
 
 		// Set the correct dates to find the first and last day of the week
 		GregorianCalendar viewFirstDayCalendar = new GregorianCalendar();
+		viewFirstDayCalendar.setFirstDayOfWeek(java.util.Calendar.MONDAY);
 		viewFirstDayCalendar.setTime(currentDate.getTime());
 
 		GregorianCalendar viewLastDayCalendar = new GregorianCalendar();
+		viewLastDayCalendar.setFirstDayOfWeek(java.util.Calendar.MONDAY);
 		viewLastDayCalendar.setTime(CalendarUtils.addDays(currentDate.getTime(), 3));
 
 		GregorianCalendar testDayCalendar = new GregorianCalendar();
-		testDayCalendar.add(Calendar.DAY_OF_YEAR, 1);
+		testDayCalendar.setFirstDayOfWeek(java.util.Calendar.MONDAY);
+		testDayCalendar.add(java.util.Calendar.DAY_OF_YEAR, 1);
 
 		GregorianCalendar shortRecurringEventCalendar = new GregorianCalendar();
-		shortRecurringEventCalendar.setFirstDayOfWeek(Calendar.MONDAY);
+		shortRecurringEventCalendar.setFirstDayOfWeek(java.util.Calendar.MONDAY);
 
 		// Assert the first day in the view
-		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + viewFirstDayCalendar.get(Calendar.DAY_OF_YEAR), WeekDayPanel.class);
+		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + viewFirstDayCalendar.get(java.util.Calendar.DAY_OF_YEAR), WeekDayPanel.class);
 
 		// Assert the last day in the view
-		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + viewLastDayCalendar.get(Calendar.DAY_OF_YEAR), WeekDayPanel.class);
+		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + viewLastDayCalendar.get(java.util.Calendar.DAY_OF_YEAR), WeekDayPanel.class);
 
 		// Assert test day events
-		WeekDayPanel testDayEventsListView = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + testDayCalendar.get(Calendar.DAY_OF_YEAR));
+		WeekDayPanel testDayEventsListView = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + testDayCalendar.get(java.util.Calendar.DAY_OF_YEAR));
 		wicketTester.assertListView(testDayEventsListView.getPageRelativePath() + ":eventItem", allEventsList);
 
 		// Assert short recurring event
-		WeekDayPanel recurrenceStartDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + shortRecurringEventCalendar.get(Calendar.DAY_OF_YEAR));
+		WeekDayPanel recurrenceStartDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + shortRecurringEventCalendar.get(java.util.Calendar.DAY_OF_YEAR));
 		wicketTester.assertListView(recurrenceStartDayPanel.getPageRelativePath() + ":eventItem", twoEventsList);
 
-		shortRecurringEventCalendar.add(Calendar.DAY_OF_YEAR, 2);
-		WeekDayPanel recurrenceEndDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + shortRecurringEventCalendar.get(Calendar.DAY_OF_YEAR));
+		shortRecurringEventCalendar.add(java.util.Calendar.DAY_OF_YEAR, 2);
+		WeekDayPanel recurrenceEndDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + shortRecurringEventCalendar.get(java.util.Calendar.DAY_OF_YEAR));
 		wicketTester.assertListView(recurrenceEndDayPanel.getPageRelativePath() + ":eventItem", twoEventsList);
 
-		shortRecurringEventCalendar.add(Calendar.DAY_OF_YEAR, 1);
-		WeekDayPanel recurrenceAfterEndDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + shortRecurringEventCalendar.get(Calendar.DAY_OF_YEAR));
+		shortRecurringEventCalendar.add(java.util.Calendar.DAY_OF_YEAR, 1);
+		WeekDayPanel recurrenceAfterEndDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + shortRecurringEventCalendar.get(java.util.Calendar.DAY_OF_YEAR));
 		wicketTester.assertListView(recurrenceAfterEndDayPanel.getPageRelativePath() + ":eventItem", oneEventsList);
 
 
 		// Assert long recurring event
-		WeekDayPanel firstViewDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + viewFirstDayCalendar.get(Calendar.DAY_OF_YEAR));
-		WeekDayPanel lastViewDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + viewLastDayCalendar.get(Calendar.DAY_OF_YEAR));
+		WeekDayPanel firstViewDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + viewFirstDayCalendar.get(java.util.Calendar.DAY_OF_YEAR));
+		WeekDayPanel lastViewDayPanel = (WeekDayPanel) wicketTester.getLastRenderedPage().get(PanelTestPage.PANEL_MARKUP_ID + ":weekColumnRepeater:day" + viewLastDayCalendar.get(java.util.Calendar.DAY_OF_YEAR));
 
 		wicketTester.assertListView(firstViewDayPanel.getPageRelativePath() + ":eventItem", twoEventsList);
 		wicketTester.assertListView(lastViewDayPanel.getPageRelativePath() + ":eventItem", oneEventsList);

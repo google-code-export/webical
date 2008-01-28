@@ -24,7 +24,6 @@ import org.webical.PluginSettings;
 import org.webical.Settings;
 import org.webical.User;
 import org.webical.UserPluginSettings;
-import org.webical.UserSettings;
 
 /**
  * Dao to store settings for the user and the system as a whole
@@ -34,27 +33,13 @@ import org.webical.UserSettings;
 public interface SettingsDao {
 
 	/**
-	 * Retrieve the settings for a user.
-	 * @return the {@link UserSettings} or null
-	 * @throws DaoException
-	 */
-	public UserSettings getUserSettings(User user) throws DaoException;
-
-	/**
-	 * Store the settings for a {@link User}
-	 * @param userSettings the UserSettings
-	 * @throws DaoException
-	 */
-	public void storeUserSettings(UserSettings userSettings) throws DaoException;
-
-	/**
 	 * Retrieves the global settings for a plugin
 	 * @param pluginClass the fully qualified class of the plugin (should be unique)
 	 * @return the {@link PluginSettings} or null
 	 * @throws DaoException
 	 */
 	public PluginSettings getPluginSettings(String pluginClass) throws DaoException;
-
+	
 	/**
 	 * Retrieves the plugin settings for a {@link User}
 	 * @param pluginClass the fully qualified class of the plugin (should be unique)
@@ -63,21 +48,21 @@ public interface SettingsDao {
 	 * @throws DaoException
 	 */
 	public UserPluginSettings getUserPluginSettings(String pluginClass, User user) throws DaoException;
-
+	
 	/**
 	 * Stores global plugin settings
 	 * @param pluginSettings the {@link PluginSettings} to store
 	 * @throws DaoException
 	 */
 	public void storePluginSettings(PluginSettings pluginSettings) throws DaoException;
-
+	
 	/**
 	 * Stores per-user plugin settings
 	 * @param userPluginSettings the {@link UserPluginSettings} to store
 	 * @throws DaoException
 	 */
 	public void storeUserPluginSettings(UserPluginSettings userPluginSettings) throws DaoException;
-
+	
 	/**
 	 * Removes {@link Settings} or a subclass like {@link PluginSettings} or {@link UserPluginSettings}
 	 * @param settings the {@link Settings} or a subclass thereof

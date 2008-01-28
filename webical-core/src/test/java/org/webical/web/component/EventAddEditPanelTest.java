@@ -37,7 +37,7 @@ import org.webical.manager.impl.mock.MockUserManager;
 import org.webical.web.PanelTestPage;
 import org.webical.web.WebicalApplicationTest;
 import org.webical.web.action.IAction;
-import org.webical.web.component.event.EventFormPanel;
+import org.webical.web.component.event.EventAddEditPanel;
 
 public class EventAddEditPanelTest extends WebicalApplicationTest{
 
@@ -73,23 +73,14 @@ public class EventAddEditPanelTest extends WebicalApplicationTest{
 		event.setCalendar(calendar);
 		event.setDescription("Event one description");
 
-		annotApplicationContextMock.putBean("calendarManager", new MockCalendarManager() {
-
-			@Override
-			public List<Calendar> getCalendars(User user) throws WebicalException {
-				ArrayList<Calendar> calendars = new ArrayList<Calendar>();
-				calendars.add(calendar);
-				return calendars;
-			}
-			
-		});
+		annotApplicationContextMock.putBean("calendarManager", new MockCalendarManager());
 
 		// Create testpage with an EventAddEditPanel
 		wicketTester.startPage(new ITestPageSource() {
 			private static final long serialVersionUID = 1L;
 
 			public Page getTestPage() {
-				return new PanelTestPage(new EventFormPanel(PanelTestPage.PANEL_MARKUP_ID, event, new GregorianCalendar()) {
+				return new PanelTestPage(new EventAddEditPanel(PanelTestPage.PANEL_MARKUP_ID, event, false, new GregorianCalendar(), null, null) {
 					private static final long serialVersionUID = 1L;
 					@Override
 					public void onAction(IAction action) { /* NOTHING TO DO */ }
@@ -99,7 +90,7 @@ public class EventAddEditPanelTest extends WebicalApplicationTest{
 
 		// Basic assertions
 		wicketTester.assertRenderedPage(PanelTestPage.class);
-		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID, EventFormPanel.class);
+		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID, EventAddEditPanel.class);
 
 		// Check the fields
 		FormTester eventFormTester = wicketTester.newFormTester(PanelTestPage.PANEL_MARKUP_ID + ":eventForm");
@@ -144,7 +135,7 @@ public class EventAddEditPanelTest extends WebicalApplicationTest{
 
 			public Page getTestPage() {
 
-				return new PanelTestPage(new EventFormPanel(PanelTestPage.PANEL_MARKUP_ID, null, new GregorianCalendar()) {
+				return new PanelTestPage(new EventAddEditPanel(PanelTestPage.PANEL_MARKUP_ID, null, false, new GregorianCalendar(), null, null) {
 					private static final long serialVersionUID = 1L;
 					@Override
 					public void onAction(IAction action) { /* NOTHING TO DO */ }
@@ -154,7 +145,7 @@ public class EventAddEditPanelTest extends WebicalApplicationTest{
 
 		// Basic assertions
 		wicketTester.assertRenderedPage(PanelTestPage.class);
-		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID, EventFormPanel.class);
+		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID, EventAddEditPanel.class);
 
 		// Check the validation
 		wicketTester.newFormTester(PanelTestPage.PANEL_MARKUP_ID + ":eventForm").submit();

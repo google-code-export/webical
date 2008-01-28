@@ -31,7 +31,6 @@ import org.webical.web.PanelTestPage;
 import org.webical.web.WebicalApplicationTest;
 import org.webical.web.action.IAction;
 import org.webical.web.component.calendar.DatePickerPanel;
-import org.webical.web.component.calendar.WeekViewPanel;
 import org.webical.web.component.calendar.model.DatePickerModel;
 
 /**
@@ -55,19 +54,12 @@ public class DatePickerPanelTest extends WebicalApplicationTest {
 	 */
 	public void testDatePickerPanel() {
 
-		
-		final WeekViewPanel weekViewPanel = new WeekViewPanel("weekViewPanelTest", new GregorianCalendar(), 7) {
-
-			@Override
-			public void onAction(IAction action) { /* NOTHING TO DO */ }
-			
-		};
 		//Create testpage with a DatePickerPanel
 		wicketTester.startPage(new ITestPageSource(){
 			private static final long serialVersionUID = 1L;
 
 			public Page getTestPage() {
-				return new PanelTestPage(new DatePickerPanel(PanelTestPage.PANEL_MARKUP_ID, new CompoundPropertyModel(new DatePickerModel(new GregorianCalendar(), weekViewPanel))){
+				return new PanelTestPage(new DatePickerPanel(PanelTestPage.PANEL_MARKUP_ID, new CompoundPropertyModel(new DatePickerModel(new GregorianCalendar()))){
 					private static final long serialVersionUID = 1L;
 					@Override
 					public void onAction(IAction action) { /* NOTHING TO DO */ }

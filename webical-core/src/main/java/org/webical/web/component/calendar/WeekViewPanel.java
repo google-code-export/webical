@@ -27,14 +27,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.apache.wicket.behavior.AttributeAppender;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.RepeatingView;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.model.StringResourceModel;
 import org.webical.util.CalendarUtils;
 import org.webical.web.action.IAction;
-import org.webical.web.app.WebicalSession;
 import org.webical.web.component.calendar.model.EventsModel;
 
 /**
@@ -47,9 +44,12 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 
 	// Markup ID's
 	private static final String DAY_HEADING_REPEATER_MARKUP_ID = "dayHeadingRepeater";
-	private static final String WEEK_HEADING_HEAD_CONTAINER_MARKUP_ID = "weekHeadingHeadContainer";
-	private static final String WEEK_HEADING_BODY_LABEL_MARKUP_ID = "weekHeadingBodyContainer";
+	private static final String WEEK_HEADING_LABEL_MARKUP_ID = "weekHeadingLabel";
 	private static final String WEEK_COLUMN_REPEATER_MARKUP_ID = "weekColumnRepeater";
+
+	private static final String WEEK_HEADING_RESOURCE_KEY = "weekHeadingStart";
+	private static final String XDAYS_HEADING_START_RESOURCE_KEY = "xdaysHeadingStart";
+	private static final String XDAYS_HEADING_END_RESOURCE_KEY = "xdaysHeadingEnd";
 
 	/**
 	 * The identifier for the period this panel covers
@@ -83,9 +83,8 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 
 	// Panel components
 	private WeekColumnRepeater weekColumnRepeater;
-	private WebMarkupContainer weekHeadingHeadContainer;
-	private Label weekHeadingBodyLabel;
-	private String weekHeadingBodyText;
+	private String weekHeadingText;
+	private Label weekHeadingLabel;
 
 	/**
 	 * Constructor.
@@ -106,7 +105,8 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 		 * to the first day of the week. Else set the start date to the current date.
 		 */
 		if(weekView){
-			startDate = CalendarUtils.getFirstDayOfWeek(this.currentDate.getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
+			// TODO mattijs: get start of week from user settings
+			startDate = CalendarUtils.getFirstDayOfWeek(this.currentDate.getTime(), Calendar.MONDAY);
 		} else {
 			startDate = this.currentDate.getTime();
 		}
@@ -129,19 +129,14 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 
 		GregorianCalendar weekCal = new GregorianCalendar();
 		weekCal.setTime(startDate);
+		//TODO mattijs: get start of the week from user settings
 		if(weekView) {
-			weekCal.set(GregorianCalendar.DAY_OF_WEEK, WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
+			weekCal.set(GregorianCalendar.DAY_OF_WEEK, Calendar.MONDAY);
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat("E", getLocale());
+		// TODO mattijs: get the weekdays to show from user settings
 		for(int i = 0; i < daysToShow; i++) {
-			Label headerLabel = new Label("headerDay" + i, sdf.format(weekCal.getTime()));
-			if(i == 0 && !weekView) { // Add 'first' css class (only if we are NOT viewing a complete week)
-				headerLabel.add(new AttributeAppender("class", true, new Model("first"), " "));
-			}
-			if(i == daysToShow - 1) { // Add 'last' css class
-				headerLabel.add(new AttributeAppender("class", true, new Model("last"), " "));
-			}
-			dayHeadingRepeater.add(headerLabel);
+			dayHeadingRepeater.add(new Label("headerDay" + i, sdf.format(weekCal.getTime())));
 			weekCal.add(Calendar.DAY_OF_WEEK, 1);
 		}
 		add(dayHeadingRepeater);
@@ -179,17 +174,9 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 	 * and every time the page is loaded.
 	 */
 	private void renderModelDependentLabels() {
-		
-		weekHeadingHeadContainer = new WebMarkupContainer(WEEK_HEADING_HEAD_CONTAINER_MARKUP_ID);
-		weekHeadingBodyLabel = new Label(WEEK_HEADING_BODY_LABEL_MARKUP_ID, new Model(weekHeadingBodyText));
-		//weekHeadingBodyLabel = new Label(WEEK_HEADING_LABEL_BODY_MARKUP_ID, weekHeadingBodyText);
-		if(!weekView) {
-			// User is not viewing a complete week, weeknumber isn't necessary
-			weekHeadingHeadContainer.setVisible(false);
-			weekHeadingBodyLabel.setVisible(false);
-		}
-		addOrReplace(weekHeadingHeadContainer);
-		addOrReplace(weekHeadingBodyLabel);
+		// Render the label for the week heading with the (updated) weekHeadingText
+		weekHeadingLabel = new Label(WEEK_HEADING_LABEL_MARKUP_ID, weekHeadingText);
+		addOrReplace(weekHeadingLabel);
 	}
 
 
@@ -200,12 +187,14 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 	@Override
 	protected void onBeforeRender() {
 		super.onBeforeRender();
+
 		if(weekView){
-			startDate.setTime(CalendarUtils.getFirstDayOfWeek(this.currentDate.getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek()).getTime());
-			weekHeadingBodyText = String.valueOf(currentDate.get(Calendar.WEEK_OF_YEAR));
+			// TODO mattijs: get start of week from user settings
+			startDate.setTime(CalendarUtils.getFirstDayOfWeek(this.currentDate.getTime(), Calendar.MONDAY).getTime());
+			weekHeadingText= (new StringResourceModel(WEEK_HEADING_RESOURCE_KEY, this, null).getString()) + " " + currentDate.get(Calendar.WEEK_OF_YEAR);
 		} else {
 			startDate.setTime(this.currentDate.getTime().getTime());
-			weekHeadingBodyText = "";
+			weekHeadingText = (new StringResourceModel(XDAYS_HEADING_START_RESOURCE_KEY, this, null).getString()) + " " + this.daysToShow + " " + (new StringResourceModel(XDAYS_HEADING_END_RESOURCE_KEY, this, null).getString());
 		}
 
 		// Calculate the end date

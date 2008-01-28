@@ -89,7 +89,7 @@ public abstract class WeekDayPanel extends AbstractBasePanel {
 		addEventLink.setVisible(CalendarPanel.enableAddEvent);
 		add(addEventLink);
 
-		dayEventsListView = new EventsListView(EVENT_ITEM_MARKUP_ID, eventsModel, dayDate) {
+		dayEventsListView = new EventsListView(EVENT_ITEM_MARKUP_ID, eventsModel) {
 			private static final long serialVersionUID = 1L;
 
 			@Override

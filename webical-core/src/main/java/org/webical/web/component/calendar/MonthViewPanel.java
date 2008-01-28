@@ -26,13 +26,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.RepeatingView;
-import org.apache.wicket.model.Model;
 import org.webical.util.CalendarUtils;
 import org.webical.web.action.IAction;
-import org.webical.web.app.WebicalSession;
 import org.webical.web.component.calendar.model.EventsModel;
 
 /**
@@ -94,8 +91,9 @@ public abstract class MonthViewPanel extends CalendarViewPanel {
 		this.setOutputMarkupId(true);
 		this.currentDate = (GregorianCalendar) currentDate;
 
-		startDate = CalendarUtils.getFirstDayOfWeekOfMonth(currentDate.getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
-		endDate = CalendarUtils.getLastWeekDayOfMonth(currentDate.getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
+		//TODO mattijs: get start of the week from user settings
+		startDate = CalendarUtils.getFirstDayOfWeekOfMonth(currentDate.getTime(), Calendar.MONDAY);
+		endDate = CalendarUtils.getLastWeekDayOfMonth(currentDate.getTime(), Calendar.MONDAY);
 		eventsModel = new EventsModel(CalendarUtils.getStartOfDay(startDate), CalendarUtils.getEndOfDay(endDate));
 
 	}
@@ -106,17 +104,15 @@ public abstract class MonthViewPanel extends CalendarViewPanel {
 	public void setupCommonComponents() {
 		// Add a repeater to show the week day headers
 		RepeatingView monthHeaderRepeater = new RepeatingView(MONTH_HEADER_REPEATER_MARKUP_ID);
+		monthHeaderRepeater.add(new Label("headerWeek", ""));
 
 		GregorianCalendar weekCal = new GregorianCalendar();
-		weekCal.set(GregorianCalendar.DAY_OF_WEEK, WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
+		//TODO mattijs: get start of the week from user settings
+		weekCal.set(GregorianCalendar.DAY_OF_WEEK, Calendar.MONDAY);
 		SimpleDateFormat sdf = new SimpleDateFormat("E", getLocale());
 		// TODO mattijs: get the weekdays to show from user settings
 		for(int i = 0; i < 7; i++) {
-			Label headerLabel = new Label("headerDay" + i, sdf.format(weekCal.getTime()));
-			if(i == 6) { // Add 'last' css class
-				headerLabel.add(new AttributeAppender("class", true, new Model("last"), " "));
-			} 
-			monthHeaderRepeater.add(headerLabel);
+			monthHeaderRepeater.add(new Label("headerDay" + i, sdf.format(weekCal.getTime())));
 			weekCal.add(Calendar.DAY_OF_WEEK, 1);
 		}
 		add(monthHeaderRepeater);

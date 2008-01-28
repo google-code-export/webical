@@ -20,25 +20,22 @@
 
 package org.webical.ical;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Wrapper for recurrence information used in the frontend
+ * Wrapper for recurrence information used in the fronend
  * @author ivo
  *
  */
-public class Recurrence implements Serializable {
-	private static final long serialVersionUID = 7486441319376790428L;
-	
+public class Recurrence {
 	public static final int DAILY = 1;
 	public static final int WEEKLY = 2;
 	public static final int MONTHLY = 3;
 	public static final int YEARLY = 4;
 
-	private Integer frequency;
-	private Integer count;
-	private Integer interval;
+	private int frequency;
+	private int count = -1;
+	private int interval;
 	private Date endDay;
 
 	public Recurrence() {
@@ -69,10 +66,10 @@ public class Recurrence implements Serializable {
 		this.endDay = endDay;
 	}
 
-	public Integer getCount() {
+	public int getCount() {
 		return count;
 	}
-	public void setCount(Integer count) {
+	public void setCount(int count) {
 		this.count = count;
 	}
 	public Date getEndDay() {
@@ -81,16 +78,16 @@ public class Recurrence implements Serializable {
 	public void setEndDay(Date endDay) {
 		this.endDay = endDay;
 	}
-	public Integer getFrequency() {
+	public int getFrequency() {
 		return frequency;
 	}
-	public void setFrequency(Integer frequency) {
+	public void setFrequency(int frequency) {
 		this.frequency = frequency;
 	}
-	public Integer getInterval() {
+	public int getInterval() {
 		return interval;
 	}
-	public void setInterval(Integer interval) {
+	public void setInterval(int interval) {
 		this.interval = interval;
 	}
 }

@@ -45,6 +45,7 @@ public class UserInfoPanel extends AbstractBasePanel {
 	 * Constructs the panel
 	 * @param markupId The ID used in the markup
 	 */
+	// TODO mattijs: Check if this class can exist without the user parameter
 	public UserInfoPanel(String markupId) {
 		super(markupId, UserInfoPanel.class);
 		this.user = WebicalSession.getWebicalSession().getUser();

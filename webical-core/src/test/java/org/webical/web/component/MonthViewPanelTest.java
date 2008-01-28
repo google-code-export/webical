@@ -69,7 +69,6 @@ public class MonthViewPanelTest extends WebicalApplicationTest {
 		user.setFirstName("James");
 		user.setLastName("Gossling");
 		user.setUserId("jag");
-		WebicalSession.getWebicalSession().setUser(user);
 	}
 
 	/**
@@ -102,7 +101,6 @@ public class MonthViewPanelTest extends WebicalApplicationTest {
 	 * @throws WebicalException
 	 */
 	public void testRenderingWithEvents() throws WebicalException {
-		// FIXME mattijs: test fails when run at 23:30 (probably also between 22:00 and 00:00)
 		// List for the day containing the normal event
 		List<Event> randomDayEventsList = new ArrayList<Event>();
 
@@ -120,10 +118,10 @@ public class MonthViewPanelTest extends WebicalApplicationTest {
 
 		GregorianCalendar cal = new GregorianCalendar();
 		cal.set(java.util.Calendar.DAY_OF_MONTH, 15);
-		cal.set(java.util.Calendar.HOUR_OF_DAY, 12);
 		event.setDtStart(cal.getTime());
 		cal.add(java.util.Calendar.HOUR_OF_DAY, 2);
 		event.setDtEnd(cal.getTime());
+		System.out.println("Adding event: " + event.getDescription() + " -> " + event.getDtStart() + " - " + event.getDtEnd());
 		allEvents.add(event);
 		randomDayEventsList.add(event);
 
@@ -134,13 +132,13 @@ public class MonthViewPanelTest extends WebicalApplicationTest {
 
 		cal = new GregorianCalendar();
 		cal.set(java.util.Calendar.DAY_OF_MONTH, 14);
-		cal.set(java.util.Calendar.HOUR_OF_DAY, 12);
 		event.setDtStart(cal.getTime());
 		cal.add(java.util.Calendar.HOUR_OF_DAY,	2);
 		event.setDtEnd(cal.getTime());
 		cal.set(java.util.Calendar.DAY_OF_MONTH, 17);
 		RecurrenceUtil.setRecurrenceRule(event, new Recurrence(Recurrence.DAILY, 1, cal.getTime()));
 
+		System.out.println("Adding event: " + event.getDescription() + " -> " + event.getDtStart() + " - " + event.getDtEnd());
 		allEvents.add(event);
 		randomDayEventsList.add(event);
 		bothRecurringEventsList.add(event);
@@ -152,7 +150,6 @@ public class MonthViewPanelTest extends WebicalApplicationTest {
 
 		cal = new GregorianCalendar();
 		cal.set(java.util.Calendar.DAY_OF_MONTH, 15);
-		cal.set(java.util.Calendar.HOUR_OF_DAY, 12);
 		cal.add(java.util.Calendar.MONTH, -1);
 		event.setDtStart(cal.getTime());
 		cal.add(java.util.Calendar.HOUR_OF_DAY,	2);
@@ -160,14 +157,16 @@ public class MonthViewPanelTest extends WebicalApplicationTest {
 		cal.add(java.util.Calendar.MONTH, 2);
 		RecurrenceUtil.setRecurrenceRule(event, new Recurrence(Recurrence.DAILY, 1, cal.getTime()));
 
+		System.out.println("Adding event: " + event.getDescription() + " -> " + event.getDtStart() + " - " + event.getDtEnd());
 		allEvents.add(event);
 		randomDayEventsList.add(event);
 		bothRecurringEventsList.add(event);
 		oneRecurringEventsList.add(event);
 
 		final GregorianCalendar currentDate = new GregorianCalendar();
-		Date startDate = CalendarUtils.getFirstDayOfWeekOfMonth(currentDate.getTime(), Calendar.SUNDAY);
-		Date endDate = CalendarUtils.getEndOfDay(CalendarUtils.getLastWeekDayOfMonth(currentDate.getTime(), Calendar.SUNDAY));
+		currentDate.setFirstDayOfWeek(Calendar.MONDAY);
+		Date startDate = CalendarUtils.getFirstDayOfWeekOfMonth(currentDate.getTime(), Calendar.MONDAY);
+		Date endDate = CalendarUtils.getEndOfDay(CalendarUtils.getLastWeekDayOfMonth(currentDate.getTime(), Calendar.MONDAY));
 
 		// Add an EventManager through EasyMock with the Events.
 		EventManager eventManagerMock = createMock(EventManager.class);
@@ -200,13 +199,17 @@ public class MonthViewPanelTest extends WebicalApplicationTest {
 		 * it's ectually in the week after on an english calendar
 		 */
 		GregorianCalendar monthFirstDayDate = new GregorianCalendar();
+		monthFirstDayDate.setFirstDayOfWeek(java.util.Calendar.MONDAY);
 		GregorianCalendar monthLastDayDate = new GregorianCalendar();
+		monthLastDayDate.setFirstDayOfWeek(java.util.Calendar.MONDAY);
 		GregorianCalendar normalEventCal = new GregorianCalendar();
+		normalEventCal.setFirstDayOfWeek(java.util.Calendar.MONDAY);
 		GregorianCalendar shortRecurringEventCal = new GregorianCalendar();
+		shortRecurringEventCal.setFirstDayOfWeek(java.util.Calendar.MONDAY);
 
 		// Set the correct dates to find the first and last day of the month
-		monthFirstDayDate.setTime(CalendarUtils.getFirstDayOfWeekOfMonth(currentDate.getTime(), java.util.Calendar.SUNDAY));
-		monthLastDayDate.setTime(CalendarUtils.getLastWeekDayOfMonth(currentDate.getTime(), java.util.Calendar.SUNDAY));
+		monthFirstDayDate.setTime(CalendarUtils.getFirstDayOfWeekOfMonth(currentDate.getTime(), java.util.Calendar.MONDAY));
+		monthLastDayDate.setTime(CalendarUtils.getLastWeekDayOfMonth(currentDate.getTime(), java.util.Calendar.MONDAY));
 
 		// Assert the first day in the view
 		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID + ":monthRowRepeater:week" + monthFirstDayDate.get(java.util.Calendar.WEEK_OF_YEAR) +":monthDayRepeater:day" + monthFirstDayDate.get(java.util.Calendar.DAY_OF_YEAR), MonthDayPanel.class);

@@ -4,7 +4,7 @@
 	<groupId>org.webical.calendar</groupId>
 	<artifactId>webical-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>0.5-SNAPSHOT</version>
+	<version>0.3</version>
 	<name>webical</name>
 	<url>http://webical.org/twiki</url>
 	
@@ -94,7 +94,9 @@
 		use: mvn scm:checkin to commit the project sources 
 	-->
 	<scm>
-		<connection>scm:svn:https://webical.svn.sourceforge.net/svnroot/webical/trunk</connection>
+		<connection>
+			scm:svn:https://webical.svn.sourceforge.net/svnroot/webical/trunk
+		</connection>
 	</scm>
 	
 	<!-- 

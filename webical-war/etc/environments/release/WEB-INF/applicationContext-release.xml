@@ -25,7 +25,6 @@
             	<value>org/webical/Settings.hbm.xml</value> 
             	<value>org/webical/PluginSettings.hbm.xml</value>
             	<value>org/webical/UserPluginSettings.hbm.xml</value> 
-            	<value>org/webical/UserSettings.hbm.xml</value> 
 			</list>
 		</property>
 

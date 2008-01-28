@@ -27,16 +27,13 @@ public class FormFinishedAction implements IAction {
 
 	private AjaxRequestTarget target;
 
-	public FormFinishedAction() {
-		this(null);
-	}
-	
 	public FormFinishedAction(AjaxRequestTarget target) {
+		super();
 		this.target = target;
 	}
 
 	public AjaxRequestTarget getAjaxRequestTarget() {
-		return target;
+		return null;
 	}
 
 }

@@ -22,35 +22,25 @@ package org.webical.ical;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import net.fortuna.ical4j.model.Date;
-import net.fortuna.ical4j.model.DateList;
-import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.Recur;
-import net.fortuna.ical4j.model.parameter.Value;
 import net.fortuna.ical4j.model.property.ExRule;
 import net.fortuna.ical4j.model.property.RRule;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.webical.Event;
 import org.webical.manager.WebicalException;
 
 /**
  * Collection of utility methods used on Recurrence
- * @author Ivo van Dongen
- * @author Mattijs Hoitink
+ * @author ivo
  *
  */
 public class RecurrenceUtil {
-	private static Log log = LogFactory.getLog(RecurrenceUtil.class);
-	
+
 	/**
 	 * Sets the recurrence information on the event's RRule
 	 * @param event the event to update
@@ -71,7 +61,7 @@ public class RecurrenceUtil {
 
 			//Add the new recurrence
 			Recur recur = null;
-			if(recurrence.getCount() != null && recurrence.getCount() > 0) {
+			if(recurrence.getCount() != -1 && recurrence.getCount() > 0) {
 				recur = new Recur(getFrequentcyString(recurrence.getFrequency()), recurrence.getCount());
 			} else if(recurrence.getEndDay() != null){
 				recur = new Recur(getFrequentcyString(recurrence.getFrequency()), new Date(recurrence.getEndDay()));
@@ -117,16 +107,10 @@ public class RecurrenceUtil {
 	 */
 	public static void clearRecurrence(Event event) {
 		//Clear all recurrence attributes
-		/*event.getrDate().clear();
+		event.getrDate().clear();
 		event.getrRule().clear();
 		event.getExDate().clear();
-		event.getExRule().clear();*/
-		
-		// Reset all recurrence attributes
-		event.setrDate(null);
-		event.setrRule(null);
-		event.setExDate(null);
-		event.setExRule(null);
+		event.getExRule().clear();
 	}
 
 	/**
@@ -188,213 +172,6 @@ public class RecurrenceUtil {
 		}
 		return -1;
 	}
-	
-	/**
-	 * Converts the frequency to a field identifier used by {@see java.util.Calendar}.
-	 * @param frequency The frequency identifier
-	 * @return the @see java.util.Calendar} field identifier
-	 */
-	private static int getCalendarIdentifierForFrequency(int frequency) {
-		switch (frequency) {
-		case Recurrence.DAILY : return Calendar.DAY_OF_YEAR;
-		case Recurrence.WEEKLY : return Calendar.WEEK_OF_YEAR;
-		case Recurrence.MONTHLY : return Calendar.MONTH;
-		case Recurrence.YEARLY : return Calendar.YEAR;
-		default: return -1;
-	}
-	}
 
-	/**
-	 * Determines if the event is recurrent
-	 * @param event the {@link Event} to check
-	 * @return true if the {@link Event} is recurrent
-	 */
-	public static boolean isRecurrent(Event event) {
-		if(!event.getrRule().isEmpty() || !event.getrDate().isEmpty()){
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	/**
-	 * Checks if the {@link Event} is applicable for the given range taking into account recurrence information
-	 * @param event the {@link Event}
-	 * @param startDate the start of the range
-	 * @param endDate the end of the range
-	 * @return true if the {@link Event} is applicable for this range
-	 * @throws ParseException
-	 */
-	public static boolean isApplicableForDateRange(Event event, java.util.Date startDate, java.util.Date endDate) throws ParseException {
 
-		if(event.getDtStart() != null) {
-			if(isRecurrent(event)) {
-
-				//Property: RRULE
-				Recur recur = null;
-				try {
-					if(event.getrRule() != null){
-						recur = new Recur(event.getrRule().iterator().next());
-					}
-				} catch (ParseException e) {
-					log.error("Could not parse recurrence information", e );
-					throw e;
-				}
-
-				ExRule exRule = new ExRule();
-				exRule.setRecur(recur);
-
-				DateTime fromDate = new DateTime(event.getDtStart());
-				DateTime dtStart = new DateTime(startDate.getTime()-1000);
-				DateTime dtEnd = new DateTime(endDate.getTime()-1000);
-
-				DateList datesFromRecur = recur.getDates(fromDate, dtStart, dtEnd, Value.DATE_TIME);
-				Set<java.util.Date> dates = event.getrDate();
-
-				//Property RDate
-				for(java.util.Date date : dates){
-					datesFromRecur.add(date);
-				}
-
-				if(datesFromRecur.size() > 0){
-
-					//Property: EXDATE
-					for(Iterator i = event.getExDate().iterator(); i.hasNext(); ){
-						if(startDate.equals(new Date(((java.util.Date)i.next()).getTime()))){
-							return false;
-						}
-					}
-
-					//PROPERTY: EXRULE
-					if(event.getExRule().iterator().hasNext()){
-
-						Recur exRecur;
-						try {
-							exRecur = new Recur(event.getExRule().iterator().next());
-						} catch (ParseException e) {
-							log.error("Could not parse recurrence information", e );
-							throw e;
-						}
-
-						DateList datesFromExRule = exRecur.getDates(fromDate, dtStart, dtEnd,Value.DATE_TIME);
-
-						if(datesFromExRule.size() > 0){
-							return false;
-						}
-					}
-
-					return true;
-				}
-
-			} else if((event.getDtStart().before(startDate) && event.getDtEnd().before(startDate)) || (event.getDtStart().after(endDate) && event.getDtEnd().after(endDate))){
-				//Event is not in daterange
-				return false;
-			} else {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Checks if the {@link Event} is applicable on the given day taking into account recurrence information
-	 * @param event the {@link Event}
-	 * @param date the {@link Date}
-	 * @return true if the {@link Event} is applicable for this range
-	 * @throws ParseException
-	 */
-	public static boolean isApplicableOnDate(Event event, java.util.Date date) throws ParseException {
-		return isApplicableForDateRange(event, date, date);
-	}
-
-	/**
-	 * Excludes the first Event from the second Event's recurrence rule
-	 * @param eventToExclude The Event to exclude
-	 * @param eventWithRange The event which recurrence rule should be updated
-	 * @param clearRecurrenceFromExcludedEvent True if the recurrence from the exlcuded event should be cleared
-	 */
-	public static void excludeEventFromRecurrenceRule(Event eventToExclude, Event eventWithRange, boolean clearRecurrenceFromExcludedEvent) {
-		// Exclude the new event from its old range
-		eventWithRange.getExDate().add(eventToExclude.getDtStart());
-		
-		if(clearRecurrenceFromExcludedEvent) {
-			clearRecurrence(eventToExclude);
-		}
-	}
-	
-	/**
-	 * Excludes the given Date from the Events recurrence rule.
-	 * @param dateToExclude The date to exclude
-	 * @param eventWithRange The Event with recurrence to exclude the Date from
-	 */
-	public static void excludeDateFromRecurrenceRule(java.util.Date dateToExclude, Event eventWithRange) {
-		eventWithRange.getExDate().add(dateToExclude);
-	}
-
-	public static java.util.Date getNextOccurrenceDate(Event event, java.util.Date occurrenceDate) throws WebicalException, ParseException {
-		if(event == null || !isRecurrent(event)) {
-			throw new WebicalException("This event is not recurrent: " + event);
-		}
-		
-		Recurrence recurrence = getRecurrenceFromRecurrenceRuleSet(event.getrRule());
-		if(recurrence != null) {
-		
-			// Check for use of count to determine the end date
-			if(recurrence.getCount() > 0 && recurrence.getInterval() > 0) {
-				GregorianCalendar endDateCalendar = new GregorianCalendar();
-				
-				endDateCalendar.setTime(event.getDtStart());
-				int amountToAdd = (recurrence.getCount() * recurrence.getInterval());
-				endDateCalendar.add(getCalendarIdentifierForFrequency(recurrence.getFrequency()), amountToAdd);
-				
-				if(isApplicableOnDate(event, endDateCalendar.getTime())) {
-					return endDateCalendar.getTime();
-				}
-				return null;
-			}
-			
-		}
-		return null;
-	}
-	
-	public static java.util.Date getPreviousOccurrenceDate(Event event, java.util.Date occurrenceDate) throws WebicalException {
-		if(event == null || !isRecurrent(event)) {
-			throw new WebicalException("This event is not recurrent: " + event);
-		} else if(occurrenceDate == null) {
-			throw new WebicalException("The occurence date can not be null");
-		}
-		
-		return null;
-	}
-	
-	public static java.util.Date getLastOccurrenceDate(Event event) throws WebicalException {
-		if(event == null || !isRecurrent(event)) {
-			throw new WebicalException("This event is not recurrent: " + event);
-		}
-		
-		Recurrence recurrence = getRecurrenceFromRecurrenceRuleSet(event.getrRule());
-		if(recurrence != null) {
-			
-			// Check if the recurrence end date is set. Use this as last date value
-			if(recurrence.getEndDay() != null) {
-				return recurrence.getEndDay();
-			}
-			
-			// Check for use of count to determine the end date
-			if(recurrence.getCount() >= 1 && recurrence.getInterval() >= 1) {
-				GregorianCalendar endDateCalendar = new GregorianCalendar();
-				
-				endDateCalendar.setTime(event.getDtStart());
-				int amountToAdd = (recurrence.getCount() * recurrence.getInterval());
-				endDateCalendar.add(getCalendarIdentifierForFrequency(recurrence.getFrequency()), amountToAdd);
-				
-				return endDateCalendar.getTime();
-			}
-			
-		}
-		
-		return null;
-	}
-	
 }

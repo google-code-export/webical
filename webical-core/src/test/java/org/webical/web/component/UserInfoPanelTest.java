@@ -35,7 +35,6 @@ import org.webical.web.app.WebicalSession;
  * @author ivo
  *
  */
-//XXX test needs to be rewritten with easymock
 public class UserInfoPanelTest extends WebicalApplicationTest {
 
 	@Override
@@ -48,10 +47,8 @@ public class UserInfoPanelTest extends WebicalApplicationTest {
 	 * Tests whether the panel gets rendered properly with userinfo
 	 */
 	public void testRenderWithUserInfo() {
-		// Changes in the WebicalSession.setUser makes this test fail
-		// UserManager.storeUser should be implemented so the user gets stored properly
 		//Prepare the user
-		/*User user = new User();
+		User user = new User();
 		user.setBirthDate(new GregorianCalendar(1955, java.util.Calendar.MAY, 19).getTime());
 		user.setFirstName("James");
 		user.setLastNamePrefix("A.");
@@ -72,7 +69,7 @@ public class UserInfoPanelTest extends WebicalApplicationTest {
 		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":firstName", user.getFirstName());
 		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":lastNamePrefix", user.getLastNamePrefix());
 		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":lastName", user.getLastName());
-		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":userId", user.getUserId());*/
+		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":userId", user.getUserId());
 
 	}
 
@@ -80,7 +77,7 @@ public class UserInfoPanelTest extends WebicalApplicationTest {
 	 * Tests whether the panel gets rendered without userinfo
 	 */
 	public void testRenderWithoutUserInfo() {
-		/*User user = new User();
+		User user = new User();
 		WebicalSession.getWebicalSession().setUser(user);
 
 		//Create the testpage with our panel
@@ -95,7 +92,7 @@ public class UserInfoPanelTest extends WebicalApplicationTest {
 		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":firstName", "");
 		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":lastNamePrefix", "");
 		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":lastName", "");
-		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":userId", "");*/
+		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":userId", "");
 
 	}
 

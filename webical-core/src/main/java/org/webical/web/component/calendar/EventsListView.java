@@ -20,8 +20,8 @@
 
 package org.webical.web.component.calendar;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.apache.wicket.markup.html.basic.Label;
@@ -31,7 +31,6 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.webical.Event;
 import org.webical.web.action.EventSelectedAction;
 import org.webical.web.action.IAction;
-import org.webical.web.app.WebicalSession;
 import org.webical.web.component.calendar.model.EventsModel;
 
 /**
@@ -52,8 +51,6 @@ public abstract class EventsListView extends ListView {
 	@SuppressWarnings("unchecked")
 	protected  static Class[] PANELACTIONS = new Class[] {  };
 
-	private GregorianCalendar listDate;
-	
 	// Panel components
 	private Label timeLabel;
 	private Link eventLink;
@@ -61,18 +58,15 @@ public abstract class EventsListView extends ListView {
 	/**
 	 * Detemines if the events end time should be displayed. Default is false.
 	 */
-	// TODO mattijs: add showEndTime to user settings
 	private boolean showEndTime = false;
 
 	/**
 	 * Constructor.
 	 * @param id The ID to use in markup
 	 * @param model The {@code EventsModel} to use
-	 * @param listDate the date this list is representing
 	 */
-	public EventsListView(String id, EventsModel model, Calendar listDate) {
+	public EventsListView(String id, EventsModel model) {
 		super(id, model);
-		this.listDate = (GregorianCalendar) listDate;
 	}
 
 	/**
@@ -85,14 +79,10 @@ public abstract class EventsListView extends ListView {
 		final GregorianCalendar currentDate = new GregorianCalendar();
 		currentDate.setTime(currentEvent.getDtStart());
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat(WebicalSession.getWebicalSession().getUserSettings().getTimeFormat(), getLocale());
-		
-		String timeLabelText = "";
-		if(!currentEvent.isAllDay()) {
-			timeLabelText += dateFormat.format(currentEvent.getDtStart());
-		}
-		if(showEndTime && !currentEvent.isAllDay()) {
-			timeLabelText += " - " + dateFormat.format(currentEvent.getDtEnd());
+		DateFormat df = SimpleDateFormat.getTimeInstance(DateFormat.SHORT, getLocale());
+		String timeLabelText = df.format(currentEvent.getDtStart());
+		if(showEndTime) {
+			timeLabelText += " - " + df.format(currentEvent.getDtEnd());
 		}
 
 		timeLabel = new Label(EVENT_TIME_LABEL_MARKUP_ID, timeLabelText);
@@ -101,7 +91,7 @@ public abstract class EventsListView extends ListView {
 
 			@Override
 			public void onClick() {
-				EventsListView.this.onAction(new EventSelectedAction(currentEvent, listDate));
+				EventsListView.this.onAction(new EventSelectedAction(currentEvent, currentDate));
 			}
 		};
 		eventLink.add(new Label(EVENT_TITLE_LABEL_MARKUP_ID, currentEvent.getSummary()));

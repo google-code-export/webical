@@ -21,23 +21,21 @@
 package org.webical.web.component.calendar;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.webical.web.action.DaySelectedAction;
 import org.webical.web.action.IAction;
-import org.webical.web.app.WebicalSession;
 import org.webical.web.component.AbstractBasePanel;
 import org.webical.web.component.behavior.FormComponentValidationStyleBehavior;
 import org.webical.web.component.calendar.model.DatePickerModel;
@@ -54,10 +52,14 @@ public abstract class DatePickerPanel extends AbstractBasePanel {
 	@SuppressWarnings("unchecked")
 	protected static Class[] PANELACTIONS = new Class[] { };
 
+	private static Log log = LogFactory.getLog(DatePickerPanel.class);
+
 	/* Markup ID's */
 	private static final String DATE_PICKER_FORM_MARKUP_ID = "datePickerForm";
-	private static String DAY_HEADER_REPEATER_MARKUP_ID = "datePickerHeaderRepeater";
 	private static final String DATE_PICKER_ROW_REPEATER_MARKUP_ID = "datePickerRowRepeater";
+
+	private DatePickerModel datePickerModel;
+	private GregorianCalendar currentDate;
 
 	private Label monthLabel;
 
@@ -68,6 +70,9 @@ public abstract class DatePickerPanel extends AbstractBasePanel {
 	 */
 	public DatePickerPanel(String markupId, CompoundPropertyModel datePickerCompoundPropertyModel) {
 		super(markupId, DatePickerPanel.class);
+
+		this.datePickerModel = (DatePickerModel) datePickerCompoundPropertyModel.getObject();
+		this.currentDate = (GregorianCalendar) datePickerModel.getCurrentDate();
 
 		setModel(datePickerCompoundPropertyModel);
 	}
@@ -87,27 +92,24 @@ public abstract class DatePickerPanel extends AbstractBasePanel {
 		FeedbackPanel datePickerFeedBackPanel = new FeedbackPanel("datePickerFeedbackPanel");
 		add(datePickerFeedBackPanel);
 
-		// Add day headers
-		RepeatingView dayHeaderRepeater = new RepeatingView(DAY_HEADER_REPEATER_MARKUP_ID);
-		dayHeaderRepeater.add(new Label("headerStart", ""));
-
-		GregorianCalendar weekCal = new GregorianCalendar();
-		weekCal.set(GregorianCalendar.DAY_OF_WEEK, WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
-		SimpleDateFormat sdf = new SimpleDateFormat("E", getLocale());
-		// TODO mattijs: get the weekdays to show from user settings
-		for(int i = 0; i < 7; i++) {
-			dayHeaderRepeater.add(new Label("dayHeader" + i, sdf.format(weekCal.getTime()).substring(0, 1)));
-			weekCal.add(Calendar.DAY_OF_WEEK, 1);
-		}
-		add(dayHeaderRepeater);
-		
 		// Add the date form
 		DatePickerForm form = new DatePickerForm(DATE_PICKER_FORM_MARKUP_ID, getModel());
 		form.add(new FormComponentValidationStyleBehavior());
 
         addOrReplace(form);
 
-        renderModelDependantComponents();
+        DatePickerRowRepeater rowRepeater = new DatePickerRowRepeater(DATE_PICKER_ROW_REPEATER_MARKUP_ID, currentDate) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onAction(IAction action) {
+				DatePickerPanel.this.onAction(action);
+			}
+
+        };
+        addOrReplace(rowRepeater);
+
+        renderModelDependantLabels();
 	}
 
 	/* (non-Javadoc)
@@ -119,27 +121,14 @@ public abstract class DatePickerPanel extends AbstractBasePanel {
 
 	@Override
 	protected void onModelChanged() {
-		renderModelDependantComponents();
+		renderModelDependantLabels();
 	}
 
-	private void renderModelDependantComponents() {
-		
+	private void renderModelDependantLabels() {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM yyyy", getLocale());
 		// Add a month label
-		monthLabel = new Label("monthLabel", dateFormatter.format(((DatePickerModel) this.getModelObject()).getCurrentDate().getTime()));
+		monthLabel = new Label("monthLabel", dateFormatter.format(currentDate.getTime()));
 		addOrReplace(monthLabel);
-		
-		DatePickerRowRepeater rowRepeater = new DatePickerRowRepeater(DATE_PICKER_ROW_REPEATER_MARKUP_ID, (DatePickerModel) this.getModelObject()) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void onAction(IAction action) {
-				DatePickerPanel.this.onAction(action);
-			}
-
-        };
-        
-        addOrReplace(rowRepeater);
 	}
 
 	/**
@@ -149,6 +138,9 @@ public abstract class DatePickerPanel extends AbstractBasePanel {
 	 */
 	public abstract void onAction(IAction action);
 
+
+	/* Date Form */
+
 	/**
 	 * Form with the Date selection field
 	 * @author Mattijs Hoitink
@@ -156,18 +148,16 @@ public abstract class DatePickerPanel extends AbstractBasePanel {
 	 */
 	private class DatePickerForm extends Form {
 		private static final long serialVersionUID = 1L;
-		
-		// Markup ID's
+
+		private static final String CHANGE_DATE_LABEL = "change_date_label";
 		private static final String CHANGE_DATE_BUTTON_MARKUP_ID = "changeDateButton";
 		private static final String CURRENT_DATE_FIELD_MARKUP_ID = "changeDateField";
 		private static final String CHANGE_DATE_LABEL_MARKUP_ID = "changeDateLabel";
-		// Resource ID's
-		private static final String CHANGE_DATE_LABEL_RESOURCE_ID = "change_date_label";
-		private static final String CHANGE_DATE_BUTTON_RESOURCE_ID = "change_date_label";
-		
+
 		private Label changeDateLabel;
 		private DateTextField changeDateTextField;
 		private Button changeDateButton;
+		private StringResourceModel changeDateResourceModel;
 
 		/**
 		 * Constructor
@@ -177,9 +167,11 @@ public abstract class DatePickerPanel extends AbstractBasePanel {
 		public DatePickerForm(String markupId, IModel model) {
 			super(markupId, model);
 
-			changeDateTextField = new DateTextField(CURRENT_DATE_FIELD_MARKUP_ID, WebicalSession.getWebicalSession().getUserSettings().getDateFormat());
-			changeDateLabel = new Label(CHANGE_DATE_LABEL_MARKUP_ID, new StringResourceModel(CHANGE_DATE_LABEL_RESOURCE_ID, this, new Model("Pick Date")));
-			changeDateButton = new Button(CHANGE_DATE_BUTTON_MARKUP_ID, new StringResourceModel(CHANGE_DATE_BUTTON_RESOURCE_ID, this, new Model("Show")));
+			changeDateResourceModel = new StringResourceModel(CHANGE_DATE_LABEL, this, null);
+
+			changeDateTextField = new DateTextField(CURRENT_DATE_FIELD_MARKUP_ID);
+			changeDateLabel = new Label(CHANGE_DATE_LABEL_MARKUP_ID, changeDateResourceModel);
+			changeDateButton = new Button(CHANGE_DATE_BUTTON_MARKUP_ID, changeDateResourceModel);
 
 			add(changeDateLabel);
 			add(changeDateTextField);

@@ -41,8 +41,8 @@ import org.webical.dao.EventDao;
 import org.webical.dao.UpdateConflictException;
 import org.webical.dao.annotation.Transaction;
 import org.webical.dao.util.WebDavCalendarSynchronisation;
-import org.webical.ical.RecurrenceUtil;
 import org.webical.settings.ApplicationSettingsFactory;
+import org.webical.util.RecurrenceUtils;
 
 /**
  *
@@ -420,7 +420,7 @@ public class EventDaoWebDavHibernateBufferedImpl extends BaseHibernateImpl imple
 		try {
 			//Check if the events are applicable for the given date range
 			for (Event event : recurringEvents) {
-				if(RecurrenceUtil.isApplicableForDateRange(event, dtStart, dtEnd)){
+				if(RecurrenceUtils.isApplicableForDateRange(event, dtStart, dtEnd)){
 					applicableEvents.add(event);
 				}
 			}
@@ -429,7 +429,7 @@ public class EventDaoWebDavHibernateBufferedImpl extends BaseHibernateImpl imple
 			//already is the list to show
 			for( Event event : dbEvents ){
 
-				if(RecurrenceUtil.isApplicableForDateRange(event, dtStart, dtEnd) && !applicableEvents.contains(event)){
+				if(RecurrenceUtils.isApplicableForDateRange(event, dtStart, dtEnd) && !applicableEvents.contains(event)){
 					applicableEvents.add(event);
 				}
 			}

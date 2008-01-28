@@ -71,6 +71,7 @@ public abstract class DateSwitcherPanel extends AbstractBasePanel {
 	 * @see org.webical.web.component.IAccessibilitySwitchingComponent#setupAccessibleComponents()
 	 */
 	public void setupAccessibleComponents() {
+		final CalendarViewPanel cvp = ((DateSwitcherModel)getModel()).getCurrentViewPanel();
 
 		todayLink = new Link(TODAY_LINK_MARKUP_ID) {
 			private static final long serialVersionUID = 1L;

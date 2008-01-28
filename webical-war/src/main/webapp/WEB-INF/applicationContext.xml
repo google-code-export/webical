@@ -22,7 +22,7 @@
 		<property name="pluginManifestReader"><ref bean="pluginManifestReader" /></property>
 		<property name="daoFactory"><ref bean="daoFactory" /></property>
 		<!-- replaced by maven when building -->
-		<property name="webicalVersion"><value>0.4-SNAPSHOT</value></property>
+		<property name="webicalVersion"><value>@WEBICAL_VERSION@</value></property>
 	</bean>
 		 
 	<!-- The manifest reader -->
@@ -55,7 +55,6 @@
             	<value>org/webical/Settings.hbm.xml</value> 
             	<value>org/webical/PluginSettings.hbm.xml</value>
             	<value>org/webical/UserPluginSettings.hbm.xml</value> 
-            	<value>org/webical/UserSettings.hbm.xml</value> 
             </list>
         </property>
 		

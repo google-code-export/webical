@@ -24,10 +24,8 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.StringResourceModel;
-import org.webical.web.action.IAction;
-import org.webical.web.action.ShowCalendarAction;
 import org.webical.web.app.WebicalSession;
 import org.webical.web.pages.BasePage;
 
@@ -41,9 +39,9 @@ public abstract class HeaderPanel extends AbstractBasePanel {
 
 	// Markup ID's
 	private static final String LOGOUT_LINK_MARKUP_ID = "logoutLink";
+	private static final String LOGOUT_LABEL_MARKUP_ID = "logoutLink.label";
 	private static final String SETTINGS_PANEL_LINK_MARKUP_ID = "settingsPanelLink";
 	private static final String CALENDAR_VIEW_LINK_MARKUP_ID = "calendarViewsPanelLink";
-	private static final String WELCOME_LABEL_MARKUP_ID = "welcomeLabel";
 
 	/**
 	 * Constructor
@@ -55,18 +53,6 @@ public abstract class HeaderPanel extends AbstractBasePanel {
 	}
 
 	public void setupCommonComponents() {
-		// Add user label
-		Label usernameLabel = new Label(WELCOME_LABEL_MARKUP_ID, new StringResourceModel(WELCOME_LABEL_MARKUP_ID, this, new LoadableDetachableModel() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected Object load() {
-				return WebicalSession.getWebicalSession().getUser();
-			}
-			
-		}));
-		addOrReplace(usernameLabel);
-
 		//Add logout link
 		Link logoutLink = new Link(LOGOUT_LINK_MARKUP_ID) {
 				private static final long serialVersionUID = 1L;
@@ -82,6 +68,8 @@ public abstract class HeaderPanel extends AbstractBasePanel {
 				}
 
 			};
+		Label logoutLinkLabel = new Label(LOGOUT_LABEL_MARKUP_ID, new StringResourceModel(LOGOUT_LABEL_MARKUP_ID, this, new CompoundPropertyModel(WebicalSession.getWebicalSession().getUser())));
+		logoutLink.add(logoutLinkLabel);
 		addOrReplace(logoutLink);
 	}
 
@@ -111,8 +99,7 @@ public abstract class HeaderPanel extends AbstractBasePanel {
 			 */
 			@Override
 			public void onClick() {
-				//HeaderPanel.this.changeContent(BasePage.CALENDAR_PANEL, null);
-				HeaderPanel.this.onAction(new ShowCalendarAction(true));
+				HeaderPanel.this.changeContent(BasePage.CALENDAR_PANEL, null);
 			}
 
 		});
@@ -155,7 +142,5 @@ public abstract class HeaderPanel extends AbstractBasePanel {
 	 * @param target The Ajax Target of the panel
 	 */
 	public abstract void changeContent(int panelId, AjaxRequestTarget target);
-	
-	public abstract void onAction(IAction action);
 }
 

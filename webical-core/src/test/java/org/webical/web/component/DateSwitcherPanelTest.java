@@ -28,7 +28,6 @@ import java.util.GregorianCalendar;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.util.tester.ITestPageSource;
-import org.webical.User;
 import org.webical.manager.impl.mock.MockCalendarManager;
 import org.webical.manager.impl.mock.MockEventManager;
 import org.webical.manager.impl.mock.MockUserManager;
@@ -129,18 +128,9 @@ public class DateSwitcherPanelTest extends WebicalApplicationTest {
 	 */
 	public void testRangeView() throws Exception {
 
-		// Prepare a User
-		final User user = new User();
-		user.setFirstName("James");
-		user.setLastName("Gossling");
-		user.setUserId("jag");
-		webicalSession.setUser(user);
-
 		GregorianCalendar assumedRangeStartCal = new GregorianCalendar();
-		assumedRangeStartCal.setFirstDayOfWeek(Calendar.SUNDAY);
-		assumedRangeStartCal.setTime(CalendarUtils.getFirstDayOfWeek(assumedRangeStartCal.getTime(), Calendar.SUNDAY));
+		assumedRangeStartCal.setTime(CalendarUtils.getFirstDayOfWeek(assumedRangeStartCal.getTime(), Calendar.MONDAY));
 		GregorianCalendar assumedRangeEndCal = new GregorianCalendar();
-		assumedRangeEndCal.setFirstDayOfWeek(Calendar.SUNDAY);
 		assumedRangeEndCal.setTime(assumedRangeStartCal.getTime());
 		assumedRangeEndCal.add(GregorianCalendar.DAY_OF_WEEK, 7 - 1);
 

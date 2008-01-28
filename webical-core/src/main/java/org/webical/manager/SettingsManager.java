@@ -24,7 +24,6 @@ import org.webical.PluginSettings;
 import org.webical.Settings;
 import org.webical.User;
 import org.webical.UserPluginSettings;
-import org.webical.UserSettings;
 
 /**
  * Interface for the {@link Settings} related operation
@@ -34,28 +33,13 @@ import org.webical.UserSettings;
 public interface SettingsManager {
 
 	/**
-	 * Retrieves the settings for a {@link User}
-	 * @param user the {@link User}
-	 * @return the {@link UserSettings} or null
-	 * @throws WebicalException
-	 */
-	public UserSettings getUserSettings(User user) throws WebicalException;
-
-	/**
-	 * Stores per-user plugin settings
-	 * @param userSettings the {@link UserSettings} to store
-	 * @throws WebicalException
-	 */
-	public void storeUserSettings(UserSettings userSettings) throws WebicalException;
-
-	/**
 	 * Retrieves the global settings for a plugin
 	 * @param pluginClass the fully qualified class of the plugin (should be unique)
 	 * @return the {@link PluginSettings} or null
 	 * @throws WebicalException
 	 */
 	public PluginSettings getPluginSettings(String pluginClass) throws WebicalException;
-
+	
 	/**
 	 * Retrieves the plugin settings for a {@link User}
 	 * @param pluginClass the fully qualified class of the plugin (should be unique)
@@ -64,21 +48,21 @@ public interface SettingsManager {
 	 * @throws WebicalException
 	 */
 	public UserPluginSettings getUserPluginSettings(String pluginClass, User user) throws WebicalException;
-
+	
 	/**
 	 * Stores global plugin settings
 	 * @param pluginSettings the {@link PluginSettings} to store
 	 * @throws WebicalException
 	 */
 	public void storePluginSettings(PluginSettings pluginSettings) throws WebicalException;
-
+	
 	/**
 	 * Stores per-user plugin settings
 	 * @param userPluginSettings the {@link UserPluginSettings} to store
 	 * @throws WebicalException
 	 */
 	public void storeUserPluginSettings(UserPluginSettings userPluginSettings) throws WebicalException;
-
+	
 	/**
 	 * Removes {@link Settings} or a subclass like {@link PluginSettings} or {@link UserPluginSettings}
 	 * @param settings the {@link Settings} or a subclass thereof

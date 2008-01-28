@@ -16,7 +16,6 @@
 				<ref bean="applicationSettings"/>
 				<ref bean="fixedUser"/>
 				<ref bean="calendar_fixedUser"/>
-				<ref bean="userSettings_fixedUser" />
 			</list>
 		</property>
 	</bean>
@@ -32,18 +31,11 @@
 
 	<!-- Add a fixed user for development -->	
 	<bean id="fixedUser" class="org.webical.User">
-	    <property name="userId" value="jag" />
-	    <property name="firstName" value="James"/>
-	    <property name="lastNamePrefix" value="A"/>
-	    <property name="lastName" value="Gosling"/>
-	    <property name="birthDate"><ref bean="birthDay" /></property>
-	</bean>
-	
-    <!-- Birth Date for the fixed user -->
-    <bean id="birthDay" class="java.util.Date">
-		<constructor-arg><value>May 24, 1977, 00:00:00 GMT</value></constructor-arg>
-		<!-- <constructor-arg><value type="long">60242569200000</value></constructor-arg> -->
-	</bean>
+	    <property name="userId" value="FIXED_USER" />
+	    <property name="firstName" value="FIXED_USER"/>
+	    <property name="lastNamePrefix" value="FIXED_USER"/>
+	    <property name="lastName" value="FIXED_USER"/>
+    </bean>
 	
 	<!-- A test calendar for fixedUser -->
 	<bean id="calendar_fixedUser" class="org.webical.Calendar">
@@ -51,16 +43,6 @@
 		<property name="type" value="ical-webdav"/>
 		<property name="url" value="http://localhost:8888/webical/dav/webical.ics"/>
 		<property name="visible" value="true"/>
-		<property name="user"><ref bean="fixedUser"/></property>
-	</bean>
-	
-	<!-- Settings for the fixed user -->
-	<bean id="userSettings_fixedUser" class="org.webical.UserSettings">
-		<property name="defaultCalendarView" value="1" />
-		<property name="firstDayOfWeek" value="2"/>
-		<property name="numberOfAgendaDays" value="4"/>
-		<property name="dateFormat" value="dd/MM/yyyy"/>
-		<property name="timeFormat" value="HH:mm"/>
 		<property name="user"><ref bean="fixedUser"/></property>
 	</bean>
     

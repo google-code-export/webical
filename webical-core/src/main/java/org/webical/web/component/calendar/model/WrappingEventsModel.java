@@ -28,7 +28,7 @@ import java.util.List;
 
 import org.webical.Event;
 import org.webical.comparator.EventStartTimeComparator;
-import org.webical.ical.RecurrenceUtil;
+import org.webical.util.RecurrenceUtils;
 
 /**
  * Model to put on top of an EventsModel or another WrappingEventsModel.
@@ -71,7 +71,7 @@ public class WrappingEventsModel extends EventsModel {
 			for(Event currentEvent : allEvents) {
 				// Get the events for this range, including recurrent events
 				try {
-					if(RecurrenceUtil.isApplicableForDateRange(currentEvent, getStartDate(), getEndDate())){
+					if(RecurrenceUtils.isApplicableForDateRange(currentEvent, getStartDate(), getEndDate())){
 						eventsInRange.add(currentEvent);
 					}
 				} catch (ParseException e) {

@@ -22,17 +22,19 @@ package org.webical;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import org.webical.util.CalendarUtils;
 
 
 /**
  * Class representing one Event
  *
  * @author jochem
- * @author Mattijs Hoitink
  */
 
 public class Event implements Serializable {
@@ -64,7 +66,6 @@ public class Event implements Serializable {
 	private String transp;
 	private String uid;
 	private String url;
-	private boolean allDay;
 
 	//Must not occur in the same eventprop
 	private Date dtEnd;
@@ -87,14 +88,58 @@ public class Event implements Serializable {
 	private Set<Date> exDate;
 	private Set<String> exRule;
 
-	/** Getters & Setters */	
+	/**
+	 * check if this event is an all day event
+	 * @return boolean
+	 * @author Mattijs Hoitink
+	 */
 	public boolean isAllDay(){
-		return allDay;
+		if(this.dtStart == null || this.dtEnd == null){
+			return false;
+		} else if(!CalendarUtils.getDateWithoutMs(dtStart).equals(CalendarUtils.getStartOfDay(this.dtStart)) || !CalendarUtils.getDateWithoutMs(dtEnd).equals(CalendarUtils.getStartOfDay(this.dtEnd))){
+			return false;
+		} else {
+			return true;
+		}
 	}
-	public void setAllDay(boolean allday) {
-		this.allDay = allday;
+
+	/**
+	 * Set the event to an all day event
+	 * @author Mattijs Hoitink
+	 */
+	public void setAllDay() {
+		this.setDtStart(CalendarUtils.getStartOfDay(this.getDtStart()));
+		this.setDtEnd(CalendarUtils.getStartOfDay(this.getDtEnd()));
 	}
-	
+
+	/**
+	 * Reset the event to a non all day event
+	 * @author Mattijs Hoitink
+	 */
+	public void resetAllDay() {
+		java.util.Calendar currentDateCalendar = GregorianCalendar.getInstance();
+		java.util.Calendar formDateCalendar = GregorianCalendar.getInstance();
+
+		formDateCalendar.setTime(this.getDtStart());
+		formDateCalendar.set(GregorianCalendar.HOUR_OF_DAY, currentDateCalendar.get(GregorianCalendar.HOUR_OF_DAY));
+		formDateCalendar.set(GregorianCalendar.MINUTE, currentDateCalendar.get(GregorianCalendar.MINUTE));
+
+		//Fill the start and end times with proper values
+		this.setDtStart(formDateCalendar.getTime());
+		formDateCalendar.set(GregorianCalendar.HOUR_OF_DAY, formDateCalendar.get(GregorianCalendar.HOUR_OF_DAY) + 1);
+		this.setDtEnd(formDateCalendar.getTime());
+	}
+
+	/**
+	 * Returns true if this is a recurring Event
+	 * @return boolean true if event is recurring
+	 */
+	public boolean isRecurring() {
+		// TODO mattijs: check with ivo if this is correct
+		return this.getrRule().size() >= 1;
+	}
+
+	/** Getters & Setters */
 	public Set<String> getAttach() {
 		if(attach == null){
 			attach = new HashSet<String>();

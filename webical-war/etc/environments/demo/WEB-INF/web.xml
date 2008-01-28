@@ -65,7 +65,6 @@
 		<param-value>
 			/WEB-INF/applicationContext.xml
 			/WEB-INF/applicationContext-demo.xml
-			/WEB-INF/applicationContext-demo-bootstrap.xml
 		</param-value>
 	</context-param>
     

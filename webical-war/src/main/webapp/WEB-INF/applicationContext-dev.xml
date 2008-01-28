@@ -10,7 +10,7 @@
 	<bean id="wicketApplication" class="org.webical.web.app.WebicalWebApplication">
 		<property name="pluginSystemInitializer"><ref bean="pluginSystemInitializer" /></property>
 		<property name="encryptionManager"><ref bean="encryptionManager"/></property>
-		<property name="fixedUserId" value="jag" />
+		<property name="fixedUserId" value="FIXED_USER" />
 		<!-- Enable auto initialization of the system on first request (only if configuration is complete) -->
 		<property name="autoInitialize"><value>true</value></property>
 	</bean>   
@@ -21,7 +21,7 @@
 		<property name="pluginManifestReader"><ref bean="pluginManifestReader" /></property>
 		<property name="daoFactory"><ref bean="daoFactory" /></property>
 		<!-- replaced by maven when building -->
-		<property name="webicalVersion"><value>0.4-SNAPSHOT</value></property>
+		<property name="webicalVersion"><value>0.3-SNAPSHOT</value></property>
 	</bean>
 	
 </beans>

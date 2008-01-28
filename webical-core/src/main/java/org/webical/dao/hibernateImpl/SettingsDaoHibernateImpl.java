@@ -29,7 +29,6 @@ import org.webical.PluginSettings;
 import org.webical.Settings;
 import org.webical.User;
 import org.webical.UserPluginSettings;
-import org.webical.UserSettings;
 import org.webical.dao.DaoException;
 import org.webical.dao.SettingsDao;
 import org.webical.dao.annotation.Transaction;
@@ -51,7 +50,7 @@ public class SettingsDaoHibernateImpl extends BaseHibernateImpl implements Setti
 		if(StringUtils.isEmpty(pluginClass)) {
 			return null;
 		}
-
+		
 		try {
 			Criteria criteria = getSession().createCriteria(PluginSettings.class);
 			criteria.add(Restrictions.eq(PLUGIN_CLASS, pluginClass));
@@ -66,30 +65,11 @@ public class SettingsDaoHibernateImpl extends BaseHibernateImpl implements Setti
 	 * @see org.webical.dao.SettingsDao#getUserPluginSettings(java.lang.String, org.webical.User)
 	 */
 	@Transaction
-	public UserSettings getUserSettings(User user) throws DaoException {
-		if(user == null) {
-			return null;
-		}
-
-		try {
-			Criteria criteria = getSession().createCriteria(UserSettings.class);
-			criteria.add(Restrictions.eq("user", user));
-			return (UserSettings) criteria.uniqueResult();
-		} catch (Exception exception) {
-			log.error("Could not retreive settings for  user: " + user, exception);
-			throw new DaoException("Could not retrieve settings for user: " + user, exception);
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see org.webical.dao.SettingsDao#getUserPluginSettings(java.lang.String, org.webical.User)
-	 */
-	@Transaction
 	public UserPluginSettings getUserPluginSettings(String pluginClass, User user) throws DaoException {
 		if(StringUtils.isEmpty(pluginClass) || user == null) {
 			return null;
 		}
-
+		
 		try {
 			Criteria criteria = getSession().createCriteria(UserPluginSettings.class);
 			criteria.add(Restrictions.eq(PLUGIN_CLASS, pluginClass));
@@ -109,7 +89,7 @@ public class SettingsDaoHibernateImpl extends BaseHibernateImpl implements Setti
 		if(settings == null) {
 			return;
 		}
-
+		
 		try {
 			delete(settings);
 		} catch (Exception exception) {
@@ -132,23 +112,6 @@ public class SettingsDaoHibernateImpl extends BaseHibernateImpl implements Setti
 		} catch (Exception exception) {
 			log.error("Could not store pluginSettings: " + pluginSettings, exception);
 			throw new DaoException("Could not store pluginSettings: " + pluginSettings, exception);
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see org.webical.dao.SettingsDao#storeUserPluginSettings(org.webical.UserPluginSettings)
-	 */
-	@Transaction
-	public void storeUserSettings(UserSettings userSettings) throws DaoException {
-		if(userSettings == null) {
-			return;
-		}
-
-		try {
-			saveOrUpdate(userSettings);
-		} catch (Exception exception) {
-			log.error("Could not store userSettings: " + userSettings, exception);
-			throw new DaoException("Could not store userPluginSettings: " + userSettings, exception);
 		}
 	}
 

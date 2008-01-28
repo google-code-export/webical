@@ -121,12 +121,6 @@ public class DayViewPanelTest extends WebicalApplicationTest {
 		user.setUserId("jag");
 		webicalSession.setUser(user);
 
-		GregorianCalendar refcal = new GregorianCalendar();
-		refcal.set(java.util.Calendar.HOUR_OF_DAY, 12);
-		refcal.set(java.util.Calendar.MINUTE, 0);
-		refcal.set(java.util.Calendar.SECOND, 0);
-		GregorianCalendar cal = new GregorianCalendar();
-		
 		// Create list with events for the manager
 		final List<Event> events = new ArrayList<Event>();
 		// Add a normal event
@@ -134,8 +128,8 @@ public class DayViewPanelTest extends WebicalApplicationTest {
 		event.setUid("e1");
 		event.setSummary("Normal Event Summary");
 		event.setDescription("Normal Event Description");
-		event.setDtStart(refcal.getTime());
-		event.setDtEnd(CalendarUtils.addHours(refcal.getTime(), 2));
+		event.setDtStart(CalendarUtils.addHours(new Date(), -2));
+		event.setDtEnd(new Date());
 		events.add(event);
 
 		// Add a recurring event, starting yesterday, ending tommorrow
@@ -143,7 +137,7 @@ public class DayViewPanelTest extends WebicalApplicationTest {
 		event.setUid("e2");
 		event.setSummary("Recurring Event Yesterday Summary");
 		event.setDescription("Recurring Event Yesterday Description");
-		cal.setTime(refcal.getTime());
+		GregorianCalendar cal = new GregorianCalendar();
 		cal.add(java.util.Calendar.DAY_OF_MONTH, -1);
 		event.setDtStart(cal.getTime());
 		cal.add(java.util.Calendar.HOUR_OF_DAY,	2);
@@ -157,7 +151,7 @@ public class DayViewPanelTest extends WebicalApplicationTest {
 		event.setUid("e3");
 		event.setSummary("Recurring Event Last Month Summary");
 		event.setDescription("Recurring Event Last Month Description");
-		cal.setTime(refcal.getTime());
+		cal = new GregorianCalendar();
 		cal.add(java.util.Calendar.MONTH, -1);
 		event.setDtStart(cal.getTime());
 		cal.add(java.util.Calendar.HOUR_OF_DAY,	2);

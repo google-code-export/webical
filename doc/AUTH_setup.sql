@@ -4,6 +4,8 @@
 --                                                 --
 -- *********************************************** --
 
+use webical;
+
 -- create the table to hold the auth users --
 CREATE TABLE `_auth_user` ( 
 `username` varchar(250) NOT NULL, 

@@ -26,39 +26,18 @@ public class ShowCalendarAction implements IAction {
 	private static final long serialVersionUID = 1L;
 
 	private AjaxRequestTarget target;
-	
-	/**
-	 * Should the calendar be reloaded to update the events shown. Default is true.
-	 */
-	private boolean reloadCalendarView;
-
-	public ShowCalendarAction() {
-		this(true, null);
-	}
-
-	public ShowCalendarAction(boolean reloadCalendar) {
-		this(reloadCalendar, null);
-	}
 
 	public ShowCalendarAction(AjaxRequestTarget target) {
-		this(true, target);
-	}
-
-	public ShowCalendarAction(boolean reloadCalenarView, AjaxRequestTarget target) {
-		this.reloadCalendarView = reloadCalenarView;
+		super();
 		this.target = target;
 	}
 
-	public boolean isReloadCalendarView() {
-		return reloadCalendarView;
-	}
-
-	public void setReloadCalendarView(boolean reloadCalendarView) {
-		this.reloadCalendarView = reloadCalendarView;
+	public AjaxRequestTarget getTarget() {
+		return target;
 	}
 
 	public AjaxRequestTarget getAjaxRequestTarget() {
-		return target;
+		return null;
 	}
 
 }

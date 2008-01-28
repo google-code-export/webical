@@ -61,15 +61,19 @@ public abstract class WeekColumnRepeater extends RepeatingView {
 		int numberOfDays = CalendarUtils.getDifferenceInDays(eventsModel.getStartDate(), eventsModel.getEndDate());
 
 		Date startDate = eventsModel.getStartDate();
+		Date endDate = eventsModel.getEndDate();
 		GregorianCalendar todayCal = new GregorianCalendar();
 		Date todayStartDate = CalendarUtils.getStartOfDay(todayCal.getTime());
 
 		GregorianCalendar startCal = new GregorianCalendar();
+		GregorianCalendar endCal = new GregorianCalendar();
 		startCal.setTime(startDate);
 
 		for(int i = 0; i <= numberOfDays; i++) {
 			Date dayStartDate = startCal.getTime();
-			Date dayEndDate = CalendarUtils.getEndOfDay(dayStartDate);
+			endCal.setTime(startCal.getTime());
+			endCal.add(GregorianCalendar.DAY_OF_WEEK, 1);
+			Date dayEndDate = endCal.getTime();
 
 
 			WeekDayPanel weekDayPanel = new WeekDayPanel("day"+ startCal.get(Calendar.DAY_OF_YEAR), new WrappingEventsModel(dayStartDate, dayEndDate, eventsModel)) {

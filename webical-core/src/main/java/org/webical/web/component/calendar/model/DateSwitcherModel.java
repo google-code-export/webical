@@ -26,7 +26,6 @@ import java.util.GregorianCalendar;
 
 import org.apache.wicket.model.IModel;
 import org.webical.util.CalendarUtils;
-import org.webical.web.app.WebicalSession;
 import org.webical.web.component.calendar.CalendarViewPanel;
 
 /**
@@ -95,7 +94,7 @@ public class DateSwitcherModel implements IModel {
 			if(rangeLength > 1) {
 				if(rangeLength == 7) { // This is the fixed length of a week ( 0 -> 6 = 7 days)
 					// reset the start calendar to the beginning of the week
-					rangeStartCal.setTime(CalendarUtils.getFirstDayOfWeek(currentDate.getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek()));
+					rangeStartCal.setTime(CalendarUtils.getFirstDayOfWeek(currentDate.getTime(), Calendar.MONDAY));
 				}
 
 				printableRangeText = sdf.format(rangeStartCal.getTime()) + " - ";

@@ -25,7 +25,6 @@ import org.webical.PluginSettings;
 import org.webical.Settings;
 import org.webical.User;
 import org.webical.UserPluginSettings;
-import org.webical.UserSettings;
 import org.webical.dao.DaoException;
 import org.webical.dao.SettingsDao;
 import org.webical.manager.SettingsManager;
@@ -37,31 +36,9 @@ import org.webical.manager.WebicalException;
  *
  */
 public class SettingsManagerImpl implements SettingsManager, InitializingBean {
-
+	
 	/** Set by Spring */
 	private SettingsDao settingsDao;
-
-	/* (non-Javadoc)
-	 * @see org.webical.manager.SettingsManager#getUserSettings(org.webical.User)
-	 */
-	public UserSettings getUserSettings(User user) throws WebicalException {
-		try {
-			return settingsDao.getUserSettings(user);
-		} catch (DaoException e) {
-			throw new WebicalException(e);
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see org.webical.manager.SettingsManager#storeUserSettings(org.webical.UserSettings)
-	 */
-	public void storeUserSettings(UserSettings userSettings) throws WebicalException {
-		try {
-			settingsDao.storeUserSettings(userSettings);
-		} catch (DaoException e) {
-			throw new WebicalException(e);
-		}
-	}
 
 	/* (non-Javadoc)
 	 * @see org.webical.manager.SettingsManager#getPluginSettings(java.lang.String)

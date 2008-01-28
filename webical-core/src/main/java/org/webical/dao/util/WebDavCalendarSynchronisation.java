@@ -149,7 +149,7 @@ public class WebDavCalendarSynchronisation {
 			//Get the correct output source and build the calendar
 			URL url = new URL(calendar.getUrl());
 			if(url.getProtocol().equalsIgnoreCase(ConnectionUtil.HTTPS_PROTOCOL)) {
-				//TODO get from User Settings
+				//TODO get from User Settings Date(new net.fortuna.ical4j.model.DateTime(property.getValue()).getTime())ngs
 				connection = ConnectionUtil.getHttpsUrlConnection(url, true);
 			} else {
 				connection = ConnectionUtil.getHttpUrlConnection(url);

@@ -70,15 +70,20 @@ public abstract class MonthDayRepeater extends RepeatingView {
 		GregorianCalendar todayCal = new GregorianCalendar();
 		Date todayStartDate = CalendarUtils.getStartOfDay(todayCal.getTime());
 
+		Date daysStartDate = eventsModel.getStartDate();
+		//Date dayEndDate = eventsModel.getEndDate();
+
 		GregorianCalendar startCal = new GregorianCalendar();
-		startCal.setTime(eventsModel.getStartDate());
+		GregorianCalendar endCal = new GregorianCalendar();
+		startCal.setTime(daysStartDate);
 
 		for(int i = 0; i <= 6; i++) {
-			Date dayStartDate = startCal.getTime();
-			Date dayEndDate = CalendarUtils.getEndOfDay(dayStartDate);
-			
+			// Set the end of the range one day further
+			endCal.setTime(startCal.getTime());
+			endCal.add(GregorianCalendar.DAY_OF_MONTH, 1);
+
 			// Add a MonthDayPanel for each day in the week
-			MonthDayPanel monthDayPanel = new MonthDayPanel("day" + startCal.get(Calendar.DAY_OF_YEAR), new WrappingEventsModel(dayStartDate, dayEndDate, eventsModel)){
+			MonthDayPanel monthDayPanel = new MonthDayPanel("day" + startCal.get(Calendar.DAY_OF_YEAR), new WrappingEventsModel(startCal.getTime(), endCal.getTime(), eventsModel)){
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -107,7 +112,7 @@ public abstract class MonthDayRepeater extends RepeatingView {
 			add(monthDayPanel);
 
 			// Add a day to the calendar
-			startCal.add(Calendar.DAY_OF_YEAR, 1);
+			startCal.setTime(endCal.getTime());
 		}
 
 	}

@@ -6,54 +6,19 @@
 </head>
 <body>
 	<wicket:extend>
-		<div style="margin: 20px; background: #fff; border: 1px solid #51636A; border-top: 0px; padding-bottom: 10px;">
-			<h1><wicket:message key="heading">Sorry!</wicket:message></h1>
-			<p style="padding: 10px;">
-				<wicket:message key="message" />
-			</p>
-			<p style="padding: 0px 10px 10px 10px;">
-				<wicket:message key="thanks" />
-			</p>
-	
-			<div style="padding: 10px;">
-				<a class="button" wicket:id="homeLink"><wicket:message key="homeLink.text" /></a> 
-				<a class="button" wicket:id="settingsLink"><wicket:message key="settingsLink.text" /></a>
-			</div>
-			<div class="clr">&nbsp;</div>
-		</div>
+		<br /><a wicket:id="homeLink"><wicket:message key="homeLinkLabel" /></a> 
+		<br /><a wicket:id="settingsLink"><wicket:message key="settingsLinkLabel" /></a>
+		 
+		<h2><wicket:message key="Error.label">Error</wicket:message></h2>
+		<wicket:panel id="errorPanel" wicket:id="errorPanel"></wicket:panel>
 		
-		<div style="margin: 20px; background: #fff; border: 1px solid #51636A; border-top: 0px; padding-bottom: 10px;">
-			<h1><wicket:message key="error">Error</wicket:message></h1>
-			<p style="padding: 10px; 10px 0px 10px">
-				<wicket:message key="error.explenation" />
-			</p>
-			<p style="padding: 0px 10px 10px 10px;">
-				<b><wicket:panel id="errorPanel" wicket:id="errorPanel"></wicket:panel></b>
-			</p>
-		</div>
+		<h2><wicket:message key="Causes.label">Causes</wicket:message></h2>
+		<ul>
+			<li wicket:id="errorCauseList"><wicket:panel wicket:id="cause"></wicket:panel></li>
+		</ul>
 		
-		<div style="margin: 20px; background: #fff; border: 1px solid #51636A; border-top: 0px; padding-bottom: 10px;">
-			<h1><wicket:message key="causes">Causes</wicket:message></h1>
-			<p style="padding: 10px;">
-				<wicket:message key="causes.explenation" />
-			</p>
-			<ul style="margin-left: 30px;">
-				<li wicket:id="errorCauseList"><wicket:panel wicket:id="cause"></wicket:panel></li>
-			</ul>
-		</div>
-		
-		<div style="margin: 20px; background: #fff; border: 1px solid #51636A; border-top: 0px; padding-bottom: 10px;">
-			<h1><wicket:message key="details">Details</wicket:message></h1>
-			<p style="padding: 10px;">
-				<wicket:message key="details.explenation" />
-				<br />
-				<a wicket:id="showDetailsLink"><wicket:message key="details.link">Details:</wicket:message></a>
-			</p>
-			<div style="font-size: 12px;">
-				<blockquote wicket:id="detailedErrorPanel"></blockquote>
-			</div>
-		</div>
-		
+		<h2><a wicket:id="showDetailsLink"><wicket:message key="Details.label">Details</wicket:message></a><br/></h2>
+		<div wicket:id="detailedErrorPanel"></div>
 	</wicket:extend>
 </body>
 </html>

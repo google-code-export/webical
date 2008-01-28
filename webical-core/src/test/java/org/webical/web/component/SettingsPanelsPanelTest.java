@@ -23,10 +23,7 @@ package org.webical.web.component;
 import org.apache.wicket.Page;
 import org.apache.wicket.util.tester.ITestPageSource;
 import org.webical.User;
-import org.webical.UserSettings;
-import org.webical.manager.WebicalException;
 import org.webical.manager.impl.mock.MockCalendarManager;
-import org.webical.manager.impl.mock.MockSettingsManager;
 import org.webical.manager.impl.mock.MockUserManager;
 import org.webical.web.PanelTestPage;
 import org.webical.web.WebicalApplicationTest;
@@ -44,7 +41,13 @@ public class SettingsPanelsPanelTest extends WebicalApplicationTest {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		annotApplicationContextMock.putBean("userManager", new MockUserManager());
+	}
 
+	/**
+	 * Test whether the SettingsPanelsPanel Renders correctly with a User
+	 */
+	public void testRenderDefaultMode() {
 		//Prepare the user
 		final User user = new User();
 		user.setFirstName("James");
@@ -52,32 +55,7 @@ public class SettingsPanelsPanelTest extends WebicalApplicationTest {
 		user.setUserId("jag");
 		webicalSession.setUser(user);
 
-		annotApplicationContextMock.putBean("userManager", new MockUserManager() {
-
-			@Override
-			public User getUser(String userId) throws WebicalException {
-				return user;
-			}
-
-		});
-	}
-
-	/**
-	 * Test whether the SettingsPanelsPanel Renders correctly with a User
-	 */
-	public void testRenderDefaultMode() {
-
 		annotApplicationContextMock.putBean("calendarManager", new MockCalendarManager());
-		annotApplicationContextMock.putBean("settingsManager", new MockSettingsManager() {
-
-			@Override
-			public UserSettings getUserSettings(User user) throws WebicalException {
-				UserSettings mockSettings = new UserSettings(user);
-				mockSettings.createDefaultSettings();
-				return mockSettings;
-			}
-
-		});
 
 		// Create testpage with a SettingsPanelsPanel
 		wicketTester.startPage(new ITestPageSource() {

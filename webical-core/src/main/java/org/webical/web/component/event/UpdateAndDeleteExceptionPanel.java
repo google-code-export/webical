@@ -45,6 +45,8 @@ public abstract class UpdateAndDeleteExceptionPanel extends AbstractBasePanel {
 	private static final String CANCEL_CHANGES_LINK_MARKUP_ID = "overwritecancelchanges";
 
 	private Event event;
+	// TODO mattijs: check what this variable is used for
+	private Calendar calendar;
 	private boolean isUpdateException;
 
 	@SpringBean(name="eventManager")
@@ -60,6 +62,7 @@ public abstract class UpdateAndDeleteExceptionPanel extends AbstractBasePanel {
 	public UpdateAndDeleteExceptionPanel(String markupId ,Event event, Calendar calendar, boolean isUpdateException) {
 		super(markupId, UpdateAndDeleteExceptionPanel.class);
 		this.event = event;
+		this.calendar = calendar;
 		this.isUpdateException = isUpdateException;
 	}
 

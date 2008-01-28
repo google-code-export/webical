@@ -339,7 +339,6 @@ public class ComponentFactory {
 				
 				if(parameter != null && parameter.getValue().equals(Value.DATE.getValue())){
 					event.setDtStart(new Date(new net.fortuna.ical4j.model.Date(property.getValue()).getTime()));
-					event.setAllDay(true);
 				} else {
 					event.setDtStart(new Date(new net.fortuna.ical4j.model.DateTime(property.getValue()).getTime()));	
 				}

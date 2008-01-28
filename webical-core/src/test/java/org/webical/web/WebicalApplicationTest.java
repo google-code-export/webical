@@ -36,7 +36,6 @@ import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.spring.injection.annot.test.AnnotApplicationContextMock;
 import org.apache.wicket.util.tester.DummyHomePage;
 import org.apache.wicket.util.tester.WicketTester;
-import org.webical.manager.impl.mock.MockSettingsManager;
 import org.webical.manager.impl.mock.MockUserManager;
 import org.webical.web.app.WebicalSession;
 
@@ -93,7 +92,6 @@ public abstract class WebicalApplicationTest extends TestCase {
 				if(WebicalApplicationTest.this.webicalSession == null) {
 					WebicalApplicationTest.this.webicalSession = new WebicalSession(request, FIXED_USER_ID);
 					WebicalApplicationTest.this.webicalSession.setUserManager(new MockUserManager());
-					WebicalApplicationTest.this.webicalSession.setSettingsManager(new MockSettingsManager());
 					WebicalApplicationTest.this.webicalSession.setAccessible(true);
 				}
 				return WebicalApplicationTest.this.webicalSession;

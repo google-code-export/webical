@@ -23,10 +23,11 @@ package org.webical.web.component.calendar;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.webical.ical.Recurrence;
+
 import org.apache.wicket.Component;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.StringResourceModel;
-import org.webical.ical.Recurrence;
 
 /**
  * Class to wrap a StringResourceModel for recurrence frequency
@@ -36,19 +37,19 @@ import org.webical.ical.Recurrence;
 public class RecurrenceFrequentyStringResourceModel extends StringResourceModel{
 
 	private static final long serialVersionUID = 1L;
-
+	
 	public static final int POSITION_DAILY = 1;
 	public static final int POSITION_WEEKLY = 2;
 	public static final int POSITION_MONTHLY = 3;
 	public static final int POSITION_YEARLY = 4;
-
+	
 	private int frequenty;
-
+	
 	public RecurrenceFrequentyStringResourceModel(String resourceKey, Component component, IModel model, int frequenty) {
 		super(resourceKey, component, model);
 		this.frequenty = frequenty;
 	}
-
+	
 	public int getFrequenty() {
 		return frequenty;
 	}
@@ -61,7 +62,7 @@ public class RecurrenceFrequentyStringResourceModel extends StringResourceModel{
 
 	public static List<RecurrenceFrequentyStringResourceModel> createListOfStringResourceModel(Component referencedComponent){
 		List<RecurrenceFrequentyStringResourceModel> frequencies = new ArrayList<RecurrenceFrequentyStringResourceModel>();
-
+		
 		RecurrenceFrequentyStringResourceModel model = new RecurrenceFrequentyStringResourceModel("repeat.day", referencedComponent, null, Recurrence.DAILY);
 		frequencies.add(model);
 		model = new RecurrenceFrequentyStringResourceModel("repeat.week", referencedComponent, null, Recurrence.WEEKLY);
@@ -70,10 +71,10 @@ public class RecurrenceFrequentyStringResourceModel extends StringResourceModel{
 		frequencies.add(model);
 		model = new RecurrenceFrequentyStringResourceModel("repeat.year", referencedComponent, null, Recurrence.YEARLY);
 		frequencies.add(model);
-
+		
 		return frequencies;
 	}
-
+	
 	/**
 	 * Finds the right StringResourceModel for this frequency
 	 * @param recurFrequency the frequenty
@@ -81,7 +82,7 @@ public class RecurrenceFrequentyStringResourceModel extends StringResourceModel{
 	 * @return The StringResourceModel for this frequency
 	 */
 	public static RecurrenceFrequentyStringResourceModel getStringResourceModel(int recurFrequency, List<RecurrenceFrequentyStringResourceModel> modelList){
-
+		
 		if(recurFrequency > 0 && recurFrequency < modelList.size()) {
 			for(RecurrenceFrequentyStringResourceModel frequencyStringModel : modelList){
 				if(frequencyStringModel.getFrequenty() == recurFrequency){
@@ -89,13 +90,7 @@ public class RecurrenceFrequentyStringResourceModel extends StringResourceModel{
 				}
 			}
 		}
-
+		
 		return null;
-	}
-
-	// XXX Overridden the toString. Inverstigate if there is a more structural and longlasting approach
-	@Override
-	public String toString() {
-		return this.getString();
 	}
 }

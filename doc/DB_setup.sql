@@ -4,6 +4,8 @@
 --                                                       --
 -- ***************************************************** --
 
+use webical;
+
 -- --------------------------------------------------------
 
 --
@@ -92,7 +94,6 @@ CREATE TABLE IF NOT EXISTS `event` (
   `transp` mediumtext,
   `uid` mediumtext,
   `url` mediumtext,
-  `allDay` bit(1) default NULL,
   `created` datetime default NULL,
   `dtStart` datetime default NULL,
   `lastMod` datetime default NULL,
@@ -102,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `event` (
   `duration` varchar(255) default NULL,
   PRIMARY KEY  (`eventId`),
   KEY `FK5C6729A5DB02C36` (`calendarId`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -349,23 +350,5 @@ CREATE TABLE IF NOT EXISTS `user_plugin_settings` (
   PRIMARY KEY  (`id`),
   KEY `FK8704333B263CBF35` (`user`),
   KEY `FK8704333BA446C95D` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Table structure for table `user_settings`
---
-
-DROP TABLE IF EXISTS `user_settings`;
-CREATE TABLE `user_settings` (
-  `id` bigint(20) NOT NULL,
-  `defaultCalendarView` int(11) default NULL,
-  `firstDayOfWeek` int(11) default NULL,
-  `numberOfAgendaDays` int(11) default NULL,
-  `dateFormat` varchar(255) default NULL,
-  `timeFormat` varchar(255) default NULL,
-  `user` varchar(255) default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `FK58861617263CBF35` (`user`),
-  KEY `FK58861617A446C95D` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 

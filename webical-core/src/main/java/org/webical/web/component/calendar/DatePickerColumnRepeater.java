@@ -24,12 +24,10 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.apache.wicket.behavior.AttributeAppender;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.Model;
 import org.webical.util.CalendarUtils;
 import org.webical.web.action.IAction;
-import org.webical.web.component.calendar.model.DatePickerModel;
 
 /**
  * Repeater to repeat the calendar columns
@@ -43,22 +41,19 @@ public abstract class DatePickerColumnRepeater extends RepeatingView {
 	@SuppressWarnings("unchecked")
 	protected static Class[] PANELACTIONS = new Class[] { };
 
-	// CSS classes
-	private static final String WEEK_NUMBER_CSS_CLASS = "datePickerWeekNumber";
+	/**
+	 * CSS Class name for current day
+	 */
 	private static final String TODAY_CSS_CLASS = "calendarTodayItem";
-	private static final String INRANGE_CSS_CLASS = "inRange";
-	
 
-	private DatePickerModel datePickerModel;
 	private GregorianCalendar currentDate;
 	private GregorianCalendar weekCalendar;
 
-	public DatePickerColumnRepeater(String id, Calendar weekCalendar, DatePickerModel datePickerModel) {
+	public DatePickerColumnRepeater(String id, Calendar weekCalendar, Calendar currentDate) {
 		super(id);
 
-		this.datePickerModel = datePickerModel;
 		this.currentDate = new GregorianCalendar();
-		this.currentDate.setTime(datePickerModel.getCurrentDate().getTime());
+		this.currentDate.setTime(currentDate.getTime());
 		this.weekCalendar = new GregorianCalendar();
 		this.weekCalendar.setTime(weekCalendar.getTime());
 
@@ -67,12 +62,10 @@ public abstract class DatePickerColumnRepeater extends RepeatingView {
 
 	private void addColumns() {
 		GregorianCalendar todayDate = new GregorianCalendar();
-		Label weekLabel = new Label("week" + weekCalendar.get(Calendar.WEEK_OF_YEAR), String.valueOf(weekCalendar.get(Calendar.WEEK_OF_YEAR)));
-		weekLabel.add(new AttributeAppender("class", true, new Model(WEEK_NUMBER_CSS_CLASS), " "));
-		add(weekLabel);
+
 		for(int i = 0; i < 7; i++) {
 
-			DatePickerColumnPanel columnPanel = new DatePickerColumnPanel("day" + weekCalendar.get(Calendar.DAY_OF_YEAR), this.weekCalendar, datePickerModel) {
+			DatePickerColumnPanel columnPanel = new DatePickerColumnPanel("day" + weekCalendar.get(Calendar.DAY_OF_YEAR), this.weekCalendar, this.currentDate) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -81,27 +74,7 @@ public abstract class DatePickerColumnRepeater extends RepeatingView {
 				}
 
 			};
-			// Check if date is in range
-			if(
-				(
-					datePickerModel.getRangeStartDate() != null
-					&&
-					datePickerModel.getRangeEndDate() != null
-				)
-				&&
-				(
-					CalendarUtils.getStartOfDay(weekCalendar.getTime()).compareTo(CalendarUtils.getStartOfDay(datePickerModel.getRangeStartDate())) >= 0
-					&& 
-					CalendarUtils.getStartOfDay(weekCalendar.getTime()).compareTo(CalendarUtils.getStartOfDay(datePickerModel.getRangeEndDate())) <= 0
-				)
-			) {
-				columnPanel.add(new AttributeAppender("class", true, new Model(INRANGE_CSS_CLASS), " "));
-			}
-			
-			
-			// Check if date is today
 			if(CalendarUtils.getStartOfDay(weekCalendar.getTime()).equals(CalendarUtils.getStartOfDay(todayDate.getTime()))) {
-				// Add css class
 				columnPanel.add(new AttributeAppender("class", true, new Model(TODAY_CSS_CLASS), " "));
 			}
 			addOrReplace(columnPanel);

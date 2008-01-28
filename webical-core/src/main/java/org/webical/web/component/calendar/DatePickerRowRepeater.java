@@ -27,8 +27,6 @@ import java.util.GregorianCalendar;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.webical.util.CalendarUtils;
 import org.webical.web.action.IAction;
-import org.webical.web.app.WebicalSession;
-import org.webical.web.component.calendar.model.DatePickerModel;
 
 /**
  * Repeater to repeat the calendar rows.
@@ -42,7 +40,9 @@ public abstract class DatePickerRowRepeater extends RepeatingView {
 	@SuppressWarnings("unchecked")
 	protected static Class[] PANELACTIONS = new Class[] { };
 
-	private DatePickerModel datePickerModel;
+	private static String DATE_PICKER_COLUMN_REPEATER_MARKUP_ID = "datePickerColumnRepeater";
+
+	private GregorianCalendar currentDate;
 
 	// The date range
 	private Date startDate;
@@ -50,16 +50,16 @@ public abstract class DatePickerRowRepeater extends RepeatingView {
 
 	private double numberOfWeeks = 5;
 
-	public DatePickerRowRepeater(String id, DatePickerModel datePickerModel) {
+	public DatePickerRowRepeater(String id, Calendar currentDate) {
 		super(id);
-		this.datePickerModel = datePickerModel;
+		this.currentDate = (GregorianCalendar) currentDate;
 
 		addRows();
 	}
 
 	protected void addRows() {
-		startDate = CalendarUtils.getFirstDayOfWeekOfMonth(datePickerModel.getCurrentDate().getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
-		endDate = CalendarUtils.getLastWeekDayOfMonth(datePickerModel.getCurrentDate().getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
+		startDate = CalendarUtils.getFirstDayOfWeekOfMonth(currentDate.getTime(), Calendar.MONDAY);
+		endDate = CalendarUtils.getLastWeekDayOfMonth(currentDate.getTime(), Calendar.MONDAY);
 
 		double diff = CalendarUtils.getDifferenceInDays(startDate, endDate);
 		this.numberOfWeeks = Math.ceil(diff / 7.0);
@@ -70,7 +70,7 @@ public abstract class DatePickerRowRepeater extends RepeatingView {
 
 		for(int i = 0; i < numberOfWeeks; i++) {
 
-			DatePickerRowPanel rowPanel = new DatePickerRowPanel("week" + weekCalendar.get(Calendar.WEEK_OF_YEAR), weekCalendar, datePickerModel) {
+			DatePickerRowPanel rowPanel = new DatePickerRowPanel("week" + weekCalendar.get(Calendar.WEEK_OF_YEAR), weekCalendar, this.currentDate) {
 				private static final long serialVersionUID = 1L;
 
 				@Override

@@ -52,7 +52,7 @@
 
 	<servlet-mapping>
 		<servlet-name>webdav</servlet-name>
-		<url-pattern>/dav/webicalnightly.ics</url-pattern>
+		<url-pattern>/dav/webicaldemo.ics</url-pattern>
 	</servlet-mapping>
 
 	<!-- 
@@ -65,7 +65,6 @@
 		<param-value>
 			/WEB-INF/applicationContext.xml
 			/WEB-INF/applicationContext-nightly.xml
-			/WEB-INF/applicationContext-nightly-bootstrap.xml
 		</param-value>
 	</context-param>
     

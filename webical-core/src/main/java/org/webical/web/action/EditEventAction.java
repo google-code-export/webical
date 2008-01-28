@@ -20,9 +20,6 @@
 
 package org.webical.web.action;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.webical.Event;
 
@@ -35,27 +32,21 @@ public class EditEventAction implements IAction {
 	private static final long serialVersionUID = 1L;
 
 	private Event selectedEvent;
-	private GregorianCalendar selectedEventDate;
 
-	public EditEventAction(Event selectedEvent, Calendar selectedEventDate) {
+	public EditEventAction(Event selectedEvent) {
 		this.selectedEvent = selectedEvent;
-		this.selectedEventDate = (GregorianCalendar) selectedEventDate;
 	}
 
 	public Event getSelectedEvent() {
 		return selectedEvent;
 	}
 
-	public Calendar getSelectedEventDate() {
-		return selectedEventDate;
-	}
-	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "EditEventAction: selectedEvent = " + selectedEvent + ", selectedEventDate = " + selectedEventDate.getTime();
+		return "EditEventAction: selectedEvent = " + selectedEvent;
 	}
 
 	public AjaxRequestTarget getAjaxRequestTarget() {

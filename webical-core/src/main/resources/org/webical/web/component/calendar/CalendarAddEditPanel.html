@@ -30,16 +30,19 @@
 								<label for="offSetFrom" ><wicket:message key="OffSetFrom.label">Timezone</wicket:message></label>
 								<span class="formElement"><select class="choiceList" id="offSetFrom" wicket:id="offSetFrom"></select></span>
 							</div>
-							<div>
+							<div class="formItem">
 								<span class="formElement">
 								<!-- All extensions are placed here -->
 								<input wicket:id="formExtensions"/>
 								</span>
 							</div>
-							<div class="formButtons">
-								<a class="button" id="discardLink" wicket:id="discardLink"><wicket:message key="Discard.label">Discard</wicket:message></a>
-								<input class="button" type="submit" id="calendarSubmitButton" wicket:id="calendarSubmitButton"/>
+							<div class="formItem formControls">
+								<span class="formElement">
+									<a id="discardLink" wicket:id="discardLink"><wicket:message key="Discard.label">Discard</wicket:message></a>
+									<input class="submitButton" type="submit" id="calendarSubmitButton" wicket:id="calendarSubmitButton"/>
+								</span>
 							</div>
+							<div class="clr"></div>	
 						</form>
 					</div>
 

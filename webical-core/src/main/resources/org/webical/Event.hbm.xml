@@ -24,7 +24,6 @@
 		<property length="2000000" name="transp"/>
 		<property length="2000000" name="uid"/>
 		<property length="2000000" name="url"/>
-		<property name="allDay"/>
 		
 		<!-- Dates -->
 		<property name="created"/>

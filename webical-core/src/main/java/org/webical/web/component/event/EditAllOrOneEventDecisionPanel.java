@@ -35,7 +35,6 @@ import org.webical.web.pages.BasePage;
  * Panel to decide whether you want to edit the entire event or just
  * this single occurence (only availible when the event has recurence)
  * @author jochem
- * @author Mattijs Hoitink
  *
  */
 public abstract class EditAllOrOneEventDecisionPanel extends AbstractBasePanel {

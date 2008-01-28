@@ -21,7 +21,10 @@
 package org.webical;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
+
+import org.webical.web.component.calendar.CalendarPanel;
 
 /**
  * User
@@ -37,14 +40,17 @@ public class User implements Serializable {
 	private String lastName;
 	private Date birthDate;
 
+	private int defaultCalendarView;
+	private int firstWeekDay;
+
 	/** Getters and settesr */
 
-	public String getUserId() {
-		return userId;
+	public Date getBirthDate() {
+		return birthDate;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 
 	public String getFirstName() {
@@ -55,14 +61,6 @@ public class User implements Serializable {
 		this.firstName = firstName;
 	}
 
-	public String getLastNamePrefix() {
-		return lastNamePrefix;
-	}
-
-	public void setLastNamePrefix(String lastNamePrefix) {
-		this.lastNamePrefix = lastNamePrefix;
-	}
-
 	public String getLastName() {
 		return lastName;
 	}
@@ -71,12 +69,40 @@ public class User implements Serializable {
 		this.lastName = lastName;
 	}
 
-	public Date getBirthDate() {
-		return birthDate;
+	public String getLastNamePrefix() {
+		return lastNamePrefix;
 	}
 
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
+	public void setLastNamePrefix(String lastNamePrefix) {
+		this.lastNamePrefix = lastNamePrefix;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public int getDefaultCalendarView() {
+		// TODO mattijs: create a settings page where this can be set
+		//return defaultCalendarView;
+		return CalendarPanel.WEEK_VIEW;
+	}
+
+	public void setDefaultCalendarView(int defaultCalendarView) {
+		this.defaultCalendarView = defaultCalendarView;
+	}
+
+	public int getFirstWeekDay() {
+		// TODO mattijs: create a settings page where this can be set
+		//return firstWeekDay;
+		return Calendar.MONDAY;
+	}
+
+	public void setFirstWeekDay(int firstWeekDay) {
+		this.firstWeekDay = firstWeekDay;
 	}
 
 }

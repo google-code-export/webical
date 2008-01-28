@@ -35,7 +35,6 @@ import org.webical.manager.WebicalException;
 import org.webical.manager.impl.mock.MockUserManager;
 import org.webical.web.PanelTestPage;
 import org.webical.web.WebicalApplicationTest;
-import org.webical.web.action.IAction;
 import org.webical.web.component.calendar.CalendarListPanel;
 
 /**
@@ -74,7 +73,10 @@ public class CalendarListPanelTest extends WebicalApplicationTest {
 					@Override
 					public void enableOnlyThisCalendar(Calendar calendar, AjaxRequestTarget target) { /* NOTHING TO DO */ }
 					@Override
-					public void onAction(IAction action) { /* NOTHING TO DO */ }
+					public void selectCalendarForEdit(Calendar calendar, AjaxRequestTarget target) { /* NOTHING TO DO */ }
+					@Override
+					public void switchCalendarVisibility(Calendar calendar, AjaxRequestTarget target) { /* NOTHING TO DO */ }
+
 				});
 			}
 
@@ -133,7 +135,10 @@ public class CalendarListPanelTest extends WebicalApplicationTest {
 					@Override
 					public void enableOnlyThisCalendar(Calendar calendar, AjaxRequestTarget target) { /* NOTHING TO DO */ }
 					@Override
-					public void onAction(IAction action) { /* NOTHING TO DO */ }
+					public void selectCalendarForEdit(Calendar calendar, AjaxRequestTarget target) { /* NOTHING TO DO */ }
+					@Override
+					public void switchCalendarVisibility(Calendar calendar, AjaxRequestTarget target) { /* NOTHING TO DO */ }
+
 				});
 			}
 		});

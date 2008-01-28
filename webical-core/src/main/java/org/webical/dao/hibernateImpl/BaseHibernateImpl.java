@@ -98,10 +98,6 @@ public class BaseHibernateImpl {
 		getSession().saveOrUpdate(object);
 	}
 	
-	protected void saveOrUpdate(String entityName, Object object) throws DaoException {
-		getSession().saveOrUpdate(entityName, object);
-	}
-	
 	/**
 	 * Convenience method to store an object
 	 * @param object

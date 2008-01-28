@@ -35,30 +35,30 @@ public class EventSelectedAction implements IAction {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * The date of the selected Event.
+	 */
+	private GregorianCalendar eventDate;
+
+	/**
 	 * The selected Event.
 	 */
 	private Event selectedEvent;
 
 	/**
-	 * The date of the selected Event.
-	 */
-	private GregorianCalendar eventDate;
-	
-	/**
 	 * Constructor.
 	 * @param selectedEvent The Event selected
-	 * @param selectedEventDate The date the selected event is on
+	 * @param eventDate The date for the selected Event
 	 */
-	public EventSelectedAction(Event selectedEvent, Calendar selectedEventDate) {
+	public EventSelectedAction(Event selectedEvent, Calendar eventDate) {
 		this.selectedEvent = selectedEvent;
-		this.eventDate = (GregorianCalendar) selectedEventDate;
+		this.eventDate = (GregorianCalendar) eventDate;
 	}
 
 	/**
-	 * Gets the date the selected Event is on.
-	 * @return The date the selected Event is on
+	 * Gets the date for the selected Event.
+	 * @return The date for the selected Event
 	 */
-	public Calendar getSelectedEventDate() {
+	public Calendar getEventDate() {
 		return eventDate;
 	}
 

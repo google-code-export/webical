@@ -20,7 +20,6 @@
             	<value>org/webical/Settings.hbm.xml</value> 
             	<value>org/webical/PluginSettings.hbm.xml</value>
             	<value>org/webical/UserPluginSettings.hbm.xml</value> 
-            	<value>org/webical/UserSettings.hbm.xml</value>
             </list>
         </property>
 		
@@ -34,7 +33,7 @@
                 <prop key="hibernate.format_sql">true</prop>
                 <prop key="hibernate.max_fetch_depth">1</prop>
                 <!-- set to validate for production -->
-  				<prop key="hibernate.hbm2ddl.auto">create</prop>
+  				<prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
             </props>
         </property>
