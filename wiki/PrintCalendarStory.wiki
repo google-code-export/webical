@@ -1,0 +1,14 @@
+#labels Developer,Story
+== Description ==
+Prints an overview of the current daterange.
+
+== Functional specifications ==
+
+== Tasks ==
+
+|| *task* || *hours* || *todo* ||
+|| PrintPanel || 16 || 16 ||
+|| _Total_ || 16 || 16 ||
+
+== Technical interpretation ==
+The print panel can use the same EventModel as the view the user wants to print.
