@@ -21,6 +21,7 @@ The following settings should be available to the user:
   * Show weekend
   * Timezone
   * Location
+  * Notifications
 
 = Implementation =
 
@@ -39,3 +40,4 @@ The following settings should be available to the user:
 || Show weekend || If weekend days (Saturday, Sunday) should be shown || no ||
 || Timezone || The timezone the user wants his events to be shown in || no ||
 || Location || The location the user is at || no ||
+|| Notifications || How and when notifications are sent || no ||
