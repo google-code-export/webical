@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.webical.calendar</groupId>
+	<artifactId>webical-parent</artifactId>
+	<packaging>pom</packaging>
+	<version>0.4</version>
+	<name>webical</name>
+	<url>http://webical.org/twiki</url>
+	
+	<!-- 
+		Our license statements
+	 -->
+	<licenses>
+		<license>
+			<name>GNU GENERAL PUBLIC LICENSE Version 3</name>
+			<url>http://www.gnu.org/licenses/gpl.txt</url>
+		</license>
+	</licenses>
+	
+	<!-- 
+		The modules to include in the build
+	 -->
+	<modules>
+		<module>webical-core</module>
+		<module>webical-war</module>
+	</modules>
+	
+	<!-- 
+		Our development staff :)
+	 -->
+	<developers>
+		<developer>
+			<id>ivo</id>
+			<name>Ivo van Dongen</name>
+			<email>ivovandongen@gmail.com</email>
+			<organization>Func. Internet Integration</organization>
+			<organizationUrl>http://www.func.nl</organizationUrl>
+			<roles>
+				<role>Senior Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>zoran</id>
+			<name>Zoran Kovacevic</name>
+			<email>zoran@func.nl</email>
+			<organization>Func. Internet Integration</organization>
+			<organizationUrl>http://www.func.nl</organizationUrl>
+			<roles>
+				<role>Project Admin</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>mattijs</id>
+			<name>Mattijs Hoitink</name>
+			<email>mattijs@func.nl</email>
+			<organization>Func. Internet Integration</organization>
+			<organizationUrl>http://www.func.nl</organizationUrl>
+			<roles>
+				<role>Senior Developer</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<!--
+		Continuous Integration
+	-->
+	<ciManagement>
+		<system>continuum</system>
+		<url>http://continuum.func.nl/continuum</url>
+		<notifiers>
+			<notifier>
+				<configuration>
+					<address>ivovandongen@gmail.com</address>
+				</configuration>
+			</notifier>
+			<notifier>
+				<configuration>
+					<address>z.kovacevic@func.nl</address>
+				</configuration>
+			</notifier>
+			<notifier>
+				<configuration>
+					<address>mattijs@func.nl</address>
+				</configuration>
+			</notifier>
+		</notifiers>
+	</ciManagement>
+
+
+	<!-- 
+		svn connectivity
+		use: mvn scm:update to update the project sources 
+		use: mvn scm:checkin to commit the project sources 
+	-->
+	<scm>
+		<connection>scm:svn:https://webical.svn.sourceforge.net/svnroot/webical/tags/webical-0.4</connection>
+	</scm>
+	
+	<!-- 
+		Used for automatic deploys
+	 -->
+	<distributionManagement>
+		<repository>
+			<id>maven.webical.org</id>
+			<name>Webical snapshot repository</name>
+			<url>
+				scpexe://maven.webical.org/var/sites/org.webical.maven/www/
+			</url>
+		</repository>
+	</distributionManagement>
+
+	<!-- 
+		Used repositories 
+	-->
+	<repositories>
+		<repository>
+			<name>modularity.net</name>
+			<id>modularity.net</id>
+			<url>http://m2.modularity.net.au/releases</url>
+		</repository>
+		<repository>
+			<id>Codehaus</id>
+			<name>Codehaus</name>
+			<url>http://repository.codehaus.org</url>
+		</repository>
+	</repositories>
+
+	<!-- 
+		Reporting
+	 -->
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>
+					maven-project-info-reports-plugin
+				</artifactId>
+			</plugin>
+		</plugins>
+	</reporting>
+</project>

@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.webical">
+	<class name="Event" table="event">
+  
+  		<id name="eventId" type="java.lang.Long">
+            <column name="eventId"/>
+            <generator 	class="identity" />   		
+  		</id>
+  		
+  		<!-- Required -->
+		<many-to-one name="calendar" class="Calendar" column="calendarId" not-null="true" lazy="false" />
+				
+		
+		<!-- Strings -->
+		<property length="2000000" name="clazz"/>
+		<property length="2000000" name="description"/>
+		<property length="2000000" name="geo"/>
+		<property length="2000000" name="location"/>
+		<property length="2000000" name="organizer"/>
+		<property length="2000000" name="status"/>
+		<property length="2000000" name="summary"/>
+		<property length="2000000" name="transp"/>
+		<property length="2000000" name="uid"/>
+		<property length="2000000" name="url"/>
+		
+		<!-- Dates -->
+		<property name="created"/>
+		<property name="dtStart"/>
+		<property name="lastMod"/>
+		<property name="dtStamp"/>
+		
+		<!-- ints -->
+		<!-- <property type="integer" name="priority"/> -->
+		<property name="seq"/>
+				
+		<!-- Optional, but not both -->
+		<property name="dtEnd"/>
+		<property name="duration"/>
+		
+		<!-- Optional Sets -->
+		<!-- Strings -->
+		<set table="event_attach" cascade="all" name="attach" lazy="false">
+        	<key column="eventId" not-null="true"/>
+        	<element column="attach" length="2000000" type="java.lang.String"/>
+   		</set>
+   		<set table="event_attendee" cascade="all" name="attendee" lazy="false">
+        	<key column="eventId" not-null="true"/>
+        	<element column="attendee" length="2000000" type="java.lang.String"/>
+   		</set>
+   		<set table="event_categories" cascade="all" name="categories" lazy="false">
+        	<key column="eventId" not-null="true"/>
+        	<element column="categories" length="2000000" type="java.lang.String"/>
+   		</set>
+   		<set table="event_comment" cascade="all" name="comment" lazy="false">
+        	<key column="eventId" not-null="true"/>
+        	<element column="comment" length="2000000" type="java.lang.String"/>
+   		</set>
+   		<set table="event_contact" cascade="all" name="contact" lazy="false">
+        	<key column="eventId" not-null="true"/>
+        	<element column="contact" length="2000000" type="java.lang.String"/>
+   		</set>
+   		<set table="event_rStatus" cascade="all" name="rStatus" lazy="false">
+        	<key column="eventId" not-null="true"/>
+        	<element column="rStatus" length="2000000" type="java.lang.String"/>
+   		</set>
+   		<set table="event_related" cascade="all" name="related" lazy="false">
+        	<key column="eventId" not-null="true"/>
+        	<element column="related" length="2000000" type="java.lang.String"/>
+   		</set>
+   		<set table="event_resources" cascade="all" name="resources" lazy="false">
+        	<key column="eventId" not-null="true"/>
+        	<element column="resources" length="2000000" type="java.lang.String"/>
+   		</set>
+   		<set table="event_rRule" cascade="all" name="rRule" lazy="false">
+        	<key column="eventId" not-null="true"/>
+        	<element column="rRule" length="2000000" type="java.lang.String"/>
+   		</set>
+   		<set table="event_exRule" cascade="all" name="exRule" lazy="false">
+        	<key column="eventId" not-null="true"/>
+        	<element column="exRule" length="2000000" type="java.lang.String"/>
+   		</set>
+   		
+   		<!-- Dates -->
+   		<set table="event_exDate" cascade="all" name="exDate" lazy="false">
+        	<key column="eventId" not-null="true"/>
+        	<element column="exDate" type="java.util.Date"/>
+   		</set>
+   		<set table="event_rDate" cascade="all" name="rDate" lazy="false">
+        	<key column="eventId" not-null="true"/>
+        	<element column="rDate" type="java.util.Date"/>
+   		</set>
+   		
+   		<!-- Optional Maps -->
+   		<map name="xProps" cascade="all" table="event_xProps" order-by="xprop_name" lazy="false">
+    		<key column="id"/>
+    		<map-key column="xprop_name" type="string"/>
+    		<element column="xprop_value" length="2000000" type="string"/>
+		</map>
+		
+	</class>
+</hibernate-mapping>

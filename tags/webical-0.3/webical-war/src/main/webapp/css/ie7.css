@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+/* IE 7 Stylesheet */
+
+/*  -------- Selectors in alphabetical order!  ------- */
+
+/* Form styles */
+
+.button,
+.submitButton{
+	padding: 0 .5em;
+}

@@ -1,0 +1,64 @@
+@charset "UTF-8";
+
+/* IE 6 and previous Stylesheet */
+
+/*  -------- Selectors in alphabetical order!  ------- */
+
+/* Basic layout styles */
+
+#container{
+	width: expression(document.body.clientWidth < 792 ? "790px" : "auto");
+}
+
+
+#headerPanel{
+	right: 0;
+}
+
+/* Login styles */
+
+#login .button,
+.formControls{
+	margin-left: 11.3em;
+}
+
+/* Day/Week/Month View Date Picker Panel */
+
+#datePickerPanel,
+#contentPanel_calendarViewsTabs_panel_dayViewDatePickerPanel,
+#contentPanel_calendarViewsTabs_panel_weekViewDatePickerPanel,
+#contentPanel_calendarViewsTabs_panel_monthViewDatePickerPanel{
+	left: 0;
+	top: 3px;
+}
+
+/* Content Panel */
+
+#contentPanelArea{
+	height: expression((document.documentElement.clientHeight > 0) ? (document.documentElement.clientHeight - 35) + "px" : (document.body.clientHeight - 35) + "px");
+	top: 35px;
+}
+
+#contentPanel{
+	height: 100%;
+	margin: 0 8px 0 18em;
+	position: static;
+}
+
+#calendarViewPanel{
+	height: expression((document.documentElement.clientHeight > 0) ? (document.documentElement.clientHeight - 70) + "px" : (document.body.clientHeight - 70) + "px");  
+	top: 26px;
+}
+
+#calendarViewPanelContentBlock{
+	margin: 0;
+	position: static;
+}
+
+/* Form styles */
+
+.button,
+.submitButton{
+	padding: 0 .5em;
+}
+

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<!-- 
+		The WebApplication bean, injected into the wicket servlet
+		Add a fixed userId for development
+	-->
+	<bean id="wicketApplication" class="org.webical.web.app.WebicalWebApplication">
+		<property name="pluginSystemInitializer"><ref bean="pluginSystemInitializer" /></property>
+		<property name="encryptionManager"><ref bean="encryptionManager"/></property>
+		<property name="fixedUserId" value="FIXED_USER" />
+		<!-- Enable auto initialization of the system on first request (only if configuration is complete) -->
+		<property name="autoInitialize"><value>true</value></property>
+	</bean>   
+	
+	<!-- The Plugin intializer - WEBICAL_VERSION hardcoded here -->
+	<bean id="pluginSystemInitializer" class="org.webical.plugin.registration.PluginSystemInitializer">
+		<property name="pluginRegistrationStore"><ref bean="wicketApplication" /></property>
+		<property name="pluginManifestReader"><ref bean="pluginManifestReader" /></property>
+		<property name="daoFactory"><ref bean="daoFactory" /></property>
+		<!-- replaced by maven when building -->
+		<property name="webicalVersion"><value>0.3-SNAPSHOT</value></property>
+	</bean>
+	
+</beans>

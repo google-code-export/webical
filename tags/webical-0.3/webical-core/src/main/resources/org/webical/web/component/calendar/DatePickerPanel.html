@@ -1,0 +1,38 @@
+<html xmlns:wicket="http://wicket.sourceforge.net/">
+<body>
+	<wicket:extend>
+
+			<div id="datePickerPanel">
+			
+				<div class="formFeedback" id="formFeedback" wicket:id="datePickerFeedbackPanel"></div>
+				
+				<div id="datePickerCalendar">
+					<h1 wicket:id="monthLabel">This Month</h1>
+					
+					<table id="datePickerCalendarTable" cellpadding="0" cellspacing="0">
+						<!-- <thead>
+							<tr>
+								<th wicket:id="monthHeaderRepeater"></th>
+							</tr>
+						</thead> -->
+						<tbody>
+							<tr wicket:id="datePickerRowRepeater"></tr>
+						</tbody>
+					</table>		
+				</div>
+				
+				<div id="datePickerForm">
+					<form wicket:id="datePickerForm">
+						<h1><label for="changeDateField"><span wicket:id="changeDateLabel">(DateLabel)</span></label></h1>
+							
+						<div id="datePickerFormElements">
+							<input class="inputText" type="text" wicket:id="changeDateField" id="changeDateField"/>
+							<input class="inputButton" id="changeDateButton" type="submit" wicket:id="changeDateButton"/>
+						</div>
+					</form>
+				</div>		
+				
+			</div>
+	</wicket:extend>
+</body>
+</html>

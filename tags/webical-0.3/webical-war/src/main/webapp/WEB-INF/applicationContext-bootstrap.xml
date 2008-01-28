@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<!-- 
+		Bootstrap the applciation for development
+	-->
+	<bean id="databaseBootStrapDao" class="org.webical.dao.hibernateImpl.DatabaseBootstrapDao">
+		<property name="objectsToPersist">
+			<list>
+				<!-- 
+					Order is important! 
+					Referenced beans before referers
+				-->
+				<ref bean="applicationSettings"/>
+				<ref bean="fixedUser"/>
+				<ref bean="calendar_fixedUser"/>
+			</list>
+		</property>
+	</bean>
+
+	<!-- ApplicationSettings -->
+	<bean id="applicationSettings" class="org.webical.ApplicationSettings">
+		<property name="pluginWorkPath" value="${java.io.tmpdir}" />
+		<property name="pluginCleanupEnabled" value="false"/>
+		<property name="configurationUsername" value="admin"/>
+		<property name="configurationPassword" value="admin"/>
+		<property name="calendarRefreshTimeMs" value="50000"/>
+	</bean>
+
+	<!-- Add a fixed user for development -->	
+	<bean id="fixedUser" class="org.webical.User">
+	    <property name="userId" value="FIXED_USER" />
+	    <property name="firstName" value="FIXED_USER"/>
+	    <property name="lastNamePrefix" value="FIXED_USER"/>
+	    <property name="lastName" value="FIXED_USER"/>
+    </bean>
+	
+	<!-- A test calendar for fixedUser -->
+	<bean id="calendar_fixedUser" class="org.webical.Calendar">
+		<property name="name" value="local_test_calendar"/>
+		<property name="type" value="ical-webdav"/>
+		<property name="url" value="http://localhost:8888/webical/dav/webical.ics"/>
+		<property name="visible" value="true"/>
+		<property name="user"><ref bean="fixedUser"/></property>
+	</bean>
+    
+</beans>

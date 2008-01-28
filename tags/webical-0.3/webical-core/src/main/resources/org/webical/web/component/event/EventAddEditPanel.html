@@ -1,0 +1,73 @@
+<html xmlns:wicket="http://wicket.sourceforge.net/">
+<body>
+	<wicket:extend>
+		<div id="calendarViewPanel">
+			<div id="calendarViewPanelContentBlock">
+				<div class="panelContent">					
+					<form id="eventForm" wicket:id="eventForm">
+						<h1><span wicket:id="headingLabel"></span></h1>
+						<div class="formFeedBack" id="formFeedback" wicket:id="formFeedback"/>
+						<div class="formItem">
+							<label for="summary" ><wicket:message key="titleField.label">What</wicket:message></label>
+							<span class="formElement"><input class="inputText" type="text" id="summary" wicket:id="summary"/></span>
+						</div>
+						<div class="formItem">
+							<label for="dtStart" ><wicket:message key="startField.label">When</wicket:message></label>
+							<span class="formElement"><input class="inputText" type="text" id="dtStart" wicket:id="dtStart"/></span>
+						</div>
+						<div class="formItem">
+							<label for="dtEnd" ><wicket:message key="endField.label">to</wicket:message></label>
+							<span class="formElement"><input class="inputText" type="text" id="dtEnd" wicket:id="dtEnd"/></span>			
+							<input type="submit" class="submitButton" wicket:id="alldayButton" id="alldayButton" />				
+						</div>
+						<div class="formItem">			
+							<label for="location" ><wicket:message key="locationField.label">Where</wicket:message></label>
+							<span class="formElement"><input class="inputText" type="text" id="location" wicket:id="location"/></span>
+						</div>
+						<div class="formItem">
+							<label for="calendar" ><wicket:message key="calendarField.label">Calendar</wicket:message></label>
+							<span class="formElement"><select class="choiceList" id="calendar" wicket:id="calendar"></select></span>
+						</div>
+						<div class="formItem">
+							<label for="description" ><wicket:message key="descriptionField.label">Description</wicket:message></label>
+							<span class="formElement"><textarea class="inputText" id="description" wicket:id="description"></textarea></span>
+						</div>
+						
+						<br /><hr><br />
+						
+						<div class="formItem">
+							<label for="frequency" ><wicket:message key="frequencySelect.label">Frequency</wicket:message></label>
+							<span class="formElement"><select class="choiceList" id="frequency" wicket:id="frequency"></select></span>
+						</div>
+						<div class="formItem">
+							<label for="interval" ><wicket:message key="repeatIntervalField.label">Repeat every</wicket:message></label>
+							<span class="formElement"><input class="inputText" type="text" id="interval" wicket:id="interval"/></span>
+						</div>
+						<div class="formItem">
+							<label for="count" ><wicket:message key="repeatCountField.label">Count</wicket:message></label>
+							<span class="formElement"><input class="inputText" type="text" id="count" wicket:id="count"/></span>
+						</div>
+						<div class="formItem">
+							<label for="until" ><wicket:message key="repeatUntilField.label">Until</wicket:message></label>
+							<span class="formElement"><input class="inputText" type="text" id="until" wicket:id="until"/></span>
+						</div>
+						
+						<div class="formItem">
+							<span class="formElement">
+								<input wicket:id="formExtensions" /> 
+								<!-- All extensions are placed here -->
+							</span>
+						</div>
+						<div class="formItem formControls">
+							<span class="formElement">
+								<a id="discardLink" wicket:id="discardLink"><wicket:message key="cancelButton.value">Cancel</wicket:message></a>
+								<input class="submitButton" type="submit" id="eventSubmitButton" wicket:id="eventSubmitButton"/>
+							</span>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</wicket:extend>
+</body>
+</html>

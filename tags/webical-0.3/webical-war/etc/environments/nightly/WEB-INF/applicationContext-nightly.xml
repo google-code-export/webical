@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+    
+    <!-- 
+    	Hibernate configuration override
+    -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource"><ref bean="dataSource"/></property>
+        <!-- List of mapping files, use the relative path. All mapping files must be placed in the resources folder -->
+        <property name="mappingResources">
+            <list>
+            	<value>org/webical/TypeRegistration.hbm.xml</value>
+            	<value>org/webical/User.hbm.xml</value> 
+            	<value>org/webical/Calendar.hbm.xml</value> 
+            	<value>org/webical/Event.hbm.xml</value> 
+            	<value>org/webical/ApplicationSettings.hbm.xml</value>
+				<value>org/webical/Option.hbm.xml</value> 
+            	<value>org/webical/Settings.hbm.xml</value> 
+            	<value>org/webical/PluginSettings.hbm.xml</value>
+            	<value>org/webical/UserPluginSettings.hbm.xml</value> 
+            </list>
+        </property>
+		
+		<!-- General hibernate settings -->
+        <property name="hibernateProperties">
+            <props>
+            	<!-- Sets the dialect for the database, change this to the appropriate dialect -->
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.query.substitutions">true=1 false=0</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.max_fetch_depth">1</prop>
+                <!-- set to validate for production -->
+  				<prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+            </props>
+        </property>
+    </bean>
+    
+	<!-- 
+		The WebApplication bean, injected into the wicket servlet 
+	-->
+	<bean id="wicketApplication" class="org.webical.web.app.WebicalWebApplication">
+		<property name="pluginSystemInitializer"><ref bean="pluginSystemInitializer" /></property>
+		<property name="encryptionManager"><ref bean="encryptionManager"/></property>
+		<!-- Enable auto initialization of the system on first request (only if configuration is complete) -->
+		<property name="autoInitialize"><value>true</value></property>
+	</bean>
+
+</beans>

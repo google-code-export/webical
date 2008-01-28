@@ -1,0 +1,105 @@
+@charset "UTF-8";
+
+/* IE 6 and previous Stylesheet */
+
+/*  -------- Selectors in alphabetical order!  ------- */
+
+/* Basic layout styles */
+
+#container{
+	width: expression(document.body.clientWidth < 792 ? "790px" : "auto");
+}
+
+#headerPanel{
+	right: 0;
+}
+
+/* Login styles */
+
+#login .button,
+.formControls{
+	margin-left: 11.3em;
+}
+
+/* Calendar Panel */
+
+#calendarPanel{
+  top: 25.8em;
+}
+
+/* Calendar Views Tabs */
+
+.calendarView .tab-row li a span, .tab-row li a span {
+  width: 6em;
+	white-space: nowrap;
+}
+
+/* Content Panel */
+
+#contentPanelArea{
+	height: expression((document.documentElement.clientHeight > 0) ? (document.documentElement.clientHeight - 35) + "px" : (document.body.clientHeight - 35) + "px");
+	top: 35px;
+}
+
+#contentPanel{
+	height: 100%;
+	left: 0;
+	margin: 0 8px 0 18em;
+	position: relative;
+	top: 0;
+}
+
+#calendarViewPanel{
+	height: expression((document.documentElement.clientHeight > 0) ? (document.documentElement.clientHeight - 70) + "px" : (document.body.clientHeight - 70) + "px");  
+	top: 32px;
+}
+
+#calendarViewPanelContentBlock{
+	margin: 0;
+	position: static;
+}
+
+/* Month/Week view */
+
+#calendarViewPanel .eventsInMonth, #calendarViewPanel .eventsInList {
+	height: 95%;
+ 	width: expression((this.parentNode.parentNode.offsetWidth - 10) + "px");
+}
+
+#weekView .weekPanel .weekTop {
+	padding: 2px 0;
+}
+
+#monthView .addEventLink{
+	margin-top: .3em;
+}
+
+/* Date Switcher Panel */
+
+#previousLink, #nextLink {
+  margin-top: -2px;
+}
+
+/* Settings Panel */
+
+#settingsPanel {
+  top: 2.9em;
+}
+
+/* Form styles */
+
+.button,
+.submitButton{
+	padding: 0 .5em;
+}
+
+a.button{
+	display: block;
+	float: left;
+	line-height: 180%;
+}
+
+#datePickerForm #datePickerFormElements .inputButton {
+	line-height: 115%;
+}
+

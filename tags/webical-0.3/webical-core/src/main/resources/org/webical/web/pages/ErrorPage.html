@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:wicket="http://wicket.sourceforge.net/">
+<head>
+	<link href="css/style.css" rel="stylesheet" type="text/css" /> 
+	<title>Problem occured</title>
+</head>
+<body>
+	<wicket:extend>
+		<br /><a wicket:id="homeLink"><wicket:message key="homeLinkLabel" /></a> 
+		<br /><a wicket:id="settingsLink"><wicket:message key="settingsLinkLabel" /></a>
+		 
+		<h2><wicket:message key="Error.label">Error</wicket:message></h2>
+		<wicket:panel id="errorPanel" wicket:id="errorPanel"></wicket:panel>
+		
+		<h2><wicket:message key="Causes.label">Causes</wicket:message></h2>
+		<ul>
+			<li wicket:id="errorCauseList"><wicket:panel wicket:id="cause"></wicket:panel></li>
+		</ul>
+		
+		<h2><a wicket:id="showDetailsLink"><wicket:message key="Details.label">Details</wicket:message></a><br/></h2>
+		<div wicket:id="detailedErrorPanel"></div>
+	</wicket:extend>
+</body>
+</html>
