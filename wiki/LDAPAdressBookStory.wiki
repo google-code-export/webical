@@ -14,11 +14,11 @@ An ldap adressbook to be used when editing tasks/events. The ldap settings shoul
 || ContactManager || 2 || 2 ||
 || ContactSettingsPanel || 3  || 3 ||
 || LdapSettingsPanel || 4 || 4 ||
-|| LdapSettingsForm 	4 	4
-ContactPanel 	3 	3
-ContactSearchPanel 	4 	4
-ContactSearchForm 	3 	3
-Total 	32 	32
+|| LdapSettingsForm || 4 || 4 ||
+|| ContactPanel || 3 || 3 ||
+|| ContactSearchPanel || 4 || 4 ||
+|| ContactSearchForm || 3 || 3 ||
+|| _Total_ || 32 || 32 ||
 
 == Technical implementation ==
 
