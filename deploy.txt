@@ -1,4 +1,4 @@
-see http://www.webical.org/twiki/bin/view/Main/HowToInstallWebical 
+see http://code.google.com/p/webical/wiki/HowToInstallWebical
 for detailed instructions. If you feel lucky:
 
 log4j.properties (in webical-core)
