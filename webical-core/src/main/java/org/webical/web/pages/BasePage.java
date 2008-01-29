@@ -38,11 +38,12 @@ import org.webical.web.action.CalendarSelectedAction;
 import org.webical.web.action.FormFinishedAction;
 import org.webical.web.action.IAction;
 import org.webical.web.action.ShowCalendarAction;
+import org.webical.web.action.ShowSettingsAction;
 import org.webical.web.app.WebicalSession;
 import org.webical.web.app.WebicalWebAplicationException;
 import org.webical.web.component.HeaderPanel;
 import org.webical.web.component.UserInfoPanel;
-import org.webical.web.component.calendar.CalendarAddEditPanel;
+import org.webical.web.component.calendar.CalendarFormPanel;
 import org.webical.web.component.calendar.CalendarPanel;
 import org.webical.web.component.settings.SettingsPanelsPanel;
 
@@ -117,7 +118,7 @@ public class BasePage extends AbstractBasePage {
 	 * List of actions handled by this panel
 	 */
 	@SuppressWarnings("unchecked")
-	protected static Class[] PANELACTIONS = new Class[] { ShowCalendarAction.class, FormFinishedAction.class, CalendarSelectedAction.class };
+	protected static Class[] PANELACTIONS = new Class[] { ShowCalendarAction.class, ShowSettingsAction.class, FormFinishedAction.class, CalendarSelectedAction.class };
 
 	// Page panels
 	/** Panel to use for the different calendar views */
@@ -254,6 +255,22 @@ public class BasePage extends AbstractBasePage {
 				}
 				setContent(calendarPanel, showCalendarAction.getAjaxRequestTarget());
 			}
+			// Show Settings
+			else if(action.getClass().equals(ShowSettingsAction.class)) {
+				ShowSettingsAction showSettingsAction = (ShowSettingsAction) action;
+				SettingsPanelsPanel settingsPanel = new SettingsPanelsPanel(CONTENT_PANEL_MARKUP_ID) {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void onAction(IAction action) {
+						BasePage.this.finalOnAction(action);
+					}
+				};
+				if(showSettingsAction.getTabToSelect() > 0) {
+					settingsPanel.setSelectedTab(showSettingsAction.getTabToSelect());
+				}
+				setContent(settingsPanel, showSettingsAction.getAjaxRequestTarget());
+			}
 			// Form Finished
 			else if(action.getClass().equals(FormFinishedAction.class)) {
 				BasePage.this.loadPreviousContent(action.getAjaxRequestTarget());
@@ -295,7 +312,7 @@ public class BasePage extends AbstractBasePage {
 	private void setContent(int panelId, AjaxRequestTarget target) {
 		switch (panelId) {
 			case CALENDAR_ADD_PANEL:
-				contentPanel = new CalendarAddEditPanel(CONTENT_PANEL_MARKUP_ID, null) {
+				contentPanel = new CalendarFormPanel(CONTENT_PANEL_MARKUP_ID, null) {
 					private static final long serialVersionUID = 1L;
 
 					@Override

@@ -49,13 +49,16 @@ import org.webical.web.component.AbstractBasePanel;
 public abstract class CalendarListPanel extends AbstractBasePanel {
 	private static final long serialVersionUID = 1L;
 
+	// Markup IDs
 	private static final String CALENDAR_LISTVIEW_MARKUP_ID = "calendarListview";
 	private static final String ADD_CALENDAR_LINK_MARKUP_ID = "addCalendarLink";
 
+	/** List with Calendars for thsi User **/
 	private List<Calendar> calendars;
 
 	private Link addCalendarLink;
 
+	// Image resources
 	private ResourceReference enabledImage = new ResourceReference(WebicalWebApplication.class, "enabled.gif");
 	private ResourceReference disabledImage = new ResourceReference(WebicalWebApplication.class, "disabled.gif");
 
@@ -95,7 +98,7 @@ public abstract class CalendarListPanel extends AbstractBasePanel {
 	}
 
 	public void setupNonAccessibleComponents() {
-		// NOTHING TO DO YET
+		// NOTHING TO DO (YET?)
 	}
 
 	// TODO mattijs: implement with onAction(IAction action)

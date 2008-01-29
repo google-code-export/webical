@@ -35,9 +35,11 @@ import org.webical.manager.EventManager;
 import org.webical.manager.WebicalException;
 import org.webical.web.action.FormFinishedAction;
 import org.webical.web.action.IAction;
+import org.webical.web.action.ShowSettingsAction;
 import org.webical.web.app.WebicalWebAplicationException;
 import org.webical.web.component.AbstractBasePanel;
 import org.webical.web.component.behavior.FormComponentValidationStyleBehavior;
+import org.webical.web.component.settings.SettingsPanelsPanel;
 import org.webical.web.event.ExtensionPoint;
 
 /**
@@ -46,9 +48,9 @@ import org.webical.web.event.ExtensionPoint;
  * @author Ivo van Dongen
  * @author Mattijs Hoitink
  */
-public abstract class CalendarAddEditPanel extends AbstractBasePanel {
+public abstract class CalendarFormPanel extends AbstractBasePanel {
 	private static final long serialVersionUID = 1L;
-	private static Log log = LogFactory.getLog(CalendarAddEditPanel.class);
+	private static Log log = LogFactory.getLog(CalendarFormPanel.class);
 
 	public  static final String FORM_EXTENSIONS_MARKUP_ID = "formExtensions";
 	private static final String CALENDAR_ADD_EDIT_FORM_MARKUP_ID = "calendarAddEditForm";
@@ -74,9 +76,9 @@ public abstract class CalendarAddEditPanel extends AbstractBasePanel {
 	 * @param markupId the id used in the markup
 	 * @param calendar the Calendar to be edited or null when a new caledar is edited
 	 */
-	public CalendarAddEditPanel(String markupId, Calendar calendar) {
+	public CalendarFormPanel(String markupId, Calendar calendar) {
 
-		super(markupId, CalendarAddEditPanel.class);
+		super(markupId, CalendarFormPanel.class);
 		this.calendar = calendar;
 		if(this.calendar != null) {
 			this.oldUrl = calendar.getUrl();
@@ -103,7 +105,7 @@ public abstract class CalendarAddEditPanel extends AbstractBasePanel {
 			@Override
 			protected void onDiscard() {
 				// Let the parent know we are finished with the form
-				CalendarAddEditPanel.this.onAction(new FormFinishedAction(null));
+				CalendarFormPanel.this.onAction(new FormFinishedAction(null));
 			}
 
 			/* (non-Javadoc)
@@ -137,7 +139,7 @@ public abstract class CalendarAddEditPanel extends AbstractBasePanel {
 					}
 
 					// Let the parent know we are finished with the form
-					CalendarAddEditPanel.this.onAction(new FormFinishedAction(null));
+					CalendarFormPanel.this.onAction(new ShowSettingsAction(SettingsPanelsPanel.CALENDAR_SETTINGS_TAB_INDEX));
 
 				} catch (WebicalException e){
 					error("Could not store the calendar");

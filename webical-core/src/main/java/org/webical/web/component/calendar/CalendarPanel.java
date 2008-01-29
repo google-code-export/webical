@@ -441,7 +441,6 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 			 * user setting and the default view isn't the day view) and the day view has to be reloaded (once, only the first time)
 			 * to show the recurring events.
 			 */
-			//switchView(WebicalSession.getWebicalSession().getUserSettings().getDefaultCalendarView());
 			switchView(getCurrentCalendarView());
 		}
 		// Add the TabbedPanel

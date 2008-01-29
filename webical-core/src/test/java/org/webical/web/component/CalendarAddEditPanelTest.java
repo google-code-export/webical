@@ -44,7 +44,7 @@ import org.webical.manager.impl.mock.MockUserManager;
 import org.webical.web.PanelTestPage;
 import org.webical.web.WebicalApplicationTest;
 import org.webical.web.action.IAction;
-import org.webical.web.component.calendar.CalendarAddEditPanel;
+import org.webical.web.component.calendar.CalendarFormPanel;
 
 /**
  * @author ivo
@@ -105,7 +105,7 @@ public class CalendarAddEditPanelTest extends WebicalApplicationTest {
 			private static final long serialVersionUID = 1L;
 
 			public Page getTestPage() {
-				return new PanelTestPage(new CalendarAddEditPanel(PanelTestPage.PANEL_MARKUP_ID, calendar) {
+				return new PanelTestPage(new CalendarFormPanel(PanelTestPage.PANEL_MARKUP_ID, calendar) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -118,7 +118,7 @@ public class CalendarAddEditPanelTest extends WebicalApplicationTest {
 
 		// Basic assertions
 		wicketTester.assertRenderedPage(PanelTestPage.class);
-		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID, CalendarAddEditPanel.class);
+		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID, CalendarFormPanel.class);
 
 		// Check the form fields
 		FormTester calendarFormTester = wicketTester.newFormTester(PanelTestPage.PANEL_MARKUP_ID + ":calendarAddEditForm");
@@ -194,7 +194,7 @@ public class CalendarAddEditPanelTest extends WebicalApplicationTest {
 			private static final long serialVersionUID = 1L;
 
 			public Page getTestPage() {
-				return new PanelTestPage(new CalendarAddEditPanel(PanelTestPage.PANEL_MARKUP_ID, null){
+				return new PanelTestPage(new CalendarFormPanel(PanelTestPage.PANEL_MARKUP_ID, null){
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -207,7 +207,7 @@ public class CalendarAddEditPanelTest extends WebicalApplicationTest {
 
 		//Basic assertions
 		wicketTester.assertRenderedPage(PanelTestPage.class);
-		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID, CalendarAddEditPanel.class);
+		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID, CalendarFormPanel.class);
 
 		//Check the validation
 		wicketTester.newFormTester(PanelTestPage.PANEL_MARKUP_ID + ":calendarAddEditForm").submit();
