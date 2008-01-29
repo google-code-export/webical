@@ -41,8 +41,10 @@ Webical README
    installation.
 
    You can log in with username 'webical' and password 'webical'. 
-   The first time you log in, you will be redirected to the 
-   configuration page. 
+   If the system has not been configured, instructions will be 
+   shown on the screen. You can access the configuration page manually 
+   by visiting http://localhost:8080/webical/app/configuration and 
+   configure the application.
 
                            ! WARNING !
       If you plan on using webical in a live environment, change the

@@ -28,7 +28,7 @@ import org.webical.Calendar;
 import org.webical.web.action.CalendarSelectedAction;
 import org.webical.web.action.IAction;
 import org.webical.web.component.AbstractBasePanel;
-import org.webical.web.component.calendar.CalendarAddEditPanel;
+import org.webical.web.component.calendar.CalendarFormPanel;
 
 /**
  * Panel that either displays a List of calendars or the details of a calendar for editing
@@ -39,6 +39,7 @@ import org.webical.web.component.calendar.CalendarAddEditPanel;
 public abstract class CalendarSettingsPanel extends AbstractBasePanel {
 	private static final long serialVersionUID = 1L;
 
+	// Markup IDs
 	private static final String ADD_CALENDAR_LINK_MARKUP_ID = "addCalendarLink";
 	private static final String CALENDAR_CONTENT_PANEL_MARKUP_ID = "calendarSettingsPanelContent";
 
@@ -68,6 +69,9 @@ public abstract class CalendarSettingsPanel extends AbstractBasePanel {
 		this.calendar = calendar;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.webical.web.component.IAccessibilitySwitchingComponent#setupCommonComponents()
+	 */
 	public void setupCommonComponents() {
 		//create the panel here to use it when te discard button is pressed
 		calendarListPanel = new SettingsCalendarListPanel(CALENDAR_CONTENT_PANEL_MARKUP_ID){
@@ -81,7 +85,7 @@ public abstract class CalendarSettingsPanel extends AbstractBasePanel {
 		};
 		if(calendar != null) {
 			//create and show the add/edit form
-			addOrReplace(new CalendarAddEditPanel(CALENDAR_CONTENT_PANEL_MARKUP_ID, calendar){
+			addOrReplace(new CalendarFormPanel(CALENDAR_CONTENT_PANEL_MARKUP_ID, calendar){
 				private static final long serialVersionUID = 1L;
 
 				/* (non-Javadoc)
@@ -111,7 +115,6 @@ public abstract class CalendarSettingsPanel extends AbstractBasePanel {
 			 */
 			@Override
 			public void onClick() {
-				//CalendarSettingsPanel.this.selectCalendarForEdit(new Calendar(), null);
 				CalendarSettingsPanel.this.onAction(new CalendarSelectedAction(new Calendar(), null));
 			}
 
@@ -132,7 +135,7 @@ public abstract class CalendarSettingsPanel extends AbstractBasePanel {
 
 			@Override
 			public void onClick(AjaxRequestTarget target) {
-				CalendarSettingsPanel.this.replace(new CalendarAddEditPanel(CALENDAR_CONTENT_PANEL_MARKUP_ID, null) {
+				CalendarSettingsPanel.this.replace(new CalendarFormPanel(CALENDAR_CONTENT_PANEL_MARKUP_ID, null) {
 					private static final long serialVersionUID = 1L;
 
 					/* (non-Javadoc)

@@ -2,9 +2,19 @@
 <html xmlns:wicket="http://wicket.sourceforge.net/">
 <head>
 	<link href="css/style.css" rel="stylesheet" type="text/css" /> 
-	<title><wicket:message key="NotInitializedPage.title"></wicket:message></title>
+	<title>Webical - Oops</title>
 </head>
 <body>
-	<wicket:message key="NotInitializedPage.message"></wicket:message>
+	<div style="margin: 20px; background: #fff; border: 1px solid #51636A; border-top: 0px; padding-bottom: 10px;">
+		<h1><wicket:message key="NotInitializedPage.title">Sorry!</wicket:message></h1>
+		<p style="padding: 10px;">
+			<wicket:message key="NotInitializedPage.message"></wicket:message>
+		</p>
+		<p style="padding: 0px 10px 10px 10px;">
+			<wicket:message key="NotInitializedPage.explanation"></wicket:message><br />
+			<a class="button" href="app/configuration"><wicket:message key="NotInitializedPage.link">Configuration page</wicket:message></a>
+		</p>
+		<div class="clr">&nbsp;</div>
+	</div>
 </body>	
 </html>
