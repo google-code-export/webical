@@ -160,12 +160,9 @@ public abstract class DatePickerPanel extends AbstractBasePanel {
 		// Markup ID's
 		private static final String CHANGE_DATE_BUTTON_MARKUP_ID = "changeDateButton";
 		private static final String CURRENT_DATE_FIELD_MARKUP_ID = "changeDateField";
-		private static final String CHANGE_DATE_LABEL_MARKUP_ID = "changeDateLabel";
 		// Resource ID's
-		private static final String CHANGE_DATE_LABEL_RESOURCE_ID = "change_date_label";
 		private static final String CHANGE_DATE_BUTTON_RESOURCE_ID = "change_date_label";
 		
-		private Label changeDateLabel;
 		private DateTextField changeDateTextField;
 		private Button changeDateButton;
 
@@ -178,10 +175,8 @@ public abstract class DatePickerPanel extends AbstractBasePanel {
 			super(markupId, model);
 
 			changeDateTextField = new DateTextField(CURRENT_DATE_FIELD_MARKUP_ID, WebicalSession.getWebicalSession().getUserSettings().getDateFormat());
-			changeDateLabel = new Label(CHANGE_DATE_LABEL_MARKUP_ID, new StringResourceModel(CHANGE_DATE_LABEL_RESOURCE_ID, this, new Model("Pick Date")));
 			changeDateButton = new Button(CHANGE_DATE_BUTTON_MARKUP_ID, new StringResourceModel(CHANGE_DATE_BUTTON_RESOURCE_ID, this, new Model("Show")));
 
-			add(changeDateLabel);
 			add(changeDateTextField);
 			add(changeDateButton);
 		}

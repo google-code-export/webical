@@ -46,18 +46,24 @@ public abstract class MonthRowRepeater extends RepeatingView {
 	@SuppressWarnings("unchecked")
 	protected  static Class[] PANELACTIONS = new Class[]{};
 
+	/** EventsModel containing the events for this range */
 	private EventsModel eventsModel;
+	
+	/** The month this range is representing */
+	private int rangeMonth;
 
 	/**
 	 * Constructor
 	 * @param id The ID to use in markup
 	 * @param model The EventsModel to use
+	 * @param rangeMonth the month this range is representing
 	 */
-	public MonthRowRepeater(String id, EventsModel model) {
+	public MonthRowRepeater(String id, EventsModel model, int rangeMonth) {
 		super(id);
 
 		eventsModel = model;
-
+		this.rangeMonth = rangeMonth;
+		
 		addWeeks();
 	}
 
@@ -79,7 +85,7 @@ public abstract class MonthRowRepeater extends RepeatingView {
 			Date weekEndDate = endCal.getTime();
 
 			// Add a MonthRowPanel for each week, with a part of the EventsModel
-			MonthRowPanel monthRowPanel = new MonthRowPanel("week" + startCal.get(GregorianCalendar.WEEK_OF_YEAR), new WrappingEventsModel(weekStartDate, weekEndDate, eventsModel)) {
+			MonthRowPanel monthRowPanel = new MonthRowPanel("week" + startCal.get(GregorianCalendar.WEEK_OF_YEAR), new WrappingEventsModel(weekStartDate, weekEndDate, eventsModel), rangeMonth) {
 				private static final long serialVersionUID = 1L;
 
 				/* (non-Javadoc)

@@ -135,9 +135,6 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 		SimpleDateFormat sdf = new SimpleDateFormat("E", getLocale());
 		for(int i = 0; i < daysToShow; i++) {
 			Label headerLabel = new Label("headerDay" + i, sdf.format(weekCal.getTime()));
-			if(i == 0 && !weekView) { // Add 'first' css class (only if we are NOT viewing a complete week)
-				headerLabel.add(new AttributeAppender("class", true, new Model("first"), " "));
-			}
 			if(i == daysToShow - 1) { // Add 'last' css class
 				headerLabel.add(new AttributeAppender("class", true, new Model("last"), " "));
 			}
@@ -182,12 +179,11 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 		
 		weekHeadingHeadContainer = new WebMarkupContainer(WEEK_HEADING_HEAD_CONTAINER_MARKUP_ID);
 		weekHeadingBodyLabel = new Label(WEEK_HEADING_BODY_LABEL_MARKUP_ID, new Model(weekHeadingBodyText));
-		//weekHeadingBodyLabel = new Label(WEEK_HEADING_LABEL_BODY_MARKUP_ID, weekHeadingBodyText);
-		if(!weekView) {
+		/*if(!weekView) {
 			// User is not viewing a complete week, weeknumber isn't necessary
 			weekHeadingHeadContainer.setVisible(false);
 			weekHeadingBodyLabel.setVisible(false);
-		}
+		}*/
 		addOrReplace(weekHeadingHeadContainer);
 		addOrReplace(weekHeadingBodyLabel);
 	}
@@ -205,7 +201,7 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 			weekHeadingBodyText = String.valueOf(currentDate.get(Calendar.WEEK_OF_YEAR));
 		} else {
 			startDate.setTime(this.currentDate.getTime().getTime());
-			weekHeadingBodyText = "";
+			weekHeadingBodyText = " ";
 		}
 
 		// Calculate the end date

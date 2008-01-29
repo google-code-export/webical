@@ -115,6 +115,10 @@ public class DateSwitcherModel implements IModel {
 	public CalendarViewPanel getCurrentViewPanel() {
 		return this.currentViewPanel;
 	}
+	
+	public Calendar getCurrentDate() {
+		return this.currentDate;
+	}
 
 	/* (non-Javadoc)
 	 * @see org.apache.wicket.model.IModel#setObject(java.lang.Object)

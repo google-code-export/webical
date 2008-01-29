@@ -31,7 +31,7 @@ import org.webical.web.component.AbstractBasePanel;
 import org.webical.web.component.calendar.model.EventsModel;
 
 /**
- * Panel representing 1 row in the Month View
+ * Panel representing one row in the Month View
  *
  * @author Mattijs Hoitink
  *
@@ -46,7 +46,10 @@ public abstract class MonthRowPanel extends AbstractBasePanel {
 
 	/** The EventsModel used */
 	private EventsModel eventsModel;
-
+	
+	/** The month this range is representing */
+	private int rangeMonth;
+	
 	private Link weekLink;
 	private Label weekLabel;
 
@@ -58,10 +61,12 @@ public abstract class MonthRowPanel extends AbstractBasePanel {
 	 * Constructor.
 	 * @param markupId The ID to use in markup
 	 * @param eventsModel The EventsModel to use
+	 * @param rangeMonth The month this range is representing
 	 */
-	public MonthRowPanel(String markupId, EventsModel eventsModel) {
+	public MonthRowPanel(String markupId, EventsModel eventsModel, int rangeMonth) {
 		super(markupId, MonthRowPanel.class);
 		this.eventsModel = eventsModel;
+		this.rangeMonth = rangeMonth;
 	}
 
 	/* (non-Javadoc)
@@ -86,7 +91,7 @@ public abstract class MonthRowPanel extends AbstractBasePanel {
 		weekLink.add(weekLabel);
 
 		// Add a MonthDayRepeater to repeat the days of this week
-		MonthDayRepeater monthDayRepeater = new MonthDayRepeater(MONTH_DAY_REPEATER_MARKUP_ID, eventsModel) {
+		MonthDayRepeater monthDayRepeater = new MonthDayRepeater(MONTH_DAY_REPEATER_MARKUP_ID, eventsModel, rangeMonth) {
 			private static final long serialVersionUID = 1L;
 
 			@Override

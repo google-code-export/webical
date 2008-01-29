@@ -434,7 +434,7 @@ a:focus, a:hover, a:active {
 
 #dateSwitcherPanel, #dateSwitcher {
   position: absolute;
-  right: 2em;
+  left: 1em;
   top: .4em;
   height: 32px;
 }
@@ -524,7 +524,7 @@ a:focus, a:hover, a:active {
 /* Calendar Views Tabs */
 
 .calendarView .tab-row, #contentPanel_calendarViewsTabs .tab-row, .tab-row {
-	left: 6px;
+  right: 2em;
   position: absolute;
   top: 7px;
   z-index: 100;

@@ -105,8 +105,8 @@ public abstract class EventsListView extends ListView {
 			}
 		};
 		eventLink.add(new Label(EVENT_TITLE_LABEL_MARKUP_ID, currentEvent.getSummary()));
-
-		item.addOrReplace(timeLabel);
+		eventLink.addOrReplace(timeLabel);
+		
 		item.addOrReplace(eventLink);
 	}
 
