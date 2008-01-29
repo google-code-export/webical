@@ -15,7 +15,7 @@
 #calendarViewPanel .eventsInMonth, #calendarViewPanel .eventsInList {
   height: 85%;
 	position: absolute;
- 	width: 13.7%;
+ 	width: 14%;
 }
 
 #weekView td.weekColumn, #weekView td.todayWeekColumn {

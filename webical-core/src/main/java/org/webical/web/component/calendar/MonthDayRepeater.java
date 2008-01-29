@@ -54,7 +54,11 @@ public abstract class MonthDayRepeater extends RepeatingView {
 	 * CSS Class name for the last item in the repeater.
 	 */
 	private static final String LAST_ITEM_CSS_CLASS = "lastItem";
-
+	/**
+	 * CSS Class name for items out of the months range
+	 */
+	private static final String OUT_OF_RANGE_CSS_CLASS = "outOfRange";
+	
 	/** Contains the actions this panel can handle */
 	@SuppressWarnings("unchecked")
 	protected  static Class[] PANELACTIONS = new Class[] { };
@@ -63,10 +67,11 @@ public abstract class MonthDayRepeater extends RepeatingView {
 	 * Constructor.
 	 * @param id The ID to use in markup
 	 * @param eventsModel The {@code EventsModel} to use.
+	 * @param rangeMonth The month this range is representing
 	 */
-	public MonthDayRepeater(String id, EventsModel eventsModel) {
+	public MonthDayRepeater(String id, EventsModel eventsModel, int rangeMonth) {
 		super(id);
-
+		
 		GregorianCalendar todayCal = new GregorianCalendar();
 		Date todayStartDate = CalendarUtils.getStartOfDay(todayCal.getTime());
 
@@ -103,7 +108,10 @@ public abstract class MonthDayRepeater extends RepeatingView {
 			if(i == 6) {
 				monthDayPanel.add(new AttributeAppender("class", true, new Model(LAST_ITEM_CSS_CLASS), " "));
 			}
-
+			// Check if the date is in range
+			if(!(startCal.get(Calendar.MONTH) == rangeMonth)) {
+				monthDayPanel.add(new AttributeAppender("class", true, new Model(OUT_OF_RANGE_CSS_CLASS), " "));
+			}
 			add(monthDayPanel);
 
 			// Add a day to the calendar

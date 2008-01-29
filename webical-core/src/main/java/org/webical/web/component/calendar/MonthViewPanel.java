@@ -126,7 +126,7 @@ public abstract class MonthViewPanel extends CalendarViewPanel {
 	 * @see org.webical.web.component.IAccessibilitySwitchingComponent#setupAccessibleComponents()
 	 */
 	public void setupAccessibleComponents() {
-		monthRowRepeater = new MonthRowRepeater(MONTH_ROW_REPEATER_MARKUP_ID, eventsModel) {
+		monthRowRepeater = new MonthRowRepeater(MONTH_ROW_REPEATER_MARKUP_ID, eventsModel, currentDate.get(Calendar.MONTH)) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
