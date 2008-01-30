@@ -142,7 +142,7 @@ public abstract class DateSwitcherPanel extends AbstractBasePanel {
 				(CalendarUtils.getStartOfDay(currentDate.getTime()).compareTo(CalendarUtils.getStartOfDay(rangeStartDate.getTime())) >= 0) 
 				&&
 				(CalendarUtils.getStartOfDay(currentDate.getTime()).compareTo(CalendarUtils.getStartOfDay(rangeEndDate.getTime())) <= 0)
-				);
+			   );
 	}
 	
 	/**
