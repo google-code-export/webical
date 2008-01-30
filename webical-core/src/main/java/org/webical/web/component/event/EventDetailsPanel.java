@@ -20,7 +20,6 @@
 
 package org.webical.web.component.event;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,7 +29,6 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.webical.Event;
 import org.webical.ical.RecurrenceUtil;
-import org.webical.manager.WebicalException;
 import org.webical.util.CalendarUtils;
 import org.webical.web.action.EditEventAction;
 import org.webical.web.action.IAction;
@@ -224,41 +222,8 @@ public abstract class EventDetailsPanel extends AbstractBasePanel {
 
 			@Override
 			public void onConfirmThis() {
-
-				System.out.println("Event " + event + " occurrence on " + selectedEventDate.getTime() + " selected for removal");
-				System.out.println("First occurrence = " + event.getDtStart());
-				try {
-					System.out.println("Last occurrence = " + RecurrenceUtil.getLastOccurrenceDate(event));
-				} catch (WebicalException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-				try {
-					// TODO mattijs: if this instance is the startdate, the start date should be moved to the next instance.
-					if(CalendarUtils.getStartOfDay(event.getDtStart()).equals(CalendarUtils.getStartOfDay(selectedEventDate.getTime()))) {
-						// Set the event start date to the date of the next instance 
-						try {
-							System.out.println("Next occurrence = " + RecurrenceUtil.getNextOccurrenceDate(event, event.getDtStart()));
-						} catch (WebicalException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (ParseException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						
-					} else if(CalendarUtils.getStartOfDay(RecurrenceUtil.getLastOccurrenceDate(event)).equals(CalendarUtils.getStartOfDay(selectedEventDate.getTime()))) {
-						// Set the event end date to the date of the date of one instance back
-						System.out.println("Last occurrence = " + RecurrenceUtil.getLastOccurrenceDate(event));
-								
-					} else {
-						RecurrenceUtil.excludeDateFromRecurrenceRule(selectedEventDate.getTime(), event);
-					}
-				} catch (WebicalException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				// clear the selected date from the recurrence range
+				RecurrenceUtil.excludeDateFromRecurrenceRule(selectedEventDate.getTime(), event);
 				
 				// Store the event and redirect to the calendar
 				EventDetailsPanel.this.onAction(new StoreEventAction(event));
