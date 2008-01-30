@@ -75,6 +75,7 @@ public abstract class DateSwitcherPanel extends AbstractBasePanel {
 	 */
 	public void setupAccessibleComponents() {
 
+		// Add the 'today' button
 		todayLink = new Link(TODAY_LINK_MARKUP_ID) {
 			private static final long serialVersionUID = 1L;
 
@@ -84,8 +85,10 @@ public abstract class DateSwitcherPanel extends AbstractBasePanel {
 			}
 
 		};
+		// Disable the today button when it is shown
 		todayLink.setEnabled(!isTodayInRange());
-
+		
+		// Add range buttons
 		nextLink = new Link(NEXT_LINK_MARKUP_ID) {
 			private static final long serialVersionUID = 1L;
 
@@ -95,7 +98,6 @@ public abstract class DateSwitcherPanel extends AbstractBasePanel {
 			}
 
 		};
-
 		previousLink = new Link(PREVIOUS_LINK_MARKUP_ID) {
 			private static final long serialVersionUID = 1L;
 
