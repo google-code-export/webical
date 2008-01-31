@@ -114,16 +114,6 @@ public abstract class EventsListView extends ListView {
 		if(currentEvent.isAllDay()) {
 			item.add(new AttributeAppender("class", true, new Model("allDay"), " "));
 		}
-
-		// Add an unique ID to the element for javascript use
-		String elementId = currentEvent.getUid().toString();
-		// If the string is a Hibernate ID (longer than 40), only take the unique part (better readable for javascript)
-		if( currentEvent.getUid().toString().length() > 40 ) {
-			elementId = "event" + currentEvent.getUid().toString().substring(17, 38);
-		}
-		item.add(new AttributeAppender("id", true, new Model(elementId), " "));
-		// Add the element ID to the header script
-		CalendarPanel.roundedItemIds.add(elementId);
 		
 		item.addOrReplace(eventLink);
 		
