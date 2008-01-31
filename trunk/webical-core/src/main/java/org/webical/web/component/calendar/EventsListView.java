@@ -24,10 +24,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.Model;
 import org.webical.Event;
 import org.webical.web.action.EventSelectedAction;
 import org.webical.web.action.IAction;
@@ -89,9 +91,11 @@ public abstract class EventsListView extends ListView {
 		
 		String timeLabelText = "";
 		if(!currentEvent.isAllDay()) {
+			//timeLabelText += dateFormat.format(CalendarUtils.getCalendarTimeZoneCorrectedDate(currentEvent.getDtStart(), currentEvent.getCalendar()));
 			timeLabelText += dateFormat.format(currentEvent.getDtStart());
 		}
 		if(showEndTime && !currentEvent.isAllDay()) {
+			//timeLabelText += " - " + dateFormat.format(CalendarUtils.getCalendarTimeZoneCorrectedDate(currentEvent.getDtEnd(), currentEvent.getCalendar()));
 			timeLabelText += " - " + dateFormat.format(currentEvent.getDtEnd());
 		}
 
@@ -107,10 +111,24 @@ public abstract class EventsListView extends ListView {
 		eventLink.add(new Label(EVENT_TITLE_LABEL_MARKUP_ID, currentEvent.getSummary()));
 		eventLink.addOrReplace(timeLabel);
 		
+		if(currentEvent.isAllDay()) {
+			item.add(new AttributeAppender("class", true, new Model("allDay"), " "));
+		}
+
+		// Add an unique ID to the element for javascript use
+		String elementId = currentEvent.getUid().toString();
+		// If the string is a Hibernate ID (longer than 40), only take the unique part (better readable for javascript)
+		if( currentEvent.getUid().toString().length() > 40 ) {
+			elementId = "event" + currentEvent.getUid().toString().substring(17, 38);
+		}
+		item.add(new AttributeAppender("id", true, new Model(elementId), " "));
+		// Add the element ID to the header script
+		CalendarPanel.roundedItemIds.add(elementId);
+		
 		item.addOrReplace(eventLink);
+		
 	}
-
-
+	
 	/**
 	 * Re-render the list after the EventsModel has changed
 	 * @see org.apache.wicket.Component#onModelChanged()

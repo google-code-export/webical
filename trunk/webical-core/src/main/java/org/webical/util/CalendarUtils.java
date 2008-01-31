@@ -26,9 +26,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import net.fortuna.ical4j.data.CalendarOutputter;
+
 /**
  * Class with Calendar util methods
- * @author ivo
+ * @author Ivo van Dongen
+ * @author Mattijs Hoitink
  *
  */
 public abstract class CalendarUtils {
@@ -294,6 +297,24 @@ public abstract class CalendarUtils {
 
 		return sHours + ":" + sMinutes + " " + additive;
 
+	}
+	
+	/**
+	 * Returns a date corrected with the TimeZone of the given calendar
+	 * @param date The date to correct
+	 * @param calendar The Calendar containing the TimeZone
+	 * @return A Date corrected according to the TimeZone
+	 */
+	public static Date getCalendarTimeZoneCorrectedDate(Date date, org.webical.Calendar calendar) {
+		GregorianCalendar eventDate = new GregorianCalendar();
+		eventDate.setTime(date);
+		
+		if(calendar.getOffSetTo() != null && calendar.getOffSetFrom() != null){
+			int diff = calendar.getOffSetFrom().intValue() + calendar.getOffSetTo().intValue();
+			eventDate.add(java.util.Calendar.HOUR_OF_DAY, diff);
+		}
+		
+		return eventDate.getTime();
 	}
 
 }

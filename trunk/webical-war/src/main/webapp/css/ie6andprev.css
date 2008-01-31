@@ -122,9 +122,7 @@ body{
 
 .monthViewContainer #monthView .weekHeader,
 .weekViewContainer .weekHeader{
-	border: 0;
 	border-left: 1px solid #51636a;
-	border-top: 1px solid #dedede;
 }
 
 #weekView{
