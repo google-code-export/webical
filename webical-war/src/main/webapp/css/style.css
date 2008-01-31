@@ -592,6 +592,10 @@ a:focus, a:hover, a:active {
 
 /* Calendar View Panel */
 
+.allDay {
+	background-color: #C5D7ED;
+	margin: 2px;
+}
 #calendarViewPanel ul ul, #dayViewEvents {
   padding-left: 1.5em;
 }

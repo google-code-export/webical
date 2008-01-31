@@ -36,6 +36,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.webical.Calendar;
 import org.webical.User;
@@ -107,6 +108,7 @@ public abstract class CalendarForm extends Form {
 
 		// Check if we are editing a calendar. If editCalendar is a calendar, set up the edit form
 		if((this.editCalendar != null) && (this.editCalendar.getUrl() != null)) {
+			
 			//Use the offset (timezone) to calculate the offsetto (daylight saving)
 			long offSetFromTemp = new Long(0);
 			long offSetToTemp = new Long(1);
@@ -232,7 +234,7 @@ public abstract class CalendarForm extends Form {
 			}
 		}
 
-		timeZoneDropDownChoice = new DropDownChoice(markupId, timeZoneList, new IChoiceRenderer() {
+		timeZoneDropDownChoice = new DropDownChoice(markupId, new PropertyModel((Calendar)this.calendarModel.getObject(), "offSetTo"), timeZoneList, new IChoiceRenderer() {
 
 			private static final long serialVersionUID = 1L;
 
