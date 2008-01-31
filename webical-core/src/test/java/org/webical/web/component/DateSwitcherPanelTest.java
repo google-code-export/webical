@@ -69,7 +69,6 @@ public class DateSwitcherPanelTest extends WebicalApplicationTest {
 		previousLinkCLickedDate = new GregorianCalendar();
 		nextLinkCLickedDate = new GregorianCalendar();
 		todayLinkClickedDate = new GregorianCalendar();
-		todayLinkClickedDate.add(GregorianCalendar.DAY_OF_MONTH, 5);
 
 		// Set up a DayViewPanel for the model to use
 		final DayViewPanel calendarDayViewPanel = new DayViewPanel("test", new GregorianCalendar()){
@@ -120,8 +119,8 @@ public class DateSwitcherPanelTest extends WebicalApplicationTest {
 		wicketTester.clickLink(PanelTestPage.PANEL_MARKUP_ID + ":nextLink");
 
 		assertTrue("New date not before old date", previousLinkCLickedDate.before(currentDate));
-		assertTrue("New date not after old date", nextLinkCLickedDate.after(currentDate));
 		assertTrue("New date doesnot equals old date", CalendarUtils.getStartOfDay(todayLinkClickedDate.getTime()).equals(CalendarUtils.getStartOfDay(currentDate.getTime())));
+		assertTrue("New date not after old date", nextLinkCLickedDate.after(currentDate));
 	}
 
 	/**
