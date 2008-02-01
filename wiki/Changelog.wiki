@@ -1,6 +1,13 @@
 #labels User,Developer,Resource
 #Webical Changelog
 
+== Webical 0.4.1 ==
+  * Calendar on/off switch in calendar settings screen
+  * All day event background color
+  * Corrected date range display
+  * Style improvements
+  * Consistency improvements
+
 == Webical 0.4 ==
   * Improved usability
   * New Datepicker
