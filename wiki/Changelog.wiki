@@ -1,4 +1,6 @@
 #labels User,Developer,Resource,Featured
+(checkout the [Roadmap] for what lies ahead)
+
 == Webical 0.4.1 ==
   * Calendar on/off toggle in calendar settings screen
   * All day event background color
