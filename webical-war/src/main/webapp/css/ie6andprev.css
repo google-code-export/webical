@@ -130,11 +130,12 @@ body{
 }
 
 #weekView td.weekColumn,
+#weekView td.nonWeekColumn,
 #weekView .weekPanel{
 	height: 100%;
 }
 
-#weekView td.weekColumn{
+#weekView td.weekColumn, #weekView td.nonWeekColumn{
 	border-top: 0;
 }
 
