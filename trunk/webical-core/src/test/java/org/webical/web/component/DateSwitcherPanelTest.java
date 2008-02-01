@@ -115,7 +115,7 @@ public class DateSwitcherPanelTest extends WebicalApplicationTest {
 		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":rangeLabel", sdf.format(currentDate.getTime()));
 
 		wicketTester.clickLink(PanelTestPage.PANEL_MARKUP_ID + ":previousLink");
-		wicketTester.clickLink(PanelTestPage.PANEL_MARKUP_ID + ":todayLink");
+		wicketTester.clickLink(PanelTestPage.PANEL_MARKUP_ID + ":todayButton");
 		wicketTester.clickLink(PanelTestPage.PANEL_MARKUP_ID + ":nextLink");
 
 		assertTrue("New date not before old date", previousLinkCLickedDate.before(currentDate));
