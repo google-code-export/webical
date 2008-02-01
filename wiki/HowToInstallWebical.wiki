@@ -13,10 +13,10 @@ You need to have a couple of things installed on your machine, in order to run W
 == Getting the application ==
 There are two ways of obtaining Webical. You can either download the pre build war file to deploy in Tomcat. Or you can get the Webical source from our svn repository and compile it yourself. Both methods are explained below.
 
-=== Pre build ===
-The latest pre build war is available in our [http://code.google.com/p/webical/downloads/list download section]. A readme file is included in the Archive with the a short version of this guide. 
+=== Pre built ===
+The latest pre built war is available in our [http://code.google.com/p/webical/downloads/list download section]. A readme file is included in the Archive with the a short version of this guide. 
 
-If you download the pre build war, you can continue to the `Installation` steps below.
+If you download the pre built war, you can continue to the `Installation` steps below.
 
 ===  Building from Source ===
 You can use your favorite svn client to checkout the latest webical source. The url is http://webical.googlecode.com/svn/trunk/.
