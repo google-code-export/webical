@@ -33,8 +33,14 @@ function resizeCalendarCells() {
 			var weekTableTops_arr = getElementsByClassName("weekTop", "div", document);
 			for (j = 0; j < weekTableCells_arr.length; j++) {
 				weekTableCells_arr[j].style.height = calendarViewPanelContentBlock.offsetHeight - weekTableHeaders_arr[0].offsetHeight + "px";
-			
+				
+				var newWidth = Math.floor(100 / (weekTableCells_arr.length - 1));
+				// If we are not at the first cell, change the width according to the number of cells
+				if(j != 0) {
+					weekTableCells_arr[j].style.width=newWidth + "%";
+				}
 			}
+			
 			var weekTableCellNewHeight = weekTableCells_arr[0].parentNode.offsetHeight;
 			for (k = 0; k < daysInWeek_arr.length; k++) {
 				daysInWeek_arr[k].style.display = "block";

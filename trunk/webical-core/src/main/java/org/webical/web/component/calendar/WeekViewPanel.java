@@ -201,7 +201,7 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 			weekHeadingBodyText = String.valueOf(currentDate.get(Calendar.WEEK_OF_YEAR));
 		} else {
 			startDate.setTime(this.currentDate.getTime().getTime());
-			weekHeadingBodyText = " ";
+			weekHeadingBodyText = "";
 		}
 
 		// Calculate the end date

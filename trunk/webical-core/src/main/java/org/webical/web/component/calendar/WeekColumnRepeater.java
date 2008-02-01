@@ -36,9 +36,17 @@ public abstract class WeekColumnRepeater extends RepeatingView {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * CSS Class for week columns
+	 */
+	private static final String WEEK_COLUMN_CSS_CLASS = "weekColumn";
+	/**
+	 * CSS Class for non-week columns
+	 */
+	private static final String NON_WEEK_COLUMN_CSS_CLASS = "nonWeekColumn";
+	/**
 	 * CSS Class name for current day.
 	 */
-	private static final String TODAY_CSS_CLASS = "todayWeekColumn";
+	private static final String TODAY_CSS_CLASS = "todayColumn";
 	/**
 	 * CSS Class name for the first item in the repeater.
 	 */
@@ -81,7 +89,15 @@ public abstract class WeekColumnRepeater extends RepeatingView {
 				}
 
 			};
-
+			// Add week or non-week class
+			if(numberOfDays == 6) {
+				// Add week class
+				weekDayPanel.add(new AttributeAppender("class", true, new Model(WEEK_COLUMN_CSS_CLASS), " "));
+			} else {
+				// Add non-week class
+				weekDayPanel.add(new AttributeAppender("class", true, new Model(NON_WEEK_COLUMN_CSS_CLASS), " "));
+			}
+			
 			// Check if we need to add some extra css styles
 			if(dayStartDate.compareTo(todayStartDate) == 0) {
 				weekDayPanel.add(new AttributeAppender("class", true, new Model(TODAY_CSS_CLASS), " "));

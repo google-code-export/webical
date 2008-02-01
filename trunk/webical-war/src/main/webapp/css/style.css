@@ -785,12 +785,17 @@ a:focus, a:hover, a:active {
 }
 
 
-#weekView td.weekColumn, #weekView td.todayWeekColumn {
+#weekView td.weekColumn, #weekView td.nonWeekColumn, #weekView td.todayColumn {
   border-top: 1px solid #B3B3B3;
   border-right: 1px solid #B3B3B3;
- 	height: 90%;
-	padding: 0px;
-	width: 14%;
+  height: 90%;
+  padding: 0px;
+}
+#weekView td.weekColumn {
+	width: 14%;	
+}
+#weekView td.nonWeekColumn {
+	/*width: 25%;*/
 }
 
 #weekView td.weekHeader{
@@ -812,11 +817,11 @@ a:focus, a:hover, a:active {
   text-align: right;
 }
 
-#weekView .todayWeekColumn .weekPanel .weekTop {
+#weekView .todayColumn .weekPanel .weekTop {
   background-color: #51636A;
 }
 
-#weekView .todayWeekColumn .weekPanel .weekTop a {
+#weekView .todayColumn .weekPanel .weekTop a {
   color: #fff;
 }
 
@@ -825,7 +830,7 @@ a:focus, a:hover, a:active {
 	text-decoration: none;
 }
 
-#weekView .todayWeekColumn {
+#weekView .todayColumn {
   background-color: #FFFFBA;
 }
 
