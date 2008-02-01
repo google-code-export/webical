@@ -1,0 +1,27 @@
+<Context path="/webical-refactoring" debug="5" reloadable="true" crossContext="true">
+
+        <!-- Authentication realm -->
+		<Realm className="org.apache.catalina.realm.JDBCRealm" 
+			debug="4" 
+		    driverName="com.mysql.jdbc.Driver"
+			connectionName="org_webical_demo" 
+			connectionPassword="org_webical_demo" 
+			connectionURL="jdbc:mysql://localhost:3306/org_webical_demo?autoReconnect=true" 
+		    userTable="_auth_user" 
+			userNameCol="username" 
+			userCredCol="userpass" 
+		    userRoleTable="_auth_userrole" 
+			roleNameCol="role"/>
+			
+        <!-- The database resource for hibernate -->
+        <Resource 
+                name="jdbc/calendarDataBase" 
+                auth="Container" 
+                type="javax.sql.DataSource" 
+                factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory" 
+                username="org_webical_demo" 
+                password="org_webical_demo" 
+                driverClassName="com.mysql.jdbc.Driver" 
+                url="jdbc:mysql://localhost:3306/org_webical_demo?autoReconnect=true" />
+
+</Context>

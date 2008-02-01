@@ -1,0 +1,14 @@
+<Context path="/webical-refactoring" docBase="webical" debug="5" reloadable="true" crossContext="true">
+
+	<!-- The database resource for hibernate -->
+	<Resource 
+		name="jdbc/calendarDataBase" 
+		auth="Container" 
+		type="javax.sql.DataSource" 
+		factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory" 
+		username="webical" 
+		password="webical" 
+		driverClassName="com.mysql.jdbc.Driver" 
+		url="jdbc:mysql://localhost:3306/webical?autoReconnect=true" />
+	
+</Context>

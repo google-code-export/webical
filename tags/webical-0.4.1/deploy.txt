@@ -1,0 +1,20 @@
+see http://code.google.com/p/webical/wiki/HowToInstallWebical
+for detailed instructions. If you feel lucky:
+
+log4j.properties (in webical-core)
+- update to latest revision for a fileappender
+- change the logfile if needed
+- change loglevels if needed
+
+context.xml (in webical-war)
+- Change Realm information
+- Change Connection information
+
+web.xml (in webical-war)
+- Set environment init-param to deployment for the wicket-servlet
+
+Deploying the demo
+
+- make a new war: mvn -Denv=demo clean package
+- copy it to the server
+- apply webical-war/etc/defaultwebicaldemodata.sql to the org_webical_demo database

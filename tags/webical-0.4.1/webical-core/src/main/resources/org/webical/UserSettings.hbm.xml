@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="org.webical">
+	<joined-subclass name="UserSettings" table="user_settings" extends="Settings">
+		
+		<!-- The id column of the superclass -->
+		<key column="id"/>
+		
+		<property name="defaultCalendarView" type="int"/>
+		<property name="firstDayOfWeek" type="int"/>
+		<property name="numberOfAgendaDays" type="int"/>
+		
+		<property name="dateFormat" type="string"/>
+		<property name="timeFormat" type="string"/>
+		
+		<many-to-one name="user" class="User" />
+  		
+	</joined-subclass>
+</hibernate-mapping>

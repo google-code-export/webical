@@ -1,0 +1,99 @@
+Webical README
+
+---------------------------
+1. Requirements
+2. Installation
+   2.1 Quick start
+   2.2 Custom installation
+3. More information
+---------------------------
+
+1. Requirements
+   To run Webical, you require the following:
+    - Java 1.5 (http://java.sun.com/javase/downloads/index.jsp)
+    - Tomcat 5.5 (http://tomcat.apache.org/)
+    - MySQL 5 (http://dev.mysql.com/downloads/mysql/5.0.html#downloads)
+    - MySQL Connector/J (http://dev.mysql.com/downloads/connector/j/)
+
+---------------------------
+
+2. Installation
+
+   2.1 Quick start
+
+   This quick start assumes the following:
+    - Tomcat is running on localhost:8080
+    - MySQL is running on localhost:3306
+    - there is a database named 'webical'
+    - there is a database user with username 'webical' and
+      password 'webical'
+    - this user has at least SELECT, INSERT, UPDATE, DELETE, ALTER, 
+      INDEX, CREATE and DROP access to the 'webical' database
+
+   Installation:
+    - apply DB_setup.sql to the webical database
+    - apply AUTH_setup.sql to the webical database
+    - extract the jar from MySQL Connector/J and copy it to
+      '$CATALINA_HOME/common/lib/'
+    - copy webical.war to '$CATALINA_HOME/webapps/'
+
+   Visit http://localhost:8080/webical/ to start using your Webical
+   installation.
+
+   You can log in with username 'webical' and password 'webical'. 
+   If the system has not been configured, instructions will be 
+   shown on the screen. You can access the configuration page manually 
+   by visiting http://localhost:8080/webical/app/configuration and 
+   configure the application.
+
+                           ! WARNING !
+      If you plan on using webical in a live environment, change the
+      default usernames and passwords. Otherwise people will be able to
+      access your application with the default settings.
+                           ! WARNING !
+
+   2.2 Custom installation
+
+   If you don't want the default configuration, you can change it
+   as follows.
+
+   Most of the application settings described below can be found in the
+   context.xml file which is located in the META-INF directory in the
+   Webical root direcory. This file can be edited after the application
+   is deployed in the Tomcat webapps directory
+   ($CATALINA_HOME/webapps/webical/META-INF/context.xml).
+
+   * Changing the default user:
+   If you want to change the default login username and password from
+   webical:webical to something different, you can edit the credentials
+   at the bottom of AUTH_setup.sql or change them directly in the
+   database.
+
+   * Change database settings:
+   If you want to change the database settings, edit context.xml.
+
+   * Use a different database provider:
+   It is possible to use a database provider other than MySQL. You have
+   to install your own JDBC driver for Tomcat to use in 
+   $CATALINA_HOME/common/lib, and change the <Resource> in context.xml.
+
+   * Use a different authentication realm:
+   If you want to use a different relational database or an LDAP server
+   for the Tomcat authentication realm, you can change this in the
+   context.xml file. An LDAP authentication example is included within
+   the file.
+
+---------------------------
+
+3. More information
+
+   For more information see http://www.webical.org/.
+
+   If you find any bugs, or have any feature requests, please use our
+   issue tracker: http://code.google.com/p/webical/issues/
+
+   For support, please join our mailing list and ask your questions:
+   http://groups.google.com/group/webical-developers
+
+
+Thank you for using Webical! 
