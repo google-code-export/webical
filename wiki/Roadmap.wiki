@@ -12,7 +12,7 @@ Implemented Features:
 || *Name* || *Description* || *Stories* ||
 || Full Recurrence support || Full support for editing and deleting recurrent event and excluding events from recurrence ranges || EditRecurringEventStory ||
 
-Planned bug fixes: Milestone 0.5 tagged bugs
+Planned bug fixes: [http://code.google.com/p/webical/issues/list?can=2&q=milestone:0.5&colspec=ID%20Type%20Status%20Priority%20Milestone%20Owner%20Summary%20Modified Milestone 0.5 tagged issues]
 
 === Milestone 1.0 ===
 Full AJAX enabled version, with accessible fall back.
