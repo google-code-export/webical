@@ -124,6 +124,11 @@
 			<name>Codehaus</name>
 			<url>http://repository.codehaus.org</url>
 		</repository>
+		<repository>
+			<id>Webical</id>
+			<name>Webical</name>
+			<url>http://maven.webical.org</url>
+		</repository>
 	</repositories>
 
 	<!-- 
