@@ -1,6 +1,4 @@
 #labels User,Resource
-#Guide on how to install Webical
-
 = Introduction =
 This guide will tell you what is needed to install Webical and how to do this step by step.
 
