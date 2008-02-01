@@ -1,6 +1,4 @@
 #labels User,Developer,Resource
-#Webical Changelog
-
 == Webical 0.4.1 ==
   * Calendar on/off switch in calendar settings screen
   * All day event background color
@@ -22,5 +20,5 @@
 == Webical 0.2 ==
   * New readme for installation
 
-== Webical  0.1 ==
+== Webical 0.1 ==
   * Initial release
