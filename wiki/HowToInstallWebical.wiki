@@ -38,12 +38,12 @@ Webical comes with settings for a default installation. If you want to changes t
 
 This guide assumes you have Tomcat 5.5 running on `http://localhost:8080/` and MySQL 5 running on `localhost:3306` for the default installation.
 
-If you have build webical from source, rename the ROOT.war to webical.war.
+If you have built Webical from source, rename the ROOT.war to webical.war.
 
 ==== Setting up the database ====
 Webical uses a database to cache the calendar data. By default, it uses a MySQL database. The default installation assumes you have a database named `webical` and a database user `webical` with password `webical`. This user needs at least SELECT, INSERT, UPDATE, DELETE, ALTER, INDEX, CREATE and DROP access to the `webical` database.
 
-With the pre build war, 2 SQL scripts are included. If you checked out the source from svn, these scripts can be found in the _doc_ directory.
+With the pre built war, two SQL scripts are included. If you checked out the source from svn, these scripts can be found in the _doc_ directory.
 Apply `DB_setup.sql` to your database to create the tables needed for the calendar cache.
 
 The default installation uses the same MySQL database for the Tomcat authentication realm. If you want to change to a different way of authenticating, or if you have an existing database with user, read *Custom installation*.
@@ -57,19 +57,17 @@ Next, copy the `webical.war` file to the `$CATALINA_HOME/webapps` directory. Onc
 
 As an alternative, you can use the Tomcat manager to deploy the war to your Tomcat server. The manager can be reached at http://localhost:8080/manager/html. Documentation on how to use the Tomcat manager can be found at http://tomcat.apache.org/tomcat-5.5-doc/manager-howto.html.
 
-The default installation is compelete!
-
-After (re)starting tomcat, you can visit http://localhost:8080/webical to view the installation. You can log in with webical/webical. On the first visit, you will be redirected to the configuration page after login. You can go to the configuration page manualy by visiting http://localhost:8080/webical/app/configuration.
+After (re)starting tomcat, you can visit http://localhost:8080/webical to view the installation. You can log in with username _webical_ and password _webical_. On the first visit, you will be redirected to the configuration page after login. You can go to the configuration page manually by visiting http://localhost:8080/webical/app/configuration.
 
 === Custom installation ===
-If you downloaded the pre build war file, and you want to alter the default setup you first have to complete the *default installation* steps above. After webical is deployed, Tomcat has unpacked the war to `$CATALINA_HOME/webapps/webical` and the xml files can be changed. 
+If you downloaded the pre built war file, and you want to alter the default setup, you first have to complete the *Default installation* steps above. After Webical is deployed, Tomcat has unpacked the war to `$CATALINA_HOME/webapps/webical` and the XML configuration files can be changed. 
 
 If you downloaded the source, you can alter the files before packaging them. The files can be found in the `webical-war/etc/environments/release` directory.
 
 All paths in this installation step are relative from either `$CATALINA_HOME/webical/` for the deployed war or `PATH/TO/WEBICAL/SOURCE/webical-war/target/release/` for the unpackaged source.
 
 ==== Change login settings ====
-With the default installation a user is created from the `AUTH_setup.sql` script. If you want to change the login settings for the user, change them in this file. The following 2 inserts contain the information for the user:
+The default installation user is created with the `AUTH_setup.sql` script. If you want to change the login settings for the user, then change them in this file. The following 2 inserts contain the information for the user:
 {{{
 -- Create a new user
 INSERT INTO _auth_user (username, userpass) VALUES ("webical", "webical");
@@ -97,25 +95,24 @@ The database settings are stored in `META-INF/context.xml`. You can change the s
 ...
 }}}
 Replace webical in the `url` string to use a different database.
-Change the `username` and `password` strings if you have a different database user for the webical installation.
+Change the `username` and `password` strings if you have a different database user for the Webical installation.
 
-Make sure that the database user has sufficient rights on the database. The user should have at least SELECT, INSERT, UPDATE, DELETE, ALTER, INDEX, CREATE and DROP access to the database you plan to use for webical.
+Make sure that the database user has sufficient rights on the database. The user should have at least SELECT, INSERT, UPDATE, DELETE, ALTER, INDEX, CREATE and DROP access to the database.
 
 ==== Use a different database provider ====
-Webical uses a MySQL database by default. But it's not a requirement, webical can make use of a different database, like Oracle for instance.
+Webical uses a MySQL database by default. Others can be configured as well, as long as a JDBC driver is available for that specific database.
 
-To do this, you have to install your own JDBC driver for Tomcat to use in `$CATALINA_HOME/common/lib`, and change the driver in `META-INF/context.xml`.
+Copy the JDBC driver (a .jar file) to `$CATALINA_HOME/common/lib`, and change the driverClassName and url in `META-INF/context.xml`.
 Change the following line to the driver for your database:
 {{{
 ...
       driverClassName="com.mysql.jdbc.Driver" 
 ...
 }}}
-For more information on the proper database driver contact your database provider/vendor (or Google :) ).
 
 ==== Alternate Realm setup ====
-The default installation uses a MySQL database for the Tomcat authentication realm. It is however possible to use a different method of authentication.
-You can use a separate database for authentication if you already have a database with users you want to use. To do this, you have to edit the `META-INF/context.xml` file.
+The default installation uses a MySQL database for the Tomcat authentication realm. It is  possible to use all other methods of authentication that Tomcat (or the container you are using) provides.
+You can use a separate database for authentication if you already have a database with users. To do this, you have to edit the `META-INF/context.xml` file.
 
 The realm part looks like this:
 {{{
@@ -133,14 +130,14 @@ The realm part looks like this:
       roleNameCol="role"/>
 ...
 }}}
-You can change the database used to authenticate by replacing the following paramaters:
+You can change the database by replacing the following paramaters:
   * *connectionName:* the username to use when connecting to the database
-  * *connectionPassword:* the password to use when connectig to the database
-  * *connectionURL:* the url to the database. The format is jdbc:connectorName://hostname:port/databaseName
+  * *connectionPassword:* the password to use when connecting to the database
+  * *connectionURL:* the URL to the database. The format is jdbc:connectorName://hostname:port/databaseName
   * *userTabel:* the table where the user data is stored (will not be written)
   * *userNameCol:* the column in userTable to use as the username
   * *userCredCol:* the column in userTable to use as the user password
-  * *userRoleTable:* the table to user for user roles
+  * *userRoleTable:* the table to use for user roles
   * *roleNameCol:* the column to use in userRoleTable as the name for the user roles 
 
 Make sure that the user roles are the same as in `WEB-INF/web.xml`. 
