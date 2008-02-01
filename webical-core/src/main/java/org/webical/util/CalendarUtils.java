@@ -26,8 +26,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import net.fortuna.ical4j.data.CalendarOutputter;
-
 /**
  * Class with Calendar util methods
  * @author Ivo van Dongen
