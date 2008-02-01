@@ -94,7 +94,7 @@
 		use: mvn scm:checkin to commit the project sources 
 	-->
 	<scm>
-		<connection>scm:svn:https://webical.googlecode.com/svn/trunk</connection>
+		<connection>scm:svn:https://webical.googlecode.com/svn/tags/webical-0.4.1</connection>
 	</scm>
 	
 	<!-- 
