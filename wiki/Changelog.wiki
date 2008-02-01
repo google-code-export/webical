@@ -1,6 +1,6 @@
 #labels User,Developer,Resource
 == Webical 0.4.1 ==
-  * Calendar on/off switch in calendar settings screen
+  * Calendar on/off toggle in calendar settings screen
   * All day event background color
   * Corrected date range display
   * Style improvements
