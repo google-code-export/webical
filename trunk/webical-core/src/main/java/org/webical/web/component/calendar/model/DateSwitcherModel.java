@@ -22,6 +22,7 @@ package org.webical.web.component.calendar.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.apache.wicket.model.IModel;
@@ -51,6 +52,8 @@ public class DateSwitcherModel implements IModel {
 	 */
 	private CalendarViewPanel currentViewPanel;
 
+	private Date rangeStartDate, rangeEndDate;
+	
 	/**
 	 * Constructor.
 	 * @param currentDate The current date
@@ -87,23 +90,43 @@ public class DateSwitcherModel implements IModel {
 			GregorianCalendar rangeStartCal = new GregorianCalendar();
 			rangeStartCal.setTime(currentDate.getTime());
 
-			//DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, getLocale());
 			SimpleDateFormat sdf = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
 			sdf.applyPattern(rangeFormat);
 
-			printableRangeText = sdf.format(rangeStartCal.getTime());
-			if(rangeLength > 1) {
-				if(rangeLength == 7) { // This is the fixed length of a week ( 0 -> 6 = 7 days)
-					// reset the start calendar to the beginning of the week
-					rangeStartCal.setTime(CalendarUtils.getFirstDayOfWeek(currentDate.getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek()));
-				}
-
-				printableRangeText = sdf.format(rangeStartCal.getTime()) + " - ";
-				GregorianCalendar rangeEndCal = new GregorianCalendar();
-				rangeEndCal.setTime(rangeStartCal.getTime());
-				rangeEndCal.add(rangeIdentifier, rangeLength - 1);
-				printableRangeText += sdf.format(rangeEndCal.getTime());
+			GregorianCalendar rangeEndCal = new GregorianCalendar();
+			rangeEndCal.setTime(rangeStartCal.getTime());
+			rangeEndCal.add(rangeIdentifier, rangeLength);
+			
+			// Adjust the range end date depending on the range identifier
+			switch(rangeIdentifier) {
+				case Calendar.DAY_OF_MONTH:
+					rangeEndCal.setTime(CalendarUtils.getEndOfDay(rangeStartCal.getTime()));
+				break;
+				case Calendar.DAY_OF_WEEK:
+					if(rangeLength == 7) { // This is the fixed length of a week ( 0 -> 6 = 7 days)
+						// reset the start calendar to the beginning of the week
+						rangeStartCal.setTime(CalendarUtils.getFirstDayOfWeek(currentDate.getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek()));
+						// Reset the range end time
+						rangeEndCal.setTime(rangeStartCal.getTime());
+					}
+					if(rangeLength > 1) {
+						rangeEndCal.add(rangeIdentifier, rangeLength - 1);
+					}
+				break;
+				case Calendar.MONTH:
+					rangeEndCal.add(Calendar.DAY_OF_MONTH, -1);
+				break;
 			}
+			
+			printableRangeText = sdf.format(rangeStartCal.getTime());
+
+			if(rangeLength > 1) {
+				printableRangeText += " - " + sdf.format(rangeEndCal.getTime());
+			}
+
+			// Update the range dates
+			this.rangeStartDate = rangeStartCal.getTime();
+			this.rangeEndDate = rangeEndCal.getTime();
 		}
 		return printableRangeText;
 	}
@@ -120,6 +143,14 @@ public class DateSwitcherModel implements IModel {
 		return this.currentDate;
 	}
 
+	public Date getRangeStartDate() {
+		return this.rangeStartDate;
+	}
+	
+	public Date getRangeEndDate() {
+		return this.rangeEndDate;
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.apache.wicket.model.IModel#setObject(java.lang.Object)
 	 */

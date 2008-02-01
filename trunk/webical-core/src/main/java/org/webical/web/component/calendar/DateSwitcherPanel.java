@@ -20,6 +20,7 @@
 
 package org.webical.web.component.calendar;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -44,7 +45,7 @@ public abstract class DateSwitcherPanel extends AbstractBasePanel {
 	public static final int ANOTHER_VIEW = 3;
 
 	private static final String RANGE_LABEL_MARKUP_ID = "rangeLabel";
-	private static final String TODAY_LINK_MARKUP_ID = "todayLink";
+	private static final String TODAY_BUTTON_MARKUP_ID = "todayButton";
 	private static final String NEXT_LINK_MARKUP_ID = "nextLink";
 	private static final String PREVIOUS_LINK_MARKUP_ID = "previousLink";
 
@@ -74,19 +75,6 @@ public abstract class DateSwitcherPanel extends AbstractBasePanel {
 	 * @see org.webical.web.component.IAccessibilitySwitchingComponent#setupAccessibleComponents()
 	 */
 	public void setupAccessibleComponents() {
-
-		// Add the 'today' button
-		todayLink = new Link(TODAY_LINK_MARKUP_ID) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void onClick() {
-				DateSwitcherPanel.this.todaySelected(null);
-			}
-
-		};
-		// Disable the today button when it is shown
-		todayLink.setEnabled(!isTodayInRange());
 		
 		// Add range buttons
 		nextLink = new Link(NEXT_LINK_MARKUP_ID) {
@@ -107,6 +95,19 @@ public abstract class DateSwitcherPanel extends AbstractBasePanel {
 			}
 
 		};
+
+		// Add the 'today' button
+		todayLink = new Link(TODAY_BUTTON_MARKUP_ID) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onClick() {
+				DateSwitcherPanel.this.todaySelected(null);
+			}
+
+		};
+		// Disable the today button when it is shown
+		todayLink.setEnabled(!isTodayInRange());
 
 		addOrReplace(todayLink);
 		addOrReplace(nextLink);
@@ -138,6 +139,9 @@ public abstract class DateSwitcherPanel extends AbstractBasePanel {
 		GregorianCalendar rangeEndDate = new GregorianCalendar();
 		rangeEndDate.setTime(rangeStartDate.getTime());
 		rangeEndDate.add(rangeIdentifier, rangeLength);
+		if(rangeIdentifier == Calendar.DAY_OF_MONTH) {
+			rangeEndDate.add(Calendar.DAY_OF_MONTH, -1);
+		}
 		
 		// Assert if today is in the range shown
 		return (
