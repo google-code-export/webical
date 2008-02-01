@@ -1,39 +1,97 @@
 #labels Developer,Resource
-Log In:
+*Log In:*
 
-enter username and password > click log in (you see the day view, week view, month view or calendar view today depending on the settings of the user)
+enter username and password > click _log in_ (you see the day view, week view, month view or calendar view today depending on the settings of the user)
 
-Add event:
 
-click todays event (you see event details: what, when, where and description)
+*Add event:*
 
-    * click edit event (you see the event editor)
-          o delete all values > click edit you see:
-                + What' is a required field.
-                + Field 'tmStart' is required.
-                + 'When' is a required field.
-                + Field 'tmEnd' is required.
-                + 'End' is a required field. 
-          o enter what: 'test1'
-          o enter when: today's date and time (d-mm-yy hh:mm)
-          o enter till: today's date and time + 1 hour
-          o enter where: 'place'
-          o enter description: 'a test'
-          o enter repeat: drop-down menu: 'weekly'
-          o enter repeat interval: 'four'
-          o enter count: '4'
-          o click edit (you see: 'four' is not a valid type of integer_)
-          o change 'four' to '4' > click change (you see todays day view) 
-    * click calendar > click month > check if 'test1' is repeated every week for four times 
+click todays event (you see event details: _what_, _when_, _where_ and _description_)
+   * click _edit event_ (you see the event editor)
+      o delete all values > click _edit_ you see:
+         + What' is a required field.
+         + 'When' is a required field.
+         + 'End' is a required field.
+      o enter _what_: 'test1'
+      o enter _when_: today's date and time (d-mm-yy hh:mm)
+      o enter _till_: today's date and time + 1 hour
+      o enter _where_: 'place'
+      o enter _description_: 'a test'
+      o enter _repeat_: drop-down menu: 'weekly'
+      o enter _repeat interval_: 'four' 
+      o enter _count_: '4'
+      o click _edit_ (you see: 'four' is not a valid type of integer_)
+      o change 'four' to '4' > click _change_ (you see todays day view)
+   * click _calendar_ > click _month_ > check if 'test1' is repeated every week for four times
 
-Change event:
+*Change event:*
 
-click todays event (you see event details: what, when, where and description)
+click todays event (you see event details: _what_, _when_, _where_ and _description_)
+   * click _edit event_
+      o click _all day_ (the time is removed) click _edit_
+click todays event (you see event details: _what_, _when_, _where_ and _description_)
+   * click _edit event_
+      o remove _count_: '4' > enter _repeat until_: 'the date that's three weeks away (+1 day)' > click _change_ (that days view is shown)
+   * click _month_ > check if 'test1' is repeated every week for three times instead of four
+      o click _>_ > click _show date_ on the left > you see today
 
-    * click edit event
-          o click all day (the time is removed) click edit 
+*Show week view:*
 
-click todays event (you see event details: what, when, where and description)
+Click _week_ (week view is shown with monday to sunday)
+   * click _>_ (the next week is shown)
+   * click _<_ (the previous week is shown)
+   * click _>_ again > click _today_ in top left (you go to todays week view)
+   * click first event (you see: event details)
+      o click _edit event_
+         + change _description_ to test2 > click _edit_ (you see: that days day view)
+
+*Show month view:*
+
+Click _maand_ (month view is shown in table, event names that are too long will result in a scrollbar in the cell)
+   * click _>_ (the next month is shown)
+   * click _<_ (the previous month shown)
+   * click _>_ again > click _today_ in top left (you go to todays month view) 
+
+*Show next 4 days view:*
+
+Click _next 4 days_ (today and the next three days are shown)
+   * click _>_ (the next 4 days are shown)
+   * click _<_ (the previous 4 days are shown)
+   * click _>_ again > click _today_ in top left (you go to todays next 4 days view)
+
+*Date picker:*
+
+Click _maand_ (month view is shown in table, event names that are too long will result in a scrollbar in the cell)
+   * click a date in the date picker (little calendar) in the left of the screen > you automatically go to the day view of that day
+   * click _<_ > you go to the day view of the previous day, that day will also get selected in the date picker (the date will be in a blue block)
+   * fill in another date in the date field below the calendar > click _datum tonen_ > you go to the day view of that day
+   * fill in date that is in another month as the previous month > click _datum tonen_ > you go to the day view of that day and the calendar also show that month
+
+*Add agenda:*
+
+Click _+new calendar_ (you see calendar editor)
+   * leave fields empty and click _add_ (you see: _field 'name' and 'url' is required_)
+   * enter _name_: 'test'
+   * enter _type_: drop-down menu: 'webical'
+   * enter _Url_: 'http://...'
+   * click _add_ (you see: agenda editor, under calendars on the left'test' is added)
+   * change 'test' to 'test1' > click _save_ (under calendars on the left'test' is changed to 'test1')
+   * click _month_ > click the green check on the left in front of the webical calendar (all the events in that calendar are not visible, check is now a red 'x')
+   * click the red 'x' (the events in that calendar are shown again)
+   * click _test1_ > click _delete calendar_ (calendar is deleted and removed from list on the left)
+
+*calendar settings:*
+
+click _Settings_ (you see calendar editor: general)
+   * Change _First weekday_ drop down to 'tuesday'
+   * Change _Default calendar view_ drop down to 'day view'
+   * Change _Number of agenda days_ drop down to 'tuesday'
+   * Change _Date display_ drop down to 'mm/dd/yyyy'
+   * Change _Time display_ drop down to 'hh:mm PM'
+   * Click _Submit_ > you see todays day view (check if the changes you made have taken effect)
+
+
+
 
     * click edit event
           o remove count: '4' > enter repeat until: 'the date that's three weeks away (+1 day)' > click change (that days view is shown) 
