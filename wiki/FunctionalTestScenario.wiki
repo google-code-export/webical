@@ -28,7 +28,7 @@ click todays event (you see event details: _what_, _when_, _where_ and _descript
 
 click todays event (you see event details: _what_, _when_, _where_ and _description_)
    * click _edit event_
-      o click _all day_ (the time is removed) click _edit_
+      o click _all day_ (the time is removed) click _edit_ > in the calendar view the 'all day' event is highlighted 
 click todays event (you see event details: _what_, _when_, _where_ and _description_)
    * click _edit event_
       o remove _count_: '4' > enter _repeat until_: 'the date that's three weeks away (+1 day)' > click _change_ (that days view is shown)
