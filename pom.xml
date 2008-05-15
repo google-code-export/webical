@@ -79,11 +79,11 @@
 					<address>z.kovacevic@func.nl</address>
 				</configuration>
 			</notifier>
-			<notifier>
-				<configuration>
-					<address>mattijs@func.nl</address>
-				</configuration>
-			</notifier>
+                        <notifier>
+                                <configuration>
+                                        <address>mattijshoitink@gmail.com</address>
+                                </configuration>
+                        </notifier>
 		</notifiers>
 	</ciManagement>
 
@@ -94,7 +94,7 @@
 		use: mvn scm:checkin to commit the project sources 
 	-->
 	<scm>
-		<connection>scm:svn:https://webical.googlecode.com/svn/tags/webical-0.4.1</connection>
+		<connection>scm:svn:https://webical.googlecode.com/svn/trunk</connection>
 	</scm>
 	
 	<!-- 
