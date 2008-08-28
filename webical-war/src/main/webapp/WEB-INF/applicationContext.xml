@@ -22,7 +22,7 @@
 		<property name="pluginManifestReader"><ref bean="pluginManifestReader" /></property>
 		<property name="daoFactory"><ref bean="daoFactory" /></property>
 		<!-- replaced by maven when building -->
-		<property name="webicalVersion"><value>@WEBICAL_VERSION@</value></property>
+		<property name="webicalVersion"><value>0.5-SNAPSHOT</value></property>
 	</bean>
 		 
 	<!-- The manifest reader -->

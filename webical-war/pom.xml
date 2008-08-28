@@ -15,6 +15,15 @@
 	<packaging>war</packaging>
 	<url>http://www.webical.org/twiki</url>
 	
+	<distributionManagement>
+		<site>
+			<id>continuum.func.nl</id>
+			<url>
+				scp://continuum.func.nl/var/sites/nl.func.bld01.project/www/func/webical-war/
+			</url>
+		</site>
+	</distributionManagement>
+
 	<!-- ======================================================
 		Deployment settings, deployment-default
 		====================================================== -->
