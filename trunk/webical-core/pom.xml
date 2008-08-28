@@ -13,6 +13,15 @@
 	<version>0.5-SNAPSHOT</version>
 	<url>http://maven.apache.org</url>
 
+	<distributionManagement>
+		<site>
+			<id>continuum.func.nl</id>
+			<url>
+				scp://continuum.func.nl/var/sites/nl.func.bld01.project/www/func/webical/
+			</url>
+		</site>
+	</distributionManagement>
+
 	<build>
 	
 		<!-- 
