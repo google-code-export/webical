@@ -17,7 +17,7 @@
 		<site>
 			<id>continuum.func.nl</id>
 			<url>
-				scp://continuum.func.nl/var/sites/nl.func.bld01.project/www/func/webical/
+				scp://continuum.func.nl/var/sites/nl.func.bld01.project/www/func/webical-core/
 			</url>
 		</site>
 	</distributionManagement>
