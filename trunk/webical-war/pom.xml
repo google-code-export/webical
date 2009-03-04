@@ -148,7 +148,6 @@
 	 -->
 	<build>
 		<finalName>ROOT</finalName>
-		<directory>${build.directory}</directory>
 		<plugins>
 		
 			<!-- 
