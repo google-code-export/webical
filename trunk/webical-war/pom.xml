@@ -100,7 +100,6 @@
 							<server>nightly.webical.org</server>
 							<url>http://nightly.webical.org/manager</url>
 							<path>/</path>
-							<warFile>target/nightly/ROOT.war</warFile>
 						</configuration>
 					</plugin>
 				</plugins>
