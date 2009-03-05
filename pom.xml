@@ -104,9 +104,7 @@
 		<repository>
 			<id>maven.webical.org</id>
 			<name>Webical snapshot repository</name>
-			<url>
-				scpexe://maven.webical.org/var/sites/org.webical.maven/www/
-			</url>
+			<url>http://maven.webical.org</url>
 		</repository>
 	</distributionManagement>
 
@@ -128,6 +126,12 @@
 			<id>Webical</id>
 			<name>Webical</name>
 			<url>http://maven.webical.org</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
 		</repository>
 	</repositories>
 
