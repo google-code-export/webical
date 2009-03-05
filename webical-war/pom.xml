@@ -86,7 +86,6 @@
 			</activation>
 			<properties>
 				<deployment-env>nightly</deployment-env>
-				<build.directory>target/nightly</build.directory>
 			</properties>
 			<build>
 				<plugins>
