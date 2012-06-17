@@ -3,15 +3,16 @@
 <head>
 	<title>Webical login</title>
 	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
-	<link href="../css/style.css" rel="stylesheet" type="text/css" /> 
+	<link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="../css/style.css" />
 </head>
 
 <body>
 	<div id="settingsPanel">
 		<div id="settingsPanelContentBlock">
 			<div id="login" class="panelContent">
-				<form method="post" action="j_security_check">
 				<h1>Login</h1>
+				<form method="post" action="j_security_check">
 				<div class="formItem">
 					<label for="username">Username: </label>
 					<span class="formElement"><input type="text" name="j_username" id="username" /></span>
