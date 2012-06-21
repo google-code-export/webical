@@ -5,7 +5,6 @@
 		<div id="calendarViewPanel">
 			<div id="calendarViewPanelContentBlock">
 				<div class="panelContent">
-				
 					<table class="datatable" cellpadding="0" cellspacing="0">
 						<tr>
 							<td class="label"><wicket:message key="What.label">What</wicket:message></td>
@@ -20,19 +19,22 @@
 							<td class="value"><span class="infoField" id="where" wicket:id="whereLabel">(Where)</span></td>
 						</tr>
 						<tr>
+							<td class="label"><wicket:message key="Calendar.label">Calendar</wicket:message></td>
+							<td class="value"><span class="infoField" id="calendar" wicket:id="calendarLabel">(Calendar)</span></td>
+						</tr>
+						<tr>
 							<td class="label"><wicket:message key="Description.label">Description</wicket:message></td>
 							<td class="value"><span class="infoField" id="description" wicket:id="descriptionLabel">(Description)</span></td>
 						</tr>
+						<tr><td colspan="2"> &nbsp; </td></tr>
 						<tr>
-							<td colspan="2">
-								Options:&nbsp;
+							<td colspan="2"> &nbsp;
 								<a wicket:id="editLink" class="button"><wicket:message key="Editevent.label">Edit event</wicket:message></a> &nbsp;
 								<a wicket:id="deleteLink" class="button"><wicket:message key="Removeevent.label">Remove event</wicket:message></a> &nbsp;
 								<a wicket:id="backLink" class="button"><wicket:message key="Backtocalendar.label">Back to calendar</wicket:message></a>				
 							</td>
 						</tr>
 					</table>
-					
 				</div>
 			</div>
 		</div>
