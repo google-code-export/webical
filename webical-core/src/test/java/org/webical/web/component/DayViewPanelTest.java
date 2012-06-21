@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -91,7 +93,7 @@ public class DayViewPanelTest extends WebicalApplicationTest {
 			private static final long serialVersionUID = 1L;
 
 			public Page getTestPage() {
-				return new PanelTestPage(new DayViewPanel(PanelTestPage.PANEL_MARKUP_ID, new GregorianCalendar()){
+				return new PanelTestPage(new DayViewPanel(PanelTestPage.PANEL_MARKUP_ID, 1, new GregorianCalendar()) {
 					private static final long serialVersionUID = 1L;
 					@Override
 					public void onAction(IAction action) { /* NOTHING TO DO */ }
@@ -185,7 +187,7 @@ public class DayViewPanelTest extends WebicalApplicationTest {
 			private static final long serialVersionUID = 1L;
 
 			public Page getTestPage() {
-				return new PanelTestPage(new DayViewPanel(PanelTestPage.PANEL_MARKUP_ID, currentDate) {
+				return new PanelTestPage(new DayViewPanel(PanelTestPage.PANEL_MARKUP_ID, 1, currentDate) {
 					private static final long serialVersionUID = 1L;
 					@Override
 					public void onAction(IAction action) { /* NOTHING TO DO */ }
@@ -206,12 +208,9 @@ public class DayViewPanelTest extends WebicalApplicationTest {
 		/*
 		 * FIXME assertListView calls the EventManager a second time
 		 * resulting in an error at the EasyMock eventManagerMock.
-		 * Apperently there is a bug in either DayViewPanel or EventsModel. This
+		 * Apparently there is a bug in either DayViewPanel or EventsModel. This
 		 * does not seem to happen with a normal run.
 		 */
 		wicketTester.assertListView(PanelTestPage.PANEL_MARKUP_ID + ":eventItem", events);
-
-
 	}
-
 }
