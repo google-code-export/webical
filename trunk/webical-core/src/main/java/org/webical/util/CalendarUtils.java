@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -53,12 +55,13 @@ public abstract class CalendarUtils {
 
 		return calendar.getTime();
 	}
+
 	/**
 	 * Returns a date with 0 ms
 	 * @param date
 	 * @return the date without ms
 	 */
-	public static Date getDateWithoutMs(Date date){
+	public static Date getDateWithoutMs(Date date) {
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime(date);
 		calendar.set(Calendar.MILLISECOND, 0);
@@ -95,7 +98,7 @@ public abstract class CalendarUtils {
 	 * @param firstDayOfWeek use the Calendar static instance for the days: eg. CALENDAR.MONDAY
 	 * @return the date of the first day of the week of the given date
 	 */
-	public static Date getFirstDayOfWeek(Date day, int firstDayOfWeek){
+	public static Date getFirstDayOfWeek(Date day, int firstDayOfWeek) {
 
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime(day);
@@ -109,10 +112,9 @@ public abstract class CalendarUtils {
 		long dayInMs = (60 * 60 * 24 * 1000);
 		long l = dayInMs * diff;
 
-		if(diff >= 0) {
+		if (diff >= 0) {
 			calendar.setTimeInMillis(day.getTime() - l);
-		}
-		else{
+		} else {
 			calendar.setTimeInMillis(day.getTime()-((7 + diff) * dayInMs));
 		}
 
@@ -128,17 +130,16 @@ public abstract class CalendarUtils {
 	public static Date getLastDayOfWeek(Date day, int firstDayOfWeek) {
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime(getFirstDayOfWeek(day, firstDayOfWeek));
-
 		calendar.add(Calendar.DAY_OF_WEEK, 6);
 
-		return getStartOfDay(calendar.getTime());
+		return getEndOfDay(calendar.getTime());
 	}
 
 	/**
 	 * @param date
 	 * @return Date the first day of the month
 	 */
-	public static Date getFirstDayOfMonth(Date date){
+	public static Date getFirstDayOfMonth(Date date) {
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime(date);
 		calendar.set(Calendar.DAY_OF_MONTH, 1);
@@ -151,18 +152,17 @@ public abstract class CalendarUtils {
 	 * @param firstDayOfWeek
 	 * @return Date the first day of the week from the first day of the month
 	 */
-	public static Date getFirstDayOfWeekOfMonth(Date date, int firstDayOfWeek){
+	public static Date getFirstDayOfWeekOfMonth(Date date, int firstDayOfWeek) {
 
 		return getFirstDayOfWeek(getFirstDayOfMonth(date), firstDayOfWeek);
 	}
 
-	public static Date getLastDayOfMonth(Date date){
-
+	public static Date getLastDayOfMonth(Date date) {
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime(date);
 		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
 
-		return getStartOfDay(calendar.getTime());
+		return getEndOfDay(calendar.getTime());
 	}
 
 	/**
@@ -170,7 +170,7 @@ public abstract class CalendarUtils {
 	 * @param firstDayOfWeek
 	 * @return the last day of the week dependent on the first day of the week
 	 */
-	public static Date getLastWeekDayOfMonth(Date date, int firstDayOfWeek){
+	public static Date getLastWeekDayOfMonth(Date date, int firstDayOfWeek) {
 
 		return addDays(getFirstDayOfWeek(getLastDayOfMonth(date), firstDayOfWeek), 6);
 	}
@@ -180,17 +180,17 @@ public abstract class CalendarUtils {
 	 * @param amount the amount of days to add to the day
 	 * @return Date the new date
 	 */
-	public static Date addDays(Date day, int amount){
+	public static Date addDays(Date day, int amount) {
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime(day);
 		calendar.setTimeInMillis(calendar.getTimeInMillis() + (amount * dayInMs));
 		return calendar.getTime();
 	}
 
-	public static Date addHours(Date day, float amount){
-        int rawOffset = (int) ((amount * getHourInMs()) / 60000);
-        int hours = rawOffset / 60;
-        int minutes = Math.abs(rawOffset) % 60;
+	public static Date addHours(Date day, float amount) {
+		int rawOffset = (int) ((amount * getHourInMs()) / 60000);
+		int hours = rawOffset / 60;
+		int minutes = Math.abs(rawOffset) % 60;
 
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime(day);
@@ -204,7 +204,7 @@ public abstract class CalendarUtils {
 	 * @param date
 	 * @return the number of the day of the week
 	 */
-	public static int getDayNumberOfWeek(Date date){
+	public static int getDayNumberOfWeek(Date date) {
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime(date);
 		return calendar.get(Calendar.DAY_OF_WEEK);
@@ -216,7 +216,7 @@ public abstract class CalendarUtils {
 	 * @param dtEnd
 	 * @return the number of days between the two dates
 	 */
-	public static int getDifferenceInDays(Date dtStart, Date dtEnd){
+	public static int getDifferenceInDays(Date dtStart, Date dtEnd) {
 		GregorianCalendar gcStart = new GregorianCalendar();
 		gcStart.setTime(getStartOfDay(dtStart));
 
@@ -236,67 +236,60 @@ public abstract class CalendarUtils {
 	 * @param locale the locale
 	 * @return String with the time depended on the locale
 	 */
-	public static String getLocalTime(Date dtStart, Locale locale, boolean allDay){
+	public static String getLocalTime(Date dtStart, Locale locale, boolean allDay) {
 
 		String sHours = "";
 		String sMinutes = "";
 		String additive = "";
 
-		if(!allDay)
+		if (!allDay)
 		{
-			if(locale.equals(Locale.ENGLISH) || locale.equals(Locale.US)){
+			if (locale.equals(Locale.ENGLISH) || locale.equals(Locale.US)) {
 
-				try{
-
+				try {
 					int hours = Integer.parseInt(new SimpleDateFormat("h", locale).format(dtStart));
 					int minutes = Integer.parseInt(new SimpleDateFormat("m", locale).format(dtStart));
 					additive = new SimpleDateFormat("a", locale).format(dtStart);
 
-					if(hours < 10){
+					if (hours < 10) {
 						sHours = "0" + hours;
-					}else {
+					} else {
 						sHours = "" + hours;
 					}
 
-					if(minutes < 10) {
+					if (minutes < 10) {
 						sMinutes = "0" + minutes;
-					}else {
+					} else {
 						sMinutes = "" + minutes;
 					}
-				} catch(NumberFormatException nfe){
-
+				} catch (NumberFormatException nfe) {
+					//
 				}
-
-			}else {
-
+			} else {
 				try {
-
 					int hours = Integer.parseInt(new SimpleDateFormat("H", locale).format(dtStart));
 					int minutes = Integer.parseInt(new SimpleDateFormat("m", locale).format(dtStart));
-
-					if(hours < 10){
+					if (hours < 10) {
 						sHours = "0" + hours;
-					}else {
+					} else {
 						sHours = "" + hours;
 					}
 
-					if(minutes < 10) {
+					if (minutes < 10) {
 						sMinutes = "0" + minutes;
-					}else {
+					} else {
 						sMinutes = "" + minutes;
 					}
-				} catch(NumberFormatException nfe){
-
+				} catch (NumberFormatException nfe) {
+					//
 				}
 			}
 		} else {
 			return "";
 		}
-
 		return sHours + ":" + sMinutes + " " + additive;
-
 	}
-	
+
 	/**
 	 * Returns a date corrected with the TimeZone of the given calendar
 	 * @param date The date to correct
@@ -306,13 +299,11 @@ public abstract class CalendarUtils {
 	public static Date getCalendarTimeZoneCorrectedDate(Date date, org.webical.Calendar calendar) {
 		GregorianCalendar eventDate = new GregorianCalendar();
 		eventDate.setTime(date);
-		
-		if(calendar.getOffSetTo() != null && calendar.getOffSetFrom() != null){
+
+		if (calendar.getOffSetTo() != null && calendar.getOffSetFrom() != null) {
 			int diff = calendar.getOffSetFrom().intValue() + calendar.getOffSetTo().intValue();
 			eventDate.add(java.util.Calendar.HOUR_OF_DAY, diff);
 		}
-		
 		return eventDate.getTime();
 	}
-
 }
