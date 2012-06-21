@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -66,7 +68,7 @@ public abstract class WeekColumnRepeater extends RepeatingView {
 	}
 
 	private void addDays() {
-		int numberOfDays = CalendarUtils.getDifferenceInDays(eventsModel.getStartDate(), eventsModel.getEndDate());
+		int numberOfDays = eventsModel.getNumberOfDays();
 
 		Date startDate = eventsModel.getStartDate();
 		GregorianCalendar todayCal = new GregorianCalendar();
@@ -78,7 +80,6 @@ public abstract class WeekColumnRepeater extends RepeatingView {
 		for(int i = 0; i <= numberOfDays; i++) {
 			Date dayStartDate = startCal.getTime();
 			Date dayEndDate = CalendarUtils.getEndOfDay(dayStartDate);
-
 
 			WeekDayPanel weekDayPanel = new WeekDayPanel("day"+ startCal.get(Calendar.DAY_OF_YEAR), new WrappingEventsModel(dayStartDate, dayEndDate, eventsModel)) {
 				private static final long serialVersionUID = 1L;

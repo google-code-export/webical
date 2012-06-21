@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -19,7 +21,6 @@
  */
 
 package org.webical.web.component.calendar;
-
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -41,6 +42,7 @@ import org.webical.web.component.calendar.model.EventsModel;
  * Panel shows the events of the selected week
  *
  * @author Mattijs Hoitink
+ * @author Harm-Jan Zwinderman, Cebuned
  */
 public abstract class WeekViewPanel extends CalendarViewPanel {
 	private static final long serialVersionUID = 1L;
@@ -51,30 +53,13 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 	private static final String WEEK_HEADING_BODY_LABEL_MARKUP_ID = "weekHeadingBodyContainer";
 	private static final String WEEK_COLUMN_REPEATER_MARKUP_ID = "weekColumnRepeater";
 
-	/**
-	 * The identifier for the period this panel covers
-	 */
-	private int viewPeriodId = GregorianCalendar.DAY_OF_WEEK;
+	/** Contains the actions this panel can handle */
+	protected  static Class[] PANELACTIONS = new Class[] { };
 
-	/**
-	 * Length for the period this panel covers
-	 */
-	private int viewPeriodLength = 6;
+	private boolean weekView = true;
 
-	/**
-	 * Format of the period this panel covers
-	 */
-	private String vierPeriodFormat = "MMMM dd, yyyy";
-
-	DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, getLocale());
-
-	private int daysToShow;
-	private boolean weekView;
-
-	// Date range
-	private GregorianCalendar currentDate;
-	private Date startDate;
-	private Date endDate;
+	// The date format
+	private DateFormat dateFormat;
 
 	/**
 	 * The EventsModel used by this panel.
@@ -90,34 +75,37 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 	/**
 	 * Constructor.
 	 * @param markupId The ID to use in markup
-	 * @param currentDate The current date
 	 * @param daysToShow The number of days to show
+	 * @param currentDate The current date
 	 */
-	public WeekViewPanel(String markupId, Calendar currentDate, int daysToShow) {
-		super(markupId, WeekViewPanel.class);
+	public WeekViewPanel(String markupId, int daysToShow, Calendar currentDate) {
+		super(markupId, currentDate, WeekViewPanel.class);
 
-		this.currentDate = (GregorianCalendar) currentDate;
-		this.daysToShow = daysToShow;
-		this.viewPeriodLength = daysToShow;
-		this.weekView = (daysToShow == 7);
+		setViewPeriodId(GregorianCalendar.DAY_OF_WEEK);
+		setViewPeriodLength(daysToShow);
+		this.weekView = (getViewPeriodLength() == 7);
 
 		/*
 		 * Set the correct start date. If this is a week view, set the start date
 		 * to the first day of the week. Else set the start date to the current date.
 		 */
-		if(weekView){
-			startDate = CalendarUtils.getFirstDayOfWeek(this.currentDate.getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
+		Date startDate = null;
+		if (weekView) {
+			startDate = CalendarUtils.getFirstDayOfWeek(getViewCurrentDate().getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
 		} else {
-			startDate = this.currentDate.getTime();
+			startDate = CalendarUtils.getStartOfDay(getViewCurrentDate().getTime());
 		}
+		setPeriodStartDate(startDate);
 
 		// Calculate the end date
 		Calendar endCal = new GregorianCalendar();
 		endCal.setTime(startDate);
-		endCal.add(viewPeriodId, viewPeriodLength - 1);
-		endDate = endCal.getTime();
+		endCal.add(getViewPeriodId(), getViewPeriodLength() - 1);
+		setPeriodEndDate(CalendarUtils.getEndOfDay(endCal.getTime()));
 
-		eventsModel = new EventsModel(CalendarUtils.getStartOfDay(startDate), CalendarUtils.getEndOfDay(endDate));
+		setViewPeriodFormat("MMMM dd, yyyy");
+		dateFormat = new SimpleDateFormat("E", getLocale());
+		eventsModel = new EventsModel(getPeriodStartDate(), getPeriodEndDate());
 	}
 
 	/* (non-Javadoc)
@@ -128,14 +116,13 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 		RepeatingView dayHeadingRepeater = new RepeatingView(DAY_HEADING_REPEATER_MARKUP_ID);
 
 		GregorianCalendar weekCal = new GregorianCalendar();
-		weekCal.setTime(startDate);
-		if(weekView) {
+		weekCal.setTime(getPeriodStartDate());
+		if (weekView) {
 			weekCal.set(GregorianCalendar.DAY_OF_WEEK, WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
 		}
-		SimpleDateFormat sdf = new SimpleDateFormat("E", getLocale());
-		for(int i = 0; i < daysToShow; i++) {
-			Label headerLabel = new Label("headerDay" + i, sdf.format(weekCal.getTime()));
-			if(i == daysToShow - 1) { // Add 'last' css class
+		for (int i = 0; i < getViewPeriodLength(); ++ i) {
+			Label headerLabel = new Label("headerDay" + i, dateFormat.format(weekCal.getTime()));
+			if (i == getViewPeriodLength() - 1) { // Add 'last' css class
 				headerLabel.add(new AttributeAppender("class", true, new Model("last"), " "));
 			}
 			dayHeadingRepeater.add(headerLabel);
@@ -155,11 +142,8 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 			public void onAction(IAction action) {
 				WeekViewPanel.this.onAction(action);
 			}
-
 		};
-
 		add(weekColumnRepeater);
-
 	}
 
 	/* (non-Javadoc)
@@ -176,7 +160,7 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 	 * and every time the page is loaded.
 	 */
 	private void renderModelDependentLabels() {
-		
+
 		weekHeadingHeadContainer = new WebMarkupContainer(WEEK_HEADING_HEAD_CONTAINER_MARKUP_ID);
 		weekHeadingBodyLabel = new Label(WEEK_HEADING_BODY_LABEL_MARKUP_ID, new Model(weekHeadingBodyText));
 		/*if(!weekView) {
@@ -188,7 +172,6 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 		addOrReplace(weekHeadingBodyLabel);
 	}
 
-
 	/**
 	 * Update time range for the EventModel
 	 * @see org.webical.web.component.AbstractBasePanel#onBeforeRender()
@@ -196,46 +179,25 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 	@Override
 	protected void onBeforeRender() {
 		super.onBeforeRender();
-		if(weekView){
-			startDate.setTime(CalendarUtils.getFirstDayOfWeek(this.currentDate.getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek()).getTime());
-			weekHeadingBodyText = String.valueOf(currentDate.get(Calendar.WEEK_OF_YEAR));
+
+		Date startDate = null;
+		if (weekView) {
+			startDate = CalendarUtils.getFirstDayOfWeek(getViewCurrentDate().getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
+			weekHeadingBodyText = String.valueOf(getViewCurrentDate().get(Calendar.WEEK_OF_YEAR));
 		} else {
-			startDate.setTime(this.currentDate.getTime().getTime());
+			startDate = CalendarUtils.getStartOfDay(getViewCurrentDate().getTime());
 			weekHeadingBodyText = "";
 		}
+		setPeriodStartDate(startDate);
 
 		// Calculate the end date
 		Calendar endCal = new GregorianCalendar();
 		endCal.setTime(startDate);
-		endCal.add(viewPeriodId, viewPeriodLength);
-		endDate.setTime(endCal.getTime().getTime());
+		endCal.add(getViewPeriodId(), getViewPeriodLength() - 1);
+		setPeriodEndDate(CalendarUtils.getEndOfDay(endCal.getTime()));
 
 		weekColumnRepeater.modelChanged();
 		renderModelDependentLabels();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.webical.web.component.calendar.CalendarViewPanel#getViewPeriodId()
-	 */
-	@Override
-	public int getViewPeriodId() {
-		return viewPeriodId;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.webical.web.component.calendar.CalendarViewPanel#getViewPeriodLength()
-	 */
-	@Override
-	public int getViewPeriodLength() {
-		return viewPeriodLength;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.webical.web.component.calendar.CalendarViewPanel#getViewPeriodFormat()
-	 */
-	@Override
-	public String getViewPeriodFormat() {
-		return this.vierPeriodFormat;
 	}
 
 	/**
@@ -243,5 +205,4 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 	 * @param action The action to handle
 	 */
 	public abstract void onAction(IAction action);
-
 }
