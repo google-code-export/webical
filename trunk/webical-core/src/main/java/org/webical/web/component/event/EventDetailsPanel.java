@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -45,13 +47,15 @@ import org.webical.web.component.ConfirmActionPanel;
  * @author paul
  * @author Mattijs Hoitink
  */
-public abstract class EventDetailsPanel extends AbstractBasePanel {
+public abstract class EventDetailsPanel extends AbstractBasePanel
+{
 	private static final long serialVersionUID = 1L;
 
 	// Markup ID's
 	private static final String WHAT_MARKUP_ID = "whatLabel";
 	private static final String WHEN_MARKUP_ID = "whenLabel";
 	private static final String WHERE_MARKUP_ID = "whereLabel";
+	private static final String CALENDAR_MARKUP_ID = "calendarLabel";
 	private static final String DESCRIPTION_MARKUP_ID = "descriptionLabel";
 	private static final String DELETE_LINK_MARKUP_ID = "deleteLink";
 	private static final String EDIT_LINK_MARKUP_ID = "editLink";
@@ -59,69 +63,74 @@ public abstract class EventDetailsPanel extends AbstractBasePanel {
 
 	// Event data
 	private Event event;
-	
+
 	private GregorianCalendar selectedEventDate;
-	
+
 	private boolean overrideEventDate = false;
 
 	// Panel components
-	private Label whatLabel, whenLabel, whereLabel, descriptionLabel;
+	private Label whatLabel, whenLabel, whereLabel, calendarLabel, descriptionLabel;
 	private Link editLink, deleteLink, backLink;
 
 	/**
-	 * Constructs the panel with the event details overriding the event date. This 
-	 * constuctor can be used to display recurring events with the correct date.
+	 * Constructs the panel with the event details overriding the event date.
+	 * This constuctor can be used to display recurring events with the correct date.
 	 * @param markupId the id used for the markup
 	 * @param event the event to be displayed
 	 * @param selectedEventDate the date the selected event is on
 	 */
-	public EventDetailsPanel(String markupId, Event event, Calendar selectedEventDate) {
+	public EventDetailsPanel(String markupId, Event event, Calendar selectedEventDate)
+	{
 		super(markupId, EventDetailsPanel.class);
 		this.event = event;
 		this.selectedEventDate = (GregorianCalendar) selectedEventDate;
-		
+
 		// Override the event date with the date of the day the selected event is on if the event is recurring
 		if(RecurrenceUtil.isRecurrent(event)) {
 			this.overrideEventDate = true;
 		}
 	}
 
-	public void setupCommonComponents() {
+	public void setupCommonComponents()
+	{
 		// What Label
 		whatLabel = new Label(WHAT_MARKUP_ID,event.getSummary());
 
 		// When Label
 		SimpleDateFormat dateFormatter = new SimpleDateFormat(WebicalSession.getWebicalSession().getUserSettings().getDateFormat(), getLocale());
 		SimpleDateFormat timeFormatter = new SimpleDateFormat(WebicalSession.getWebicalSession().getUserSettings().getTimeFormat(), getLocale());
-		
+
 		// Wrap the event so we can handle the event date and time seperately
 		EventWrapper eventWrapper = new EventWrapper(event);
-		
+
 		Date startDate, endDate;
-		if(overrideEventDate) {
+		if (overrideEventDate) {
 			startDate = selectedEventDate.getTime();
 			endDate = selectedEventDate.getTime();
 		} else {
 			startDate = eventWrapper.getEventStartDate();
 			endDate = eventWrapper.getEventEndDate();
 		}
-		
+
 		String startDisplayDate = dateFormatter.format(startDate);
 		String endDisplayDate = "";
 		// Only add the end date if it differs from the start date
-		if(!CalendarUtils.getStartOfDay(endDate).equals(CalendarUtils.getStartOfDay(startDate))) {
+		if (!CalendarUtils.getStartOfDay(endDate).equals(CalendarUtils.getStartOfDay(startDate))) {
 			endDisplayDate += dateFormatter.format(endDate);
 		}
 		// Add start and end times id event is not all day
-		if(!eventWrapper.isAllDay()) {
+		if (!eventWrapper.isAllDay()) {
 			startDisplayDate += " " + timeFormatter.format(eventWrapper.getEventStartTime());
 			endDisplayDate += " - " + timeFormatter.format(eventWrapper.getEventEndTime());
 		}
-		
+
 		whenLabel = new Label(WHEN_MARKUP_ID, startDisplayDate + endDisplayDate);
 
 		// Where Label
 		whereLabel = new Label(WHERE_MARKUP_ID, event.getLocation());
+
+		// Where Label
+		calendarLabel = new Label(CALENDAR_MARKUP_ID, event.getCalendar().getName());
 
 		// Description Label
 		descriptionLabel = new Label(DESCRIPTION_MARKUP_ID,event.getDescription());
@@ -129,6 +138,7 @@ public abstract class EventDetailsPanel extends AbstractBasePanel {
 		add(whatLabel);
 		add(whenLabel);
 		add(whereLabel);
+		add(calendarLabel);
 		add(descriptionLabel);
 	}
 
@@ -141,7 +151,6 @@ public abstract class EventDetailsPanel extends AbstractBasePanel {
 			public void onClick() {
 				EventDetailsPanel.this.onAction(new EditEventAction(event, selectedEventDate));
 			}
-
 		};
 
 		//Add link to remove the event
@@ -153,8 +162,7 @@ public abstract class EventDetailsPanel extends AbstractBasePanel {
 			 */
 			@Override
 			public void onClick() {
-				
-				if(RecurrenceUtil.isRecurrent(event)) {
+				if (RecurrenceUtil.isRecurrent(event)) {
 					// Removing singel events from a recurrence rule is disabled for milestone 0.4
 					//showRecurringConfirmation();
 					showSingleConfirmation();
@@ -162,7 +170,6 @@ public abstract class EventDetailsPanel extends AbstractBasePanel {
 					showSingleConfirmation();
 				}
 			}
-
 		};
 
 		// Return to calendar link
@@ -173,7 +180,6 @@ public abstract class EventDetailsPanel extends AbstractBasePanel {
 			public void onClick() {
 				EventDetailsPanel.this.onAction(new ShowCalendarAction(false));
 			}
-
 		};
 
 		add(editLink);
@@ -191,7 +197,8 @@ public abstract class EventDetailsPanel extends AbstractBasePanel {
 	 * Shows confirmation screen for removing normal events
 	 */
 	private void showSingleConfirmation() {
-		EventDetailsPanel.this.replaceWith(new ConfirmActionPanel(EventDetailsPanel.this.getId(), "Are you sure you want to delete " + event.getSummary() + "?") {
+		EventDetailsPanel.this.replaceWith(new ConfirmActionPanel(EventDetailsPanel.this.getId(), "Are you sure you want to delete " + event.getSummary() + "?")
+		{
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -203,10 +210,9 @@ public abstract class EventDetailsPanel extends AbstractBasePanel {
 			public void onConfirm() {
 				EventDetailsPanel.this.onAction(new RemoveEventAction(event));
 			}
-			
 		});
 	}
-	
+
 	/**
 	 * Shows confirmation screen for removing recurring events
 	 */
@@ -224,7 +230,7 @@ public abstract class EventDetailsPanel extends AbstractBasePanel {
 			public void onConfirmThis() {
 				// clear the selected date from the recurrence range
 				RecurrenceUtil.excludeDateFromRecurrenceRule(selectedEventDate.getTime(), event);
-				
+
 				// Store the event and redirect to the calendar
 				EventDetailsPanel.this.onAction(new StoreEventAction(event));
 			}
@@ -236,9 +242,7 @@ public abstract class EventDetailsPanel extends AbstractBasePanel {
 
 			@Override
 			public void onConfirmFollowing() {
-				
 			}
-			
 		});
 	}
 }
