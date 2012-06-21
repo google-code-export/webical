@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id: $
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -29,6 +31,7 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.webical.Event;
 import org.webical.comparator.EventStartTimeComparator;
+import org.webical.util.CalendarUtils;
 import org.webical.manager.EventManager;
 import org.webical.manager.WebicalException;
 import org.webical.web.app.WebicalSession;
@@ -55,12 +58,12 @@ public class EventsModel extends LoadableDetachableModel {
 	/**
 	 * Previous start Date of the date range, used for caching.
 	 */
-	private long previousStartDate;
+	private long previousStartDate = 0;
 
 	/**
 	 * Previous end Date of the date range, used for caching.
 	 */
-	private long previousEndDate;
+	private long previousEndDate = 0;
 
 	/**
 	 * EventManager used to collect the list of Events from the DAO.
@@ -90,7 +93,7 @@ public class EventsModel extends LoadableDetachableModel {
 		// Get a list of Events from the DAO for the specified range
 		try {
 			List<Event> eventsList = eventManager.getEventsForPeriod(WebicalSession.getWebicalSession().getUser(), startDate, endDate);
-			if(eventsList != null && eventsList.size() > 0) {
+			if (eventsList != null && eventsList.size() > 0) {
 				Collections.sort(eventsList, new EventStartTimeComparator(EventStartTimeComparator.CompareMode.FULL_DATE));
 			}
 
@@ -100,8 +103,6 @@ public class EventsModel extends LoadableDetachableModel {
 		}
 	}
 
-
-
 	/**
 	 * Sets parameters to cache the events from the load() method
 	 * @see org.apache.wicket.model.LoadableDetachableModel#getObject()
@@ -109,7 +110,7 @@ public class EventsModel extends LoadableDetachableModel {
 	@Override
 	public Object getObject() {
 		// If the previous date range is different from the current date range, clear the cache by calling detach()
-		if(previousStartDate != startDate.getTime() || previousEndDate != endDate.getTime()) {
+		if (previousStartDate != startDate.getTime() || previousEndDate != endDate.getTime()) {
 			detach();
 		}
 		// Set previous range to the current
@@ -140,4 +141,19 @@ public class EventsModel extends LoadableDetachableModel {
 		return endDate;
 	}
 
+	/**
+	 * Get the number of days in the model date range
+	 * @return the number of days in the date range
+	 */
+	public int getNumberOfDays() {
+		return CalendarUtils.getDifferenceInDays(getStartDate(), getEndDate());
+	}
+
+	/**
+	 * Returns the EventsModel used by this EventsModel
+	 * @return this EventsModel
+	 */
+	public EventsModel getEventsModel() {
+		return this;
+	}
 }
