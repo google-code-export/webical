@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -75,7 +77,7 @@ public class WeekViewPanelTest extends WebicalApplicationTest{
 			private static final long serialVersionUID = 1L;
 
 			public Page getTestPage() {
-				return new PanelTestPage(new WeekViewPanel(PanelTestPage.PANEL_MARKUP_ID, new GregorianCalendar(), 7) {
+				return new PanelTestPage(new WeekViewPanel(PanelTestPage.PANEL_MARKUP_ID, 7, new GregorianCalendar()) {
 					private static final long serialVersionUID = 1L;
 					@Override
 					public void onAction(IAction action) { /* NOTHING TO DO */ }
@@ -179,7 +181,7 @@ public class WeekViewPanelTest extends WebicalApplicationTest{
 			private static final long serialVersionUID = 1L;
 
 			public Page getTestPage() {
-				return new PanelTestPage(new WeekViewPanel(PanelTestPage.PANEL_MARKUP_ID, new GregorianCalendar(), 7) {
+				return new PanelTestPage(new WeekViewPanel(PanelTestPage.PANEL_MARKUP_ID, 7, new GregorianCalendar()) {
 					private static final long serialVersionUID = 1L;
 					@Override
 					public void onAction(IAction action) { /* NOTHING TO DO */ }
@@ -336,7 +338,7 @@ public class WeekViewPanelTest extends WebicalApplicationTest{
 			private static final long serialVersionUID = 1L;
 
 			public Page getTestPage() {
-				return new PanelTestPage(new WeekViewPanel(PanelTestPage.PANEL_MARKUP_ID, currentDate, 4) {
+				return new PanelTestPage(new WeekViewPanel(PanelTestPage.PANEL_MARKUP_ID, 4, currentDate) {
 					private static final long serialVersionUID = 1L;
 					@Override
 					public void onAction(IAction action) { /* NOTHING TO DO */ }
@@ -398,8 +400,5 @@ public class WeekViewPanelTest extends WebicalApplicationTest{
 
 		wicketTester.assertListView(firstViewDayPanel.getPageRelativePath() + ":eventItem", twoEventsList);
 		wicketTester.assertListView(lastViewDayPanel.getPageRelativePath() + ":eventItem", oneEventsList);
-
-
 	}
-
 }
