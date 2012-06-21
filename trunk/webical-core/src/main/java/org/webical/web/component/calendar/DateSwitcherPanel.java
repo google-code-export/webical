@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -20,7 +22,6 @@
 
 package org.webical.web.component.calendar;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -36,7 +37,8 @@ import org.webical.web.component.calendar.model.DateSwitcherModel;
  * @author Mattijs Hoitink
  *
  */
-public abstract class DateSwitcherPanel extends AbstractBasePanel {
+public abstract class DateSwitcherPanel extends AbstractBasePanel
+{
 	private static final long serialVersionUID = 1L;
 
 	public static final int DAY_VIEW = 0;
@@ -74,37 +76,36 @@ public abstract class DateSwitcherPanel extends AbstractBasePanel {
 	/* (non-Javadoc)
 	 * @see org.webical.web.component.IAccessibilitySwitchingComponent#setupAccessibleComponents()
 	 */
-	public void setupAccessibleComponents() {
-		
+	public void setupAccessibleComponents()
+	{
 		// Add range buttons
-		nextLink = new Link(NEXT_LINK_MARKUP_ID) {
+		nextLink = new Link(NEXT_LINK_MARKUP_ID)
+		{
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void onClick() {
 				DateSwitcherPanel.this.nextPeriod(null);
 			}
-
 		};
-		previousLink = new Link(PREVIOUS_LINK_MARKUP_ID) {
+		previousLink = new Link(PREVIOUS_LINK_MARKUP_ID)
+		{
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void onClick() {
 				DateSwitcherPanel.this.previousPeriod(null);
 			}
-
 		};
-
 		// Add the 'today' button
-		todayLink = new Link(TODAY_BUTTON_MARKUP_ID) {
+		todayLink = new Link(TODAY_BUTTON_MARKUP_ID)
+		{
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void onClick() {
 				DateSwitcherPanel.this.todaySelected(null);
 			}
-
 		};
 		// Disable the today button when it is shown
 		todayLink.setEnabled(!isTodayInRange());
@@ -112,7 +113,6 @@ public abstract class DateSwitcherPanel extends AbstractBasePanel {
 		addOrReplace(todayLink);
 		addOrReplace(nextLink);
 		addOrReplace(previousLink);
-
 	}
 
 	/* (non-Javadoc)
@@ -125,32 +125,27 @@ public abstract class DateSwitcherPanel extends AbstractBasePanel {
 	/**
 	 * Determines if todays date is in the range displayed to the user
 	 */
-	private boolean isTodayInRange() {
+	private boolean isTodayInRange()
+	{
 		// The current date (today if you will)
 		GregorianCalendar currentDate = new GregorianCalendar();
-		
+
 		// Retrieve the range parameters from the DateSwitcherModel
 		DateSwitcherModel model = (DateSwitcherModel) getModel();
-		int rangeIdentifier = model.getCurrentViewPanel().getViewPeriodId();
-		int rangeLength = model.getCurrentViewPanel().getViewPeriodLength();
-		
+
 		// Determine the correct start and end dates of the range
-		GregorianCalendar rangeStartDate = (GregorianCalendar) model.getCurrentDate();
+		GregorianCalendar rangeStartDate = new GregorianCalendar();
+		rangeStartDate.setTime(model.getCurrentViewPanel().getPeriodStartDate());
 		GregorianCalendar rangeEndDate = new GregorianCalendar();
-		rangeEndDate.setTime(rangeStartDate.getTime());
-		rangeEndDate.add(rangeIdentifier, rangeLength);
-		if(rangeIdentifier == Calendar.DAY_OF_MONTH) {
-			rangeEndDate.add(Calendar.DAY_OF_MONTH, -1);
-		}
-		
-		// Assert if today is in the range shown
+		rangeEndDate.setTime(model.getCurrentViewPanel().getPeriodEndDate());
+		// Check if today is in the range shown
 		return (
-				(CalendarUtils.getStartOfDay(currentDate.getTime()).compareTo(CalendarUtils.getStartOfDay(rangeStartDate.getTime())) >= 0) 
+				(CalendarUtils.getStartOfDay(currentDate.getTime()).compareTo(CalendarUtils.getStartOfDay(rangeStartDate.getTime())) >= 0)
 				&&
 				(CalendarUtils.getStartOfDay(currentDate.getTime()).compareTo(CalendarUtils.getStartOfDay(rangeEndDate.getTime())) <= 0)
-			   );
+			 );
 	}
-	
+
 	/**
 	 * Update the model of the label to reflect any date changes
 	 * @see org.webical.web.component.AbstractBasePanel#onBeforeRender()
@@ -158,11 +153,11 @@ public abstract class DateSwitcherPanel extends AbstractBasePanel {
 	@Override
 	protected void onBeforeRender() {
 		// Reset the model of the label to reflect any changes
-		if(rangeLabel != null) {
+		if (rangeLabel != null) {
 			rangeLabel.setModel(getModel());
 			addOrReplace(rangeLabel);
 		}
-		if(todayLink != null) {
+		if (todayLink != null) {
 			todayLink.setEnabled(!isTodayInRange());
 		}
 		super.onBeforeRender();
@@ -185,6 +180,4 @@ public abstract class DateSwitcherPanel extends AbstractBasePanel {
 	 * @param target The Ajax request target
 	 */
 	public abstract void todaySelected(AjaxRequestTarget target);
-
 }
-

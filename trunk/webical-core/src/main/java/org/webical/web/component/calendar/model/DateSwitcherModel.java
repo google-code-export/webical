@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -22,12 +24,9 @@ package org.webical.web.component.calendar.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.apache.wicket.model.IModel;
-import org.webical.util.CalendarUtils;
-import org.webical.web.app.WebicalSession;
 import org.webical.web.component.calendar.CalendarViewPanel;
 
 /**
@@ -46,23 +45,20 @@ public class DateSwitcherModel implements IModel {
 	private GregorianCalendar currentDate;
 
 	/**
-	 * The current view panel. This panel holds the information for the
-	 * range. This information is use in the getObject() method to return
-	 * the correct range text.
+	 * The current view panel. This panel holds the information for the range.
+	 * This information is use in the getObject() method to return the correct range text.
 	 */
-	private CalendarViewPanel currentViewPanel;
+	private CalendarViewPanel currentViewPanel = null;
 
-	private Date rangeStartDate, rangeEndDate;
-	
 	/**
 	 * Constructor.
 	 * @param currentDate The current date
 	 */
 	public DateSwitcherModel(Calendar currentDate) {
-		if(currentDate != null) {
-			this.currentDate = (GregorianCalendar) currentDate;
-		} else {
+		if(currentDate == null) {
 			this.currentDate = new GregorianCalendar();
+		} else {
+			this.currentDate = (GregorianCalendar) currentDate;
 		}
 	}
 
@@ -76,59 +72,8 @@ public class DateSwitcherModel implements IModel {
 		this.currentViewPanel = currentViewPanel;
 	}
 
-	/**
-	 * Return a new range text.
-	 * @return A range text for the current calendar view panel
-	 */
-	public Object getObject() {
-		String printableRangeText = "range goes here";
-		if(currentViewPanel != null) {
-			int rangeIdentifier = currentViewPanel.getViewPeriodId();
-			int rangeLength = currentViewPanel.getViewPeriodLength();
-			String rangeFormat = currentViewPanel.getViewPeriodFormat();
-
-			GregorianCalendar rangeStartCal = new GregorianCalendar();
-			rangeStartCal.setTime(currentDate.getTime());
-
-			SimpleDateFormat sdf = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
-			sdf.applyPattern(rangeFormat);
-
-			GregorianCalendar rangeEndCal = new GregorianCalendar();
-			rangeEndCal.setTime(rangeStartCal.getTime());
-			rangeEndCal.add(rangeIdentifier, rangeLength);
-			
-			// Adjust the range end date depending on the range identifier
-			switch(rangeIdentifier) {
-				case Calendar.DAY_OF_MONTH:
-					rangeEndCal.setTime(CalendarUtils.getEndOfDay(rangeStartCal.getTime()));
-				break;
-				case Calendar.DAY_OF_WEEK:
-					if(rangeLength == 7) { // This is the fixed length of a week ( 0 -> 6 = 7 days)
-						// reset the start calendar to the beginning of the week
-						rangeStartCal.setTime(CalendarUtils.getFirstDayOfWeek(currentDate.getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek()));
-						// Reset the range end time
-						rangeEndCal.setTime(rangeStartCal.getTime());
-					}
-					if(rangeLength > 1) {
-						rangeEndCal.add(rangeIdentifier, rangeLength - 1);
-					}
-				break;
-				case Calendar.MONTH:
-					rangeEndCal.add(Calendar.DAY_OF_MONTH, -1);
-				break;
-			}
-			
-			printableRangeText = sdf.format(rangeStartCal.getTime());
-
-			if(rangeLength > 1) {
-				printableRangeText += " - " + sdf.format(rangeEndCal.getTime());
-			}
-
-			// Update the range dates
-			this.rangeStartDate = rangeStartCal.getTime();
-			this.rangeEndDate = rangeEndCal.getTime();
-		}
-		return printableRangeText;
+	public Calendar getCurrentDate() {
+		return this.currentDate;
 	}
 
 	/**
@@ -138,30 +83,47 @@ public class DateSwitcherModel implements IModel {
 	public CalendarViewPanel getCurrentViewPanel() {
 		return this.currentViewPanel;
 	}
-	
-	public Calendar getCurrentDate() {
-		return this.currentDate;
-	}
 
-	public Date getRangeStartDate() {
-		return this.rangeStartDate;
+	/**
+	 * Return a new range text.
+	 * @return A range text for the current calendar view panel
+	 */
+	public Object getObject() {
+
+		if (getCurrentViewPanel() == null) return "range";
+
+		int rangeLength = currentViewPanel.getViewPeriodLength();
+		String rangeFormat = getCurrentViewPanel().getViewPeriodFormat();
+
+		SimpleDateFormat sdf = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
+		sdf.applyPattern(rangeFormat);
+
+		String printableRangeText;
+		if (rangeLength > 1) {
+			GregorianCalendar rangeStartCal = new GregorianCalendar();
+			rangeStartCal.setTime(getCurrentViewPanel().getPeriodStartDate());
+
+			GregorianCalendar rangeEndCal = new GregorianCalendar();
+			rangeEndCal.setTime(getCurrentViewPanel().getPeriodEndDate());
+
+			printableRangeText = sdf.format(rangeStartCal.getTime());
+			printableRangeText += " - " + sdf.format(rangeEndCal.getTime());
+		} else {
+			printableRangeText = sdf.format(getCurrentDate().getTime());
+		}
+		return printableRangeText;
 	}
-	
-	public Date getRangeEndDate() {
-		return this.rangeEndDate;
-	}
-	
 	/* (non-Javadoc)
 	 * @see org.apache.wicket.model.IModel#setObject(java.lang.Object)
 	 */
 	public void setObject(Object object) {
-		// NOTHING TO DO
+		// For IModel
 	}
 
 	/* (non-Javadoc)
 	 * @see org.apache.wicket.model.IDetachable#detach()
 	 */
 	public void detach() {
-		// NOTHING TO DO
+		// For IModel
 	}
 }
