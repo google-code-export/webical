@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -42,6 +44,7 @@ public abstract class MonthDayPanel extends AbstractBasePanel {
 
 	// Markup ID's
 	private static final String DAY_LINK_MARKUP_ID = "dayLink";
+	private static final String ADD_EVENT_LINK_MARKUP_ID = "addEventLink";
 	private static final String DAY_LABEL_MARKUP_ID = "dayLabel";
 	private static final String EVENT_ITEM_MARKUP_ID = "eventItem";
 
@@ -52,7 +55,6 @@ public abstract class MonthDayPanel extends AbstractBasePanel {
 	private GregorianCalendar dayDate;
 
 	/** Contains the actions this panel can handle */
-	@SuppressWarnings("unchecked")
 	protected  static Class[] PANELACTIONS = new Class[] { };
 
 	private Link dayLink, addEventLink;
@@ -69,7 +71,6 @@ public abstract class MonthDayPanel extends AbstractBasePanel {
 		this.dayDate = new GregorianCalendar();
 		this.dayDate.setTime(eventsModel.getStartDate());
 	}
-
 
 	/* (non-Javadoc)
 	 * @see org.webical.web.component.IAccessibilitySwitchingComponent#setupCommonComponents()
@@ -89,19 +90,17 @@ public abstract class MonthDayPanel extends AbstractBasePanel {
 			public void onClick() {
 				MonthDayPanel.this.onAction(new DaySelectedAction(dayDate));
 			}
-
 		};
 		dayLink.add(new Label(DAY_LABEL_MARKUP_ID, String.valueOf(dayDate.get(GregorianCalendar.DAY_OF_MONTH))));
 		add(dayLink);
 
-		addEventLink = new Link("addEventLink") {
+		addEventLink = new Link(ADD_EVENT_LINK_MARKUP_ID) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void onClick() {
 				MonthDayPanel.this.onAction(new AddEventAction(dayDate));
 			}
-
 		};
 		// TODO mattijs: should this be determined by a static?
 		addEventLink.setVisible(CalendarPanel.enableAddEvent);
@@ -120,7 +119,6 @@ public abstract class MonthDayPanel extends AbstractBasePanel {
 					MonthDayPanel.this.onAction(action);
 				}
 			}
-
 		};
 		dayEventsListView.showEndTime(false);
 		add(dayEventsListView);
@@ -138,5 +136,4 @@ public abstract class MonthDayPanel extends AbstractBasePanel {
 	 * @param action The action to handle
 	 */
 	public abstract void onAction(IAction action);
-
 }

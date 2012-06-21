@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -25,7 +27,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.apache.wicket.markup.repeater.RepeatingView;
-import org.webical.util.CalendarUtils;
 import org.webical.web.action.IAction;
 import org.webical.web.component.calendar.model.EventsModel;
 import org.webical.web.component.calendar.model.WrappingEventsModel;
@@ -43,12 +44,11 @@ public abstract class MonthRowRepeater extends RepeatingView {
 	private double numberOfWeeks = 4.0;
 
 	/** Contains the actions handled by this panel */
-	@SuppressWarnings("unchecked")
 	protected  static Class[] PANELACTIONS = new Class[]{};
 
 	/** EventsModel containing the events for this range */
 	private EventsModel eventsModel;
-	
+
 	/** The month this range is representing */
 	private int rangeMonth;
 
@@ -63,22 +63,21 @@ public abstract class MonthRowRepeater extends RepeatingView {
 
 		eventsModel = model;
 		this.rangeMonth = rangeMonth;
-		
+
 		addWeeks();
 	}
 
 	private void addWeeks() {
 		Date startDate = eventsModel.getStartDate();
-		Date endDate = eventsModel.getEndDate();
 
 		GregorianCalendar startCal = new GregorianCalendar();
 		GregorianCalendar endCal = new GregorianCalendar();
 		startCal.setTime(startDate);
 
-		double diff = CalendarUtils.getDifferenceInDays(startDate, endDate);
+		double diff = eventsModel.getNumberOfDays();
 		this.numberOfWeeks = Math.ceil(diff / 7.0);
 
-		for(int i = 0; i < numberOfWeeks; i++) {
+		for (int i = 0; i < numberOfWeeks; i++) {
 			Date weekStartDate = startCal.getTime();
 			endCal.setTime(startCal.getTime());
 			endCal.add(GregorianCalendar.DAY_OF_WEEK, 7);
@@ -93,14 +92,13 @@ public abstract class MonthRowRepeater extends RepeatingView {
 				 */
 				@Override
 				public void onAction(IAction action) {
-					if(Arrays.asList(MonthRowRepeater.PANELACTIONS).contains(action.getClass())) {
+					if (Arrays.asList(MonthRowRepeater.PANELACTIONS).contains(action.getClass())) {
 						// Handle panel actions here
 					} else {
 						// Pass the action to the parent component
 						MonthRowRepeater.this.onAction(action);
 					}
 				}
-
 			};
 			addOrReplace(monthRowPanel);
 
@@ -126,5 +124,4 @@ public abstract class MonthRowRepeater extends RepeatingView {
 	 * @param action The action to handle
 	 */
 	public abstract void onAction(IAction action);
-
 }

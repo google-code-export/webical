@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -84,7 +86,7 @@ public class MonthViewPanelTest extends WebicalApplicationTest {
 			private static final long serialVersionUID = 1L;
 
 			public Page getTestPage() {
-				return new PanelTestPage(new MonthViewPanel(PanelTestPage.PANEL_MARKUP_ID, new GregorianCalendar()) {
+				return new PanelTestPage(new MonthViewPanel(PanelTestPage.PANEL_MARKUP_ID, 1, new GregorianCalendar()) {
 					private static final long serialVersionUID = 1L;
 					@Override
 					public void onAction(IAction action) { /* NOTHING TO DO */ }
@@ -180,7 +182,7 @@ public class MonthViewPanelTest extends WebicalApplicationTest {
 			private static final long serialVersionUID = 1L;
 
 			public Page getTestPage() {
-				return new PanelTestPage(new MonthViewPanel(PanelTestPage.PANEL_MARKUP_ID, new GregorianCalendar()) {
+				return new PanelTestPage(new MonthViewPanel(PanelTestPage.PANEL_MARKUP_ID, 31, new GregorianCalendar()) {
 					private static final long serialVersionUID = 1L;
 					@Override
 					public void onAction(IAction action) { /* NOTHING TO DO */ }
@@ -244,5 +246,4 @@ public class MonthViewPanelTest extends WebicalApplicationTest {
 		wicketTester.assertListView(firstMonthDayPanel.getPageRelativePath() + ":eventItem", oneRecurringEventsList);
 		wicketTester.assertListView(lastMonthDayPanel.getPageRelativePath() + ":eventItem", oneRecurringEventsList);
 	}
-
 }
