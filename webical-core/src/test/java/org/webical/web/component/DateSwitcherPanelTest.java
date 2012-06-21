@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -71,7 +73,7 @@ public class DateSwitcherPanelTest extends WebicalApplicationTest {
 		todayLinkClickedDate = new GregorianCalendar();
 
 		// Set up a DayViewPanel for the model to use
-		final DayViewPanel calendarDayViewPanel = new DayViewPanel("test", new GregorianCalendar()){
+		final DayViewPanel calendarDayViewPanel = new DayViewPanel("test", 1, new GregorianCalendar()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -143,7 +145,7 @@ public class DateSwitcherPanelTest extends WebicalApplicationTest {
 		assumedRangeEndCal.setTime(assumedRangeStartCal.getTime());
 		assumedRangeEndCal.add(GregorianCalendar.DAY_OF_WEEK, 7 - 1);
 
-		WeekViewPanel calendarWeekViewPanel = new WeekViewPanel("test", new GregorianCalendar(), 7) {
+		WeekViewPanel calendarWeekViewPanel = new WeekViewPanel("test", 7, new GregorianCalendar()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
