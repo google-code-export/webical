@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -20,11 +22,10 @@
 
 package org.webical.web.component.calendar;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -32,79 +33,62 @@ import org.webical.util.CalendarUtils;
 import org.webical.web.action.AddEventAction;
 import org.webical.web.action.IAction;
 import org.webical.web.component.calendar.model.EventsModel;
+import org.webical.web.component.calendar.model.WrappingEventsModel;
 
 /**
  * Panel displays the events of the user selected calendars for a particular day
  *
  * @author Mattijs Hoitink
+ * @author Harm-Jan Zwinderman, Cebuned
  */
-
 public abstract class DayViewPanel extends CalendarViewPanel {
 	private static final long serialVersionUID = 1L;
 
 	// Markup ID's
-	private static final String ADD_EVENT_LINK_MARKUP_ID 	= "dayViewAddEventLink";
-	private static final String DAY_HEADING_LABEL_MARKUP_ID = "dayHeadingLabel";
+	private static final String DAY_HEADING_LABEL_MARKUP_ID = "dayLink";
+	private static final String ADD_EVENT_LINK_MARKUP_ID = "addEventLink";
 	private static final String EVENT_ITEM_MARKUP_ID = "eventItem";
 
 	/** Contains the actions this panel can handle */
-	@SuppressWarnings("unchecked")
-	protected  static Class[] PANELACTIONS = new Class[] { };
+	protected static Class[] PANELACTIONS = new Class[] { };
 
-	/**
-	 * The identifier for the period this panel covers
-	 */
-	private final int viewPeriodId = Calendar.DAY_OF_MONTH;
-
-	/**
-	 * Length for the period this panel covers
-	 */
-	private final int viewPeriodLength = 1;
-
-	/**
-	 * Format of the period this panel covers
-	 */
-	private final String viewPeriodFormat = "MMMM dd, yyyy";
-
-	/** The current date */
-	private GregorianCalendar dayDate;
-
-	private Label dayHeadingLabel;
-	private Link addLink;
-	private EventsListView eventsListView;
+	// The date format
+	private DateFormat dateFormat;
 
 	/** The EventsModel for this panel */
 	private EventsModel eventsModel;
 
-	// The date range
-	private Date startDate;
-	private Date endDate;
-	private SimpleDateFormat dateFormat;
+	// Panel components
+	private Label dayHeadingLabel;
+	private Link addEventLink;
+	private EventsListView dayEventsListView;
 
 	/**
 	 * Constructor
-	 * @param markupId The ID used in markup
-	 * @param dayDate The date this panel is representing
+	 * @param markupId - The ID used in markup
+	 * @param daysToShow - Days to show (1)
+	 * @param currentDate - The currentDate
 	 */
-	public DayViewPanel(String markupId, Calendar dayDate) {
-		super(markupId, DayViewPanel.class);
+	public DayViewPanel(String markupId, int daysToShow, Calendar currentDate) {
+		super(markupId, currentDate, DayViewPanel.class);
 
-		this.dayDate = (GregorianCalendar) dayDate;
+		setViewPeriodId(Calendar.DAY_OF_MONTH);
+		setViewPeriodLength(daysToShow);
+		// Set the start/end date for the range
+		setPeriodStartDate(CalendarUtils.getStartOfDay(getViewCurrentDate().getTime()));
+		setPeriodEndDate(CalendarUtils.getEndOfDay(getViewCurrentDate().getTime()));
 
-		// Set the start time for the range
-		startDate = CalendarUtils.getStartOfDay(this.dayDate.getTime());
-		endDate = CalendarUtils.getEndOfDay(this.dayDate.getTime());
-
-		eventsModel = new EventsModel(startDate, endDate);
+		setViewPeriodFormat("MMMM dd, yyyy");
 		dateFormat = new SimpleDateFormat("EEEE", getLocale());
-
+		eventsModel = new WrappingEventsModel(getPeriodStartDate(), getPeriodEndDate(),
+							new EventsModel(getPeriodStartDate(), getPeriodEndDate()));
 	}
 
 	/* (non-Javadoc)
 	 * @see org.webical.web.component.IAccessibilitySwitchingComponent#setupCommonComponents()
 	 */
 	public void setupCommonComponents() {
-		dayHeadingLabel = new Label(DAY_HEADING_LABEL_MARKUP_ID, dateFormat.format(dayDate.getTime()));
+		dayHeadingLabel = new Label(DAY_HEADING_LABEL_MARKUP_ID, dateFormat.format(getViewCurrentDate().getTime()));
 		addOrReplace(dayHeadingLabel);
 	}
 
@@ -113,25 +97,8 @@ public abstract class DayViewPanel extends CalendarViewPanel {
 	 */
 	public void setupAccessibleComponents() {
 
-		eventsListView = new EventsListView(EVENT_ITEM_MARKUP_ID, eventsModel, dayDate) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void onAction(IAction action) {
-				// Check if the action is in the ACTIONS array for this panel
-				if(Arrays.asList(DayViewPanel.PANELACTIONS).contains(action.getClass())) {
-					// Handle panel actions here
-				} else {
-					// Pass the action to the parent component
-					DayViewPanel.this.onAction(action);
-				}
-			}
-
-		};
-		addOrReplace(eventsListView);
-
 		//Add link to add an event
-		addLink = new Link(ADD_EVENT_LINK_MARKUP_ID) {
+		addEventLink = new Link(ADD_EVENT_LINK_MARKUP_ID) {
 			private static final long serialVersionUID = 1L;
 
 			/**
@@ -141,12 +108,27 @@ public abstract class DayViewPanel extends CalendarViewPanel {
 			@Override
 			public void onClick() {
 				// generate AddEventAction
-				DayViewPanel.this.onAction(new AddEventAction(dayDate));
+				DayViewPanel.this.onAction(new AddEventAction(getViewCurrentDate()));
 			}
-
 		};
-		add(addLink);
+		add(addEventLink);
 
+		dayEventsListView = new EventsListView(EVENT_ITEM_MARKUP_ID, eventsModel, getViewCurrentDate()) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onAction(IAction action) {
+				// Check if the action is in the ACTIONS array for this panel
+				if (Arrays.asList(DayViewPanel.PANELACTIONS).contains(action.getClass())) {
+					// Handle panel actions here
+				} else {
+					// Pass the action to the parent component
+					DayViewPanel.this.onAction(action);
+				}
+			}
+		};
+		dayEventsListView.showLongEventDescription(true);
+		addOrReplace(dayEventsListView);
 	}
 
 	/* (non-Javadoc)
@@ -161,29 +143,4 @@ public abstract class DayViewPanel extends CalendarViewPanel {
 	 * @param action The action to handle
 	 */
 	public abstract void onAction(IAction action);
-
-	/* (non-Javadoc)
-	 * @see org.webical.web.component.calendar.CalendarViewPanel#getViewPeriodFormat()
-	 */
-	@Override
-	public String getViewPeriodFormat() {
-		return this.viewPeriodFormat;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.webical.web.component.calendar.CalendarViewPanel#getViewPeriodId()
-	 */
-	@Override
-	public int getViewPeriodId() {
-		return this.viewPeriodId;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.webical.web.component.calendar.CalendarViewPanel#getViewPeriodLength()
-	 */
-	@Override
-	public int getViewPeriodLength() {
-		return this.viewPeriodLength;
-	}
-
 }
