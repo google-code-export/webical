@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id: $
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -51,7 +53,7 @@ public class WrappingEventsModel extends EventsModel {
 	 */
 	public WrappingEventsModel(Date startDate, Date endDate, EventsModel eventsModel) {
 		super(startDate, endDate);
-		if(eventsModel == null) {
+		if (eventsModel == null) {
 			throw new IllegalArgumentException("WrappingEventsModel needs an EventsModel as a data source.");
 		}
 		this.eventsModel = eventsModel;
@@ -63,15 +65,14 @@ public class WrappingEventsModel extends EventsModel {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object load() {
-		List<Event> allEvents = null;
-		allEvents = (List<Event>) eventsModel.getObject();
+		List<Event> allEvents = (List<Event>) getEventsModel().getObject();
 		List<Event> eventsInRange = new ArrayList<Event>();
 
-		if(allEvents != null) {
-			for(Event currentEvent : allEvents) {
+		if (allEvents != null) {
+			for (Event currentEvent : allEvents) {
 				// Get the events for this range, including recurrent events
 				try {
-					if(RecurrenceUtil.isApplicableForDateRange(currentEvent, getStartDate(), getEndDate())){
+					if (RecurrenceUtil.isApplicableForDateRange(currentEvent, getStartDate(), getEndDate())) {
 						eventsInRange.add(currentEvent);
 					}
 				} catch (ParseException e) {
@@ -79,7 +80,7 @@ public class WrappingEventsModel extends EventsModel {
 				}
 			}
 		}
-		if(eventsInRange != null && eventsInRange.size() > 0) {
+		if (eventsInRange != null && eventsInRange.size() > 0) {
 			Collections.sort(eventsInRange, new EventStartTimeComparator(EventStartTimeComparator.CompareMode.TIME));
 		}
 		return eventsInRange;
@@ -92,5 +93,4 @@ public class WrappingEventsModel extends EventsModel {
 	public EventsModel getEventsModel() {
 		return eventsModel;
 	}
-
 }
