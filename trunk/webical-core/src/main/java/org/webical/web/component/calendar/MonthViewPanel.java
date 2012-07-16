@@ -25,7 +25,6 @@ package org.webical.web.component.calendar;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -71,7 +70,7 @@ public abstract class MonthViewPanel extends CalendarViewPanel {
 	 * @param months - Months to show (1)
 	 * @param currentDate The Date to show
 	 */
-	public MonthViewPanel(String markupId, int months, Calendar currentDate) {
+	public MonthViewPanel(String markupId, int months, GregorianCalendar currentDate) {
 		super(markupId, currentDate, MonthViewPanel.class);
 		this.setOutputMarkupId(true);
 
@@ -107,7 +106,7 @@ public abstract class MonthViewPanel extends CalendarViewPanel {
 				headerLabel.add(new AttributeAppender("class", true, new Model("last"), " "));
 			}
 			monthHeaderRepeater.add(headerLabel);
-			weekCal.add(Calendar.DAY_OF_WEEK, 1);
+			weekCal.add(GregorianCalendar.DAY_OF_WEEK, 1);
 		}
 		add(monthHeaderRepeater);
 	}
@@ -116,7 +115,7 @@ public abstract class MonthViewPanel extends CalendarViewPanel {
 	 * @see org.webical.web.component.IAccessibilitySwitchingComponent#setupAccessibleComponents()
 	 */
 	public void setupAccessibleComponents() {
-		monthRowRepeater = new MonthRowRepeater(MONTH_ROW_REPEATER_MARKUP_ID, eventsModel, getViewCurrentDate().get(Calendar.MONTH)) {
+		monthRowRepeater = new MonthRowRepeater(MONTH_ROW_REPEATER_MARKUP_ID, eventsModel, getViewCurrentDate().get(GregorianCalendar.MONTH)) {
 			private static final long serialVersionUID = 1L;
 
 			@Override

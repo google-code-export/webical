@@ -22,7 +22,6 @@
 
 package org.webical.web.component.calendar;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -77,36 +76,35 @@ public abstract class WeekColumnRepeater extends RepeatingView {
 		GregorianCalendar startCal = new GregorianCalendar();
 		startCal.setTime(startDate);
 
-		for(int i = 0; i <= numberOfDays; i++) {
+		for (int i = 0; i <= numberOfDays; i++) {
 			Date dayStartDate = startCal.getTime();
 			Date dayEndDate = CalendarUtils.getEndOfDay(dayStartDate);
 
-			WeekDayPanel weekDayPanel = new WeekDayPanel("day"+ startCal.get(Calendar.DAY_OF_YEAR), new WrappingEventsModel(dayStartDate, dayEndDate, eventsModel)) {
+			WeekDayPanel weekDayPanel = new WeekDayPanel("day"+ startCal.get(GregorianCalendar.DAY_OF_YEAR), new WrappingEventsModel(dayStartDate, dayEndDate, eventsModel)) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void onAction(IAction action) {
 					WeekColumnRepeater.this.onAction(action);
 				}
-
 			};
 			// Add week or non-week class
-			if(numberOfDays == 6) {
+			if (numberOfDays == 6) {
 				// Add week class
 				weekDayPanel.add(new AttributeAppender("class", true, new Model(WEEK_COLUMN_CSS_CLASS), " "));
 			} else {
 				// Add non-week class
 				weekDayPanel.add(new AttributeAppender("class", true, new Model(NON_WEEK_COLUMN_CSS_CLASS), " "));
 			}
-			
+
 			// Check if we need to add some extra css styles
 			if(dayStartDate.compareTo(todayStartDate) == 0) {
 				weekDayPanel.add(new AttributeAppender("class", true, new Model(TODAY_CSS_CLASS), " "));
 			}
-			if(i == 0) {
+			if (i == 0) {
 				weekDayPanel.add(new AttributeAppender("class", true, new Model(FIRST_ITEM_CSS_CLASS), " "));
 			}
-			if(i == numberOfDays) {
+			if (i == numberOfDays) {
 				weekDayPanel.add(new AttributeAppender("class", true, new Model(LAST_ITEM_CSS_CLASS), " "));
 			}
 
@@ -114,7 +112,6 @@ public abstract class WeekColumnRepeater extends RepeatingView {
 			startCal.add(GregorianCalendar.DAY_OF_WEEK, 1);
 		}
 	}
-
 
 	@Override
 	protected void onModelChanged() {

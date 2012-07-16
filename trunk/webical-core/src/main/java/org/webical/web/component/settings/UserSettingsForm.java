@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -22,7 +24,7 @@ package org.webical.web.component.settings;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Date;
 import java.util.List;
 
@@ -63,7 +65,7 @@ public abstract class UserSettingsForm extends Form {
 	private static final String TIME_FORMAT_DROPDOWN_MARKUP_ID = "timeFormat";
 	private static final String SUBMIT_BUTTON_MARKUP_ID = "submitButton";
 	private static final String BIRTHDATE_FORMAT_LABEL_MARKUP_ID = "birthDateFormatLabel";
-	
+
 	// RESOURCE ID's
 	private static final String WEEKDAY_MONDAY_RESOURCE_ID = "Weekday.Monday";
 	private static final String WEEKDAY_TUESDAY_RESOURCE_ID = "Weekday.Tuesday";
@@ -113,14 +115,14 @@ public abstract class UserSettingsForm extends Form {
 		firstNameTextField = (TextField) new TextField(FIRST_NAME_TEXTFIELD_MARKUP_ID, new PropertyModel(user, "firstName")).setRequired(true);
 		lastNamePrefixTextField = new TextField(LAST_NAME_PREFIX_TEXTFIELD_MARKUP_ID, new PropertyModel(user, "lastNamePrefix"));
 		lastNameTextField = (TextField) new TextField(LAST_NAME_TEXTFIELD_MARKUP_ID, new PropertyModel(user, "lastName")).setRequired(true);
-		
+
 		// Create the birth date field with help
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", getLocale());
 		birthDateTextField = (DateTextField) new DateTextField(BIRTHDATE_TEXTFIELD_MARKUP_ID, new PropertyModel(user, "birthDate"), sdf.toLocalizedPattern()).setRequired(true);
 		birthDateHelpLabel = new Label(BIRTHDATE_FORMAT_LABEL_MARKUP_ID, sdf.toPattern());
-		
+
 		// Create the first day of week field with help
-		final List<Integer> weekdays = Arrays.asList(new Integer[] { Calendar.SUNDAY, Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY, Calendar.FRIDAY, Calendar.SATURDAY });
+		final List<Integer> weekdays = Arrays.asList(new Integer[] { GregorianCalendar.SUNDAY, GregorianCalendar.MONDAY, GregorianCalendar.TUESDAY, GregorianCalendar.WEDNESDAY, GregorianCalendar.THURSDAY, GregorianCalendar.FRIDAY, GregorianCalendar.SATURDAY });
 		firstDayOfWeekDropDown = new DropDownChoice(FIRST_DAY_OF_WEEK_DROPDOWN_MARKUP_ID, new PropertyModel(userSettings, "firstDayOfWeek"), weekdays, new IChoiceRenderer() {
 			private static final long serialVersionUID = 1L;
 
@@ -133,25 +135,25 @@ public abstract class UserSettingsForm extends Form {
 	                int value = ((Integer)object).intValue();
 	                switch (value)
 	                {
-	                    case Calendar.SUNDAY :
+	                    case GregorianCalendar.SUNDAY :
 	                    	weekdayString = new StringResourceModel(WEEKDAY_SUNDAY_RESOURCE_ID, UserSettingsForm.this, null).getString();
 	                        break;
-	                    case Calendar.MONDAY :
+	                    case GregorianCalendar.MONDAY :
 	                    	weekdayString = new StringResourceModel(WEEKDAY_MONDAY_RESOURCE_ID, UserSettingsForm.this, null).getString();
 	                        break;
-	                    case Calendar.TUESDAY :
+	                    case GregorianCalendar.TUESDAY :
 	                    	weekdayString = new StringResourceModel(WEEKDAY_TUESDAY_RESOURCE_ID, UserSettingsForm.this, null).getString();
 	                        break;
-	                    case Calendar.WEDNESDAY:
+	                    case GregorianCalendar.WEDNESDAY:
 	                    	weekdayString = new StringResourceModel(WEEKDAY_WEDNESDAY_RESOURCE_ID, UserSettingsForm.this, null).getString();
 						   	break;
-						case Calendar.THURSDAY:
+						case GregorianCalendar.THURSDAY:
 							weekdayString = new StringResourceModel(WEEKDAY_THURSDAY_RESOURCE_ID, UserSettingsForm.this, null).getString();
 							break;
-						case Calendar.FRIDAY:
+						case GregorianCalendar.FRIDAY:
 							weekdayString = new StringResourceModel(WEEKDAY_FRIDAY_RESOURCE_ID, UserSettingsForm.this, null).getString();
 							break;
-						case Calendar.SATURDAY:
+						case GregorianCalendar.SATURDAY:
 							weekdayString = new StringResourceModel(WEEKDAY_SATURDAY_RESOURCE_ID, UserSettingsForm.this, null).getString();
 							break;
 	                }
@@ -168,7 +170,6 @@ public abstract class UserSettingsForm extends Form {
 				}
 				return null;
 			}
-
 		});
 		firstDayOfWeekDropDown.setRequired(true);
 
@@ -199,19 +200,18 @@ public abstract class UserSettingsForm extends Form {
 			}
 
 			public String getIdValue(Object object, int index) {
-				if(index >= 0){
+				if (index >= 0) {
 					return String.valueOf((index));
 				}
 				return null;
 			}
-
 		});
 		defaultCalendarViewDropDown.setRequired(true);
-		
-		Integer[] numberOfAgendaDays = { 1, 2, 3, 4, 5, 6 };
+
+		Integer[] numberOfAgendaDays = { 2, 3, 4, 5, 6 };
 		numberOfAgendaDaysDropDown = new DropDownChoice(NUMBER_OF_AGENDA_DAYS_DROPDOWN_MARKUP_ID, new PropertyModel(userSettings, "numberOfAgendaDays"), Arrays.asList(numberOfAgendaDays));
 		numberOfAgendaDaysDropDown.setRequired(true);
-		
+
 		final String[] dateFormats = { "dd/MM/yyyy", "MM/dd/yyyy", "yyyy-MM-dd"};
 		dateFormatDropDown = new DropDownChoice(DATE_FORMAT_DROPDOWN_MARKUP_ID, new PropertyModel(userSettings, "dateFormat"), Arrays.asList(dateFormats), new IChoiceRenderer() {
 			private static final long serialVersionUID = 1L;
@@ -220,25 +220,22 @@ public abstract class UserSettingsForm extends Form {
 				Date sampleDate = new Date();
 				SimpleDateFormat sdf = new SimpleDateFormat();
 				String dateFormat = ((String) object);
-				
+
 				List<String> dateFormatList = Arrays.asList(dateFormats);
-				for(String currentDateFormat : dateFormatList) {
-					if(dateFormat.equals(currentDateFormat)) {
+				for (String currentDateFormat : dateFormatList) {
+					if (dateFormat.equals(currentDateFormat)) {
 						sdf.applyPattern(currentDateFormat);
 					}
 				}
-				
 				return sdf.format(sampleDate);
 			}
 
 			public String getIdValue(Object object, int index) {
 				List<String> dateFormatList = Arrays.asList(dateFormats);
-				
 				return dateFormatList.get(dateFormatList.indexOf(((String) object)));
 			}
-			
 		});
-		
+
 		final String[] timeFormats = { "HH:mm", "hh:mm a" };
 		timeFormatDropDown = new DropDownChoice(TIME_FORMAT_DROPDOWN_MARKUP_ID, new PropertyModel(userSettings, "timeFormat"), Arrays.asList(timeFormats), new IChoiceRenderer(){
 			private static final long serialVersionUID = 1L;
@@ -247,10 +244,10 @@ public abstract class UserSettingsForm extends Form {
 				Date sampleDate = new Date();
 				SimpleDateFormat sdf = new SimpleDateFormat();
 				String timeFormat = ((String) object);
-				
+
 				List<String> timeFormatList = Arrays.asList(timeFormats);
 				for(String currentTimeFormat : timeFormatList) {
-					if(timeFormat.equals(currentTimeFormat)) {
+					if (timeFormat.equals(currentTimeFormat)) {
 						sdf.applyPattern(currentTimeFormat);
 					}
 				}
@@ -259,10 +256,8 @@ public abstract class UserSettingsForm extends Form {
 
 			public String getIdValue(Object object, int index) {
 				List<String> timeFormatList = Arrays.asList(timeFormats);
-				
 				return timeFormatList.get(timeFormatList.indexOf(((String) object)));
 			}
-			
 		});
 
 		submitButton = new Button(SUBMIT_BUTTON_MARKUP_ID, new StringResourceModel(SUBMIT_BUTTON_RESOURCE_ID, UserSettingsForm.this, new Model("Cancel")));
@@ -296,5 +291,4 @@ public abstract class UserSettingsForm extends Form {
 	 * @param userSettings The users application settings to store
 	 */
 	public abstract void storeUserSettings(User user, UserSettings userSettings);
-
 }
