@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -30,7 +32,7 @@ import org.apache.commons.lang.StringUtils;
  *
  */
 public class ClassUtils {
-	
+
 	/**
 	 * Creates a identifier used for classpath entries (eg some/package/SomeResource.someextension)
 	 * @param baseFolder the basefolder containing the classes and resources
@@ -38,37 +40,37 @@ public class ClassUtils {
 	 * @return
 	 */
 	public static String fileToClassPathResourceIdentifier(File baseFolder, File resource) {
-		if(resource == null || StringUtils.isEmpty(resource.getAbsolutePath())) {
+		if (resource == null || StringUtils.isEmpty(resource.getAbsolutePath())) {
 			return null;
 		}
-		
-		return getRelativePath(baseFolder, resource);
+		return getRelativePath(baseFolder, resource).replace(File.separator, "/");		// For Windows
 	}
-	
+
 	/**
 	 * @param classFile the class file
 	 * @param baseFolder the base to start from (eg the classes folder)
 	 * @return
 	 */
 	public static String fileToFullClassName(File baseFolder, File classFile) {
-		if(classFile == null || StringUtils.isEmpty(classFile.getAbsolutePath())) {
+		if (classFile == null || StringUtils.isEmpty(classFile.getAbsolutePath())) {
 			return null;
 		}
-		return fileToFullClassName(getRelativePath(baseFolder, classFile));
+		String relPath = getRelativePath(baseFolder, classFile);
+		return fileToFullClassName(relPath);
 	}
-	
+
 	/**
 	 * Transforms the relative classfile's path into a fully qualified classname: <br />
-	 * some/package/SomeClass.class becomes some.package.SomeClass. For full filepaths use {@link ClassUtils#fileToFullClassName(File, File)}
+	 * some/package/SomeClass.class becomes some.package.SomeClass.
+	 * For full filepaths use {@link ClassUtils#fileToFullClassName(File, File)}
 	 * @param relativeClassFilePath the relative path to the class file
 	 * @return the fully qualified classname
 	 */
 	public static String fileToFullClassName(String relativeClassFilePath) {
-		if(!StringUtils.isEmpty(relativeClassFilePath)) {
-			return relativeClassFilePath.substring(0, relativeClassFilePath.lastIndexOf(".")).replaceAll(File.separator, ".");
-		} else {
-			return null;
-		}
+		if (StringUtils.isEmpty(relativeClassFilePath)) return null;
+		String relClassPath = relativeClassFilePath.substring(0, relativeClassFilePath.lastIndexOf("."));
+		String fullClassName = relClassPath.replace(File.separator, ".");
+		return fullClassName.replace("/", ".");		// for windows
 	}
 
 	/**
