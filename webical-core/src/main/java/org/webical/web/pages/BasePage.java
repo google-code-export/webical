@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -117,7 +119,6 @@ public class BasePage extends AbstractBasePage {
 	/**
 	 * List of actions handled by this panel
 	 */
-	@SuppressWarnings("unchecked")
 	protected static Class[] PANELACTIONS = new Class[] { ShowCalendarAction.class, ShowSettingsAction.class, FormFinishedAction.class, CalendarSelectedAction.class };
 
 	// Page panels
@@ -155,10 +156,10 @@ public class BasePage extends AbstractBasePage {
 		super(BasePage.class);
 		String panel = parameters.getString(CONTENT_PANEL_PARAMETER);
 
-		if(panel != null) {
-			if(panel.equals(CALENDAR_PANEL_PARAMETER_VALUE)) {
+		if (panel != null) {
+			if (panel.equals(CALENDAR_PANEL_PARAMETER_VALUE)) {
 				startPanel = BasePage.CALENDAR_PANEL;
-			} else if(panel.equals(SETTINGS_PANEL_PARAMETER_VALUE)) {
+			} else if (panel.equals(SETTINGS_PANEL_PARAMETER_VALUE)) {
 				startPanel = BasePage.SETTINGS_PANELS_PANEL;
 			}
 		}
@@ -181,11 +182,10 @@ public class BasePage extends AbstractBasePage {
 			public void onAction(IAction action) {
 				BasePage.this.finalOnAction(action);
 			}
-
 		};
 		addOrReplace(headerPanel);
 
-		// Get the calendars for thsi user from the CalendarManager
+		// Get the calendars for this user from the CalendarManager
 		List<Calendar> userCalendars = new ArrayList<Calendar>();
 		try {
 			userCalendars = calendarManager.getCalendars(((WebicalSession)getSession()).getUser());
@@ -194,13 +194,13 @@ public class BasePage extends AbstractBasePage {
 		}
 
 		//Decide on the startPanel
-		if(startPanel != BasePage.NOT_SET) {
+		if (startPanel != BasePage.NOT_SET) {
 			//Set to the requested panel
 			this.setContent(startPanel, null);
 		} else {
 			// XXX is this check necessary?
 			// You can watch the calendar if they want, even without calendars
-			if(userCalendars.size() > 0) {
+			if (userCalendars.size() > 0) {
 				//Set the calendar views panel as the first panel
 				setContent(BasePage.CALENDAR_PANEL, null);
 			} else {
@@ -208,7 +208,6 @@ public class BasePage extends AbstractBasePage {
 				setContent(BasePage.SETTINGS_PANELS_PANEL, null);
 			}
 		}
-
 	}
 
 	public void setupAccessibleComponents() {
@@ -224,16 +223,16 @@ public class BasePage extends AbstractBasePage {
 	 * @param action The action to handle
 	 */
 	public void finalOnAction(IAction action) {
-		if(Arrays.asList(PANELACTIONS).contains(action.getClass())) {
+		if (Arrays.asList(PANELACTIONS).contains(action.getClass())) {
 
 			// Show Calendar
-			if(action.getClass().equals(ShowCalendarAction.class)) {
+			if (action.getClass().equals(ShowCalendarAction.class)) {
 				//this.setContent(CALENDAR_PANEL, ((ShowCalendarAction) action).getAjaxRequestTarget());
 				ShowCalendarAction showCalendarAction = (ShowCalendarAction) action;
-				
-				if(showCalendarAction.isReloadCalendarView() && this.calendarPanel != null) {
+
+				if (showCalendarAction.isReloadCalendarView() && this.calendarPanel != null) {
 					// Reload the calendar
-					GregorianCalendar previousDate = (GregorianCalendar) this.calendarPanel.getCurrentDate();
+					GregorianCalendar previousDate = this.calendarPanel.getCurrentDate();
 					int previousCalendarView = this.calendarPanel.getCurrentCalendarView();
 					this.calendarPanel = new CalendarPanel(CONTENT_PANEL_MARKUP_ID, previousDate) {
 						private static final long serialVersionUID = 1L;
@@ -244,7 +243,7 @@ public class BasePage extends AbstractBasePage {
 					};
 					this.calendarPanel.setCurrentCalendarView(previousCalendarView);
 				}
-				else if(this.calendarPanel == null) {
+				else if (this.calendarPanel == null) {
 					this.calendarPanel = new CalendarPanel(CONTENT_PANEL_MARKUP_ID, new GregorianCalendar()) {
 						private static final long serialVersionUID = 1L;
 						@Override
@@ -256,7 +255,7 @@ public class BasePage extends AbstractBasePage {
 				setContent(calendarPanel, showCalendarAction.getAjaxRequestTarget());
 			}
 			// Show Settings
-			else if(action.getClass().equals(ShowSettingsAction.class)) {
+			else if (action.getClass().equals(ShowSettingsAction.class)) {
 				ShowSettingsAction showSettingsAction = (ShowSettingsAction) action;
 				SettingsPanelsPanel settingsPanel = new SettingsPanelsPanel(CONTENT_PANEL_MARKUP_ID) {
 					private static final long serialVersionUID = 1L;
@@ -266,17 +265,17 @@ public class BasePage extends AbstractBasePage {
 						BasePage.this.finalOnAction(action);
 					}
 				};
-				if(showSettingsAction.getTabToSelect() > 0) {
+				if (showSettingsAction.getTabToSelect() > 0) {
 					settingsPanel.setSelectedTab(showSettingsAction.getTabToSelect());
 				}
 				setContent(settingsPanel, showSettingsAction.getAjaxRequestTarget());
 			}
 			// Form Finished
-			else if(action.getClass().equals(FormFinishedAction.class)) {
+			else if (action.getClass().equals(FormFinishedAction.class)) {
 				BasePage.this.loadPreviousContent(action.getAjaxRequestTarget());
 			}
 			// Calendar Selected
-			else if(action.getClass().equals(CalendarSelectedAction.class)) {
+			else if (action.getClass().equals(CalendarSelectedAction.class)) {
 				CalendarSelectedAction calendarSelectedAction = (CalendarSelectedAction) action;
 				SettingsPanelsPanel settingsPanel = new SettingsPanelsPanel(CONTENT_PANEL_MARKUP_ID) {
 					private static final long serialVersionUID = 1L;
@@ -297,7 +296,6 @@ public class BasePage extends AbstractBasePage {
 			log.error("Action " + action.toString() + " could not be handled!");
 			throw new WebicalWebAplicationException("Action " + action.toString() + " could not be handled");
 		}
-
 	}
 
 	/**
@@ -339,7 +337,7 @@ public class BasePage extends AbstractBasePage {
 
 			case CALENDAR_PANEL:
 				//Save the panel in the Session to preserve the rigth state
-				if(this.calendarPanel == null) {
+				if (this.calendarPanel == null) {
 					this.calendarPanel = new CalendarPanel(CONTENT_PANEL_MARKUP_ID, new GregorianCalendar()) {
 						private static final long serialVersionUID = 1L;
 						@Override
@@ -353,7 +351,6 @@ public class BasePage extends AbstractBasePage {
 
 			default:
 				throw new WebicalWebAplicationException("Unknown panelId passed to ContentPanelChangeListener");
-
 		}
 		setContent(contentPanel, target);
 	}
@@ -374,7 +371,7 @@ public class BasePage extends AbstractBasePage {
 	 */
 	private void changePanel(Panel contentPanel, AjaxRequestTarget target) {
 		BasePage.this.addOrReplace(contentPanel);
-		if(target != null) {
+		if (target != null) {
 			contentPanel.setOutputMarkupId(true);
 			target.addComponent(contentPanel);
 		}
@@ -544,5 +541,4 @@ public class BasePage extends AbstractBasePage {
 	public void setCalendarManager(CalendarManager calendarManager) {
 		this.calendarManager = calendarManager;
 	}
-
 }

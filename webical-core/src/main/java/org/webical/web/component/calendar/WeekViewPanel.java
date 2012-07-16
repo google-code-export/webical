@@ -24,7 +24,6 @@ package org.webical.web.component.calendar;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -78,7 +77,7 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 	 * @param daysToShow The number of days to show
 	 * @param currentDate The current date
 	 */
-	public WeekViewPanel(String markupId, int daysToShow, Calendar currentDate) {
+	public WeekViewPanel(String markupId, int daysToShow, GregorianCalendar currentDate) {
 		super(markupId, currentDate, WeekViewPanel.class);
 
 		setViewPeriodId(GregorianCalendar.DAY_OF_WEEK);
@@ -98,7 +97,7 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 		setPeriodStartDate(startDate);
 
 		// Calculate the end date
-		Calendar endCal = new GregorianCalendar();
+		GregorianCalendar endCal = new GregorianCalendar();
 		endCal.setTime(startDate);
 		endCal.add(getViewPeriodId(), getViewPeriodLength() - 1);
 		setPeriodEndDate(CalendarUtils.getEndOfDay(endCal.getTime()));
@@ -126,7 +125,7 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 				headerLabel.add(new AttributeAppender("class", true, new Model("last"), " "));
 			}
 			dayHeadingRepeater.add(headerLabel);
-			weekCal.add(Calendar.DAY_OF_WEEK, 1);
+			weekCal.add(GregorianCalendar.DAY_OF_WEEK, 1);
 		}
 		add(dayHeadingRepeater);
 	}
@@ -183,7 +182,7 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 		Date startDate = null;
 		if (weekView) {
 			startDate = CalendarUtils.getFirstDayOfWeek(getViewCurrentDate().getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
-			weekHeadingBodyText = String.valueOf(getViewCurrentDate().get(Calendar.WEEK_OF_YEAR));
+			weekHeadingBodyText = String.valueOf(getViewCurrentDate().get(GregorianCalendar.WEEK_OF_YEAR));
 		} else {
 			startDate = CalendarUtils.getStartOfDay(getViewCurrentDate().getTime());
 			weekHeadingBodyText = "";
@@ -191,7 +190,7 @@ public abstract class WeekViewPanel extends CalendarViewPanel {
 		setPeriodStartDate(startDate);
 
 		// Calculate the end date
-		Calendar endCal = new GregorianCalendar();
+		GregorianCalendar endCal = new GregorianCalendar();
 		endCal.setTime(startDate);
 		endCal.add(getViewPeriodId(), getViewPeriodLength() - 1);
 		setPeriodEndDate(CalendarUtils.getEndOfDay(endCal.getTime()));

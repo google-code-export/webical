@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -21,7 +23,6 @@
 package org.webical.web.component.calendar;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -60,7 +61,6 @@ public abstract class MonthDayRepeater extends RepeatingView {
 	private static final String OUT_OF_RANGE_CSS_CLASS = "outOfRange";
 	
 	/** Contains the actions this panel can handle */
-	@SuppressWarnings("unchecked")
 	protected  static Class[] PANELACTIONS = new Class[] { };
 
 	/**
@@ -71,53 +71,51 @@ public abstract class MonthDayRepeater extends RepeatingView {
 	 */
 	public MonthDayRepeater(String id, EventsModel eventsModel, int rangeMonth) {
 		super(id);
-		
+
 		GregorianCalendar todayCal = new GregorianCalendar();
 		Date todayStartDate = CalendarUtils.getStartOfDay(todayCal.getTime());
 
 		GregorianCalendar startCal = new GregorianCalendar();
 		startCal.setTime(eventsModel.getStartDate());
 
-		for(int i = 0; i <= 6; i++) {
+		for (int i = 0; i <= 6; i++) {
 			Date dayStartDate = startCal.getTime();
 			Date dayEndDate = CalendarUtils.getEndOfDay(dayStartDate);
-			
+
 			// Add a MonthDayPanel for each day in the week
-			MonthDayPanel monthDayPanel = new MonthDayPanel("day" + startCal.get(Calendar.DAY_OF_YEAR), new WrappingEventsModel(dayStartDate, dayEndDate, eventsModel)){
+			MonthDayPanel monthDayPanel = new MonthDayPanel("day" + startCal.get(GregorianCalendar.DAY_OF_YEAR), new WrappingEventsModel(dayStartDate, dayEndDate, eventsModel)){
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void onAction(IAction action) {
 					//MonthDayRepeater.this.handleAction(actionName, actionParameters);
-					if(Arrays.asList(MonthDayRepeater.PANELACTIONS).contains(action.getClass())) {
+					if (Arrays.asList(MonthDayRepeater.PANELACTIONS).contains(action.getClass())) {
 						// Handle panel actions here
 					} else {
 						// Pass the action to the parent component
 						MonthDayRepeater.this.onAction(action);
 					}
 				}
-
 			};
 			// Check if we need to add some extra css styles
-			if(CalendarUtils.getStartOfDay(startCal.getTime()).compareTo(todayStartDate) == 0) {
+			if (CalendarUtils.getStartOfDay(startCal.getTime()).compareTo(todayStartDate) == 0) {
 				monthDayPanel.add(new AttributeAppender("class", true, new Model(TODAY_CSS_CLASS), " "));
 			}
-			if(i == 0) {
+			if (i == 0) {
 				monthDayPanel.add(new AttributeAppender("class", true, new Model(FIRST_ITEM_CSS_CLASS), " "));
 			}
-			if(i == 6) {
+			if (i == 6) {
 				monthDayPanel.add(new AttributeAppender("class", true, new Model(LAST_ITEM_CSS_CLASS), " "));
 			}
 			// Check if the date is in range
-			if(!(startCal.get(Calendar.MONTH) == rangeMonth)) {
+			if (!(startCal.get(GregorianCalendar.MONTH) == rangeMonth)) {
 				monthDayPanel.add(new AttributeAppender("class", true, new Model(OUT_OF_RANGE_CSS_CLASS), " "));
 			}
 			add(monthDayPanel);
 
 			// Add a day to the calendar
-			startCal.add(Calendar.DAY_OF_YEAR, 1);
+			startCal.add(GregorianCalendar.DAY_OF_YEAR, 1);
 		}
-
 	}
 
 	/**

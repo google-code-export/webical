@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -20,7 +22,6 @@
 
 package org.webical.web.action;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -42,15 +43,15 @@ public class WeekSelectedAction implements IAction {
 	 * Constructor.
 	 * @param weekDate The date for the selected week
 	 */
-	public WeekSelectedAction(Calendar weekDate) {
-		this.weekDate = (GregorianCalendar) weekDate;
+	public WeekSelectedAction(GregorianCalendar weekDate) {
+		this.weekDate = weekDate;
 	}
 
 	/**
 	 * Gets the date for the selected week.
 	 * @return The date for the selected week
 	 */
-	public Calendar getWeekSelected() {
+	public GregorianCalendar getWeekSelected() {
 		return weekDate;
 	}
 
@@ -65,5 +66,4 @@ public class WeekSelectedAction implements IAction {
 	public AjaxRequestTarget getAjaxRequestTarget() {
 		return null;
 	}
-
 }
