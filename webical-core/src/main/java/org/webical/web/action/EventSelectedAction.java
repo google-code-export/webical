@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -20,7 +22,6 @@
 
 package org.webical.web.action;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -43,22 +44,22 @@ public class EventSelectedAction implements IAction {
 	 * The date of the selected Event.
 	 */
 	private GregorianCalendar eventDate;
-	
+
 	/**
 	 * Constructor.
 	 * @param selectedEvent The Event selected
 	 * @param selectedEventDate The date the selected event is on
 	 */
-	public EventSelectedAction(Event selectedEvent, Calendar selectedEventDate) {
+	public EventSelectedAction(Event selectedEvent, GregorianCalendar selectedEventDate) {
 		this.selectedEvent = selectedEvent;
-		this.eventDate = (GregorianCalendar) selectedEventDate;
+		this.eventDate = selectedEventDate;
 	}
 
 	/**
 	 * Gets the date the selected Event is on.
 	 * @return The date the selected Event is on
 	 */
-	public Calendar getSelectedEventDate() {
+	public GregorianCalendar getSelectedEventDate() {
 		return eventDate;
 	}
 
@@ -81,5 +82,4 @@ public class EventSelectedAction implements IAction {
 	public AjaxRequestTarget getAjaxRequestTarget() {
 		return null;
 	}
-
 }

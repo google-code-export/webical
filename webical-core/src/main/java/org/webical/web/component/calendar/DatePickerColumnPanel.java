@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -21,7 +23,6 @@
 package org.webical.web.component.calendar;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.apache.wicket.behavior.AttributeAppender;
@@ -38,7 +39,6 @@ public abstract class DatePickerColumnPanel extends AbstractBasePanel {
 
 	private static String OTHER_MONTH_CSS_CLASS = "otherMonth";
 
-	@SuppressWarnings("unchecked")
 	protected static Class[] PANELACTIONS = new Class[] { };
 
 	private DatePickerModel datePickerModel;
@@ -47,7 +47,7 @@ public abstract class DatePickerColumnPanel extends AbstractBasePanel {
 
 	private Label dateLabel;
 
-	public DatePickerColumnPanel(String markupId, Calendar dayCalendar, DatePickerModel datePickerModel) {
+	public DatePickerColumnPanel(String markupId, GregorianCalendar dayCalendar, DatePickerModel datePickerModel) {
 		super(markupId, DatePickerColumnPanel.class);
 
 		this.datePickerModel = datePickerModel;
@@ -55,11 +55,9 @@ public abstract class DatePickerColumnPanel extends AbstractBasePanel {
 		this.currentDate.setTime(datePickerModel.getCurrentDate().getTime());
 		this.dayCalendar = new GregorianCalendar();
 		this.dayCalendar.setTime(dayCalendar.getTime());
-
 	}
 
 	public void setupCommonComponents() {
-
 	}
 
 	public void setupAccessibleComponents() {
@@ -79,7 +77,7 @@ public abstract class DatePickerColumnPanel extends AbstractBasePanel {
 			}
 		};
 
-		if(dayCalendar.get(Calendar.MONTH) != currentDate.get(Calendar.MONTH)) {
+		if (dayCalendar.get(GregorianCalendar.MONTH) != currentDate.get(GregorianCalendar.MONTH)) {
 			dateLink.add(new AttributeAppender("class", true, new Model(OTHER_MONTH_CSS_CLASS), " "));
 		}
 
@@ -98,5 +96,4 @@ public abstract class DatePickerColumnPanel extends AbstractBasePanel {
 	 * @param action The action to handle
 	 */
 	public abstract void onAction(IAction action);
-
 }

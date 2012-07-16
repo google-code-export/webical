@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -21,7 +23,6 @@
 package org.webical.web.component.event;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Map;
@@ -47,111 +48,106 @@ public class EventWrapper implements Serializable {
 
 	private Event event;
 	private Recurrence recurrence = null;
-	
+
 	public EventWrapper(Event parentEvent) {
 		this.event = parentEvent;
 		try {
 			this.recurrence = RecurrenceUtil.getRecurrenceFromRecurrenceRuleSet(this.event.getrRule());
 		} catch (WebicalException e) {
-			
+
 		}
-		if(this.recurrence == null) {
+		if (this.recurrence == null) {
 			this.recurrence = new Recurrence();
 		}
 	}
-	
+
 	/* Custom & Overridden methods */
-	
 	public void setEventStartDate(Date eventStartDate) {
 		// Calendar that holds the new start date
 		GregorianCalendar newStartDateCalendar = new GregorianCalendar();
 		newStartDateCalendar.setTime(eventStartDate);
-		
+
 		// Calendar that holds the current start date
 		GregorianCalendar startDateCalendar = new GregorianCalendar();
-		
-		if(event.getDtStart() != null) {
+		if (event.getDtStart() != null) {
 			startDateCalendar.setTime(event.getDtStart());
-			
-			startDateCalendar.set(Calendar.DAY_OF_YEAR, newStartDateCalendar.get(Calendar.DAY_OF_YEAR));
-			startDateCalendar.set(Calendar.MONTH, newStartDateCalendar.get(Calendar.MONTH));
-			startDateCalendar.set(Calendar.YEAR, newStartDateCalendar.get(Calendar.YEAR));
+
+			startDateCalendar.set(GregorianCalendar.DAY_OF_YEAR, newStartDateCalendar.get(GregorianCalendar.DAY_OF_YEAR));
+			startDateCalendar.set(GregorianCalendar.MONTH, newStartDateCalendar.get(GregorianCalendar.MONTH));
+			startDateCalendar.set(GregorianCalendar.YEAR, newStartDateCalendar.get(GregorianCalendar.YEAR));
 		}
-		
 		event.setDtStart(startDateCalendar.getTime());
 	}
-	
+
 	public Date getEventStartDate() {
 		return event.getDtStart();
 	}
-	
+
 	public void setEventEndDate(Date eventEndDate) {
 		// Calendar that holds the new start date
 		GregorianCalendar newEndDateCalendar = new GregorianCalendar();
 		newEndDateCalendar.setTime(eventEndDate);
-		
+
 		// Calendar that holds the current start date
 		GregorianCalendar endDateCalendar = new GregorianCalendar();
-		
-		if(event.getDtEnd() != null) {
+		if (event.getDtEnd() != null) {
 			endDateCalendar.setTime(event.getDtEnd());
-			
-			endDateCalendar.set(Calendar.DAY_OF_YEAR, newEndDateCalendar.get(Calendar.DAY_OF_YEAR));
-			endDateCalendar.set(Calendar.MONTH, newEndDateCalendar.get(Calendar.MONTH));
-			endDateCalendar.set(Calendar.YEAR, newEndDateCalendar.get(Calendar.YEAR));
+
+			endDateCalendar.set(GregorianCalendar.DAY_OF_YEAR, newEndDateCalendar.get(GregorianCalendar.DAY_OF_YEAR));
+			endDateCalendar.set(GregorianCalendar.MONTH, newEndDateCalendar.get(GregorianCalendar.MONTH));
+			endDateCalendar.set(GregorianCalendar.YEAR, newEndDateCalendar.get(GregorianCalendar.YEAR));
 		}
-		
+
 		event.setDtEnd(endDateCalendar.getTime());
 	}
-	
+
 	public Date getEventEndDate() {
 		return event.getDtEnd();
 	}
-	
+
 	public void setEventStartTime(Date eventStartTime) {
 		// Calendar that holds the new start time
 		GregorianCalendar newStartTimeCalendar = new GregorianCalendar();
 		newStartTimeCalendar.setTime(eventStartTime);
-		
+
 		// Calendar that holds the current start time
 		GregorianCalendar startTimeCalendar = new GregorianCalendar();
-		
-		if(event.getDtStart() != null) {
+
+		if (event.getDtStart() != null) {
 			startTimeCalendar.setTime(event.getDtStart());
-			
-			startTimeCalendar.set(Calendar.HOUR_OF_DAY, newStartTimeCalendar.get(Calendar.HOUR_OF_DAY));
-			startTimeCalendar.set(Calendar.MINUTE, newStartTimeCalendar.get(Calendar.MINUTE));
+
+			startTimeCalendar.set(GregorianCalendar.HOUR_OF_DAY, newStartTimeCalendar.get(GregorianCalendar.HOUR_OF_DAY));
+			startTimeCalendar.set(GregorianCalendar.MINUTE, newStartTimeCalendar.get(GregorianCalendar.MINUTE));
 		}
-		
+
 		event.setDtStart(startTimeCalendar.getTime());
 	}
-	
+
 	public Date getEventStartTime() {
 		return event.getDtStart();
 	}
-	
+
 	public void setEventEndTime(Date eventEndTime) {
 		// Calendar that holds the new end time
 		GregorianCalendar newEndTimeCalendar = new GregorianCalendar();
 		newEndTimeCalendar.setTime(eventEndTime);
-		
+
 		// Calendar that holds the current end time
 		GregorianCalendar endTimeCalendar = new GregorianCalendar();
-		if(event.getDtEnd() != null) {
+		if (event.getDtEnd() != null) {
 			endTimeCalendar.setTime(event.getDtEnd());
-			
-			
-			endTimeCalendar.set(Calendar.HOUR_OF_DAY, newEndTimeCalendar.get(Calendar.HOUR_OF_DAY));
-			endTimeCalendar.set(Calendar.MINUTE, newEndTimeCalendar.get(Calendar.MINUTE));
+
+			endTimeCalendar.set(GregorianCalendar.HOUR_OF_DAY, newEndTimeCalendar.get(GregorianCalendar.HOUR_OF_DAY));
+			endTimeCalendar.set(GregorianCalendar.MINUTE, newEndTimeCalendar.get(GregorianCalendar.MINUTE));
 		}
-		
+
 		event.setDtEnd(endTimeCalendar.getTime());
 	}
 
 	public Date getEventEndTime() {
 		return event.getDtEnd();
 	}
-	
+
 	public void resetAllDay() {
 		java.util.Calendar currentDateCalendar = GregorianCalendar.getInstance();
 		java.util.Calendar formDateCalendar = GregorianCalendar.getInstance();
@@ -172,34 +168,33 @@ public class EventWrapper implements Serializable {
 		setDtEnd(CalendarUtils.getStartOfDay(getDtEnd()));
 		event.setAllDay(true);
 	}
-	
+
 	public Event getEvent() {
 		return event;
 	}
-	
+
 	public void storeRecurrence() {
 		RecurrenceUtil.setRecurrenceRule(this.event, this.recurrence);
 	}
-	
+
 	public void clearRecurrence() {
 		this.recurrence = null;
 		RecurrenceUtil.clearRecurrence(this.event);
 	}
-	
+
 	public void setRecurrence(Recurrence recurrence) {
 		this.recurrence = recurrence;
 	}
-	
+
 	/* Delegate Methods to Recurrence */
-	
 	public Integer getFrequency(){
 		return recurrence.getFrequency();
 	}
 
-	public void setFrequency(Integer frequency){
+	public void setFrequency(Integer frequency) {
 		recurrence.setFrequency(frequency);
 	}
-	
+
 	public Integer getInterval() {
 		return recurrence.getInterval();
 	}
@@ -223,9 +218,8 @@ public class EventWrapper implements Serializable {
 	public void setUntil(Date until) {
 		recurrence.setEndDay(until);
 	}
-	
+
 	/* Delegate Methods to Event*/
-	
 	public void addXProp(String key, String value) {
 		event.addXProp(key, value);
 	}
@@ -517,5 +511,4 @@ public class EventWrapper implements Serializable {
 	public String toString() {
 		return event.toString();
 	}
-
 }

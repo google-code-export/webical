@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -20,7 +22,6 @@
 
 package org.webical.web.component.calendar;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -39,7 +40,6 @@ import org.webical.web.component.calendar.model.DatePickerModel;
 public abstract class DatePickerRowRepeater extends RepeatingView {
 	private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unchecked")
 	protected static Class[] PANELACTIONS = new Class[] { };
 
 	private DatePickerModel datePickerModel;
@@ -68,16 +68,15 @@ public abstract class DatePickerRowRepeater extends RepeatingView {
 		GregorianCalendar weekCalendar = new GregorianCalendar();
 		weekCalendar.setTime(startDate);
 
-		for(int i = 0; i < numberOfWeeks; i++) {
+		for (int i = 0; i < numberOfWeeks; i++) {
 
-			DatePickerRowPanel rowPanel = new DatePickerRowPanel("week" + weekCalendar.get(Calendar.WEEK_OF_YEAR), weekCalendar, datePickerModel) {
+			DatePickerRowPanel rowPanel = new DatePickerRowPanel("week" + weekCalendar.get(GregorianCalendar.WEEK_OF_YEAR), weekCalendar, datePickerModel) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void onAction(IAction action) {
 					DatePickerRowRepeater.this.onAction(action);
 				}
-
 			};
 			addOrReplace(rowPanel);
 
@@ -104,5 +103,4 @@ public abstract class DatePickerRowRepeater extends RepeatingView {
 	 * @param action The action to handle
 	 */
 	public abstract void onAction(IAction action);
-
 }

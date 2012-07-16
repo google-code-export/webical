@@ -23,7 +23,6 @@
 package org.webical.web.component.event;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -79,11 +78,11 @@ public abstract class EventDetailsPanel extends AbstractBasePanel
 	 * @param event the event to be displayed
 	 * @param selectedEventDate the date the selected event is on
 	 */
-	public EventDetailsPanel(String markupId, Event event, Calendar selectedEventDate)
+	public EventDetailsPanel(String markupId, Event event, GregorianCalendar selectedEventDate)
 	{
 		super(markupId, EventDetailsPanel.class);
 		this.event = event;
-		this.selectedEventDate = (GregorianCalendar) selectedEventDate;
+		this.selectedEventDate = selectedEventDate;
 
 		// Override the event date with the date of the day the selected event is on if the event is recurring
 		if(RecurrenceUtil.isRecurrent(event)) {
