@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -20,7 +22,6 @@
 
 package org.webical.web.action;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -43,8 +44,8 @@ public class AddEventAction implements IAction {
 	 * Constructor.
 	 * @param eventDate The date of the Event
 	 */
-	public AddEventAction(Calendar eventDate) {
-		this.eventDate = (GregorianCalendar) eventDate;
+	public AddEventAction(GregorianCalendar eventDate) {
+		this.eventDate = eventDate;
 	}
 
 	/**
@@ -66,5 +67,4 @@ public class AddEventAction implements IAction {
 	public AjaxRequestTarget getAjaxRequestTarget() {
 		return null;
 	}
-
 }
