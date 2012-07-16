@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -26,6 +28,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
+import java.net.MalformedURLException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.KeyManagementException;
@@ -52,6 +55,7 @@ import org.apache.commons.codec.DecoderException;
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.webical.Calendar;
 import org.webical.Event;
 import org.webical.dao.ConnectionDaoException;
@@ -84,14 +88,14 @@ public class WebDavCalendarSynchronisation {
 	 * @return the list of events parsed from the remote iCal4J calendar
 	 * @throws DaoException with wrapped exception
 	 */
-	public List<Event> getEventsFromRemoteCalendar(final Calendar calendar) throws DaoException{
+	public List<Event> getEventsFromRemoteCalendar(final Calendar calendar) throws DaoException {
 
-		if(calendar == null || calendar.getUrl() == null){
+		if (calendar == null || calendar.getUrl() == null) {
 			throw new DaoException("calendar or url should not be null");
 		}
+		if (log.isDebugEnabled()) log.debug("getEventsFromRemoteCalendar " + calendar.getName());
 
 		try {
-
 			return ComponentFactory.buildComponentsFromIcal4JCalendar(calendar, getIcal4JCalendarFromRemoteCalendar(calendar));
 		} catch (URIException e) {
 			log.error(e,e);
@@ -117,7 +121,6 @@ public class WebDavCalendarSynchronisation {
 		} catch (Exception e) {
 			throw new DaoException(e);
 		}
-
 	}
 
 	/**
@@ -126,19 +129,18 @@ public class WebDavCalendarSynchronisation {
 	 * @param events the events to place in the calendar file
 	 * @throws DaoException with wrapped exception
 	 */
-	public void writeToRemoteCalendarFile(final Calendar calendar, List<Event> events) throws DaoException{
+	public void writeToRemoteCalendarFile(final Calendar calendar, List<Event> events) throws DaoException {
 
-		if(calendar == null || calendar.getUrl() == null){
+		if (calendar == null || calendar.getUrl() == null) {
 			throw new DaoException("calendar or url should not be null");
 		}
+		if (log.isDebugEnabled()) log.debug("writeToRemoteCalendarFile " + calendar.getName() + ":" + events.size());
 
 		HttpURLConnection connection = null;
-
 		try {
-
 			try {
 				//Set up authentication if needed
-				if(calendar.getUsername() != null && calendar.getPassword() != null){
+				if (calendar.getUsername() != null && calendar.getPassword() != null) {
 					ConnectionUtil.setAuthentication(calendar.getUsername(), calendar.getPassword());
 				}
 			} catch (Exception e) {
@@ -148,7 +150,7 @@ public class WebDavCalendarSynchronisation {
 
 			//Get the correct output source and build the calendar
 			URL url = new URL(calendar.getUrl());
-			if(url.getProtocol().equalsIgnoreCase(ConnectionUtil.HTTPS_PROTOCOL)) {
+			if (url.getProtocol().equalsIgnoreCase(ConnectionUtil.HTTPS_PROTOCOL)) {
 				//TODO get from User Settings
 				connection = ConnectionUtil.getHttpsUrlConnection(url, true);
 			} else {
@@ -161,12 +163,11 @@ public class WebDavCalendarSynchronisation {
 			net.fortuna.ical4j.model.Calendar ical4jCalendar = ComponentFactory.buildIcal4JCalendarFromComponents(events, calendar);
 
 			//Write the calendar to the remote file
-
 			connection.setDoOutput(true);
 			connection.setRequestMethod(ConnectionUtil.HTTP_PUT_METHOD);
 			calendarOutputter.output(ical4jCalendar, connection.getOutputStream() );
 
-			if(log.isDebugEnabled()) {
+			if (log.isDebugEnabled()) {
 				log.debug("Flushing connection: " + connection.getURL());
 			}
 
@@ -174,7 +175,7 @@ public class WebDavCalendarSynchronisation {
 			connection.getOutputStream().close();
 
 			//XXX Somehow the output is not writen if the input is not read, so read 1 byte.
-			if(connection.getInputStream().available() > 0) {
+			if (connection.getInputStream().available() > 0) {
 				connection.getInputStream().read();
 			}
 
@@ -216,7 +217,9 @@ public class WebDavCalendarSynchronisation {
 	 * @throws DaoException with wrapped exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Event> updateEvent(Event updatedEvent, Calendar calendar) throws UpdateConflictException, DeleteConflictException, DaoException {
+	public List<Event> updateEvent(Event updatedEvent, Calendar calendar) throws UpdateConflictException, DeleteConflictException, DaoException
+	{
+		if (log.isDebugEnabled()) log.debug("updateEvent " + calendar.getName() + ":" + updatedEvent.getSummary());
 
 		//The conflicstatus keeps track of possible collisions
 		ConflictStatus status = new ConflictStatus();
@@ -289,6 +292,53 @@ public class WebDavCalendarSynchronisation {
 	}
 
 	/**
+	 * Retrieves last modification datetime of the specified calendar
+	 *
+	 * @param calendar - calendar to retrieve last modification datetime
+	 * @return date of last modification or null
+	 *
+	 * @throws DaoException
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 * @throws NoSuchAlgorithmException
+	 * @throws KeyManagementException
+	 */
+	public Date lastModificationCalendar(Calendar calendar) throws DaoException, MalformedURLException, IOException, NoSuchAlgorithmException, KeyManagementException
+	{
+		if (log.isDebugEnabled()) log.debug("lastModificationCalendar " + calendar.getName());
+
+		Date calLastMod = null;
+		if (calendar == null || calendar.getUrl() == null)
+		{
+			throw new DaoException("calendar or url should not be null");
+		}
+
+		// Set up authentication if needed
+		if (calendar.getUsername() != null && calendar.getPassword() != null)
+		{
+			ConnectionUtil.setAuthentication(calendar.getUsername(), calendar.getPassword());
+		}
+
+		// Get the correct input source
+		URLConnection connection = null;
+		URL url = new URL(calendar.getUrl());
+		if (url.getProtocol().equalsIgnoreCase(ConnectionUtil.HTTPS_PROTOCOL))
+		{
+			//TODO get from User Settings
+			connection = ConnectionUtil.getURLConnection(url, true);
+		}
+		else
+		{
+			connection = url.openConnection();
+		}
+		log.debug(connection.getHeaderFields());
+
+		Date datum = new Date(connection.getLastModified());		// GMT date time
+		if (datum.getTime() > 1000000000000L) calLastMod = datum;	// > 09/09/2001
+		return calLastMod;
+	}
+
+	/**
 	 * Retrieves the Ical Calendar from the remote location
 	 * @param calendar the calendar to retrieve
 	 * @return the Ical Calendar
@@ -306,13 +356,15 @@ public class WebDavCalendarSynchronisation {
 	 * @throws InvalidAlgorithmParameterException
 	 * @throws InvalidKeyException
 	 */
-	protected net.fortuna.ical4j.model.Calendar getIcal4JCalendarFromRemoteCalendar(Calendar calendar) throws DaoException, KeyManagementException, NoSuchAlgorithmException, UnknownHostException, IOException, ParserException, IllegalBlockSizeException, BadPaddingException, DecoderException, InvalidKeyException, InvalidAlgorithmParameterException, NoSuchPaddingException, InvalidKeySpecException {
-		if(calendar == null || calendar.getUrl() == null){
+	public net.fortuna.ical4j.model.Calendar getIcal4JCalendarFromRemoteCalendar(Calendar calendar) throws DaoException, KeyManagementException, NoSuchAlgorithmException, UnknownHostException, IOException, ParserException, IllegalBlockSizeException, BadPaddingException, DecoderException, InvalidKeyException, InvalidAlgorithmParameterException, NoSuchPaddingException, InvalidKeySpecException
+	{
+		if (calendar == null || calendar.getUrl() == null) {
 			throw new DaoException("calendar or url should not be null");
 		}
+		if (log.isDebugEnabled()) log.debug("getIcal4JCalendarFromRemoteCalendar " + calendar.getName());
 
 		//Set up authentication if needed
-		if(calendar.getUsername() != null && calendar.getPassword() != null){
+		if (calendar.getUsername() != null && calendar.getPassword() != null) {
 			ConnectionUtil.setAuthentication(calendar.getUsername(), calendar.getPassword());
 		}
 
@@ -326,15 +378,12 @@ public class WebDavCalendarSynchronisation {
 		} else {
 			connection = url.openConnection();
 		}
-
 		//Set up the calendar builder and parse the calendar
 		CalendarBuilder calendarBuilder = new CalendarBuilder();
 		return calendarBuilder.build( connection.getInputStream() );
-
 	}
 
 	/**
-	 *
 	 * @author jochem
 	 * Class for conflicts while updating
 	 */
@@ -346,4 +395,3 @@ public class WebDavCalendarSynchronisation {
 		}
 	}
 }
-

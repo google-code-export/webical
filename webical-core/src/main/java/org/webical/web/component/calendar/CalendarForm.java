@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -43,6 +45,7 @@ import org.webical.User;
 import org.webical.util.CalendarUtils;
 import org.webical.web.app.WebicalSession;
 import org.webical.web.component.validation.UrlValidator;
+import org.webical.web.component.validation.CalendarFormValidator;
 
 /**
  * Form used to add or edit a calendar
@@ -104,7 +107,7 @@ public abstract class CalendarForm extends Form {
 
 		this.editCalendar = calendar;
 		this.calendarTypes = calendarTypes;
-		this.user = WebicalSession.getWebicalSession().getUser();;
+		this.user = WebicalSession.getWebicalSession().getUser();
 
 		// Check if we are editing a calendar. If editCalendar is a calendar, set up the edit form
 		if((this.editCalendar != null) && (this.editCalendar.getUrl() != null)) {
@@ -125,7 +128,6 @@ public abstract class CalendarForm extends Form {
 			editCalendar.setOffSetFrom(offSetFromTemp);
 			editCalendar.setOffSetTo(offSetToTemp);
 
-
 			this.calendarModel = new CompoundPropertyModel(this.editCalendar);
 			this.editForm = true;
 		}
@@ -143,6 +145,8 @@ public abstract class CalendarForm extends Form {
 		}
 		addFormElements();
 
+		CalendarFormValidator urlUsrPwdVal = new CalendarFormValidator(urlTextField, usernameTextField, passwordTextField);
+		add(urlUsrPwdVal);
 	}
 
 	/**
