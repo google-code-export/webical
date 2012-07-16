@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id: $
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -25,91 +27,73 @@ import java.io.Serializable;
 /**
  * Calendar
  * @author jochem
- *
  */
-
 public class Calendar implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private Long calendarId;
-	private String name;
-	private String type;
-	private String url;
-	private String username;
-	private String password;
-	private Boolean visible;
+	public static final String CALENDAR_PROPERTY_NAME = "calendar";
+
+	private Long calendarId = null;
+	private String name = null;
+	private String type = null;
+	private String url = null;
+	private String username = null;
+	private String password = null;
+	private Boolean visible = Boolean.TRUE;
 
 	//timezone
-	private Long offSetFrom;
-	private Long offSetTo;
-
-	private User user;
+	private Long offSetFrom = -1L;
+	private Long offSetTo = 0L;
 
 	private Long lastRefreshTimeStamp = null;
 
+	private User user = null;
+
 	/*Getters & Setters*/
-	public Long getOffSetFrom() {
-		return offSetFrom;
-	}
-	public void setOffSetFrom(Long offSetFrom) {
-		this.offSetFrom = offSetFrom;
-	}
-	public Long getOffSetTo() {
-		return offSetTo;
-	}
-	public void setOffSetTo(Long offSetTo) {
-		this.offSetTo = offSetTo;
-	}
-	public Long getLastRefreshTimeStamp() {
-		return lastRefreshTimeStamp;
-	}
-	public void setLastRefreshTimeStamp(Long lastRefreshTimeStamp) {
-		this.lastRefreshTimeStamp = lastRefreshTimeStamp;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
-	public String getUrl() {
-		return url;
-	}
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
 	public Long getCalendarId() {
 		return calendarId;
 	}
 	public void setCalendarId(Long calendarId) {
 		this.calendarId = calendarId;
 	}
-	public User getUser() {
-		return user;
+
+	public String getName() {
+		return name;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setName(String name) {
+		this.name = name;
 	}
+
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public Boolean getVisible() {
-		if(visible == null) {
+		if (visible == null) {
 			visible = Boolean.FALSE;
 		}
 		return visible;
@@ -117,6 +101,35 @@ public class Calendar implements Serializable {
 	public void setVisible(Boolean selected) {
 		this.visible = selected;
 	}
+
+	public Long getOffSetFrom() {
+		return offSetFrom;
+	}
+	public void setOffSetFrom(Long offSetFrom) {
+		this.offSetFrom = offSetFrom;
+	}
+
+	public Long getOffSetTo() {
+		return offSetTo;
+	}
+	public void setOffSetTo(Long offSetTo) {
+		this.offSetTo = offSetTo;
+	}
+
+	public Long getLastRefreshTimeStamp() {
+		return lastRefreshTimeStamp;
+	}
+	public void setLastRefreshTimeStamp(Long lastRefreshTimeStamp) {
+		this.lastRefreshTimeStamp = lastRefreshTimeStamp;
+	}
+
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;

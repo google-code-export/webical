@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -20,7 +22,6 @@
 
 package org.webical.web.action;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -42,15 +43,15 @@ public class DaySelectedAction implements IAction {
 	 * Constructor.
 	 * @param daySelected The date of the selected day
 	 */
-	public DaySelectedAction(Calendar daySelected) {
-		this.daySelected = (GregorianCalendar) daySelected;
+	public DaySelectedAction(GregorianCalendar daySelected) {
+		this.daySelected = daySelected;
 	}
 
 	/**
 	 * Gets the date for the selected day.
 	 * @return The date for the selected day
 	 */
-	public Calendar getDaySelected() {
+	public GregorianCalendar getDaySelected() {
 		return daySelected;
 	}
 
@@ -59,7 +60,7 @@ public class DaySelectedAction implements IAction {
 	 */
 	@Override
 	public String toString() {
-		return "DaySelectedAction";
+		return "DaySelectedAction: daySelected = " + daySelected;
 	}
 
 	public AjaxRequestTarget getAjaxRequestTarget() {

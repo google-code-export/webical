@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -21,7 +23,6 @@
 package org.webical.web.component.calendar;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -97,10 +98,10 @@ public abstract class DatePickerPanel extends AbstractBasePanel {
 		// TODO mattijs: get the weekdays to show from user settings
 		for(int i = 0; i < 7; i++) {
 			dayHeaderRepeater.add(new Label("dayHeader" + i, sdf.format(weekCal.getTime()).substring(0, 1)));
-			weekCal.add(Calendar.DAY_OF_WEEK, 1);
+			weekCal.add(GregorianCalendar.DAY_OF_WEEK, 1);
 		}
 		add(dayHeaderRepeater);
-		
+
 		// Add the date form
 		DatePickerForm form = new DatePickerForm(DATE_PICKER_FORM_MARKUP_ID, getModel());
 		form.add(new FormComponentValidationStyleBehavior());
@@ -123,12 +124,12 @@ public abstract class DatePickerPanel extends AbstractBasePanel {
 	}
 
 	private void renderModelDependantComponents() {
-		
+
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM yyyy", getLocale());
 		// Add a month label
 		monthLabel = new Label("monthLabel", dateFormatter.format(((DatePickerModel) this.getModelObject()).getCurrentDate().getTime()));
 		addOrReplace(monthLabel);
-		
+
 		DatePickerRowRepeater rowRepeater = new DatePickerRowRepeater(DATE_PICKER_ROW_REPEATER_MARKUP_ID, (DatePickerModel) this.getModelObject()) {
 			private static final long serialVersionUID = 1L;
 
@@ -136,9 +137,8 @@ public abstract class DatePickerPanel extends AbstractBasePanel {
 			public void onAction(IAction action) {
 				DatePickerPanel.this.onAction(action);
 			}
-
         };
-        
+
         addOrReplace(rowRepeater);
 	}
 
@@ -156,13 +156,13 @@ public abstract class DatePickerPanel extends AbstractBasePanel {
 	 */
 	private class DatePickerForm extends Form {
 		private static final long serialVersionUID = 1L;
-		
+
 		// Markup ID's
 		private static final String CHANGE_DATE_BUTTON_MARKUP_ID = "changeDateButton";
 		private static final String CURRENT_DATE_FIELD_MARKUP_ID = "changeDateField";
 		// Resource ID's
 		private static final String CHANGE_DATE_BUTTON_RESOURCE_ID = "change_date_label";
-		
+
 		private DateTextField changeDateTextField;
 		private Button changeDateButton;
 
@@ -190,7 +190,5 @@ public abstract class DatePickerPanel extends AbstractBasePanel {
 			dayCal.setTime((Date) changeDateTextField.getConvertedInput());
 			DatePickerPanel.this.onAction(new DaySelectedAction(dayCal));
 		}
-
 	}
-
 }

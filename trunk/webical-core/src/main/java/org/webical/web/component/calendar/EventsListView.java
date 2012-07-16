@@ -23,7 +23,6 @@
 package org.webical.web.component.calendar;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.apache.wicket.behavior.AttributeAppender;
@@ -53,7 +52,6 @@ public abstract class EventsListView extends ListView {
 	private static final String EVENT_TITLE_LABEL_MARKUP_ID = "eventTitle";
 
 	/** Contains the actions this panel can handle */
-	@SuppressWarnings("unchecked")
 	protected  static Class[] PANELACTIONS = new Class[] {  };
 
 	private GregorianCalendar listDate;
@@ -73,9 +71,9 @@ public abstract class EventsListView extends ListView {
 	 * @param model The {@code EventsModel} to use
 	 * @param listDate the date this list is representing
 	 */
-	public EventsListView(String id, EventsModel model, Calendar listDate) {
+	public EventsListView(String id, EventsModel model, GregorianCalendar listDate) {
 		super(id, model);
-		this.listDate = (GregorianCalendar) listDate;
+		this.listDate = listDate;
 	}
 
 	/**

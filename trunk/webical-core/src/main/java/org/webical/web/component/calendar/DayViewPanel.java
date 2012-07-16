@@ -25,7 +25,7 @@ package org.webical.web.component.calendar;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -69,10 +69,10 @@ public abstract class DayViewPanel extends CalendarViewPanel {
 	 * @param daysToShow - Days to show (1)
 	 * @param currentDate - The currentDate
 	 */
-	public DayViewPanel(String markupId, int daysToShow, Calendar currentDate) {
+	public DayViewPanel(String markupId, int daysToShow, GregorianCalendar currentDate) {
 		super(markupId, currentDate, DayViewPanel.class);
 
-		setViewPeriodId(Calendar.DAY_OF_MONTH);
+		setViewPeriodId(GregorianCalendar.DAY_OF_MONTH);
 		setViewPeriodLength(daysToShow);
 		// Set the start/end date for the range
 		setPeriodStartDate(CalendarUtils.getStartOfDay(getViewCurrentDate().getTime()));

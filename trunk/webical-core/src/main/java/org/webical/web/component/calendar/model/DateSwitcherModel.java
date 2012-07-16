@@ -23,7 +23,6 @@
 package org.webical.web.component.calendar.model;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.apache.wicket.model.IModel;
@@ -54,11 +53,11 @@ public class DateSwitcherModel implements IModel {
 	 * Constructor.
 	 * @param currentDate The current date
 	 */
-	public DateSwitcherModel(Calendar currentDate) {
-		if(currentDate == null) {
+	public DateSwitcherModel(GregorianCalendar currentDate) {
+		if (currentDate == null) {
 			this.currentDate = new GregorianCalendar();
 		} else {
-			this.currentDate = (GregorianCalendar) currentDate;
+			this.currentDate = currentDate;
 		}
 	}
 
@@ -67,12 +66,12 @@ public class DateSwitcherModel implements IModel {
 	 * @param currentDate The current date
 	 * @param currentViewPanel The calendar view panel to use
 	 */
-	public DateSwitcherModel(Calendar currentDate, CalendarViewPanel currentViewPanel) {
+	public DateSwitcherModel(GregorianCalendar currentDate, CalendarViewPanel currentViewPanel) {
 		this(currentDate);
 		this.currentViewPanel = currentViewPanel;
 	}
 
-	public Calendar getCurrentDate() {
+	public GregorianCalendar getCurrentDate() {
 		return this.currentDate;
 	}
 
@@ -113,6 +112,7 @@ public class DateSwitcherModel implements IModel {
 		}
 		return printableRangeText;
 	}
+
 	/* (non-Javadoc)
 	 * @see org.apache.wicket.model.IModel#setObject(java.lang.Object)
 	 */

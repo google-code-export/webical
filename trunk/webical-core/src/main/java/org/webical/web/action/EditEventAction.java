@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -20,7 +22,6 @@
 
 package org.webical.web.action;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -37,25 +38,25 @@ public class EditEventAction implements IAction {
 	private Event selectedEvent;
 	private GregorianCalendar selectedEventDate;
 
-	public EditEventAction(Event selectedEvent, Calendar selectedEventDate) {
+	public EditEventAction(Event selectedEvent, GregorianCalendar selectedEventDate) {
 		this.selectedEvent = selectedEvent;
-		this.selectedEventDate = (GregorianCalendar) selectedEventDate;
+		this.selectedEventDate = selectedEventDate;
 	}
 
 	public Event getSelectedEvent() {
 		return selectedEvent;
 	}
 
-	public Calendar getSelectedEventDate() {
+	public GregorianCalendar getSelectedEventDate() {
 		return selectedEventDate;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "EditEventAction: selectedEvent = " + selectedEvent + ", selectedEventDate = " + selectedEventDate.getTime();
+		return "EditEventAction: selectedEvent = " + selectedEvent + ", selectedEventDate = " + selectedEventDate;
 	}
 
 	public AjaxRequestTarget getAjaxRequestTarget() {

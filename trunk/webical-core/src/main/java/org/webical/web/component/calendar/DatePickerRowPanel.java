@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -20,7 +22,6 @@
 
 package org.webical.web.component.calendar;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.webical.web.action.IAction;
@@ -40,7 +41,7 @@ public abstract class DatePickerRowPanel extends AbstractBasePanel {
 	private GregorianCalendar currentDate;
 	private GregorianCalendar weekCalendar;
 
-	public DatePickerRowPanel(String markupId, Calendar weekCalendar, DatePickerModel datePickerModel) {
+	public DatePickerRowPanel(String markupId, GregorianCalendar weekCalendar, DatePickerModel datePickerModel) {
 		super(markupId, DatePickerRowPanel.class);
 
 		this.datePickerModel = datePickerModel;
@@ -48,7 +49,6 @@ public abstract class DatePickerRowPanel extends AbstractBasePanel {
 		this.currentDate.setTime(datePickerModel.getCurrentDate().getTime());
 		this.weekCalendar = new GregorianCalendar();
 		this.weekCalendar.setTime(weekCalendar.getTime());
-
 	}
 
 	public void setupCommonComponents() {
@@ -63,7 +63,6 @@ public abstract class DatePickerRowPanel extends AbstractBasePanel {
 			public void onAction(IAction action) {
 				DatePickerRowPanel.this.onAction(action);
 			}
-
 		};
 		addOrReplace(columnRepeater);
 	}
@@ -78,5 +77,4 @@ public abstract class DatePickerRowPanel extends AbstractBasePanel {
 	 * @param action The action to handle
 	 */
 	public abstract void onAction(IAction action);
-
 }

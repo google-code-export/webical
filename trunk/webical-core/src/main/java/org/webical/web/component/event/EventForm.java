@@ -531,13 +531,11 @@ public abstract class EventForm extends Form {
 		// Store the events
 		EventForm.this.onAction(new StoreEventAction(Arrays.asList(new Event[] {oldEvent, eventWrapper.getEvent()})));
 	}
-	
+
 	private void alterFollowingEventInstances() {
-		System.out.println("Altering following instance only");
-		
-		
+		log.info("Altering following instance only");
 	}
-	
+
 	/**
 	 * Get a list of calendars accesible to this user
 	 * @param user the User
