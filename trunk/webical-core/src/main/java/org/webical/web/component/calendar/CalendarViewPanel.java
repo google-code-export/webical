@@ -22,7 +22,6 @@
 
 package org.webical.web.component.calendar;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -42,7 +41,7 @@ public abstract class CalendarViewPanel extends AbstractBasePanel {
 	 * The identifier for the period this panel covers
 	 * This Period must be similar to a static identifier from {@code java.util.Calendar}.
 	 */
-	private int viewPeriodId = Calendar.DAY_OF_MONTH;
+	private int viewPeriodId = GregorianCalendar.DAY_OF_MONTH;
 	private int viewPeriodLength = 1;
 
 	/**
@@ -61,10 +60,10 @@ public abstract class CalendarViewPanel extends AbstractBasePanel {
 	 * @param currentDate - The currentDate
 	 * @param implementingClass - The implementing class
 	 */
-	public CalendarViewPanel(String markupId, Calendar currentDate, Class implementingClass) {
+	public CalendarViewPanel(String markupId, GregorianCalendar currentDate, Class implementingClass) {
 		super(markupId, implementingClass);
 
-		this.currentDate = (GregorianCalendar) currentDate;
+		this.currentDate = currentDate;
 		this.currentDate.setFirstDayOfWeek(WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
 		this.periodStartDate = this.currentDate.getTime();
 		this.periodEndDate = this.currentDate.getTime();

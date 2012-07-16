@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -22,7 +24,6 @@ package org.webical.web.component.calendar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -67,12 +68,11 @@ import org.webical.web.component.event.EventFormPanel;
  *
  * @author Mattijs Hoitink
  */
-
 public abstract class CalendarPanel extends AbstractBasePanel {
 	private static final long serialVersionUID = 1L;
 	@SuppressWarnings("unused")
 	private static Log log = LogFactory.getLog(CalendarPanel.class);
-	
+
 	// Markup ID's
 	private static final String CALENDAR_DAY_VIEW_TAB_LABEL = "calendar_day_view_tab_label";
 	private static final String CALENDAR_WEEK_VIEW_TAB_LABEL = "calendar_week_view_tab_label";
@@ -93,7 +93,6 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 	public static final int AGENDA_VIEW = 3;
 
 	/** List of actions handled by this panel */
-	@SuppressWarnings("unchecked")
 	protected static Class[] PANELACTIONS = new Class[] { DaySelectedAction.class, WeekSelectedAction.class, EventSelectedAction.class, AddEventAction.class, EditEventAction.class, ShowCalendarAction.class, SwitchCalendarVisibilityAction.class, FormFinishedAction.class, StoreEventAction.class, RemoveEventAction.class };
 
 	/** Used by Spring to inject the Calendar Manager. */
@@ -103,7 +102,7 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 	/** Used by Spring to inject the Event Manager. */
 	@SpringBean(name="eventManager")
 	private EventManager eventManager;
-	
+
 	private TabbedPanel calendarView;
 	private List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 
@@ -131,11 +130,10 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 	 * @param markupId The ID to use in the markup
 	 * @param date The date to display
 	 */
-	@SuppressWarnings("serial")
-	public CalendarPanel(String markupId, final Calendar date) {
+	public CalendarPanel(String markupId, final GregorianCalendar date) {
 		super(markupId, CalendarPanel.class);
-		if(date != null) {
-			currentDate = (GregorianCalendar) date;
+		if (date != null) {
+			currentDate = date;
 		} else {
 			currentDate = new GregorianCalendar();
 		}
@@ -162,9 +160,8 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 
 			@Override
 			public void onClick() {
-				CalendarPanel.this.internalOnAction(new AddEventAction(currentDate));
+				CalendarPanel.this.internalOnAction(new AddEventAction(getCurrentDate()));
 			}
-
 		};
 		add(addEventLink);
 
@@ -177,16 +174,16 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 			@Override
 			public void nextPeriod(AjaxRequestTarget target) {
 				// Add the view period length of the view period for the current panel
-				CalendarPanel.this.currentDate.add(CalendarPanel.this.getCurrentViewPanel().getViewPeriodId(), CalendarPanel.this.getCurrentViewPanel().getViewPeriodLength());
+				CalendarPanel.this.getCurrentDate().add(CalendarPanel.this.getCurrentViewPanel().getViewPeriodId(), CalendarPanel.this.getCurrentViewPanel().getViewPeriodLength());
 
 				// reload the current calendar view
-				CalendarPanel.this.switchView(currentCalendarView);
+				CalendarPanel.this.switchView(getCurrentCalendarView());
 			}
 
 			@Override
 			public void previousPeriod(AjaxRequestTarget target) {
 				// Subtract the view period length of the view period for the current panel
-				CalendarPanel.this.currentDate.add(CalendarPanel.this.getCurrentViewPanel().getViewPeriodId(), (CalendarPanel.this.getCurrentViewPanel().getViewPeriodLength()) * -1);
+				CalendarPanel.this.getCurrentDate().add(CalendarPanel.this.getCurrentViewPanel().getViewPeriodId(), (CalendarPanel.this.getCurrentViewPanel().getViewPeriodLength()) * -1);
 
 				// reload the current calendar view
 				CalendarPanel.this.switchView(getCurrentCalendarView());
@@ -194,15 +191,14 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 
 			@Override
 			public void todaySelected(AjaxRequestTarget target) {
-				CalendarPanel.this.changeCalendarView(CalendarPanel.this.getCurrentCalendarView(), new GregorianCalendar(), target);
+				CalendarPanel.this.changeCalendarView(getCurrentCalendarView(), new GregorianCalendar(), target);
 			}
-
 		};
 		addOrReplace(dateSwitcher);
 
 		createDatePicker();
 
-		// Get the calendars for thsi user from the CalendarManager
+		// Get the calendars for this user from the CalendarManager
 		List<org.webical.Calendar> userCalendars = new ArrayList<org.webical.Calendar>();
 		try {
 			userCalendars = calendarManager.getCalendars(((WebicalSession)getSession()).getUser());
@@ -251,11 +247,11 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 	 * @param date The date to show
 	 * @param target The Ajax target of the panel
 	 */
-	private void changeCalendarView(int viewId, Calendar date, AjaxRequestTarget target) {
+	private void changeCalendarView(int viewId, GregorianCalendar date, AjaxRequestTarget target) {
 		// set the current date so the panel will load the correct events period
-		currentDate.setTime(date.getTime());
+		setCurrentDate(date);
 
-		// set the apporpriate view
+		// set the appropriate view
 		switchView(viewId);
 	}
 
@@ -278,19 +274,19 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 	 */
 	private void internalOnAction(IAction action) {
 		// Filter the actions that can be handled by this panel
-		if(Arrays.asList(PANELACTIONS).contains(action.getClass())) {
+		if (Arrays.asList(PANELACTIONS).contains(action.getClass())) {
 			// Day Selected
-			if(isAction(DaySelectedAction.class, action)) {
+			if (isAction(DaySelectedAction.class, action)) {
 				setCurrentDate(((DaySelectedAction) action).getDaySelected());
 				setCurrentCalendarView(CalendarPanel.DAY_VIEW);
 				this.internalOnAction(new ShowCalendarAction());
 			}
 			// Week Selected
-			else if(action.getClass().equals(WeekSelectedAction.class)) {
+			else if (action.getClass().equals(WeekSelectedAction.class)) {
 				CalendarPanel.this.changeCalendarView(CalendarPanel.WEEK_VIEW, ((WeekSelectedAction) action).getWeekSelected(), null);
 			}
 			// Show event details
-			else if(action.getClass().equals(EventSelectedAction.class)) {
+			else if (action.getClass().equals(EventSelectedAction.class)) {
 				EventSelectedAction eventSelectedAction = (EventSelectedAction) action;
 				EventDetailsPanel contentPanel = new EventDetailsPanel(CALENDAR_VIEW_PANEL_MARKUP_ID, eventSelectedAction.getSelectedEvent(), eventSelectedAction.getSelectedEventDate()) {
 					private static final long serialVersionUID = 1L;
@@ -299,13 +295,12 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 					public void onAction(IAction action) {
 						CalendarPanel.this.internalOnAction(action);
 					}
-
 				};
 				addOrReplace(contentPanel);
 				dateSwitcher.setVisible(false);
 			}
 			// Add Event
-			else if(action.getClass().equals(AddEventAction.class)) {
+			else if (action.getClass().equals(AddEventAction.class)) {
 				EventFormPanel contentPanel = new EventFormPanel(CALENDAR_VIEW_PANEL_MARKUP_ID, null, ((AddEventAction) action).getEventDate()) {
 					private static final long serialVersionUID = 1L;
 
@@ -313,13 +308,12 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 					public void onAction(IAction action) {
 						CalendarPanel.this.internalOnAction(action);
 					}
-
 				};
 				addOrReplace(contentPanel);
 				dateSwitcher.setVisible(false);
 			}
 			// Edit event
-			else if(action.getClass().equals(EditEventAction.class)) {
+			else if (action.getClass().equals(EditEventAction.class)) {
 				EditEventAction editEventAction = (EditEventAction) action;
 				EventFormPanel contentPanel = new EventFormPanel(CALENDAR_VIEW_PANEL_MARKUP_ID, editEventAction.getSelectedEvent(), editEventAction.getSelectedEventDate()) {
 					private static final long serialVersionUID = 1L;
@@ -328,24 +322,23 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 					public void onAction(IAction action) {
 						CalendarPanel.this.internalOnAction(action);
 					}
-
 				};
 				addOrReplace(contentPanel);
 				dateSwitcher.setVisible(false);
 			}
 			// Show Calendar
-			else if(action.getClass().equals(ShowCalendarAction.class)) {
+			else if (action.getClass().equals(ShowCalendarAction.class)) {
 				ShowCalendarAction showCalendarAction = (ShowCalendarAction) action;
 				createCalendarView(showCalendarAction.isReloadCalendarView());
 				dateSwitcher.setVisible(true);
 			}
 			// Form Finished
-			else if(action.getClass().equals(FormFinishedAction.class)) {
+			else if (action.getClass().equals(FormFinishedAction.class)) {
 				createCalendarView(false);
 				dateSwitcher.setVisible(true);
 			}
 			// Switch calendar visibility
-			else if(action.getClass().equals(SwitchCalendarVisibilityAction.class)) {
+			else if (action.getClass().equals(SwitchCalendarVisibilityAction.class)) {
 				SwitchCalendarVisibilityAction switchCalendarVisibilityAction = (SwitchCalendarVisibilityAction) action;
 				try {
 					org.webical.Calendar selectedCalendar = switchCalendarVisibilityAction.getCalendar();
@@ -358,33 +351,32 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 				this.internalOnAction(new ShowCalendarAction(true));
 			}
 			// Store Event
-			else if(isAction(StoreEventAction.class, action)) {
+			else if (isAction(StoreEventAction.class, action)) {
 				this.storeEvent((StoreEventAction) action);
 			}
 			// Remove Event
-			else if(isAction(RemoveEventAction.class, action)) {
+			else if (isAction(RemoveEventAction.class, action)) {
 				this.removeEvent((RemoveEventAction) action);
 			}
 		}
-		// Pass the onther actions to the parent component
+		// Pass the other actions to the parent component
 		else {
 			CalendarPanel.this.onAction(action);
 		}
 	}
-	
+
 	/**
 	 * Gets the current date used by the Calendar Views.
 	 * @return The current date
 	 */
-	public Calendar getCurrentDate() {
+	public GregorianCalendar getCurrentDate() {
 		return currentDate;
 	}
-
 	/**
 	 * Sets the current date for the Calendar Views.
 	 * @param currentDate The current date
 	 */
-	public void setCurrentDate(Calendar currentDate) {
+	public void setCurrentDate(GregorianCalendar currentDate) {
 		// Update the time in the object, don't change the reference else changes are not reflected in the models
 		this.currentDate.setTime(currentDate.getTime());
 	}
@@ -396,7 +388,6 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 	public int getCurrentCalendarView() {
 		return currentCalendarView;
 	}
-
 	/**
 	 * Sets the ID of the current view.
 	 * @param newView The id of the current view
@@ -412,7 +403,6 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 	public CalendarViewPanel getCurrentViewPanel() {
 		return currentViewPanel;
 	}
-
 	/**
 	 * Sets the currently viewed panel.
 	 * @param currentViewPanel The currently viewed panel
@@ -429,15 +419,15 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 	 * Creates a tabbed panel for the calendar tabs
 	 */
 	private void createCalendarView(boolean createNew) {
-		if(createNew) {
+		if (createNew) {
 			calendarView = new TabbedPanel(CALENDAR_VIEW_PANEL_MARKUP_ID, tabs) {
 				private static final long serialVersionUID = 1L;
 			};
 			/*
-			 * Set the selected tab immidiatley before the TabbedPanel is added to the container
+			 * Set the selected tab immediately before the TabbedPanel is added to the container
 			 * to prevent the first tab (day view) being loaded loaded.
 			 * If this is not done, the day view will access the DAO and collecting it's events even though the day view isn't rendered.
-			 * Recurring Events are not displayed properly if the day view is seleced from the default view (assuming this is a
+			 * Recurring Events are not displayed properly if the day view is selected from the default view (assuming this is a
 			 * user setting and the default view isn't the day view) and the day view has to be reloaded (once, only the first time)
 			 * to show the recurring events.
 			 */
@@ -459,11 +449,10 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 			public void onAction(IAction action) {
 				CalendarPanel.this.internalOnAction(action);
 			}
-
 		};
 		addOrReplace(datePicker);
 	}
-	
+
 	/**
 	 * Creates the tabs to switch between calendar views
 	 */
@@ -473,15 +462,14 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 		AbstractTab dayTab = new AbstractTab(new StringResourceModel(CALENDAR_DAY_VIEW_TAB_LABEL, this, null)) {
 			@Override
 			public Panel getPanel(String markupId) {
-				DayViewPanel dayViewPanel = new DayViewPanel(CALENDAR_VIEW_PANEL_CONTENT_MARKUP_ID, currentDate) {
+				DayViewPanel dayViewPanel = new DayViewPanel(CALENDAR_VIEW_PANEL_CONTENT_MARKUP_ID, 1, getCurrentDate()) {
 
-						@Override
-						public void onAction(IAction action) {
-							// Route action to internal method first
-							CalendarPanel.this.internalOnAction(action);
-						}
-
-					};
+					@Override
+					public void onAction(IAction action) {
+						// Route action to internal method first
+						CalendarPanel.this.internalOnAction(action);
+					}
+				};
 				// Set the view id to this tab
 				CalendarPanel.this.setCurrentCalendarView(CalendarPanel.DAY_VIEW);
 				CalendarPanel.this.setCurrentViewPanel(dayViewPanel);
@@ -491,16 +479,17 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 		};
 
 		// WeekView Tab
-		AbstractTab weekTab = new AbstractTab( new StringResourceModel(CALENDAR_WEEK_VIEW_TAB_LABEL, this, null)){
+		AbstractTab weekTab = new AbstractTab(new StringResourceModel(CALENDAR_WEEK_VIEW_TAB_LABEL, this, null)) {
 			@Override
 			public Panel getPanel(String markupId) {
-				WeekViewPanel calendarWeekViewPanel = new WeekViewPanel(CALENDAR_VIEW_PANEL_CONTENT_MARKUP_ID, currentDate, 7) {
-						@Override
-						public void onAction(IAction action) {
-							// Route action to internal method first
-							CalendarPanel.this.internalOnAction(action);
-						}
-					};
+				WeekViewPanel calendarWeekViewPanel = new WeekViewPanel(CALENDAR_VIEW_PANEL_CONTENT_MARKUP_ID, 7, getCurrentDate()) {
+
+					@Override
+					public void onAction(IAction action) {
+						// Route action to internal method first
+						CalendarPanel.this.internalOnAction(action);
+					}
+				};
 				// Set the view id to this tab
 				CalendarPanel.this.setCurrentCalendarView(CalendarPanel.WEEK_VIEW);
 				CalendarPanel.this.setCurrentViewPanel(calendarWeekViewPanel);
@@ -510,18 +499,19 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 		};
 
 		// MonthView Tab
-		AbstractTab monthTab = new AbstractTab( new StringResourceModel(CALENDAR_MONTH_VIEW_TAB_LABEL, this, null)){
+		AbstractTab monthTab = new AbstractTab(new StringResourceModel(CALENDAR_MONTH_VIEW_TAB_LABEL, this, null)) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public Panel getPanel(String markupId) {
-				MonthViewPanel calendarMonthViewPanel = new MonthViewPanel(CALENDAR_VIEW_PANEL_CONTENT_MARKUP_ID, currentDate) {
-						@Override
-						public void onAction(IAction action) {
-							// Route action to internal method first
-							CalendarPanel.this.internalOnAction(action);
-						}
-					};
+				MonthViewPanel calendarMonthViewPanel = new MonthViewPanel(CALENDAR_VIEW_PANEL_CONTENT_MARKUP_ID, 1, getCurrentDate()) {
+
+					@Override
+					public void onAction(IAction action) {
+						// Route action to internal method first
+						CalendarPanel.this.internalOnAction(action);
+					}
+				};
 				// Set the view id to this tab
 				CalendarPanel.this.setCurrentCalendarView(CalendarPanel.MONTH_VIEW);
 				CalendarPanel.this.setCurrentViewPanel(calendarMonthViewPanel);
@@ -535,13 +525,13 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 		AbstractTab agendaTab = new AbstractTab(new Model(new StringResourceModel(CALENDAR_AGENDA_VIEW_TAB_LABEL, this, null).getString() + " " + daysToShow + " " + new StringResourceModel(CALENDAR_XDAYS_VIEW_TAB_LABEL_AFTER, this, null).getString())) {
 			@Override
 			public Panel getPanel(String markupId) {
-				WeekViewPanel calendarAgendaViewPanel = new WeekViewPanel(CALENDAR_VIEW_PANEL_CONTENT_MARKUP_ID, currentDate, daysToShow) {
-						@Override
-						public void onAction(IAction action) {
-							// Route action to internal method first
-							CalendarPanel.this.internalOnAction(action);
-						}
-					};
+				WeekViewPanel calendarAgendaViewPanel = new WeekViewPanel(CALENDAR_VIEW_PANEL_CONTENT_MARKUP_ID, daysToShow, getCurrentDate()) {
+					@Override
+					public void onAction(IAction action) {
+						// Route action to internal method first
+						CalendarPanel.this.internalOnAction(action);
+					}
+				};
 				CalendarPanel.this.setCurrentCalendarView(CalendarPanel.AGENDA_VIEW);
 				CalendarPanel.this.setCurrentViewPanel(calendarAgendaViewPanel);
 				// Return a new panel
@@ -553,17 +543,16 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 		tabs.add(WEEK_VIEW, weekTab);
 		tabs.add(MONTH_VIEW, monthTab);
 		tabs.add(AGENDA_VIEW, agendaTab);
-
 	}
 
 	private void storeEvent(StoreEventAction storeEventAction) {
 		//Save the event
 		try {
-			for(Event currentEvent : storeEventAction.getEvents()) {
+			for (Event currentEvent : storeEventAction.getEvents()) {
 				eventManager.storeEvent(currentEvent);
 			}
 
-			if(!storeEventAction.isJustStore()) {
+			if (!storeEventAction.isJustStore()) {
 				// Change back to the calendar
 				CalendarPanel.this.internalOnAction(new ShowCalendarAction(true));
 			}
@@ -571,9 +560,8 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 		} catch (WebicalException e) {
 			throw new WebicalWebAplicationException("Event could not be saved", e);
 		}
-		
 	}
-	
+
 	private void removeEvent(RemoveEventAction action) {
 		try {
 			eventManager.removeEvent(action.getEventToRemove());
@@ -582,7 +570,7 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 		}
 		CalendarPanel.this.internalOnAction(new ShowCalendarAction());
 	}
-	
+
 	/**
 	 * Enable only the selected calendar in the view for the current user
 	 * @param calendar The calendar to show
@@ -595,9 +583,9 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 			calendarManager.storeCalendar(calendar);
 
 			List<org.webical.Calendar> calendars = calendarManager.getCalendars(WebicalSession.getWebicalSession().getUser());
-			if(calendars != null && calendars.size() > 0) {
+			if (calendars != null && calendars.size() > 0) {
 				for (org.webical.Calendar calendarToDisable : calendars) {
-					if(!calendarToDisable.equals(calendar)) {
+					if (!calendarToDisable.equals(calendar)) {
 						calendarToDisable.setVisible(false);
 						calendarManager.storeCalendar(calendarToDisable);
 					}
@@ -607,7 +595,7 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 			throw new WebicalWebAplicationException("Could not store calendar", e);
 		}
 
-		// Reload the calendar to update the events shown		
+		// Reload the calendar to update the events shown
 		this.internalOnAction(new ShowCalendarAction());
 	}
 
@@ -631,7 +619,7 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 		// Reload the calendar to update the events shown
 		this.internalOnAction(new ShowCalendarAction());
 	}
-	
+
 	/**
 	 * Updates the date selector models.
 	 * @see org.webical.web.component.AbstractBasePanel#onBeforeRender()
@@ -639,13 +627,13 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 	@Override
 	protected void onBeforeRender() {
 		// update the models used by the date selectors before they are rendered
-		if(getCurrentViewPanel() == null) {
+		if (getCurrentViewPanel() == null) {
 			setCurrentViewPanel((CalendarViewPanel) tabs.get(getCurrentCalendarView()).getPanel(CALENDAR_VIEW_PANEL_CONTENT_MARKUP_ID));
 		}
-		dateSwitcherModel = new DateSwitcherModel(currentDate, getCurrentViewPanel());
-		datePickerModel = new CompoundPropertyModel(new DatePickerModel(currentDate, getCurrentViewPanel()));
+		dateSwitcherModel = new DateSwitcherModel(getCurrentDate(), getCurrentViewPanel());
+		datePickerModel = new CompoundPropertyModel(new DatePickerModel(getCurrentDate(), getCurrentViewPanel()));
 		//createDatePicker();
-		if(dateSwitcher != null && datePicker != null) {
+		if (dateSwitcher != null && datePicker != null) {
 			dateSwitcher.setModel(dateSwitcherModel);
 			datePicker.setModel(datePickerModel);
 		}
@@ -653,13 +641,13 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 		// Continue with rendering
 		super.onBeforeRender();
 	}
-	
+
 	/**
 	 * Implemented by the parent component to handle actions from this panel.
 	 * @param action The action to pass on
 	 */
 	public abstract void onAction(IAction action);
-	
+
 	/**
 	 * Used by spring to set the Calendar Manager.
 	 * @param calendarManager The Calendar Manager
@@ -667,7 +655,7 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 	public void setCalendarManager(CalendarManager calendarManager) {
 		this.calendarManager = calendarManager;
 	}
-	
+
 	/**
 	 * Used by spring to set the Event Manager.
 	 * @param eventManager The Event Manager
@@ -675,5 +663,4 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 	public void setEventManager(EventManager eventManager) {
 		this.eventManager = eventManager;
 	}
-
 }

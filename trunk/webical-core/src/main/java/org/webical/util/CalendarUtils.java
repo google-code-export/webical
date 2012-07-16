@@ -23,7 +23,6 @@
 package org.webical.util;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -47,11 +46,11 @@ public abstract class CalendarUtils {
 	public static Date getStartOfDay(Date day) {
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime(day);
-		calendar.set(Calendar.HOUR, 0);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-		calendar.set(Calendar.MILLISECOND, 0);
-		calendar.set(Calendar.AM_PM, Calendar.AM);
+		calendar.set(GregorianCalendar.HOUR, 0);
+		calendar.set(GregorianCalendar.MINUTE, 0);
+		calendar.set(GregorianCalendar.SECOND, 0);
+		calendar.set(GregorianCalendar.MILLISECOND, 0);
+		calendar.set(GregorianCalendar.AM_PM, GregorianCalendar.AM);
 
 		return calendar.getTime();
 	}
@@ -64,7 +63,7 @@ public abstract class CalendarUtils {
 	public static Date getDateWithoutMs(Date date) {
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime(date);
-		calendar.set(Calendar.MILLISECOND, 0);
+		calendar.set(GregorianCalendar.MILLISECOND, 0);
 
 		return calendar.getTime();
 	}
@@ -85,10 +84,10 @@ public abstract class CalendarUtils {
 	public static Date getEndOfDay(Date day) {
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime(day);
-		calendar.set(Calendar.HOUR, 11);
-		calendar.set(Calendar.MINUTE, 59);
-		calendar.set(Calendar.SECOND, 59);
-		calendar.set(Calendar.AM_PM, Calendar.PM);
+		calendar.set(GregorianCalendar.HOUR, 11);
+		calendar.set(GregorianCalendar.MINUTE, 59);
+		calendar.set(GregorianCalendar.SECOND, 59);
+		calendar.set(GregorianCalendar.AM_PM, GregorianCalendar.PM);
 
 		return calendar.getTime();
 	}
@@ -105,7 +104,7 @@ public abstract class CalendarUtils {
 		calendar.setFirstDayOfWeek(firstDayOfWeek);
 
 		int firstDay = calendar.getFirstDayOfWeek();
-		int currentDay = calendar.get(Calendar.DAY_OF_WEEK);
+		int currentDay = calendar.get(GregorianCalendar.DAY_OF_WEEK);
 
 		int diff = currentDay - firstDay;
 
@@ -130,7 +129,7 @@ public abstract class CalendarUtils {
 	public static Date getLastDayOfWeek(Date day, int firstDayOfWeek) {
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime(getFirstDayOfWeek(day, firstDayOfWeek));
-		calendar.add(Calendar.DAY_OF_WEEK, 6);
+		calendar.add(GregorianCalendar.DAY_OF_WEEK, 6);
 
 		return getEndOfDay(calendar.getTime());
 	}
@@ -142,7 +141,7 @@ public abstract class CalendarUtils {
 	public static Date getFirstDayOfMonth(Date date) {
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime(date);
-		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		calendar.set(GregorianCalendar.DAY_OF_MONTH, 1);
 
 		return getStartOfDay(calendar.getTime());
 	}
@@ -160,7 +159,7 @@ public abstract class CalendarUtils {
 	public static Date getLastDayOfMonth(Date date) {
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime(date);
-		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+		calendar.set(GregorianCalendar.DAY_OF_MONTH, calendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH));
 
 		return getEndOfDay(calendar.getTime());
 	}
@@ -172,7 +171,7 @@ public abstract class CalendarUtils {
 	 */
 	public static Date getLastWeekDayOfMonth(Date date, int firstDayOfWeek) {
 
-		return addDays(getFirstDayOfWeek(getLastDayOfMonth(date), firstDayOfWeek), 6);
+		return getEndOfDay(addDays(getFirstDayOfWeek(getLastDayOfMonth(date), firstDayOfWeek), 6));
 	}
 
 	/**
@@ -194,8 +193,8 @@ public abstract class CalendarUtils {
 
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime(day);
-		calendar.add(Calendar.HOUR, hours);
-		calendar.add(Calendar.MINUTE, minutes);
+		calendar.add(GregorianCalendar.HOUR, hours);
+		calendar.add(GregorianCalendar.MINUTE, minutes);
 
 		return calendar.getTime();
 	}
@@ -207,7 +206,7 @@ public abstract class CalendarUtils {
 	public static int getDayNumberOfWeek(Date date) {
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime(date);
-		return calendar.get(Calendar.DAY_OF_WEEK);
+		return calendar.get(GregorianCalendar.DAY_OF_WEEK);
 	}
 
 	/**
@@ -302,7 +301,7 @@ public abstract class CalendarUtils {
 
 		if (calendar.getOffSetTo() != null && calendar.getOffSetFrom() != null) {
 			int diff = calendar.getOffSetFrom().intValue() + calendar.getOffSetTo().intValue();
-			eventDate.add(java.util.Calendar.HOUR_OF_DAY, diff);
+			eventDate.add(GregorianCalendar.HOUR_OF_DAY, diff);
 		}
 		return eventDate.getTime();
 	}
