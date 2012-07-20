@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -40,22 +42,25 @@ import org.apache.commons.logging.LogFactory;
  *
  */
 public class FileUtils {
-	
+
 	public static final String CLASS_FILE_EXTENSION = ".class";
 	public static final String JAR_FILE_EXTENSION = ".jar";
-	
+
 	private static final String SVN_DIRECTORY = ".svn";
 	private static Log log = LogFactory.getLog(FileUtils.class);
-	
+
 	/**
 	 * Removes all files and directories from a given directory
 	 * @param directory the directory to clean
 	 */
-	public static void cleanupDirectory(File directory) {
-		if(directory.exists() && directory.isDirectory()) {
+	public static void cleanupDirectory(File directory)
+	{
+		if (directory.exists() && directory.isDirectory())
+		{
 			File[] filesToDelete = directory.listFiles();
-			for (File file : filesToDelete) {
-				if(!file.getName().equalsIgnoreCase(SVN_DIRECTORY)) {
+			for (File file : filesToDelete)
+			{
+				if (!file.getName().equalsIgnoreCase(SVN_DIRECTORY)) {
 					deleteFileRecursively(file);
 				}
 			}
@@ -69,22 +74,26 @@ public class FileUtils {
      * @param file
      * @return
      */
-    public static boolean deleteFileRecursively(File file) {
-        if (file.isDirectory()) {
+    public static boolean deleteFileRecursively(File file)
+    {
+        if (file.isDirectory())
+        {
             String[] children = file.list();
-            for (int i=0; i<children.length; i++) {
-                boolean success = deleteFileRecursively(new File(file, children[i]));
-                if (!success) {
-                    return false;
+            for (int i=0; i<children.length; ++ i)
+            {
+            	File delFile = new File(file, children[i]);
+                boolean success = deleteFileRecursively(delFile);
+                if (! success) {
+                	log.debug("Failed to delete " + delFile.toString());
                 }
             }
         }
-    
-        // The directory is now empty so delete it
+
+        // The directory should now be empty so delete it
         log.debug("Deleting file: " + file.getAbsolutePath());
         return file.delete();
     }
-    
+
     /**
      * Traverses a tree and returns all files
      * @param file the file to start
@@ -92,30 +101,28 @@ public class FileUtils {
      */
 	public static List<File> traverseTree(File file, String extension) {
     	List<File> files = new ArrayList<File>();
-    	
-    	if(file != null) {
+
+    	if (file != null) {
     		log.debug(file.getPath());
-        
+
 	        if (file.isDirectory()) {
 	            String[] children = file.list();
 	            for (int i = 0; i < children.length; ++i) {
 	                files.addAll(traverseTree(new File(file, children[i]), extension));
 	            }
 	        } else {
-	        	if(!StringUtils.isEmpty(extension)) {
-	        		if(file.getName().endsWith(extension)) {
+	        	if (!StringUtils.isEmpty(extension)) {
+	        		if (file.getName().endsWith(extension)) {
 	        			files.add(file);
 	        		}
 	        	} else {
 	        		files.add(file);
 				}
-	        	
 	        }
     	}
-    	
     	return files;
     }
-	
+
 	/**
 	 * Reads the {@link String} from a {@link InputStream}
 	 * @param inputStream the {@link InputStream} to read from
@@ -123,12 +130,11 @@ public class FileUtils {
 	 * @throws IOException on error
 	 */
 	public static String getStringFromStream(InputStream inputStream) throws IOException {
-		if(inputStream == null) {
+		if (inputStream == null) {
 			throw new IllegalArgumentException("No inputstream provided");
 		}
-		
+
 		StringBuffer contents = new StringBuffer();
-		
 		BufferedReader input = null;
 		try {
 			input = new BufferedReader(new InputStreamReader(inputStream));
@@ -144,7 +150,7 @@ public class FileUtils {
 		}
 		return contents.toString();
 	}
-	
+
 	/**
 	 * Copies a stream to a file
 	 * @param stream the stream to copy
@@ -152,34 +158,35 @@ public class FileUtils {
 	 * @throws IOException
 	 */
 	public static final void streamToFile(InputStream stream, File file, boolean closeStream) throws IOException {
-		if(file == null || stream == null) {
+		if (file == null || stream == null) {
 			throw new IllegalArgumentException("File or stream is null");
 		}
-		
-		if(!file.exists()) {
+
+		if (!file.exists()) {
 			log.debug("File does not exist yet, creating: " + file.getAbsolutePath());
 			file.createNewFile();
 		}
-		
+
 		FileOutputStream fileOutputStream = new FileOutputStream(file);
 		copyInputStream(stream, fileOutputStream, closeStream);
 	}
-	
+
 	/**
 	 * Simple method to copy an InputStream into an OutputStream
 	 * @param inputStream the InputStream
 	 * @param outputStream the OutputStream
 	 * @throws IOException
 	 */
-	public static final void copyInputStream(InputStream inputStream, OutputStream outputStream, boolean closeStreams) throws IOException {
+	public static final void copyInputStream(InputStream inputStream, OutputStream outputStream, boolean closeStreams) throws IOException
+	{
 		byte[] buffer = new byte[1024];
 		int length;
-		
-		while((length = inputStream.read(buffer)) >= 0) {
+
+		while ((length = inputStream.read(buffer)) >= 0) {
 			outputStream.write(buffer, 0, length);
 		}
-		
-		if(closeStreams) {
+
+		if (closeStreams) {
 			inputStream.close();
 			outputStream.close();
 		}
