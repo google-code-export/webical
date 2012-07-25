@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -20,7 +22,7 @@
 
 package org.webical.comparator;
 
-import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Comparator;
 
 import org.webical.Event;
@@ -31,11 +33,11 @@ import org.webical.Event;
  *
  */
 public class EventStartTimeComparator implements Comparator<Event> {
-	
+
 	public enum CompareMode {FULL_DATE, TIME};
-	
+
 	private CompareMode compareMode;
-	
+
 	/**
 	 * Mode constructor - compares either on the Full date or just the time
 	 */
@@ -47,24 +49,23 @@ public class EventStartTimeComparator implements Comparator<Event> {
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	public int compare(Event event1, Event event2) {
-		if(event1.getDtStart() == null) {
+		if (event1.getDtStart() == null) {
 			return -1;
 		}
-		
-		if(event2.getDtStart() == null) {
+
+		if (event2.getDtStart() == null) {
 			return 1;
 		}
-		
-		if(compareMode.equals(CompareMode.FULL_DATE)) {
+
+		if (compareMode.equals(CompareMode.FULL_DATE)) {
 			return event1.getDtStart().compareTo(event2.getDtStart());
 		} else {
-			Calendar calendar1 = Calendar.getInstance();
+			GregorianCalendar calendar1 = new GregorianCalendar();
 			calendar1.setTime(event1.getDtStart());
-			Calendar calendar2 = Calendar.getInstance();
+			GregorianCalendar calendar2 = new GregorianCalendar();
 			calendar2.setTime(event2.getDtStart());
-			calendar2.set(calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH), calendar1.get(Calendar.DAY_OF_MONTH));
+			calendar2.set(calendar1.get(GregorianCalendar.YEAR), calendar1.get(GregorianCalendar.MONTH), calendar1.get(GregorianCalendar.DAY_OF_MONTH));
 			return calendar1.compareTo(calendar2);
 		}
 	}
-
 }
