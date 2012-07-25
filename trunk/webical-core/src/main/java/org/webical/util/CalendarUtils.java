@@ -39,6 +39,32 @@ public abstract class CalendarUtils {
 	private static long hourInMs = (60 * 60 * 1000);
 
 	/**
+	 * Create a new GregorianCalendar for today taking into account first day of the week.
+	 *
+	 * @param firstDayOfWeek the firstDayOfWeek for the new GregorianCalendar: eg. CALENDAR.MONDAY
+	 * @return the new GregorianCalendar
+	 */
+	public static GregorianCalendar newTodayCalendar(int firstDayOfWeek)
+	{
+		GregorianCalendar today = new GregorianCalendar();
+		today.setFirstDayOfWeek(firstDayOfWeek);
+		return today;
+	}
+
+	/**
+	 * Duplicate a GregorianCalendar taking into account first day of the week.
+	 *
+	 * @param date the GregorianCalendar to duplicate
+	 * @return the duplicated GregorianCalendar
+	 */
+	public static GregorianCalendar duplicateCalendar(GregorianCalendar date)
+	{
+		GregorianCalendar calendar = newTodayCalendar(date.getFirstDayOfWeek());
+		calendar.setTime(date.getTime());
+		return calendar;
+	}
+
+	/**
 	 * Returns the start of the day
 	 * @param day the day
 	 * @return the start of the day
@@ -94,14 +120,13 @@ public abstract class CalendarUtils {
 
 	/**
 	 * @param day the given day
-	 * @param firstDayOfWeek use the Calendar static instance for the days: eg. CALENDAR.MONDAY
+	 * @param firstDayOfWeek use the Calendar static instance for the days
 	 * @return the date of the first day of the week of the given date
 	 */
 	public static Date getFirstDayOfWeek(Date day, int firstDayOfWeek) {
 
-		GregorianCalendar calendar = new GregorianCalendar();
+		GregorianCalendar calendar = newTodayCalendar(firstDayOfWeek);
 		calendar.setTime(day);
-		calendar.setFirstDayOfWeek(firstDayOfWeek);
 
 		int firstDay = calendar.getFirstDayOfWeek();
 		int currentDay = calendar.get(GregorianCalendar.DAY_OF_WEEK);
@@ -127,7 +152,7 @@ public abstract class CalendarUtils {
 	 * @return The date of the last day in the week
 	 */
 	public static Date getLastDayOfWeek(Date day, int firstDayOfWeek) {
-		GregorianCalendar calendar = new GregorianCalendar();
+		GregorianCalendar calendar = newTodayCalendar(firstDayOfWeek);
 		calendar.setTime(getFirstDayOfWeek(day, firstDayOfWeek));
 		calendar.add(GregorianCalendar.DAY_OF_WEEK, 6);
 
