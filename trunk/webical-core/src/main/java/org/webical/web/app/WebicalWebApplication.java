@@ -335,7 +335,7 @@ public class WebicalWebApplication extends WebApplication implements Configurabl
 			}
 
 			/**
-			 * Dicedes what to do with uncaugth runtime exceptions
+			 * Decides what to do with uncaugth runtime exceptions
 			 * @see wicket.RequestCycle#onRuntimeException(wicket.Page, java.lang.RuntimeException)
 			 */
 			@Override
