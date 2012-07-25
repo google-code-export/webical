@@ -6,7 +6,7 @@
 				<div id="eventFormPanel" class="panelContent">
 					<form id="eventForm" wicket:id="eventForm">
 						<h1><span wicket:id="headingLabel"></span></h1>
-						<div class="formFeedBack" id="formFeedback" wicket:id="formFeedback"/>
+						<div class="formFeedBack" id="formFeedback" wicket:id="formFeedback"></div>
 						<div class="formElements">
 							<div class="formItem">
 								<label for="summary" ><wicket:message key="titleField.label">What</wicket:message></label>
@@ -62,9 +62,9 @@
 							<div class="formItem">
 								<label for="until" ><wicket:message key="repeatUntilField.label">Until</wicket:message></label>
 								<span class="formElement"><input class="inputText" type="text" id="until" wicket:id="until"/></span>
-								<span class="formElementHelp"><wicket:message key="until.help" /><span wicket:id="untilFormat" /></span>
+								<span class="formElementHelp"><wicket:message key="until.help" /><span wicket:id="untilFormat"></span></span>
 							</div>
-							<span wicket:id="formExtensions"></span> 
+							<span wicket:id="formExtensions"></span>
 						</div>
 
 						<div class="formButtons">
