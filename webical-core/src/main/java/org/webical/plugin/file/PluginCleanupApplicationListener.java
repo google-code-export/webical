@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -38,31 +40,29 @@ import org.webical.web.app.WebicalWebAplicationException;
  */
 public class PluginCleanupApplicationListener implements ApplicationListener {
 	private static Log log = LogFactory.getLog(PluginCleanupApplicationListener.class);
-	
+
 	/**
 	 * Cleans up the plugin work directory on context stop
 	 * @see org.springframework.context.ApplicationListener#onApplicationEvent(org.springframework.context.ApplicationEvent)
 	 */
 	public void onApplicationEvent(ApplicationEvent event) {
 		try {
-			if(event instanceof ContextClosedEvent && ApplicationSettingsFactory.getInstance().getApplicationSettings().isPluginCleanupEnabled()) {
+			if (event instanceof ContextClosedEvent && ApplicationSettingsFactory.getInstance().getApplicationSettings().isPluginCleanupEnabled()) {
 				File pluginWorkDir = new File(ApplicationSettingsFactory.getInstance().getApplicationSettings().getPluginWorkPath());
-				
-				if(pluginWorkDir.exists() && pluginWorkDir.isDirectory()) {
+
+				if (pluginWorkDir.exists() && pluginWorkDir.isDirectory()) {
 					log.info("Cleaning up the plugin work directory: " + pluginWorkDir.getAbsolutePath());
 					FileUtils.cleanupDirectory(pluginWorkDir);
 				} else {
 					log.info("Could not cleanup plugin work directory: " + pluginWorkDir.getAbsolutePath() + " because it doesn't exist or is not a directory");
 				}
-				
 			} else {
-				if(log.isDebugEnabled()) {
-					log.debug("Recieved ApplicationEvent of class: " + event.getClass());
+				if (log.isDebugEnabled()) {
+					log.debug("Received ApplicationEvent of class: " + event.getClass());
 				}
 			}
 		} catch (ApplicationSettingsException e) {
 			throw new WebicalWebAplicationException(e);
 		}
 	}
-	
 }
