@@ -43,10 +43,6 @@ public class DatePickerModel implements Serializable {
 	 * The current date
 	 */
 	private GregorianCalendar currentDate;
-
-	@SuppressWarnings("unused")
-	private GregorianCalendar currentMonth;
-
 	private Date rangeStartDate, rangeEndDate;
 
 
@@ -59,6 +55,7 @@ public class DatePickerModel implements Serializable {
 			this.currentDate = currentDate;
 		} else {
 			this.currentDate = new GregorianCalendar();
+			this.currentDate.setFirstDayOfWeek(WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
 		}
 	}
 
@@ -88,7 +85,15 @@ public class DatePickerModel implements Serializable {
 	 * @return The current date
 	 */
 	public GregorianCalendar getCurrentDate() {
-		return this.currentDate;
+		return currentDate;
+	}
+
+	/**
+	 * Returns the First Day of the Week from the current date object
+	 * @return The First Day of the Week: eg. GregorianCalendar.SUNDAY
+	 */
+	public int getFirstDayOfWeek() {
+		return getCurrentDate().getFirstDayOfWeek();
 	}
 
 	/**
@@ -97,8 +102,8 @@ public class DatePickerModel implements Serializable {
 	 */
 	public void setRange(CalendarViewPanel calendarView) {
 		// Declare the range start and end calendar
-		GregorianCalendar rangeStartCal = new GregorianCalendar();
-		GregorianCalendar rangeEndCal = new GregorianCalendar();
+		GregorianCalendar rangeStartCal = CalendarUtils.newTodayCalendar(getFirstDayOfWeek());
+		GregorianCalendar rangeEndCal = CalendarUtils.newTodayCalendar(getFirstDayOfWeek());
 
 		if (calendarView != null) {
 			int rangeIdentifier = calendarView.getViewPeriodId();
@@ -109,26 +114,27 @@ public class DatePickerModel implements Serializable {
 			if (rangeIdentifier == GregorianCalendar.DAY_OF_WEEK) {
 				if (rangeLength == 7) { // This is the fixed length of a week ( 0 -> 6 = 7 days)
 					// reset the start calendar to the beginning of the week
-					rangeStartCal.setTime(CalendarUtils.getFirstDayOfWeek(currentDate.getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek()));
+					rangeStartCal.setTime(CalendarUtils.getFirstDayOfWeek(getCurrentDate().getTime(), getFirstDayOfWeek()));
 				}
 				rangeEndCal.setTime(rangeStartCal.getTime());
 				rangeEndCal.add(rangeIdentifier, rangeLength - 1);
 			}
-			else if(rangeIdentifier == GregorianCalendar.DAY_OF_MONTH) {
+			else if (rangeIdentifier == GregorianCalendar.DAY_OF_MONTH) {
 				// we are viewing a single day
 				rangeEndCal.setTime(rangeStartCal.getTime());
 			}
 			else if (rangeIdentifier == GregorianCalendar.MONTH) {
 				// reset the range start calendar to the beginning of the month
-				rangeStartCal.setTime(CalendarUtils.getFirstDayOfWeekOfMonth(currentDate.getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek()));
+				rangeStartCal.setTime(CalendarUtils.getFirstDayOfWeekOfMonth(getCurrentDate().getTime(), getFirstDayOfWeek()));
 				// set the range end calendar to the end of the month
-				rangeEndCal.setTime(CalendarUtils.getLastWeekDayOfMonth(currentDate.getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek()));
+				rangeEndCal.setTime(CalendarUtils.getLastWeekDayOfMonth(getCurrentDate().getTime(), getFirstDayOfWeek()));
 			}
 		}
 		setRangeStartDate(rangeStartCal.getTime());
 		setRangeEndDate(rangeEndCal.getTime());
 	}
 
+	/** Get/Set Range Start date */
 	public Date getRangeStartDate() {
 		return rangeStartDate;
 	}
@@ -136,6 +142,7 @@ public class DatePickerModel implements Serializable {
 		this.rangeStartDate = rangeStartDate;
 	}
 
+	/** Get/Set Range End date */
 	public Date getRangeEndDate() {
 		return rangeEndDate;
 	}

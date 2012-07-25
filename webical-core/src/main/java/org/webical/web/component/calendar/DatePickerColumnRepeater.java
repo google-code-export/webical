@@ -56,20 +56,18 @@ public abstract class DatePickerColumnRepeater extends RepeatingView {
 		super(id);
 
 		this.datePickerModel = datePickerModel;
-		this.currentDate = new GregorianCalendar();
-		this.currentDate.setTime(datePickerModel.getCurrentDate().getTime());
-		this.weekCalendar = new GregorianCalendar();
-		this.weekCalendar.setTime(weekCalendar.getTime());
+		this.currentDate = CalendarUtils.duplicateCalendar(datePickerModel.getCurrentDate());
+		this.weekCalendar = CalendarUtils.duplicateCalendar(weekCalendar);
 
 		addColumns();
 	}
 
 	private void addColumns() {
-		GregorianCalendar todayDate = new GregorianCalendar();
+		GregorianCalendar todayDate = CalendarUtils.newTodayCalendar(getCurrentDate().getFirstDayOfWeek());
 		Label weekLabel = new Label("week" + weekCalendar.get(GregorianCalendar.WEEK_OF_YEAR), String.valueOf(weekCalendar.get(GregorianCalendar.WEEK_OF_YEAR)));
 		weekLabel.add(new AttributeAppender("class", true, new Model(WEEK_NUMBER_CSS_CLASS), " "));
 		add(weekLabel);
-		for(int i = 0; i < 7; i++) {
+		for (int i = 0; i < 7; ++ i) {
 
 			DatePickerColumnPanel columnPanel = new DatePickerColumnPanel("day" + weekCalendar.get(GregorianCalendar.DAY_OF_YEAR), this.weekCalendar, datePickerModel) {
 				private static final long serialVersionUID = 1L;
@@ -80,19 +78,15 @@ public abstract class DatePickerColumnRepeater extends RepeatingView {
 				}
 			};
 			// Check if date is in range
-			if (
-				(
-					datePickerModel.getRangeStartDate() != null
+			if ((	datePickerModel.getRangeStartDate() != null
 					&&
-					datePickerModel.getRangeEndDate() != null
-				)
+					datePickerModel.getRangeEndDate() != null	)
 				&&
-				(
-					CalendarUtils.getStartOfDay(weekCalendar.getTime()).compareTo(CalendarUtils.getStartOfDay(datePickerModel.getRangeStartDate())) >= 0
+				(	CalendarUtils.getStartOfDay(weekCalendar.getTime()).compareTo(CalendarUtils.getStartOfDay(datePickerModel.getRangeStartDate())) >= 0
 					&& 
-					CalendarUtils.getStartOfDay(weekCalendar.getTime()).compareTo(CalendarUtils.getStartOfDay(datePickerModel.getRangeEndDate())) <= 0
-				)
-			) {
+					CalendarUtils.getStartOfDay(weekCalendar.getTime()).compareTo(CalendarUtils.getStartOfDay(datePickerModel.getRangeEndDate())) <= 0	)
+			)
+			{
 				columnPanel.add(new AttributeAppender("class", true, new Model(INRANGE_CSS_CLASS), " "));
 			}
 
@@ -107,6 +101,12 @@ public abstract class DatePickerColumnRepeater extends RepeatingView {
 			this.weekCalendar.add(GregorianCalendar.DAY_OF_WEEK, 1);
 			//weekCalendar.setTime(CalendarUtils.addDays(weekCalendar.getTime(), 1));
 		}
+	}
+
+	/** get the current date of this repeater */
+	GregorianCalendar getCurrentDate()
+	{
+		return currentDate;
 	}
 
 	/**
