@@ -42,6 +42,7 @@ import org.webical.Event;
 import org.webical.manager.CalendarManager;
 import org.webical.manager.EventManager;
 import org.webical.manager.WebicalException;
+import org.webical.util.CalendarUtils;
 import org.webical.web.action.AddEventAction;
 import org.webical.web.action.DaySelectedAction;
 import org.webical.web.action.EditEventAction;
@@ -137,6 +138,8 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 		} else {
 			currentDate = new GregorianCalendar();
 		}
+		// usersettings
+		currentDate.setFirstDayOfWeek(WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
 		currentCalendarView = WebicalSession.getWebicalSession().getUserSettings().getDefaultCalendarView();
 
 		// Check if the user can add events
@@ -191,7 +194,8 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 
 			@Override
 			public void todaySelected(AjaxRequestTarget target) {
-				CalendarPanel.this.changeCalendarView(getCurrentCalendarView(), new GregorianCalendar(), target);
+				GregorianCalendar today = CalendarUtils.newTodayCalendar(CalendarPanel.this.getCurrentDate().getFirstDayOfWeek());
+				CalendarPanel.this.changeCalendarView(getCurrentCalendarView(), today, target);
 			}
 		};
 		addOrReplace(dateSwitcher);

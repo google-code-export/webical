@@ -154,8 +154,8 @@ public class BasePage extends AbstractBasePage {
 	 */
 	public BasePage(PageParameters parameters) {
 		super(BasePage.class);
-		String panel = parameters.getString(CONTENT_PANEL_PARAMETER);
 
+		String panel = parameters.getString(CONTENT_PANEL_PARAMETER);
 		if (panel != null) {
 			if (panel.equals(CALENDAR_PANEL_PARAMETER_VALUE)) {
 				startPanel = BasePage.CALENDAR_PANEL;
@@ -165,7 +165,8 @@ public class BasePage extends AbstractBasePage {
 		}
 	}
 
-	public void setupCommonComponents() {
+	public void setupCommonComponents()
+	{
 		// Create the Header Panel
 		headerPanel = new HeaderPanel(HEADER_PANEL_MARKUP_ID) {
 			private static final long serialVersionUID = 1L;
@@ -186,13 +187,13 @@ public class BasePage extends AbstractBasePage {
 		addOrReplace(headerPanel);
 
 		// Get the calendars for this user from the CalendarManager
+		WebicalSession webicalSession = (WebicalSession) getSession();
 		List<Calendar> userCalendars = new ArrayList<Calendar>();
 		try {
-			userCalendars = calendarManager.getCalendars(((WebicalSession)getSession()).getUser());
+			userCalendars = calendarManager.getCalendars(webicalSession.getUser());
 		} catch (WebicalException e) {
 			throw new WebicalWebAplicationException(e);
 		}
-
 		//Decide on the startPanel
 		if (startPanel != BasePage.NOT_SET) {
 			//Set to the requested panel
@@ -244,7 +245,7 @@ public class BasePage extends AbstractBasePage {
 					this.calendarPanel.setCurrentCalendarView(previousCalendarView);
 				}
 				else if (this.calendarPanel == null) {
-					this.calendarPanel = new CalendarPanel(CONTENT_PANEL_MARKUP_ID, new GregorianCalendar()) {
+					this.calendarPanel = new CalendarPanel(CONTENT_PANEL_MARKUP_ID, currentDate) {
 						private static final long serialVersionUID = 1L;
 						@Override
 						public void onAction(IAction action) {
@@ -338,7 +339,7 @@ public class BasePage extends AbstractBasePage {
 			case CALENDAR_PANEL:
 				//Save the panel in the Session to preserve the rigth state
 				if (this.calendarPanel == null) {
-					this.calendarPanel = new CalendarPanel(CONTENT_PANEL_MARKUP_ID, new GregorianCalendar()) {
+					this.calendarPanel = new CalendarPanel(CONTENT_PANEL_MARKUP_ID, currentDate) {
 						private static final long serialVersionUID = 1L;
 						@Override
 						public void onAction(IAction action) {

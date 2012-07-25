@@ -26,7 +26,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.webical.web.component.AbstractBasePanel;
-import org.webical.web.app.WebicalSession;
 
 /**
  * Class for calendar views to extend so availability of these methods is garantueed
@@ -64,7 +63,6 @@ public abstract class CalendarViewPanel extends AbstractBasePanel {
 		super(markupId, implementingClass);
 
 		this.currentDate = currentDate;
-		this.currentDate.setFirstDayOfWeek(WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
 		this.periodStartDate = this.currentDate.getTime();
 		this.periodEndDate = this.currentDate.getTime();
 	}
@@ -113,6 +111,14 @@ public abstract class CalendarViewPanel extends AbstractBasePanel {
 	public void setViewCurrentDate(GregorianCalendar currentDate) {
 		// Update the time in the object, don't change the reference or else changes are not reflected in the models
 		this.currentDate.setTime(currentDate.getTime());
+	}
+
+	/**
+	 * Returns the First Day of the Week from the current date object
+	 * @return The First Day of the Week: eg. GregorianCalendar.SUNDAY
+	 */
+	public int getFirstDayOfWeek() {
+		return getViewCurrentDate().getFirstDayOfWeek();
 	}
 
 	/**
