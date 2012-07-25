@@ -39,7 +39,7 @@ import org.webical.util.CalendarUtils;
  * {@see Recurrence} to provide the form with the correct information.
  * Storage of the Event and Recurrence information is also done through this 
  * wrapper. Storage of the Event instance is done by the {@see EventManager}.
- * 
+ *
  * @author Mattijs Hoitink
  *
  */
@@ -54,7 +54,6 @@ public class EventWrapper implements Serializable {
 		try {
 			this.recurrence = RecurrenceUtil.getRecurrenceFromRecurrenceRuleSet(this.event.getrRule());
 		} catch (WebicalException e) {
-
 		}
 		if (this.recurrence == null) {
 			this.recurrence = new Recurrence();
@@ -149,8 +148,8 @@ public class EventWrapper implements Serializable {
 	}
 
 	public void resetAllDay() {
-		java.util.Calendar currentDateCalendar = GregorianCalendar.getInstance();
-		java.util.Calendar formDateCalendar = GregorianCalendar.getInstance();
+		GregorianCalendar currentDateCalendar = new GregorianCalendar();
+		GregorianCalendar formDateCalendar = new GregorianCalendar();
 
 		formDateCalendar.setTime(getDtStart());
 		formDateCalendar.set(GregorianCalendar.HOUR_OF_DAY, currentDateCalendar.get(GregorianCalendar.HOUR_OF_DAY));
@@ -187,7 +186,7 @@ public class EventWrapper implements Serializable {
 	}
 
 	/* Delegate Methods to Recurrence */
-	public Integer getFrequency(){
+	public Integer getFrequency() {
 		return recurrence.getFrequency();
 	}
 
