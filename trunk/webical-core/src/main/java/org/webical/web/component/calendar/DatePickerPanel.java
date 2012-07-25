@@ -36,6 +36,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
+import org.webical.util.CalendarUtils;
 import org.webical.web.action.DaySelectedAction;
 import org.webical.web.action.IAction;
 import org.webical.web.app.WebicalSession;
@@ -52,7 +53,6 @@ import org.webical.web.component.calendar.model.DatePickerModel;
 public abstract class DatePickerPanel extends AbstractBasePanel {
 	private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unchecked")
 	protected static Class[] PANELACTIONS = new Class[] { };
 
 	/* Markup ID's */
@@ -92,11 +92,12 @@ public abstract class DatePickerPanel extends AbstractBasePanel {
 		RepeatingView dayHeaderRepeater = new RepeatingView(DAY_HEADER_REPEATER_MARKUP_ID);
 		dayHeaderRepeater.add(new Label("headerStart", ""));
 
-		GregorianCalendar weekCal = new GregorianCalendar();
-		weekCal.set(GregorianCalendar.DAY_OF_WEEK, WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
+		GregorianCalendar weekCal = CalendarUtils.newTodayCalendar(WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
+		weekCal.set(GregorianCalendar.DAY_OF_WEEK, weekCal.getFirstDayOfWeek());
 		SimpleDateFormat sdf = new SimpleDateFormat("E", getLocale());
 		// TODO mattijs: get the weekdays to show from user settings
-		for(int i = 0; i < 7; i++) {
+		for(int i = 0; i < 7; ++ i)
+		{
 			dayHeaderRepeater.add(new Label("dayHeader" + i, sdf.format(weekCal.getTime()).substring(0, 1)));
 			weekCal.add(GregorianCalendar.DAY_OF_WEEK, 1);
 		}
@@ -186,7 +187,7 @@ public abstract class DatePickerPanel extends AbstractBasePanel {
 		 */
 		@Override
 		protected void onSubmit() {
-			GregorianCalendar dayCal = new GregorianCalendar();
+			GregorianCalendar dayCal = CalendarUtils.newTodayCalendar(WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
 			dayCal.setTime((Date) changeDateTextField.getConvertedInput());
 			DatePickerPanel.this.onAction(new DaySelectedAction(dayCal));
 		}

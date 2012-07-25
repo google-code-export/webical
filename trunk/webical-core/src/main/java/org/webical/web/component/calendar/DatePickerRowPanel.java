@@ -27,32 +27,27 @@ import java.util.GregorianCalendar;
 import org.webical.web.action.IAction;
 import org.webical.web.component.AbstractBasePanel;
 import org.webical.web.component.calendar.model.DatePickerModel;
+import org.webical.util.CalendarUtils;
 
 public abstract class DatePickerRowPanel extends AbstractBasePanel {
 	private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unchecked")
 	protected static Class[] PANELACTIONS = new Class[] { };
 
 	private static String DATE_PICKER_COLUMN_REPEATER_MARKUP_ID = "datePickerColumnRepeater";
 
 	private DatePickerModel datePickerModel;
 
-	private GregorianCalendar currentDate;
 	private GregorianCalendar weekCalendar;
 
 	public DatePickerRowPanel(String markupId, GregorianCalendar weekCalendar, DatePickerModel datePickerModel) {
 		super(markupId, DatePickerRowPanel.class);
 
 		this.datePickerModel = datePickerModel;
-		this.currentDate = new GregorianCalendar();
-		this.currentDate.setTime(datePickerModel.getCurrentDate().getTime());
-		this.weekCalendar = new GregorianCalendar();
-		this.weekCalendar.setTime(weekCalendar.getTime());
+		this.weekCalendar = CalendarUtils.duplicateCalendar(weekCalendar);
 	}
 
 	public void setupCommonComponents() {
-
 	}
 
 	public void setupAccessibleComponents() {

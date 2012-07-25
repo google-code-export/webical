@@ -28,7 +28,6 @@ import java.util.GregorianCalendar;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.webical.util.CalendarUtils;
 import org.webical.web.action.IAction;
-import org.webical.web.app.WebicalSession;
 import org.webical.web.component.calendar.model.DatePickerModel;
 
 /**
@@ -48,7 +47,7 @@ public abstract class DatePickerRowRepeater extends RepeatingView {
 	private Date startDate;
 	private Date endDate;
 
-	private double numberOfWeeks = 5;
+	private int numberOfWeeks = 5;
 
 	public DatePickerRowRepeater(String id, DatePickerModel datePickerModel) {
 		super(id);
@@ -58,18 +57,19 @@ public abstract class DatePickerRowRepeater extends RepeatingView {
 	}
 
 	protected void addRows() {
-		startDate = CalendarUtils.getFirstDayOfWeekOfMonth(datePickerModel.getCurrentDate().getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
-		endDate = CalendarUtils.getLastWeekDayOfMonth(datePickerModel.getCurrentDate().getTime(), WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
+		int fdow = datePickerModel.getFirstDayOfWeek();
+		startDate = CalendarUtils.getFirstDayOfWeekOfMonth(datePickerModel.getCurrentDate().getTime(), fdow);
+		endDate = CalendarUtils.getLastWeekDayOfMonth(datePickerModel.getCurrentDate().getTime(), fdow);
 
-		double diff = CalendarUtils.getDifferenceInDays(startDate, endDate);
-		this.numberOfWeeks = Math.ceil(diff / 7.0);
+		int diff = CalendarUtils.getDifferenceInDays(startDate, endDate);
+		this.numberOfWeeks = (diff + 6) / 7;
 
 		// Calendar used to hold on to the week
-		GregorianCalendar weekCalendar = new GregorianCalendar();
+		GregorianCalendar weekCalendar = CalendarUtils.newTodayCalendar(fdow);
 		weekCalendar.setTime(startDate);
 
-		for (int i = 0; i < numberOfWeeks; i++) {
-
+		for (int i = 0; i < numberOfWeeks; ++ i)
+		{
 			DatePickerRowPanel rowPanel = new DatePickerRowPanel("week" + weekCalendar.get(GregorianCalendar.WEEK_OF_YEAR), weekCalendar, datePickerModel) {
 				private static final long serialVersionUID = 1L;
 

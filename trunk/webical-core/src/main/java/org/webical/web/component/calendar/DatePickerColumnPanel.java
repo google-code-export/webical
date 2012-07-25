@@ -28,6 +28,7 @@ import java.util.GregorianCalendar;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
+import org.webical.util.CalendarUtils;
 import org.apache.wicket.model.Model;
 import org.webical.web.action.DaySelectedAction;
 import org.webical.web.action.IAction;
@@ -51,10 +52,8 @@ public abstract class DatePickerColumnPanel extends AbstractBasePanel {
 		super(markupId, DatePickerColumnPanel.class);
 
 		this.datePickerModel = datePickerModel;
-		this.currentDate = new GregorianCalendar();
-		this.currentDate.setTime(datePickerModel.getCurrentDate().getTime());
-		this.dayCalendar = new GregorianCalendar();
-		this.dayCalendar.setTime(dayCalendar.getTime());
+		this.currentDate = CalendarUtils.duplicateCalendar(datePickerModel.getCurrentDate());
+		this.dayCalendar = CalendarUtils.duplicateCalendar(dayCalendar);
 	}
 
 	public void setupCommonComponents() {
