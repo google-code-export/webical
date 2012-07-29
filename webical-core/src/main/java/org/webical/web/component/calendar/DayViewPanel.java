@@ -81,7 +81,7 @@ public abstract class DayViewPanel extends CalendarViewPanel {
 		setViewPeriodFormat("MMMM dd, yyyy");
 		dateFormat = new SimpleDateFormat("EEEE", getLocale());
 		eventsModel = new WrappingEventsModel(getPeriodStartDate(), getPeriodEndDate(),
-							new EventsModel(getPeriodStartDate(), getPeriodEndDate()));
+								new EventsModel(getPeriodStartDate(), getPeriodEndDate()));
 	}
 
 	/* (non-Javadoc)
