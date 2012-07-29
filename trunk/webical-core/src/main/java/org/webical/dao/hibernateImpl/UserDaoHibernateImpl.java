@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -24,6 +26,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.LockMode;
 import org.webical.Calendar;
 import org.webical.User;
 import org.webical.dao.CalendarDao;
@@ -33,15 +36,13 @@ import org.webical.dao.annotation.Transaction;
 
 /**
  * @author ivo
- *
  */
 public class UserDaoHibernateImpl extends BaseHibernateImpl implements UserDao {
-	
+
 	private static Log log = LogFactory.getLog(CalendarDaoHibernateImpl.class);
-	
+
 	/** Set by Spring */
 	CalendarDao calendarDao;
-
 
 	///////////////////
 	/// Api methods ///
@@ -50,7 +51,7 @@ public class UserDaoHibernateImpl extends BaseHibernateImpl implements UserDao {
 	/* (non-Javadoc)
 	 * @see org.webical.aspect.dao.UserDao#storeUser(org.webical.User)
 	 */
-	@Transaction
+	@Transaction(readOnly=false)
 	public void storeUser(User user) throws DaoException {
 		try {
 			saveOrUpdate(user);
@@ -63,19 +64,19 @@ public class UserDaoHibernateImpl extends BaseHibernateImpl implements UserDao {
 	/* (non-Javadoc)
 	 * @see org.webical.aspect.dao.UserDao#removeUser(org.webical.User)
 	 */
-	@Transaction
+	@Transaction(readOnly=false)
 	public void removeUser(User user) throws DaoException {
 		try {
+			log.info("removeUser " + user.getUserId());
+
+			getSession().lock(user, LockMode.NONE);
 			//Cascade calendars
 			List<Calendar> calendars = calendarDao.getCalendars(user);
-			if(calendars != null && calendars.size() > 0) {
-				
+			if (calendars != null && calendars.size() > 0) {
 				for (Calendar calendar : calendars) {
 					calendarDao.removeCalendar(calendar);
 				}
-				
 			}
-			
 			//Remove the user
 			delete(user);
 		} catch (Exception e) {
@@ -87,7 +88,7 @@ public class UserDaoHibernateImpl extends BaseHibernateImpl implements UserDao {
 	/* (non-Javadoc)
 	 * @see org.webical.aspect.dao.UserDao#getUser(java.lang.String)
 	 */
-	@Transaction
+	@Transaction(readOnly=true)
 	public User getUser(String userId) throws DaoException {
 		User user = null;
 		try {
@@ -98,23 +99,21 @@ public class UserDaoHibernateImpl extends BaseHibernateImpl implements UserDao {
 		}
 		return user;
 	}
-	
+
 	/////////////////////////
 	/// Getters / Setters ///
 	/////////////////////////
-	
+
 	/**
 	 * @return the CalendarDao
 	 */
 	public CalendarDao getCalendarDao() {
 		return calendarDao;
 	}
-
 	/**
 	 * @param calendarDao the CalendarDao used by this dao
 	 */
 	public void setCalendarDao(CalendarDao calendarDao) {
 		this.calendarDao = calendarDao;
 	}
-	
 }
