@@ -26,6 +26,8 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
 import org.apache.wicket.model.IModel;
+import org.webical.util.CalendarUtils;
+import org.webical.web.app.WebicalSession;
 import org.webical.web.component.calendar.CalendarViewPanel;
 
 /**
@@ -58,6 +60,7 @@ public class DateSwitcherModel implements IModel {
 			this.currentDate = new GregorianCalendar();
 		} else {
 			this.currentDate = currentDate;
+			this.currentDate.setFirstDayOfWeek(WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
 		}
 	}
 
@@ -71,8 +74,20 @@ public class DateSwitcherModel implements IModel {
 		this.currentViewPanel = currentViewPanel;
 	}
 
+	/**
+	 * Returns the current date object
+	 * @return The current date
+	 */
 	public GregorianCalendar getCurrentDate() {
-		return this.currentDate;
+		return currentDate;
+	}
+
+	/**
+	 * Returns the First Day of the Week for the current date object
+	 * @return The First Day of the Week: eg. GregorianCalendar.SUNDAY
+	 */
+	public int getFirstDayOfWeek() {
+		return getCurrentDate().getFirstDayOfWeek();
 	}
 
 	/**
@@ -80,7 +95,7 @@ public class DateSwitcherModel implements IModel {
 	 * @return The current view panel
 	 */
 	public CalendarViewPanel getCurrentViewPanel() {
-		return this.currentViewPanel;
+		return currentViewPanel;
 	}
 
 	/**
@@ -91,7 +106,7 @@ public class DateSwitcherModel implements IModel {
 
 		if (getCurrentViewPanel() == null) return "range";
 
-		int rangeLength = currentViewPanel.getViewPeriodLength();
+		int rangeLength = getCurrentViewPanel().getViewPeriodLength();
 		String rangeFormat = getCurrentViewPanel().getViewPeriodFormat();
 
 		SimpleDateFormat sdf = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
@@ -99,10 +114,10 @@ public class DateSwitcherModel implements IModel {
 
 		String printableRangeText;
 		if (rangeLength > 1) {
-			GregorianCalendar rangeStartCal = new GregorianCalendar();
+			GregorianCalendar rangeStartCal = CalendarUtils.newTodayCalendar(getFirstDayOfWeek());
 			rangeStartCal.setTime(getCurrentViewPanel().getPeriodStartDate());
 
-			GregorianCalendar rangeEndCal = new GregorianCalendar();
+			GregorianCalendar rangeEndCal = CalendarUtils.newTodayCalendar(getFirstDayOfWeek());
 			rangeEndCal.setTime(getCurrentViewPanel().getPeriodEndDate());
 
 			printableRangeText = sdf.format(rangeStartCal.getTime());
