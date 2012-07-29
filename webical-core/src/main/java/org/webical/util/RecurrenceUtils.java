@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -50,12 +52,12 @@ public class RecurrenceUtils {
 	 * @param event the {@link Event} to check
 	 * @return true if the {@link Event} is recurrent
 	 */
-	public static boolean isRecurrent(Event event) {
-		if(!event.getrRule().isEmpty() || !event.getrDate().isEmpty()){
-			return true;
-		} else {
+	public static boolean isRecurrent(Event event)
+	{
+		if (event.getrRule().isEmpty() && event.getrDate().isEmpty()) {
 			return false;
 		}
+		return true;
 	}
 
 	/**
@@ -66,75 +68,72 @@ public class RecurrenceUtils {
 	 * @return true if the {@link Event} is applicable for this range
 	 * @throws ParseException
 	 */
-	public static boolean isApplicableForDateRange(Event event, Date startDate, Date endDate) throws ParseException {
+	public static boolean isApplicableForDateRange(Event event, Date startDate, Date endDate) throws ParseException
+	{
+		if (event.getDtStart() == null) return false;
 
-		if(event.getDtStart() != null) {
-			if(isRecurrent(event)) {
+		if (isRecurrent(event)) {
+			if (log.isDebugEnabled()) log.debug("isApplicableForDateRange:Recurrent " + event.getSummary());
 
-				//Property: RRULE
-				Recur recur = null;
-				try {
-					if(event.getrRule() != null){
-						recur = new Recur(event.getrRule().iterator().next());
+			//Property: RRULE
+			Recur recur = null;
+			try {
+				if (event.getrRule() != null) {
+					recur = new Recur(event.getrRule().iterator().next());
+				}
+			} catch (ParseException e) {
+				log.error("Could not parse recurrence information", e );
+				throw e;
+			}
+
+			ExRule exRule = new ExRule();
+			exRule.setRecur(recur);
+
+			DateTime fromDate = new DateTime(event.getDtStart());
+			DateTime dtStart = new DateTime(startDate.getTime()-1000);
+			DateTime dtEnd = new DateTime(endDate.getTime()-1000);
+
+			DateList datesFromRecur = recur.getDates(fromDate, dtStart, dtEnd, Value.DATE_TIME);
+			Set<Date> dates = event.getrDate();
+
+			//Property RDate
+			for (Date date : dates) {
+				datesFromRecur.add(date);
+			}
+
+			if (datesFromRecur.size() > 0) {
+				//Property: EXDATE
+				for (Iterator i = event.getExDate().iterator(); i.hasNext(); ) {
+					Date datum = (Date) i.next();
+					if (startDate.equals(new net.fortuna.ical4j.model.Date(datum.getTime()))) {
+						return false;
 					}
-				} catch (ParseException e) {
-					log.error("Could not parse recurrence information", e );
-					throw e;
 				}
 
-				ExRule exRule = new ExRule();
-				exRule.setRecur(recur);
-
-				DateTime fromDate = new DateTime(event.getDtStart());
-				DateTime dtStart = new DateTime(startDate.getTime()-1000);
-				DateTime dtEnd = new DateTime(endDate.getTime()-1000);
-
-				DateList datesFromRecur = recur.getDates(fromDate, dtStart, dtEnd, Value.DATE_TIME);
-				Set<Date> dates = event.getrDate();
-
-				//Property RDate
-				for(Date date : dates){
-					datesFromRecur.add(date);
-				}
-
-				if(datesFromRecur.size() > 0){
-
-					//Property: EXDATE
-					for(Iterator i = event.getExDate().iterator(); i.hasNext(); ){
-						if(startDate.equals(new net.fortuna.ical4j.model.Date(((Date)i.next()).getTime()))){
-							return false;
-						}
+				//PROPERTY: EXRULE
+				if (event.getExRule().iterator().hasNext()) {
+					Recur exRecur = null;
+					try {
+						exRecur = new Recur(event.getExRule().iterator().next());
+					} catch (ParseException e) {
+						log.error("Could not parse recurrence information", e );
+						throw e;
 					}
 
-					//PROPERTY: EXRULE
-					if(event.getExRule().iterator().hasNext()){
-
-						Recur exRecur;
-						try {
-							exRecur = new Recur(event.getExRule().iterator().next());
-						} catch (ParseException e) {
-							log.error("Could not parse recurrence information", e );
-							throw e;
-						}
-
-						DateList datesFromExRule = exRecur.getDates(fromDate, dtStart, dtEnd,Value.DATE_TIME);
-
-						if(datesFromExRule.size() > 0){
-							return false;
-						}
+					DateList datesFromExRule = exRecur.getDates(fromDate, dtStart, dtEnd, Value.DATE_TIME);
+					if (datesFromExRule.size() > 0) {
+						return false;
 					}
-
-					return true;
 				}
-
-			} else if((event.getDtStart().before(startDate) && event.getDtEnd().before(startDate)) || (event.getDtStart().after(endDate) && event.getDtEnd().after(endDate))){
-				//Event is not in daterange
-				return false;
-			} else {
 				return true;
 			}
+		} else if (	(event.getDtStart().before(startDate) && event.getDtEnd().before(startDate)) ||
+					(event.getDtStart().after(endDate) && event.getDtEnd().after(endDate)) ) {
+				// Event is not in daterange
+				return false;
+		} else {
+				return true;
 		}
-
 		return false;
 	}
 
@@ -148,6 +147,4 @@ public class RecurrenceUtils {
 	public static boolean isApplicableOnDate(Event event, Date date) throws ParseException {
 		return isApplicableForDateRange(event, date, date);
 	}
-
-
 }
