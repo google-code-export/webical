@@ -70,10 +70,10 @@ public abstract class WeekColumnRepeater extends RepeatingView {
 		int numberOfDays = eventsModel.getNumberOfDays();
 
 		Date startDate = eventsModel.getStartDate();
-		GregorianCalendar todayCal = new GregorianCalendar();
+		GregorianCalendar todayCal = CalendarUtils.newTodayCalendar(eventsModel.getFirstDayOfWeek());
 		Date todayStartDate = CalendarUtils.getStartOfDay(todayCal.getTime());
 
-		GregorianCalendar startCal = new GregorianCalendar();
+		GregorianCalendar startCal = CalendarUtils.newTodayCalendar(eventsModel.getFirstDayOfWeek());
 		startCal.setTime(startDate);
 
 		for (int i = 0; i <= numberOfDays; i++) {

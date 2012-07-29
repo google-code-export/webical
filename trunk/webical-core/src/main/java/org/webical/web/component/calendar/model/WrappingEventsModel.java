@@ -25,8 +25,8 @@ package org.webical.web.component.calendar.model;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
+import java.util.Date;
 
 import org.webical.Event;
 import org.webical.comparator.EventStartTimeComparator;
@@ -53,9 +53,6 @@ public class WrappingEventsModel extends EventsModel {
 	 */
 	public WrappingEventsModel(Date startDate, Date endDate, EventsModel eventsModel) {
 		super(startDate, endDate);
-		if (eventsModel == null) {
-			throw new IllegalArgumentException("WrappingEventsModel needs an EventsModel as a data source.");
-		}
 		this.eventsModel = eventsModel;
 	}
 
