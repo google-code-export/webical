@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -27,20 +29,18 @@ import org.webical.Calendar;
 import org.webical.Event;
 
 /**
- * 
  * Dao interface for Event
  * @author ivo
- *
  */
 public interface EventDao {
-	
+
 	/**
 	 * Stores an Event
 	 * @param event the event to store
 	 * @throws DaoException with wrapped exception
 	 */
 	public void storeEvent(Event event) throws DaoException;
-	
+
 	/**
 	 * Stores a List of Events
 	 * @param events the events to store
@@ -54,7 +54,7 @@ public interface EventDao {
 	 * @throws DaoException with wrapped exception
 	 */
 	public void removeEvent(Event event) throws DaoException;
-	
+
 	/**
 	 * Retrieves all Events for a given Calendar
 	 * @param calendar the Calendar to retrieve Events for
@@ -62,7 +62,14 @@ public interface EventDao {
 	 * @throws DaoException with wrapped exception
 	 */
 	public List<Event> getAllEvents(Calendar calendar) throws DaoException;
-	
+
+	/**
+	 * Removes all Events for the given Calendar
+	 * @param calendar - the Calendar to remove the Events for
+	 * @throws DaoException with wrapped exception
+	 */
+	public void removeAllEventsForCalendar(Calendar calendar) throws DaoException;
+
 	/**
 	 * Retrieves all Events for a given Calendar within a given period
 	 * @param calendar the Calendar to retrieve Events for
@@ -72,7 +79,7 @@ public interface EventDao {
 	 * @throws DaoException with wrapped exception
 	 */
 	public List<Event> getEventsForPeriod(Calendar calendar, Date dtStart, Date dtEnd) throws DaoException;
-	
+
 	/**
 	 * Retrieves an event for a given Uid
 	 * @param calendar the Calendar where the Event has to be found
@@ -81,5 +88,4 @@ public interface EventDao {
 	 * @throws DaoException with wrapped exception
 	 */
 	public Event getEventByUid(Calendar calendar, String uid) throws DaoException;
-	
 }
