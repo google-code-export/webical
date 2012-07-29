@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -34,13 +36,14 @@ import org.webical.dao.annotation.Transaction;
  * @author ivo
  *
  */
-public class ApplicationSettingsDaoHibernateImpl extends BaseHibernateImpl implements ApplicationSettingsDao {
+public class ApplicationSettingsDaoHibernateImpl extends BaseHibernateImpl implements ApplicationSettingsDao
+{
 	private static Log log = LogFactory.getLog(ApplicationSettingsDaoHibernateImpl.class);
 
 	/* (non-Javadoc)
 	 * @see org.webical.aspect.dao.ApplicationSettingsDao#getApplicationSettings()
 	 */
-	@Transaction
+	@Transaction(readOnly=true)
 	public ApplicationSettings getApplicationSettings() throws DaoException {
 		List results = null;
 		try {
@@ -49,9 +52,9 @@ public class ApplicationSettingsDaoHibernateImpl extends BaseHibernateImpl imple
 			log.error("Could not load application settings", e);
 			throw new DaoException("Could not load application settings", e);
 		}
-		
-		if(results != null && results.size() > 0) {
-			if(results.size() > 1) {
+
+		if (results != null && results.size() > 0) {
+			if (results.size() > 1) {
 				log.warn("Multiple ApplicationSettings found returning the first entry");
 			}
 			return (ApplicationSettings)results.get(0);
@@ -62,13 +65,13 @@ public class ApplicationSettingsDaoHibernateImpl extends BaseHibernateImpl imple
 	/* (non-Javadoc)
 	 * @see org.webical.aspect.dao.ApplicationSettingsDao#storeApplicationSettings(org.webical.ApplicationSettings)
 	 */
-	@Transaction
+	@Transaction(readOnly=false)
 	public void storeApplicationSettings(ApplicationSettings applicationSettings) throws DaoException {
-		if(applicationSettings == null) {
+		if (applicationSettings == null) {
 			log.error("Cannot store empty configuration");
 			throw new DaoException("Cannot store empty configuration"); 
 		}
-		
+
 		try {
 			saveOrUpdate(applicationSettings);
 		} catch (Exception e) {
@@ -76,5 +79,4 @@ public class ApplicationSettingsDaoHibernateImpl extends BaseHibernateImpl imple
 			throw new DaoException("Could not store application settings", e);
 		}
 	}
-
 }

@@ -74,7 +74,8 @@ public class BaseHibernateImpl {
 	 */
 	protected void saveOrUpdateAll(Collection entities) throws DaoException {
 		for (Iterator it = entities.iterator(); it.hasNext();) {
-			getSession().saveOrUpdate(it.next());
+			Object obj = it.next();
+			getSession().saveOrUpdate(obj);
 		}
 	}
 	
@@ -85,7 +86,8 @@ public class BaseHibernateImpl {
 	 */
 	protected void deleteAll(Collection entities) throws DaoException {
 		for (Iterator it = entities.iterator(); it.hasNext();) {
-			getSession().delete(it.next());
+			Object obj = it.next();
+			getSession().delete(obj);
 		}
 	}
 	
