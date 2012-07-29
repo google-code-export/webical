@@ -25,6 +25,7 @@ import java.util.GregorianCalendar;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
+import org.webical.util.CalendarUtils;
 import org.webical.web.action.IAction;
 import org.webical.web.action.WeekSelectedAction;
 import org.webical.web.component.AbstractBasePanel;
@@ -54,7 +55,6 @@ public abstract class MonthRowPanel extends AbstractBasePanel {
 	private Label weekLabel;
 
 	/** Contains the actions this panel can handle */
-	@SuppressWarnings("unchecked")
 	protected  static Class[] PANELACTIONS = new Class[] { };
 
 	/**
@@ -73,7 +73,7 @@ public abstract class MonthRowPanel extends AbstractBasePanel {
 	 * @see org.webical.web.component.IAccessibilitySwitchingComponent#setupCommonComponents()
 	 */
 	public void setupCommonComponents() {
-		GregorianCalendar currentDate = new GregorianCalendar();
+		GregorianCalendar currentDate = CalendarUtils.newTodayCalendar(eventsModel.getFirstDayOfWeek());
 		currentDate.setTime(eventsModel.getStartDate());
 
 		weekLink = new Link(WEEK_LINK_MARKUP_ID) {
@@ -81,11 +81,10 @@ public abstract class MonthRowPanel extends AbstractBasePanel {
 
 			@Override
 			public void onClick() {
-				GregorianCalendar weekCal = new GregorianCalendar();
+				GregorianCalendar weekCal = CalendarUtils.newTodayCalendar(eventsModel.getFirstDayOfWeek());
 				weekCal.setTime(eventsModel.getStartDate());
 				MonthRowPanel.this.onAction(new WeekSelectedAction(weekCal));
 			}
-
 		};
 		weekLabel = new Label(WEEK_LABEL_MARKUP_ID, String.valueOf(currentDate.get(GregorianCalendar.WEEK_OF_YEAR)));
 		weekLink.add(weekLabel);

@@ -27,6 +27,7 @@ import java.util.GregorianCalendar;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
+import org.webical.util.CalendarUtils;
 import org.webical.web.action.AddEventAction;
 import org.webical.web.action.DaySelectedAction;
 import org.webical.web.action.IAction;
@@ -68,7 +69,7 @@ public abstract class MonthDayPanel extends AbstractBasePanel {
 	public MonthDayPanel(String markupId, EventsModel eventsModel) {
 		super(markupId, MonthDayPanel.class);
 		this.eventsModel = eventsModel;
-		this.dayDate = new GregorianCalendar();
+		this.dayDate = CalendarUtils.newTodayCalendar(eventsModel.getFirstDayOfWeek());
 		this.dayDate.setTime(eventsModel.getStartDate());
 	}
 
