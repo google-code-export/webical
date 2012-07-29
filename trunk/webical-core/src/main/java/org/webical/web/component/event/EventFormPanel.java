@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -20,12 +22,12 @@
 
 package org.webical.web.component.event;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.IModel;
 import org.webical.Event;
+import org.webical.util.CalendarUtils;
 import org.webical.web.action.IAction;
 import org.webical.web.component.AbstractBasePanel;
 import org.webical.web.component.behavior.FormComponentValidationStyleBehavior;
@@ -42,7 +44,7 @@ public abstract class EventFormPanel extends AbstractBasePanel {
 	public  static final String FORM_EXTENSIONS_MARKUP_ID = "formExtensions";
 	private static final String EVENT_ADD_EDIT_FORM_MARKUP_ID = "eventForm";
 
-	private GregorianCalendar date = new GregorianCalendar();
+	private GregorianCalendar date = null;
 
 	private Event editEvent;
 	private IModel eventModel;
@@ -53,12 +55,12 @@ public abstract class EventFormPanel extends AbstractBasePanel {
 	 * @param event The Event to be edited or null when a new event is edited
 	 * @param date
 	 */
-	public EventFormPanel(String markupId, Event editEvent, Calendar date) {
+	public EventFormPanel(String markupId, Event editEvent, GregorianCalendar date) {
 		super(markupId, EventFormPanel.class);
 
 		// set variables needed the form
 		this.editEvent = editEvent;
-		this.date.setTime(date.getTime());
+		this.date = CalendarUtils.duplicateCalendar(date);
 	}
 
 	public void setupCommonComponents() {
@@ -70,7 +72,6 @@ public abstract class EventFormPanel extends AbstractBasePanel {
 			public void onAction(IAction action) {
 				EventFormPanel.this.onAction(action);
 			}
-
 		};
 		eventForm.add(new FormComponentValidationStyleBehavior());
 
@@ -96,5 +97,4 @@ public abstract class EventFormPanel extends AbstractBasePanel {
 	 * @param action The action to handle
 	 */
 	public abstract void onAction(IAction action);
-
 }

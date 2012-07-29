@@ -23,15 +23,15 @@
 package org.webical.web.component.calendar.model;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
+import java.util.Date;
 
 import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.webical.Event;
-import org.webical.comparator.EventStartTimeComparator;
 import org.webical.util.CalendarUtils;
+import org.webical.comparator.EventStartTimeComparator;
 import org.webical.manager.EventManager;
 import org.webical.manager.WebicalException;
 import org.webical.web.app.WebicalSession;
@@ -119,6 +119,11 @@ public class EventsModel extends LoadableDetachableModel {
 
 		// Call super.getObject() so load() is called again to get the Events from the DAO
 		return super.getObject();
+	}
+
+	/** Get the First Day of the Week */
+	public int getFirstDayOfWeek() {
+		return WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek();
 	}
 
 	/**

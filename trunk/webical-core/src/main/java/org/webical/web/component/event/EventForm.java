@@ -425,11 +425,10 @@ public abstract class EventForm extends Form {
 		this.formEvent = new Event();
 		this.eventWrapper = new EventWrapper(formEvent);
 
-		GregorianCalendar dateCalendar = new GregorianCalendar();
-		dateCalendar.setTime(this.selectedDate.getTime());
-		GregorianCalendar timeCalendar = new GregorianCalendar();
+		GregorianCalendar dateCalendar = CalendarUtils.duplicateCalendar(selectedDate);
+		GregorianCalendar timeCalendar = CalendarUtils.newTodayCalendar(dateCalendar.getFirstDayOfWeek());
 		dateCalendar.set(GregorianCalendar.HOUR_OF_DAY, timeCalendar.get(GregorianCalendar.HOUR_OF_DAY));
-		dateCalendar.set(GregorianCalendar.MINUTE, timeCalendar.get(GregorianCalendar.MINUTE));
+		dateCalendar.set(GregorianCalendar.MINUTE, timeCalendar.get(GregorianCalendar.MINUTE) / 5 * 5);
 
 		//Fill the start and end times with proper values
 		eventWrapper.setDtStart(dateCalendar.getTime());

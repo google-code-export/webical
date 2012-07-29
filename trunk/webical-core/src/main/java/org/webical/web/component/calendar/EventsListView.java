@@ -32,6 +32,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
 import org.webical.Event;
+import org.webical.util.CalendarUtils;
 import org.webical.web.action.EventSelectedAction;
 import org.webical.web.action.IAction;
 import org.webical.web.app.WebicalSession;
@@ -83,7 +84,7 @@ public abstract class EventsListView extends ListView {
 	@Override
 	protected void populateItem(ListItem item) {
 		final Event currentEvent = (Event) item.getModelObject();
-		final GregorianCalendar currentDate = new GregorianCalendar();
+		final GregorianCalendar currentDate = CalendarUtils.newTodayCalendar(listDate.getFirstDayOfWeek());
 		currentDate.setTime(currentEvent.getDtStart());
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat(WebicalSession.getWebicalSession().getUserSettings().getTimeFormat(), getLocale());
@@ -110,12 +111,12 @@ public abstract class EventsListView extends ListView {
 		StringBuilder eventLabelText = new StringBuilder(currentEvent.getSummary());
 		if (longEventDescription)
 		{
-			if (! currentEvent.getLocation().isEmpty())
+			if (! (currentEvent.getLocation() == null || currentEvent.getLocation().isEmpty()))
 			{
 				eventLabelText.append(", ");
 				eventLabelText.append(currentEvent.getLocation());
 			}
-			if (! currentEvent.getDescription().isEmpty())
+			if (! (currentEvent.getDescription() == null || currentEvent.getDescription().isEmpty()))
 			{
 				eventLabelText.append(", ");
 				eventLabelText.append(currentEvent.getDescription());
