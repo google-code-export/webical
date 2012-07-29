@@ -72,13 +72,14 @@ public abstract class MonthDayRepeater extends RepeatingView {
 	public MonthDayRepeater(String id, EventsModel eventsModel, int rangeMonth) {
 		super(id);
 
-		GregorianCalendar todayCal = new GregorianCalendar();
+		GregorianCalendar todayCal = CalendarUtils.newTodayCalendar(eventsModel.getFirstDayOfWeek());
 		Date todayStartDate = CalendarUtils.getStartOfDay(todayCal.getTime());
 
-		GregorianCalendar startCal = new GregorianCalendar();
+		GregorianCalendar startCal = CalendarUtils.newTodayCalendar(eventsModel.getFirstDayOfWeek());
 		startCal.setTime(eventsModel.getStartDate());
 
-		for (int i = 0; i <= 6; i++) {
+		for (int i = 0; i <= 6; ++ i)
+		{
 			Date dayStartDate = startCal.getTime();
 			Date dayEndDate = CalendarUtils.getEndOfDay(dayStartDate);
 

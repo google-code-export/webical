@@ -27,6 +27,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.apache.wicket.markup.repeater.RepeatingView;
+
+import org.webical.util.CalendarUtils;
 import org.webical.web.action.IAction;
 import org.webical.web.component.calendar.model.EventsModel;
 import org.webical.web.component.calendar.model.WrappingEventsModel;
@@ -40,8 +42,8 @@ import org.webical.web.component.calendar.model.WrappingEventsModel;
 public abstract class MonthRowRepeater extends RepeatingView {
 	private static final long serialVersionUID = 1L;
 
-	/** The defautl number of weeks */
-	private double numberOfWeeks = 4.0;
+	/** The default number of weeks */
+	private int numberOfWeeks = 4;
 
 	/** Contains the actions handled by this panel */
 	protected  static Class[] PANELACTIONS = new Class[]{};
@@ -70,19 +72,19 @@ public abstract class MonthRowRepeater extends RepeatingView {
 	private void addWeeks() {
 		Date startDate = eventsModel.getStartDate();
 
-		GregorianCalendar startCal = new GregorianCalendar();
-		GregorianCalendar endCal = new GregorianCalendar();
+		GregorianCalendar startCal = CalendarUtils.newTodayCalendar(eventsModel.getFirstDayOfWeek());
 		startCal.setTime(startDate);
 
-		double diff = eventsModel.getNumberOfDays();
-		this.numberOfWeeks = Math.ceil(diff / 7.0);
+		GregorianCalendar endCal = CalendarUtils.newTodayCalendar(eventsModel.getFirstDayOfWeek());
 
-		for (int i = 0; i < numberOfWeeks; i++) {
+		int diff = eventsModel.getNumberOfDays();
+		this.numberOfWeeks = (diff + 6) / 7;
+		for (int i = 0; i < numberOfWeeks; ++ i)
+		{
 			Date weekStartDate = startCal.getTime();
 			endCal.setTime(startCal.getTime());
 			endCal.add(GregorianCalendar.DAY_OF_WEEK, 7);
 			Date weekEndDate = endCal.getTime();
-
 			// Add a MonthRowPanel for each week, with a part of the EventsModel
 			MonthRowPanel monthRowPanel = new MonthRowPanel("week" + startCal.get(GregorianCalendar.WEEK_OF_YEAR), new WrappingEventsModel(weekStartDate, weekEndDate, eventsModel), rangeMonth) {
 				private static final long serialVersionUID = 1L;

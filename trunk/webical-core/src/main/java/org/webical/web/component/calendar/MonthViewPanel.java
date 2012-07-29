@@ -34,7 +34,6 @@ import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.Model;
 import org.webical.util.CalendarUtils;
 import org.webical.web.action.IAction;
-import org.webical.web.app.WebicalSession;
 import org.webical.web.component.calendar.model.EventsModel;
 
 /**
@@ -72,17 +71,16 @@ public abstract class MonthViewPanel extends CalendarViewPanel {
 	 */
 	public MonthViewPanel(String markupId, int months, GregorianCalendar currentDate) {
 		super(markupId, currentDate, MonthViewPanel.class);
+
 		this.setOutputMarkupId(true);
 
 		setViewPeriodId(GregorianCalendar.MONTH);
 		setViewPeriodLength(months);
 
-		Date startDate = CalendarUtils.getFirstDayOfWeekOfMonth(getViewCurrentDate().getTime(),
-										WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
+		Date startDate = CalendarUtils.getFirstDayOfWeekOfMonth(getViewCurrentDate().getTime(), getFirstDayOfWeek());
 		setPeriodStartDate(startDate);
 
-		Date endDate = CalendarUtils.getLastWeekDayOfMonth(getViewCurrentDate().getTime(),
-										WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
+		Date endDate = CalendarUtils.getLastWeekDayOfMonth(getViewCurrentDate().getTime(), getFirstDayOfWeek());
 		setPeriodEndDate(endDate);
 
 		setViewPeriodFormat("MMMM, yyyy");
@@ -97,8 +95,8 @@ public abstract class MonthViewPanel extends CalendarViewPanel {
 		// Add a repeater to show the week day headers
 		RepeatingView monthHeaderRepeater = new RepeatingView(MONTH_HEADER_REPEATER_MARKUP_ID);
 
-		GregorianCalendar weekCal = new GregorianCalendar();
-		weekCal.set(GregorianCalendar.DAY_OF_WEEK, WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
+		GregorianCalendar weekCal = CalendarUtils.newTodayCalendar(getFirstDayOfWeek());
+		weekCal.set(GregorianCalendar.DAY_OF_WEEK, getFirstDayOfWeek());
 		// TODO mattijs: get the weekdays to show from user settings
 		for (int i = 0; i < 7; ++ i) {
 			Label headerLabel = new Label("headerDay" + i, dateFormat.format(weekCal.getTime()));
@@ -146,11 +144,9 @@ public abstract class MonthViewPanel extends CalendarViewPanel {
 	protected void onBeforeRender() {
 		super.onBeforeRender();
 
-		Date startDate = CalendarUtils.getFirstDayOfWeekOfMonth(getViewCurrentDate().getTime(),
-										WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
+		Date startDate = CalendarUtils.getFirstDayOfWeekOfMonth(getViewCurrentDate().getTime(), getFirstDayOfWeek());
 		setPeriodStartDate(startDate);
-		Date endDate = CalendarUtils.getLastWeekDayOfMonth(getViewCurrentDate().getTime(),
-										WebicalSession.getWebicalSession().getUserSettings().getFirstDayOfWeek());
+		Date endDate = CalendarUtils.getLastWeekDayOfMonth(getViewCurrentDate().getTime(), getFirstDayOfWeek());
 		setPeriodEndDate(endDate);
 
 		monthRowRepeater.modelChanged();
