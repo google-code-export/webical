@@ -27,6 +27,7 @@ import java.util.GregorianCalendar;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
+import org.webical.util.CalendarUtils;
 import org.webical.web.action.AddEventAction;
 import org.webical.web.action.DaySelectedAction;
 import org.webical.web.action.IAction;
@@ -67,10 +68,9 @@ public abstract class WeekDayPanel extends AbstractBasePanel {
 	public WeekDayPanel(String markupId, EventsModel eventsModel) {
 		super(markupId, WeekDayPanel.class);
 		this.eventsModel = eventsModel;
-		this.dayDate = new GregorianCalendar();
+		this.dayDate = CalendarUtils.newTodayCalendar(eventsModel.getFirstDayOfWeek());
 		this.dayDate.setTime(eventsModel.getStartDate());
 	}
-
 
 	/* (non-Javadoc)
 	 * @see org.webical.web.component.IAccessibilitySwitchingComponent#setupCommonComponents()
