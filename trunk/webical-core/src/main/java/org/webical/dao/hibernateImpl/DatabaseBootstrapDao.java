@@ -44,7 +44,7 @@ public class DatabaseBootstrapDao extends BaseHibernateImpl implements Initializ
 	 * Stores the list of objects to persist
 	 * @throws DaoException on Hibernate Exception
 	 */
-	@Transaction
+	@Transaction(readOnly=false)
 	private void storeObjectsToPersist() throws DaoException {
 		try {
 			saveOrUpdateAll(objectsToPersist);
@@ -58,14 +58,14 @@ public class DatabaseBootstrapDao extends BaseHibernateImpl implements Initializ
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
 	public void afterPropertiesSet() throws Exception {
-		if(objectsToPersist != null && objectsToPersist.size() > 0) {
+		if (objectsToPersist != null && objectsToPersist.size() > 0) {
 			log.info("Persisting preset configuration");
 			storeObjectsToPersist();
 		} else {
 			log.warn(DatabaseBootstrapDao.class + " referenced but no configuration to persist...");
 		}
 	}
-	
+
 	/**
 	 * Set by Spring
 	 * @param objectsToPersist a List of persistable objects
