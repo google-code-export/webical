@@ -127,16 +127,17 @@ public abstract class DateSwitcherPanel extends AbstractBasePanel
 	 */
 	private boolean isTodayInRange()
 	{
-		// The current date (today if you will)
-		GregorianCalendar currentDate = new GregorianCalendar();
-
 		// Retrieve the range parameters from the DateSwitcherModel
 		DateSwitcherModel model = (DateSwitcherModel) getModel();
 
+		// The current date (today if you will)
+		GregorianCalendar currentDate = CalendarUtils.newTodayCalendar(model.getFirstDayOfWeek());
+
 		// Determine the correct start and end dates of the range
-		GregorianCalendar rangeStartDate = new GregorianCalendar();
+		GregorianCalendar rangeStartDate = CalendarUtils.duplicateCalendar(currentDate);
 		rangeStartDate.setTime(model.getCurrentViewPanel().getPeriodStartDate());
-		GregorianCalendar rangeEndDate = new GregorianCalendar();
+
+		GregorianCalendar rangeEndDate = CalendarUtils.duplicateCalendar(currentDate);
 		rangeEndDate.setTime(model.getCurrentViewPanel().getPeriodEndDate());
 		// Check if today is in the range shown
 		return (
