@@ -39,5 +39,5 @@ import java.lang.annotation.Target;
 @Target (ElementType.METHOD)
 @Documented
 public @interface Transaction {
-
+	boolean readOnly();    // read only transaction
 }
