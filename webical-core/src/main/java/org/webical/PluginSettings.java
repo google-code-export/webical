@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -23,13 +25,12 @@ package org.webical;
 /**
  * Global settings for a Plugin
  * @author ivo
- *
  */
 public class PluginSettings extends Settings {
 	private static final long serialVersionUID = 1L;
 
-	private String pluginClass;
-	
+	private String pluginClass = null;
+
 	public PluginSettings() {
 	}
 
@@ -39,7 +40,6 @@ public class PluginSettings extends Settings {
 	public String getPluginClass() {
 		return pluginClass;
 	}
-
 	/**
 	 * @param pluginClass the pluginClass to set
 	 */
