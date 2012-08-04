@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -45,32 +47,32 @@ public class WebicalSession extends WebSession {
 	private static Log log = LogFactory.getLog(WebicalSession.class);
 
 	/** The User for this Session */
-	private User user;
+	private User user = null;
 
 	/** The application settings for the session user */
-	private UserSettings userSettings;
+	private UserSettings userSettings = null;
 
 	/** Does the client support JavaScript? */
-	private boolean javaScriptEnabled;
+	private boolean javaScriptEnabled = false;
 
 	/** Is this session accessible? */
 	private boolean accessible;
 
 	/** Set by Spring */
 	@SpringBean
-	private UserManager userManager;
+	private UserManager userManager = null;
 
 	/** Set by Spring */
 	@SpringBean
-	private SettingsManager settingsManager;
+	private SettingsManager settingsManager = null;
 
 	/** UserId for development usage **/
-	private String fixedUserId;
-	
+	private String fixedUserId = null;
+
 	/**
 	 * UserId from the http session
 	 */
-	private String userId;
+	private String userId = null;
 
 	/**
 	 * Returns a casted Session
@@ -109,7 +111,7 @@ public class WebicalSession extends WebSession {
 	 * @throws WebicalException
 	 */
 	protected void initSession() {
-		if(fixedUserId == null) {
+		if (fixedUserId == null) {
 			userId = ((WebRequest)RequestCycle.get().getRequest()).getHttpServletRequest().getUserPrincipal().getName();
 			log.debug("Init session for user: " + userId);
 		} else {
@@ -119,7 +121,7 @@ public class WebicalSession extends WebSession {
 	}
 
 	/**
-	 * Creates default aplication settings for the given user.
+	 * Creates default application settings for the given user.
 	 * @param user The user
 	 * @return defaultUserSettings Default {@link UserSettings}
 	 */
@@ -127,7 +129,6 @@ public class WebicalSession extends WebSession {
 		try {
 			UserSettings defaultUserSettings = new UserSettings(user);
 			defaultUserSettings.createDefaultSettings();
-
 			return defaultUserSettings;
 		} catch (WebicalException e) {
 			throw new WebicalWebAplicationException("Could not create application settings for user " + user.getUserId());
@@ -164,7 +165,7 @@ public class WebicalSession extends WebSession {
 	 * @param userId the userId to store
 	 * @return a Persisted copy of the user
 	 */
-	private User createUser(User user) {
+	public User createUser(User user) {
 		//Store the new User
 		try {
 			userManager.storeUser(user);
@@ -173,12 +174,11 @@ public class WebicalSession extends WebSession {
 		}
 
 		//Retrieve the persisted User
-		user = getUser(user.getUserId());
-		if(user == null) {
+		User userget = getUser(user.getUserId());
+		if (userget == null) {
 			throw new WebicalWebAplicationException("User was not persisted correctly for userID: " + user.getUserId());
 		}
-
-		return user;
+		return userget;
 	}
 
 	/**
@@ -197,18 +197,18 @@ public class WebicalSession extends WebSession {
 	 */
 	public User getUser() {
 		//Get info from the request cycle and initialize
-		if(user == null) {
+		if (user == null) {
 			initSession();
 		} else {
 			userId = user.getUserId();
 		}
-		
+
 		//Try to get an existing user
 		user = getUser(userId);
 
 		//If no existing user could be found create one
-		if(user == null) {
-			log.debug("User not found in database: " + userId + " storing now!");
+		if (user == null) {
+			log.warn("User not found in database: " + userId + " storing now!");
 			user = createUser(newUser(userId));
 		}
 		return user;
@@ -219,6 +219,7 @@ public class WebicalSession extends WebSession {
 	 * @deprecated
 	 */
 	public void setUser(User user) {
+		log.warn("setUser deprecated " + user.getUserId());
 		this.user = user;
 	}
 
@@ -231,14 +232,12 @@ public class WebicalSession extends WebSession {
 	public UserSettings getUserSettings() {
 		userSettings = getUserSettings(getUser());
 
-		if(userSettings == null) {
+		if (userSettings == null) {
 			log.debug("User " + getUser().getUserId() + " has no application settings, creating default");
 			userSettings = createDefaultSettings(getUser());
 		}
-		
 		return userSettings;
 	}
-
 	/**
 	 * Sets the application settings
 	 * @param userSettings The application settings
@@ -253,7 +252,6 @@ public class WebicalSession extends WebSession {
 	public boolean isAccessible() {
 		return accessible;
 	}
-
 	/**
 	 * @param accessible accessible
 	 */
@@ -267,7 +265,6 @@ public class WebicalSession extends WebSession {
 	public boolean isJavaScriptEnabled() {
 		return javaScriptEnabled;
 	}
-
 	/**
 	 * @param javaScriptEnabled
 	 */
@@ -275,6 +272,10 @@ public class WebicalSession extends WebSession {
 		this.javaScriptEnabled = javaScriptEnabled;
 	}
 
+	/** get the user manager */
+	public UserManager getUserManager() {
+		return this.userManager;
+	}
 	/**
 	 * Set by Spring
 	 * @param userManager
@@ -283,6 +284,10 @@ public class WebicalSession extends WebSession {
 		this.userManager = userManager;
 	}
 
+	/** get the settings manager */
+	public SettingsManager getSettingsManager() {
+		return this.settingsManager;
+	}
 	/**
 	 * Set by Spring
 	 * @param settingsManager
@@ -290,5 +295,4 @@ public class WebicalSession extends WebSession {
 	public void setSettingsManager(SettingsManager settingsManager) {
 		this.settingsManager = settingsManager;
 	}
-
 }
