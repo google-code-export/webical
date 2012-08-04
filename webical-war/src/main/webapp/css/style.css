@@ -4,7 +4,7 @@
  * http://www.webical.org
  */
 /* ------------------------------------------------ */
-/* 		Element styles 								*/
+/*                  Element styles                  */
 /* ------------------------------------------------ */
 
 * {
@@ -15,13 +15,17 @@
 html {
   font-size: 100%;
   height: 100%;
+  margin: 0;
+  padding: 0;
   overflow: auto;
 }
 
 body {
-	background: #E9E9EE;
+  background: #E9E9EE;
   font: 62.5% / 170% Arial, Helvetica, sans-serif;
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 p {
@@ -66,19 +70,23 @@ h1 {
   color: #fff;
   font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
   font-size: 1em;
-  letter-spacing: 1px;
-  padding: 2px;
   font-weight: normal;
+  letter-spacing: 1px;
+  height: auto;
+  margin-top: 0.6em;
+  margin-bottom: 1em;
+  padding: 2px;
 }
 
 #login h1 {
   background: none;
   border: 0;
   color: #1F1F1F;
-  font-size: 1.2em;
-	font-weight: bold;
-  margin: 10px 0px .6em;
-  padding: 0;
+  font-size: 2.1em;
+  font-weight: bold;
+  text-align: center;
+  margin: 1em;
+  padding: 1px;
 }
 
 h2, h3, h4, h5, h6 {
@@ -113,7 +121,7 @@ a:focus, a:hover, a:active {
 }
 
 /* ------------------------------------------------ */
-/* 		Basic layout styles 						*/
+/*               Basic layout styles                */
 /* ------------------------------------------------ */
 
 #container {
@@ -127,8 +135,9 @@ a:focus, a:hover, a:active {
 #logoPanel {
   position: absolute;
   top: 30px;
-  width: 164px;
+  width: 18em;
   height: 52px;
+  overflow: hidden;
   /*background: url(../img/webicallogo.png) no-repeat 0px -4px;*/
   z-index: 10;
 }
@@ -167,7 +176,7 @@ a:focus, a:hover, a:active {
 }
 
 /* ------------------------------------------------ */
-/* 		Panels										*/
+/*                      Panels                      */
 /* ------------------------------------------------ */
 
 #contentPanelArea {
@@ -214,8 +223,9 @@ a:focus, a:hover, a:active {
   top: 0;
 }
 
-#calendarViewPanelContentNoMargin {
+#calendarViewPanelContent, #calendarViewPanelContentNoMargin {
   height: 100%;
+  overflow: hidden;
 }
 
 #dayViewPanelContent {
@@ -245,12 +255,12 @@ a:focus, a:hover, a:active {
 }
 
 #settingsPanel h1 {
-  margin: 10px 0px;
+ /* margin: 10px 0px; */
 }
  
 #settingsPanel .formItem {
   padding: 2px 0px;
-  border-bottom: 1px solid #d3d3d3;
+  border-bottom: 1px none #d3d3d3;
 }
 
 #settingsPanel .formItem label {
@@ -266,13 +276,13 @@ a:focus, a:hover, a:active {
 }
 
 /* ------------------------------------------------ */
-/* 		Basic Panels								*/
+/*                   Basic Panels                   */
 /* ------------------------------------------------ */
 
 .smallpanel {
   border: 1px solid #51636A;
   background-color: #fff;
-  width: 185px;
+  width: 17.3em;
 }
 
 .smallpanel h1 {
@@ -281,6 +291,8 @@ a:focus, a:hover, a:active {
   color: #fff;
   text-align: center;
   border-top: 0px;
+  margin-top: 0;
+  margin-bottom: 0.5em;
 }
 
 .panelContent {
@@ -341,21 +353,21 @@ a:focus, a:hover, a:active {
 /* Date Picker Panel */
 
 #datePickerPanel {
-  left: -198px;
-  margin-left: 5px;
+  left: -18em;
+  margin-left: 3px;
   position: absolute;
   top: 73px;
-  width: 192px;
+  width: 17.3em;
   border: 1px solid #51636A;
-  border-right: 1px solid #B3B3B3;
+  /* border-right: 1px solid #B3B3B3; */
   background-color: #fff;
   z-index: 5;
 }
 
 #datePickerPanel h1 {
-  margin-bottom: 2px;
+  margin-top: 0;
+  margin-bottom: 1px;
   background: #51636A url(../img/topbar2.png) repeat-x 0px -1px;
-  
   border-top: 0px;
   text-align: center;
   font-weight: normal;
@@ -363,22 +375,25 @@ a:focus, a:hover, a:active {
 }
 
 #datePickerPanel #datePickerCalendar {
-  
 }
 
 #datePickerCalendar #datePickerCalendarTable {
+  table-layout: fixed;
   width: 100%;
+  overflow: hidden;
+  border-spacing: 0;
+  padding: 0;
 }
 
 #datePickerCalendar #datePickerCalendarTable th {
-	background-color: #EEEEEE;
-	border-bottom: 1px solid #DEDEDE;
-	padding: 0;
-	text-align: center;
+  background-color: #EEEEEE;
+  border-bottom: 1px solid #DEDEDE;
+  padding: 0;
+  text-align: center;
 }
 
 #datePickerCalendar #datePickerCalendarTable td {
-  padding: 2px;
+  padding: 0;
   text-align: center;
 }
 
@@ -397,7 +412,7 @@ a:focus, a:hover, a:active {
 }
 
 #datePickerCalendar #datePickerCalendarTable td a{
-	text-decoration: none;
+  text-decoration: none;
 }
 
 #datePickerCalendar .otherMonth {
@@ -409,7 +424,7 @@ a:focus, a:hover, a:active {
 }
 
 #datePickerPanel #datePickerForm h1{
-	display: none;
+  display: none;
 }
 
 #datePickerForm #datePickerFormElements {
@@ -417,13 +432,15 @@ a:focus, a:hover, a:active {
 }
 
 #datePickerForm #datePickerFormElements .inputText {
-  min-width: 50px;
-  width: 75px;
+  min-width: 4.8em;
+  max-width: 6.9em;
 }
 
 #datePickerForm #datePickerFormElements .inputButton {
-	margin: 0;
+  margin: 1px;
   padding: 1px;
+  min-width: 4.8em;
+  max-width: 8.7em;
 }
 
 /* Date Switcher Panel */
@@ -439,8 +456,8 @@ a:focus, a:hover, a:active {
 
 #dateSwitcherPanel, #dateSwitcher {
   position: absolute;
-  left: 1em;
-  top: .4em;
+  left: 2em;
+  top: 7px;
   height: 32px;
 }
 
@@ -469,18 +486,19 @@ a:focus, a:hover, a:active {
 }
 
 #dateSwitcher #rangeLabel{
-	bottom: -1px;
-	font-size: 1.1em;
-	font-weight: bold;
-	position: relative;
+  bottom: -1px;
+  font-size: 1.1em;
+  font-weight: bold;
+  position: relative;
 }
 
 /* Calendar Panel */
 
 #calendarPanel {
-  left: -193px; 
+  left: -18em;
+  margin-left: 3px;
   position: absolute;
-  top: 26em;
+  top: 30em;
   z-index: 100;
 }
 
@@ -562,11 +580,11 @@ a:focus, a:hover, a:active {
 }
 
 .calendarView .tab-row li a span, .tab-row li a span {
-	cursor: pointer;
+  cursor: pointer;
   display: block;
   margin: 0 .4em;
   min-width: 6em;
-	padding: .5em 0;
+  padding: .5em 0;
   text-align: center;
 }
 
@@ -578,16 +596,16 @@ a:focus, a:hover, a:active {
   background: #fff;
   border: 1px solid #51636A;
   border-bottom: 1px solid #fff;
-	cursor: default;  
-	font-weight: bold;
+  cursor: default;  
+  font-weight: bold;
   margin-top: 0px;
   margin-bottom: 0px;
-	padding-bottom: 0px;
-	z-index: 100; 
+  padding-bottom: 0px;
+  z-index: 100; 
 }
 
-.calendarView .tab-row li.selected a span, .tab-row li.selected a span{
-	cursor: default;
+.calendarView .tab-row li.selected a span, .tab-row li.selected a span {
+  cursor: default;
 }
 
 /* Calendar View Panel */
@@ -622,31 +640,32 @@ a:focus, a:hover, a:active {
 
 .addEventLink {
   background: url("../img/icoPlus.gif") no-repeat 0 .6em;
-	display: block;
-	float: left;
+  display: block;
+  float: left;
   font-weight: bold;
   line-height: 180%;
-  margin: 1em 0 0;
-  padding-left: 12px;
+  vertical-align: middle;
+  margin: 0.5em 0 0.5em;
+  padding-left: 1.2em;
   z-index: 100;
 }
 
 .weekTop .addEventLink,
 #monthView .addEventLink {
-	background-position: 0 0;
-	height: 12px;
-	margin: 0;
-	padding: 0;
-	position: absolute;
-	right: 0;
-	top: .45em;
-	width: 12px;
+  background-position: 0 0;
+  height: 1.2em;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  top: .42em;
+  width: 1.2em;
 }
 
 #monthView .addEventLink{
-	float: right;
-	margin-top: .4em;
-	position: static;
+  float: right;
+  margin-top: .27em;
+  position: static;
 }
 
 .addEventLink span {
@@ -660,8 +679,12 @@ a:focus, a:hover, a:active {
 /* Month view */
 
 #monthView {
+  table-layout: auto;
   height: 100%;
   width: 100%;
+  overflow: hidden;
+  border-spacing: 0;
+  padding: 0;
 }
 
 #monthView td, #monthView th {
@@ -670,7 +693,7 @@ a:focus, a:hover, a:active {
 }
 
 #monthView th {
-  height: 1.9em;
+  height: 2.5%;
   padding: 3px 0px;
   text-align: center;
 }
@@ -680,7 +703,7 @@ a:focus, a:hover, a:active {
   background-color: #EEEEEE;
   border: 1px solid #DEDEDE;
   color: #BBBBBB;
-	font-size: 0.90em;
+  font-size: 0.90em;
   padding: 0 2px;
   width: 15px;
 }
@@ -704,8 +727,8 @@ a:focus, a:hover, a:active {
 }
 
 .monthTop a.dayLink{
-	float: right;
-	margin-right: 2px;
+  float: right;
+  margin-right: 3px;
 }
 
 .monthTop a {
@@ -717,7 +740,7 @@ a:focus, a:hover, a:active {
 }
 
 .dayItemMonth, .todayItemMonth {
-  height: 12.5em;
+  height: 19.2%;
   width: 14.25%;
   border: 0px;
   border-right: 1px solid #B3B3B3;
@@ -737,8 +760,8 @@ a:focus, a:hover, a:active {
 
 #calendarViewPanel .eventsInMonth, #calendarViewPanel .eventsInList {
   height: 92%;
-  overflow: auto;
- 	width: 100%;
+  overflow: hidden;
+  width: 100%;
 }
 
 #calendarViewPanel .eventsInMonth ul, #calendarViewPanel .eventsInMonth li {
@@ -758,63 +781,63 @@ a:focus, a:hover, a:active {
 }
 
 .eventsInMonth .eventItem a, .eventsInList .eventItem a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 .allDay {
-	background-color: #C5D7ED;
+  background-color: #C5D7ED;
 }
 
 /* Week View */
 
-#calendarViewPanelContent h1{
-	display: none;
+#calendarViewPanelContent h1 {
+  display: none;
 }
 
 #weekView {
+  table-layout: auto;
   width: 100%;
-  position: absolute; 
   height: 100%;
-  top: 0;
+  overflow: hidden;
+  border-spacing: 0;
+  padding: 0;
 }
 
 #weekView th {
-  height: 2%;
+  height: 3%;
   padding: 3px 0px;
+  font-size: 1.2em;
   text-align: center;
-	vertical-align: baseline;
+  vertical-align: baseline;
 }
-
 
 #weekView td.weekColumn, #weekView td.nonWeekColumn, #weekView td.todayColumn {
   border-top: 1px solid #B3B3B3;
   border-right: 1px solid #B3B3B3;
-  height: 90%;
+  height: 97%;
   padding: 0px;
 }
+
 #weekView td.weekColumn {
-	width: 14%;	
+  width: 14%;
+  height: 97%;
 }
+
 #weekView td.nonWeekColumn {
-	/*width: 25%;*/
+/*  width: 25%; */
 }
 
 #weekView td.weekHeader{
-	line-height: 100%;
-	padding: 2px;
-	text-align: center;
-}
-
-#weekView .weekPanel {
-	height: 98%;
-  margin: 0px;
+  height: 97%;
+  padding: 2px;
+  text-align: center;
 }
 
 #weekView .weekPanel .weekTop {
   background-color: #D7DDF1;
   border-bottom: 1px solid #C4DCDC;
-	padding: 1px 0;
-	position: relative;
+  padding: 1px 0;
+  position: relative;
   text-align: right;
 }
 
@@ -826,9 +849,9 @@ a:focus, a:hover, a:active {
   color: #fff;
 }
 
-#weekView .weekPanel .weekTop a.dayLink{
-	margin-right: 14px;
-	text-decoration: none;
+#weekView .weekPanel .weekTop a.dayLink {
+  margin-right: 1.8em;
+  text-decoration: none;
 }
 
 #weekView .todayColumn {
@@ -844,14 +867,18 @@ a:focus, a:hover, a:active {
 
 /* Day view */
 
+#dayViewPanelContent h1{
+  font-size: 1.5em; 
+}
+
 #dayViewPanelContent ul{
-	border-top: 1px solid #d3d3d3;
+  border-top: 1px solid #d3d3d3;
 }
 
 #dayViewPanelContent li{
-	border-bottom: 1px solid #d3d3d3;
-	list-style: none;
-	padding: 2px 0;
+  border-bottom: 1px solid #d3d3d3;
+  list-style: none;
+  padding: 2px 0;
 }
 
 
@@ -903,21 +930,19 @@ a:focus, a:hover, a:active {
 
 /* Login styles */
 
-#login h1 {
-  margin-bottom: 1em;
-}
-
 #login {
   background: #dae9ee;
   border: 2px solid #99B1BA;
-  margin: 20px auto 0;
-  padding: 1em 2em 2em;
+  margin: 6em auto auto auto;
+  padding: 1em 2em 2em 1em;
+  font-size: 1.5em;  
   width: 27em;
+  height: 16.5em;
 }
 
 #login .button {
   float: none;
-  margin: .5em 0 0 11em;
+  margin: 1.5em 1em 1em 10.5em;
 }
 
 /* Content styles */
@@ -943,21 +968,21 @@ a:focus, a:hover, a:active {
 
 .inputText, .inputPassword, .formItem textarea, .formItem select {
   padding: 2px;
-  min-width: 150px;
-  width: 150px;
+  min-width: 18em;
+  width: 18.6em;
   border-width: 1px;
   border-style: solid;
   border-color: #376171;
 }
 
 .dateField {
-	min-width: 6em;
-	width: 6em;
+  min-width: 6em;
+  width: 8em;
 }
 
 .timeField {
-	min-width: 5em;
-	width: 5em;
+  min-width: 5em;
+  width: 5em;
 }
 
 .valid { /*border-color: #376171;*/
@@ -985,24 +1010,24 @@ a:focus, a:hover, a:active {
 }
 
 .button, #todayButton {	
-	background-color: #ccc;
+  background-color: #ccc;
   border: 1px solid #b3b3b3;
-	color: #666;
-	cursor: pointer;
-	font-size: 1em;  
-	line-height: 160%;
-	overflow: visible;
+  color: #666;
+  cursor: pointer;
+  font-size: 1em;  
+  line-height: 160%;
+  overflow: visible;
   margin: .5em .5em 0 0;
-	padding: .2em .5em;
-	text-decoration: none;
-	width: auto;
+  padding: .2em .5em;
+  text-decoration: none;
+  width: auto;
 }
 
 a.button{
-	color: #666;
-	display: block;
-	float: left;
-	line-height: 140%;
+  color: #666;
+  display: block;
+  float: left;
+  line-height: 140%;
 }
 
 #pagingNavigator {
@@ -1022,7 +1047,7 @@ th {
 }
 
 .datatable {
-	width: 100%;
+  width: 100%;
 }
 
 .datatable .label {
@@ -1055,16 +1080,16 @@ th {
 }
 
 .quicknav{
-	left: -1000px;
-	height: 0;
-	position: absolute;
-	visibility: hidden;
-	width: 0;
+  left: -1000px;
+  height: 0;
+  position: absolute;
+  visibility: hidden;
+  width: 0;
 }
 
 #formFeedback{
-	color: red;
-	margin-left: 15px;
+  color: red;
+  margin-left: 15px;
 }
 
 /* Settings panel */
@@ -1089,22 +1114,20 @@ th {
 /* Calendar Settings Panel */
 
 #calendarListPanel li{
-	border-bottom: 1px solid #d3d3d3;
-	list-style: none;
-	padding: 5px 0;
+  border-bottom: 1px solid #d3d3d3;
+  list-style: none;
+  padding: 5px 0;
 }
 
 #calendarListPanel .calendarName{
-	float: left;
-	font-weight: bold;
+  float: left;
+  font-weight: bold;
 }
 
 #calendarListPanel .calendarModifyLinks{
-	float: right;
+  float: right;
 }
 
 #calendarListPanel .calendarModifyLinks a{
-	margin-left: 1em;
+  margin-left: 1em;
 }
-
-
