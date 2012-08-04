@@ -3,13 +3,13 @@
 
 <hibernate-mapping package="org.webical">
 	<class name="User" table="user">
-  
+
   		<id name="userId"/>
-    	
+
     	<property length="20000" name="firstName" />
 		<property length="20000" name="lastNamePrefix" />
 		<property length="20000" name="lastName" />
 		<property type="date" name="birthDate" />
-		
+
 	</class>
 </hibernate-mapping>
