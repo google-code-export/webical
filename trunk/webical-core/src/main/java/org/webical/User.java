@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -26,23 +28,21 @@ import java.util.Date;
 /**
  * User
  * @author ivo
- *
  */
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private String userId;
-	private String firstName;
-	private String lastNamePrefix;
-	private String lastName;
-	private Date birthDate;
+	private String userId = null;
+	private String firstName = null;
+	private String lastNamePrefix = null;
+	private String lastName = null;
+	private Date birthDate = null;
 
-	/** Getters and settesr */
+	/** Getters and setters */
 
 	public String getUserId() {
 		return userId;
 	}
-
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
@@ -50,7 +50,6 @@ public class User implements Serializable {
 	public String getFirstName() {
 		return firstName;
 	}
-
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -58,7 +57,6 @@ public class User implements Serializable {
 	public String getLastNamePrefix() {
 		return lastNamePrefix;
 	}
-
 	public void setLastNamePrefix(String lastNamePrefix) {
 		this.lastNamePrefix = lastNamePrefix;
 	}
@@ -66,7 +64,6 @@ public class User implements Serializable {
 	public String getLastName() {
 		return lastName;
 	}
-
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
@@ -74,9 +71,13 @@ public class User implements Serializable {
 	public Date getBirthDate() {
 		return birthDate;
 	}
-
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
 
+	@Override
+	public String toString() {
+		if (getUserId() == null) return this.getClass().getCanonicalName();
+		return getUserId();
+	}
 }
