@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -24,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.LockMode;
 import org.hibernate.criterion.Restrictions;
 import org.webical.PluginSettings;
 import org.webical.Settings;
@@ -37,7 +40,6 @@ import org.webical.dao.annotation.Transaction;
 /**
  * Hibernate implementation for the {@link SettingsDao}
  * @author ivo
- *
  */
 public class SettingsDaoHibernateImpl extends BaseHibernateImpl implements SettingsDao {
 	private static final String PLUGIN_CLASS = "pluginClass";
@@ -46,7 +48,7 @@ public class SettingsDaoHibernateImpl extends BaseHibernateImpl implements Setti
 	/* (non-Javadoc)
 	 * @see org.webical.dao.SettingsDao#getPluginSettings(java.lang.String)
 	 */
-	@Transaction
+	@Transaction(readOnly=true)
 	public PluginSettings getPluginSettings(String pluginClass) throws DaoException {
 		if(StringUtils.isEmpty(pluginClass)) {
 			return null;
@@ -65,9 +67,9 @@ public class SettingsDaoHibernateImpl extends BaseHibernateImpl implements Setti
 	/* (non-Javadoc)
 	 * @see org.webical.dao.SettingsDao#getUserPluginSettings(java.lang.String, org.webical.User)
 	 */
-	@Transaction
+	@Transaction(readOnly=true)
 	public UserSettings getUserSettings(User user) throws DaoException {
-		if(user == null) {
+		if (user == null) {
 			return null;
 		}
 
@@ -84,9 +86,9 @@ public class SettingsDaoHibernateImpl extends BaseHibernateImpl implements Setti
 	/* (non-Javadoc)
 	 * @see org.webical.dao.SettingsDao#getUserPluginSettings(java.lang.String, org.webical.User)
 	 */
-	@Transaction
+	@Transaction(readOnly=true)
 	public UserPluginSettings getUserPluginSettings(String pluginClass, User user) throws DaoException {
-		if(StringUtils.isEmpty(pluginClass) || user == null) {
+		if (StringUtils.isEmpty(pluginClass) || user == null) {
 			return null;
 		}
 
@@ -104,13 +106,14 @@ public class SettingsDaoHibernateImpl extends BaseHibernateImpl implements Setti
 	/* (non-Javadoc)
 	 * @see org.webical.dao.SettingsDao#removeSettings(org.webical.Settings)
 	 */
-	@Transaction
+	@Transaction(readOnly=false)
 	public void removeSettings(Settings settings) throws DaoException {
-		if(settings == null) {
+		if (settings == null) {
 			return;
 		}
 
 		try {
+			getSession().lock(settings, LockMode.NONE);
 			delete(settings);
 		} catch (Exception exception) {
 			log.error("Could not delete settings: " + settings, exception);
@@ -121,9 +124,9 @@ public class SettingsDaoHibernateImpl extends BaseHibernateImpl implements Setti
 	/* (non-Javadoc)
 	 * @see org.webical.dao.SettingsDao#storePluginSettings(org.webical.PluginSettings)
 	 */
-	@Transaction
+	@Transaction(readOnly=false)
 	public void storePluginSettings(PluginSettings pluginSettings) throws DaoException {
-		if(pluginSettings == null) {
+		if (pluginSettings == null) {
 			return;
 		}
 
@@ -138,9 +141,9 @@ public class SettingsDaoHibernateImpl extends BaseHibernateImpl implements Setti
 	/* (non-Javadoc)
 	 * @see org.webical.dao.SettingsDao#storeUserPluginSettings(org.webical.UserPluginSettings)
 	 */
-	@Transaction
+	@Transaction(readOnly=false)
 	public void storeUserSettings(UserSettings userSettings) throws DaoException {
-		if(userSettings == null) {
+		if (userSettings == null) {
 			return;
 		}
 
@@ -155,9 +158,9 @@ public class SettingsDaoHibernateImpl extends BaseHibernateImpl implements Setti
 	/* (non-Javadoc)
 	 * @see org.webical.dao.SettingsDao#storeUserPluginSettings(org.webical.UserPluginSettings)
 	 */
-	@Transaction
+	@Transaction(readOnly=false)
 	public void storeUserPluginSettings(UserPluginSettings userPluginSettings) throws DaoException {
-		if(userPluginSettings == null) {
+		if (userPluginSettings == null) {
 			return;
 		}
 
