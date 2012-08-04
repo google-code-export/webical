@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -29,7 +31,7 @@ import org.webical.dao.DaoException;
 
 public class SessionFactoryUtils implements InitializingBean {
 	private static Log log = LogFactory.getLog(SessionFactoryUtils.class);
-	
+
 	private static ThreadLocal<Session> threadLocalSession = new ThreadLocal<Session>();
 	private static SessionFactory sessionFactory;
 
@@ -39,16 +41,20 @@ public class SessionFactoryUtils implements InitializingBean {
 		}
 		return threadLocalSession.get();
 	}
-	
+
+	public static void flushSession() throws DaoException {
+		if (threadLocalSession.get().isOpen()) threadLocalSession.get().flush();
+	}
+
 	public static void closeSession() throws DaoException {
 		log.debug("Closing Session");
 		if(threadLocalSession.get() == null || !threadLocalSession.get().isOpen()) {
 			throw new DaoException("Session does not exist or was already closed");
 		}
-		threadLocalSession.get().flush();
+		flushSession();
 		threadLocalSession.get().close();
 	}
-	
+
 	public static void createSession() {
 		log.debug("Setting up a new Session");
 		Session session = sessionFactory.openSession();
@@ -65,5 +71,4 @@ public class SessionFactoryUtils implements InitializingBean {
 			throw new ExceptionInInitializerError(SessionFactoryUtils.class + " needs a " + SessionFactory.class);
 		}
 	}
-	
 }
