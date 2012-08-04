@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -43,26 +45,24 @@ import org.webical.dao.util.WebDavCalendarSynchronisation;
  * @author jochem
  * 
  */
-
 public class CalendarDaoHibernateImpl extends BaseHibernateImpl implements
 		CalendarDao {
-	
+
 	///////////////////////////
 	/// CalendarDao methods ///
 	///////////////////////////
-	
+
 	private final static Log log = LogFactory.getLog(CalendarDaoHibernateImpl.class);
-	
+
 	/* (non-Javadoc)
 	 * @see org.webical.aspect.dao.CalendarDao#getCalendarForEvent(org.webical.Event)
 	 */
-	@Transaction
+	@Transaction(readOnly=true)
 	public Calendar getCalendarForEvent(Event event) throws DaoException {
-		if(event.getCalendar() == null || event.getCalendar().getCalendarId() == null) {
+		if (event.getCalendar() == null || event.getCalendar().getCalendarId() == null) {
 			return null;
 		}
 		else {
-			
 			try {
 				return (Calendar)getSession().createCriteria(Calendar.class)
 					.add(Restrictions.idEq(event.getCalendar().getCalendarId()))
@@ -73,46 +73,51 @@ public class CalendarDaoHibernateImpl extends BaseHibernateImpl implements
 			}
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.webical.aspect.dao.CalendarDao#storeCalendar(org.webical.Calendar)
 	 */
-	@Transaction
+	@Transaction(readOnly=false)
 	public void storeCalendar(Calendar calendar) throws DaoException {
 		try {
+			if (log.isDebugEnabled()) log.debug("storeCalendar " + calendar.getName());
+
 			//Set the refreshTime to null to refresh the events afterwards
 			calendar.setLastRefreshTimeStamp(null);
-			
 			saveOrUpdate(calendar);
-			
-		} catch (Exception e){
+		} catch (Exception e) {
 			log.error(e, e);
 			throw new DaoException("Could not store Calendar", e);
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.webical.aspect.dao.CalendarDao#storeCalendar(org.webical.Calendar, java.util.List)
 	 */
-	@Transaction
+	@Transaction(readOnly=false)
 	public void storeCalendar(Calendar calendar, List<Event> events) throws DaoException {
 		try {
+			if (log.isDebugEnabled()) {
+				log.debug("storeCalendar " + calendar.getName() + " events " + events.size());
+			}
+
 			//Set the refreshTime to null to refresh the events afterwards
 			calendar.setLastRefreshTimeStamp(null);
 			saveOrUpdate(calendar);
-			
+
 			WebDavCalendarSynchronisation synchronisation = new WebDavCalendarSynchronisation();
 			synchronisation.writeToRemoteCalendarFile(calendar, events);
-		} catch (Exception e){
+		} catch (Exception e) {
 			log.error(e, e);
 			throw new DaoException("Could not store Calendar", e);
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.webical.aspect.dao.CalendarDao#getCalendars(org.webical.User)
 	 */
-	@Transaction
+	@Transaction(readOnly=true)
 	@SuppressWarnings("unchecked")
 	public List<Calendar> getCalendars(User user) throws DaoException {
 		try {
@@ -124,63 +129,57 @@ public class CalendarDaoHibernateImpl extends BaseHibernateImpl implements
 			throw new DaoException("Could not get Calendars", e);
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.webical.aspect.dao.CalendarDao#removeCalendar(org.webical.Calendar)
 	 */
-	@Transaction
+	@Transaction(readOnly=false)
 	public void removeCalendar(Calendar calendar) throws DaoException {
 		try {
+			log.info("Deleting calendar " + calendar.getName());
+
 			getSession().lock(calendar, LockMode.NONE);
-			
-			//Delete calendar
-			//getSession().beginTransaction();
-			//getSession().delete(calendar);
-			log.debug("Deleting the calendar");
-			delete(calendar);
-			//getSession().getTransaction().commit();
-			
+
 			//Cascade events in the cache
 			EventDao eventDao = DaoFactory.getInstance().getEventDaoForCalendar(calendar);
-			if(eventDao != null && eventDao instanceof EventDaoWebDavHibernateBufferedImpl) {
-				((EventDaoWebDavHibernateBufferedImpl)eventDao).removeAllEventsForCalendar(calendar);
+			if (eventDao != null) {
+				eventDao.removeAllEventsForCalendar(calendar);
 			}
-			
-		} catch (Exception e){
+			delete(calendar);
+		} catch (Exception e) {
 			log.error(e, e);
 			throw new DaoException("Could not remove Calendar", e);
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.webical.aspect.dao.CalendarDao#getCalendarById(java.lang.String)
 	 */
-	@Transaction
+	@Transaction(readOnly=true)
 	public Calendar getCalendarById(String id) throws DaoException {
-		if(id == null) {
+		if (id == null) {
 			return null;
 		}
 		Criteria criteria = getSession().createCriteria(Calendar.class);
 		criteria.add(Restrictions.eq("calendarId", new Long(id)));
 
 		Calendar calendar = null;
-		if(criteria.list().size() > 0){
+		if (criteria.list().size() > 0) {
 			calendar =  (Calendar)criteria.uniqueResult();
 		}
 		return calendar;
 	}
-	
+
 	////////////////////////////
 	/// EncyptingDao methods ///
 	////////////////////////////
-	
+
 	/* (non-Javadoc)
 	 * @see org.webical.aspect.dao.EncryptingDao#updateAllEntities()
 	 */
-	@Transaction
-	public void updateAllEntities()throws DaoException {
-		//getSession().flush();
+	@Transaction(readOnly=false)
+	public void updateAllEntities() throws DaoException {
 		getSession().setCacheMode(CacheMode.IGNORE);
 		@SuppressWarnings("unchecked")
 		List<Calendar> calendars = loadAll(Calendar.class);
