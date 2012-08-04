@@ -6,8 +6,8 @@
 	<packaging>pom</packaging>
 	<version>0.5-SNAPSHOT</version>
 	<name>webical</name>
-	<url>http://webical.org/twiki</url>
-	
+	<url>http://webical.org/wiki</url>
+
 	<!-- 
 		Our license statements
 	 -->
@@ -17,15 +17,16 @@
 			<url>http://www.gnu.org/licenses/gpl.txt</url>
 		</license>
 	</licenses>
-	
+
 	<!-- 
 		The modules to include in the build
 	 -->
 	<modules>
 		<module>webical-core</module>
 		<module>webical-war</module>
+		<!-- module>webical-test</module -->
 	</modules>
-	
+
 	<!-- 
 		Our development staff :)
 	 -->
@@ -60,6 +61,16 @@
 				<role>Senior Developer</role>
 			</roles>
 		</developer>
+		<developer>
+			<id>Harm-Jan</id>
+			<name>Harm-Jan Zwinderman</name>
+			<email>hz0885@gmail.com</email>
+			<organization>Cebuned</organization>
+			<organizationUrl>http://Cebuned.svipr.nl</organizationUrl>
+			<roles>
+				<role>Junior Developer</role>
+			</roles>
+		</developer>
 	</developers>
 
 	<!--
@@ -87,7 +98,6 @@
 		</notifiers>
 	</ciManagement>
 
-
 	<!-- 
 		svn connectivity
 		use: mvn scm:update to update the project sources 
@@ -96,7 +106,7 @@
 	<scm>
 		<connection>scm:svn:https://webical.googlecode.com/svn/trunk</connection>
 	</scm>
-	
+
 	<!-- 
 		Used for automatic deploys
 	 -->
@@ -113,14 +123,24 @@
 	-->
 	<repositories>
 		<repository>
-			<name>modularity.net</name>
-			<id>modularity.net</id>
-			<url>http://m2.modularity.net.au/releases</url>
+			<id>Central</id>
+			<name>Maven's central repository</name>
+			<url>http://uk.maven.org/maven2</url>
 		</repository>
 		<repository>
 			<id>Codehaus</id>
 			<name>Codehaus</name>
 			<url>http://repository.codehaus.org</url>
+		</repository>
+		<repository>
+			<id>Maven</id>
+			<name>Apache</name>
+			<url>http://repo.maven.apache.org/maven2</url>
+		</repository>
+		<repository>
+			<name>modularity.net</name>
+			<id>modularity.net</id>
+			<url>http://m2.modularity.net.au/releases</url>
 		</repository>
 		<repository>
 			<id>Webical</id>
