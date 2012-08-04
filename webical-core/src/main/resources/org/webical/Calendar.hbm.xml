@@ -5,22 +5,23 @@
 	<class name="Calendar" table="calendar">
   
   		<id name="calendarId" type="java.lang.Long">
-            <column 	name="calendarId" />
-            <generator 	class="identity" />   		
+            <column name="calendarId" />
+            <generator class="identity" />
   		</id>
 
-		<property length="2000000" name="name" 	not-null="true" />
-		<property length="2000000" name="type"	not-null="true" />
-		<property length="2000000" name="url"	not-null="true" />
+		<property length="2000000" name="name" not-null="true" />
+		<property length="2000000" name="type" not-null="true" />
+		<property length="2000000" name="url" not-null="true" />
 		<property length="2000000" name="username"/>
 		<!-- Encryption is configured in TypeRegistration.hbm.xml -->
 		<property length="2000000" name="password"  type="encrypted" />
 		<property name="visible"/>
 		<property name="offSetFrom" type="java.lang.Long" />
 		<property name="offSetTo" type="java.lang.Long" />
-		
 		<property name="lastRefreshTimeStamp" type="java.lang.Long" />
-		<many-to-one name="user" class="User" column="userId" not-null="true" />
-		
+
+		<many-to-one name="user" class="User" column="userId"
+			not-null="true" lazy="false" />
+
 	</class>
 </hibernate-mapping>
