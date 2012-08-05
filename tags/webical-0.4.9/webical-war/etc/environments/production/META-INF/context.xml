@@ -1,0 +1,23 @@
+<Context path="" antiJARLocking="true" antiResourceLocking="true" reloadable="true" crossContext="true">
+
+	<!-- Authentication realm -->	
+	<!--<Realm className="org.apache.catalina.realm.MemoryRealm"/>-->
+	
+	<Realm className="org.apache.catalina.realm.JDBCRealm" debug="99"
+	    driverName="com.mysql.jdbc.Driver"
+		connectionURL="jdbc:mysql://localhost:3306/authenticationdb?autoReconnect=true&amp;user=authuser&amp;password=authpasswd"
+	    userTable="user" userNameCol="username" userCredCol="userpass"
+	    userRoleTable="userrole" roleNameCol="role"/>
+		
+	<!-- The database resource for hibernate -->
+	<Resource 
+		name="jdbc/calendarDataBase" 
+		auth="Container" 
+		type="javax.sql.DataSource" 
+		factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory" 
+		username="webical" 
+		password="webical" 
+		driverClassName="com.mysql.jdbc.Driver" 
+		url="jdbc:mysql://localhost:3306/webical?autoReconnect=true" />
+	
+</Context>

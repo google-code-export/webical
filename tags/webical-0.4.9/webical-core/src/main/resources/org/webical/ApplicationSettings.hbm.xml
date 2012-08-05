@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.webical">
+	<class name="ApplicationSettings" table="application_settings">
+
+  		<id name="applicationSettingsId" type="java.lang.Long">
+            <column name="applicationSettingsId" />
+            <generator class="identity" />
+  		</id>
+
+  		<!-- 
+  		    resourcePaths - A list of paths to include when searching for additional resources (html/css/etc)
+			customPageTitle - The title to use on the pages
+			pluginPaths - A list of paths to look for plugin packages
+			pluginWorkPath - The location of a writeable directory to extract the plugin packages
+    		pluginPackageExtension - The file extension used for the plugins
+    		calendarRefreshTimeMs - The timeout between calendar refreshes
+    		pluginCleanupEnabled - Determines if the plugin directory is to be emptied on context shutdown
+			configurationUsername - username to log into the configuration page
+    		configurationPassword - password to log into the configuration page
+  		 -->
+
+    	<property length="2000000" name="customPageTitle" />
+		<property length="2000000" name="pluginWorkPath" />
+		<property length="2000000" name="pluginPackageExtension" />
+		<property name="calendarRefreshTimeMs" />
+		<property name="pluginCleanupEnabled" type="boolean" />
+		<property length="2000000" name="configurationUsername" />
+		<property length="2000000" name="configurationPassword" />
+
+		<set table="application_settings_plugin_paths" cascade="all" name="pluginPaths" lazy="false">
+        	<key column="applicationSettingsId" not-null="true"/>
+        	<element column="plugin_path" length="2000000" type="java.lang.String"/>
+   		</set>
+		<set table="application_settings_resource_paths" cascade="all" name="resourcePaths" lazy="false">
+        	<key column="applicationSettingsId" not-null="true"/>
+        	<element column="resource_path" length="2000000" type="java.lang.String"/>
+   		</set>
+
+	</class>
+</hibernate-mapping>

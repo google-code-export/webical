@@ -1,0 +1,291 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<artifactId>webical-parent</artifactId>
+		<groupId>org.webical.calendar</groupId>
+		<version>0.5-SNAPSHOT</version>
+	</parent>
+	
+	<groupId>org.webical.calendar</groupId>
+	<artifactId>webical-war</artifactId>
+	<name>webical-war</name>
+	<version>0.5-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<url>http://www.webical.org/twiki</url>
+	
+	<distributionManagement>
+		<site>
+			<id>continuum.func.nl</id>
+			<url>
+				scp://continuum.func.nl/var/sites/nl.func.bld01.project/www/func/webical-war/
+			</url>
+		</site>
+	</distributionManagement>
+
+	<!-- ======================================================
+		Deployment settings, deployment-default
+		====================================================== -->
+	<profiles>
+		<profile>
+			<id>deployment-default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<deployment-env>development</deployment-env>
+				<build.directory>target</build.directory>
+			</properties>
+		</profile>
+		
+		<!-- 
+			Production profile, run with: -Denv=prd
+		 -->
+		<profile>
+			<id>deployment-production</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>prd</value>
+				</property>
+			</activation>
+			<properties>
+				<deployment-env>production</deployment-env>
+				<build.directory>target/prd</build.directory>
+			</properties>
+		</profile>
+		
+		<!-- 
+			Demo profile, run with: -Denv=demo
+		 -->
+		<profile>
+			<id>deployment-demo</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>demo</value>
+				</property>
+			</activation>
+			<properties>
+				<deployment-env>demo</deployment-env>
+				<build.directory>target/demo</build.directory>
+			</properties>
+		</profile>
+		
+		<!-- 
+			Nightly profile, run with: -Denv=nightly
+		 -->
+		<profile>
+			<id>deployment-nightly</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>nightly</value>
+				</property>
+			</activation>
+			<properties>
+				<deployment-env>nightly</deployment-env>
+			</properties>
+			<build>
+				<plugins>
+				
+					<!-- 
+						Tomcat deploy plugin. Use mvn -Denv=nightly tomcat:undeploy tomcat:deploy for a fresh deploy
+					 -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>tomcat-maven-plugin</artifactId>
+						<configuration>
+							<server>nightly.webical.org</server>
+							<url>http://nightly.webical.org/manager</url>
+							<path>/</path>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		
+		<!-- 
+			Build profile, run with: -Denv=build
+		 -->
+		<profile>
+			<id>deployment-build</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>bld</value>
+				</property>
+			</activation>
+			<properties>
+				<deployment-env>build</deployment-env>
+				<build.directory>target/bld</build.directory>
+			</properties>
+		</profile>
+		
+		<!-- 
+			Release profile, run with: -Denv=release
+		 -->
+		<profile>
+			<id>package-release</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>release</value>
+				</property>
+			</activation>
+			<properties>
+				<deployment-env>release</deployment-env>
+				<build.directory>target/release</build.directory>
+			</properties>
+		</profile>
+	</profiles>
+	
+	<!-- 
+		Build configuration
+	 -->
+	<build>
+		<finalName>ROOT</finalName>
+		<plugins>
+		
+			<!-- 
+				Inform the compiler we use java 1.5 (Handy for ide integration)
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0</version>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+		
+			<!-- 
+				Ant executions
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<!-- 
+						Perform macro replacements in resource files before packaging
+					-->
+					<execution>
+						<id>maven-antrun-macro-replacement</id>
+						<phase>package</phase>
+						<configuration>
+							<tasks>
+								<echo>
+									Performing macro replacements
+								</echo>
+								
+								<!-- Set current date in property DSTAMP -->
+								<tstamp />
+								
+								<replace dir="${basedir}/src/main" casesensitive="true" token="@WEBICAL_VERSION@" value="${version}">
+									<include name="**/*.xml" />
+									<include name="**/*.properties" />
+								</replace>
+								<replace dir="${basedir}/etc/environments/${deployment-env}" casesensitive="true" token="@WEBICAL_VERSION@" value="${version}">
+									<include name="**/*.xml" />
+									<include name="**/*.properties" />
+								</replace>
+								<replace dir="${basedir}/etc/environments/${deployment-env}" casesensitive="true" token="@BUILD_DATE@" value="${DSTAMP}">
+									<include name="**/*.xml" />
+									<include name="**/*.properties" />
+								</replace>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+	
+			<!-- 
+				War plugin - copy extra files for the specified environment (see profiles)
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.0</version>
+				<configuration>
+					<webResources>
+						<resource>
+							<!-- this is relative to the pom.xml directory -->
+							<directory>
+								${basedir}/etc/environments/${deployment-env}
+							</directory>
+						</resource>
+					</webResources>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>war</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<!--
+				Eclipse plugin
+				create WTP based project configuration
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<configuration>
+					<wtpversion>1.5</wtpversion>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
+				</configuration>
+			</plugin>
+		</plugins>
+	
+	</build>
+
+	<!-- 
+		Dependencies
+	 -->
+	<dependencies>
+		<!-- 
+			Runtime dependencies
+		 -->
+		<dependency>
+			<artifactId>webical-core</artifactId>
+			<groupId>org.webical.calendar</groupId>
+			<version>${version}</version>
+		</dependency>
+		
+		<!-- 
+			Test dependencies
+		 -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jetty</artifactId>
+			<version>6.1.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<scope>test</scope>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jetty-naming</artifactId>
+			<version>6.1.3</version>
+		</dependency>
+		<dependency>
+			<scope>test</scope>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jetty-plus</artifactId>
+			<version>6.1.3</version>
+		</dependency>
+	</dependencies>
+</project>

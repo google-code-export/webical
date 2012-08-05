@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:wicket="http://wicket.sourceforge.net/">
+<head>
+	<title wicket:id="pageTitle">WebiCal - web based calendar</title>
+	<link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" /> 
+</head>
+<body>
+	<div id="contentPanelArea">
+		<div id="configurationPageContentPanel" class="panelContent">		
+		
+			<wicket:panel wicket:id="statusMessageLabel">(Status message)</wicket:panel>
+			<div wicket:id="feedbackPanel" id="feedbackPanel">
+				(listview with feedback messages)
+			</div>
+			
+			<div id="configurationPageLeftColumn">
+				<!-- The simple input fields -->
+				<h1><wicket:message key="configuration_form_header"/></h1>
+				<form wicket:id="applicationSettingsForm" id="applicationSettingsForm">
+					<div class="formItem">
+						<label for="customPageTitle"><wicket:message key="custom_page_label" /></label>
+						<span class="formElement"><input id="customPageTitle" type="text" wicket:id="customPageTitle" class="inputText" /></span>
+					</div>
+					<div class="formItem">
+						<label for="pluginWorkPath"><wicket:message key="plugin_work_path_label" /></label>
+						<span class="formElement"><input id="pluginWorkPath" type="text" wicket:id="pluginWorkPath" class="inputText" /></span>
+					</div>
+					<div class="formItem">
+						<label for="pluginPackageExtension"><wicket:message key="plugin_package_extension_label" /></label>
+						<span class="formElement"><input id="pluginPackageExtension" type="text" wicket:id="pluginPackageExtension" value=".zip" class="inputText"/></span>
+					</div>
+					<div class="formItem">
+						<label for="calendarRefreshTimeMs"><wicket:message key="calendar_refresh_time_label" /></label>
+						<span class="formElement"><input id="calendarRefreshTimeMs" type="text" wicket:id="calendarRefreshTimeMs" value="5000" class="inputText" /></span>
+					</div>
+					<div class="formItem">
+						<label for="pluginCleanupEnabled"><wicket:message key="plugin_cleanup_enabled_label" /></label>
+						<span class="formElement"><input id="pluginCleanupEnabled" type="checkbox" wicket:id="pluginCleanupEnabled" /></span>
+					</div>
+					<h1><wicket:message key="administration_part_header"/></h1>
+					<div class="formItem">
+						<label for="configurationUsername"><wicket:message key="configuration_username_label" /></label>
+						<span class="formElement"><input id="configurationUsername" type="text" wicket:id="configurationUsername" class="inputText" /></span>
+					</div>
+					<div class="formItem">
+						<label for="configurationPassword"><wicket:message key="configuration_password_label" /></label>
+						<span class="formElement"><input id="configurationPassword" type="password" wicket:id="configurationPassword" class="inputText" /></span>
+					</div>
+					<div class="formItem">
+						<label for="passphraseField"><wicket:message key="encryption_passphrase_label" /></label>
+						<span class="formElement"><input id="passphraseField" type="password" wicket:id="passphraseField" class="inputText" /></span>
+					</div>
+					<div class="formItem formControls">
+						<span class="formElement"><input type="submit" wicket:id="submitButton" class="submitButton" /></span>
+					</div>
+				</form>
+			</div>
+			
+			<div id="configurationPageRightColumn">
+					
+				<h1><wicket:message key="resource_paths_header"/></h1>
+				<!-- The list of resource paths -->
+				<div wicket:id="resourcePathListContainer" id="resourcePathListContainer">
+					<div class="itemRow" wicket:id="items">
+						<input class="listItem" type="checkbox" wicket:id="check" />
+						<span wicket:id="value"></span>
+					</div>
+				</div>
+				<!-- The control panel for the resource paths -->
+				<div wicket:id="resourcePathAddConfigurationItemPanel" id="resourcePathAddConfigurationItemPanel">
+					<a wicket:id="showFormLink"><wicket:message key="show_form_label">showFormLink</wicket:message></a>
+					<a wicket:id="removeSelectedLink"><wicket:message key="remove_selected_label">removeSelectedLink</wicket:message></a>
+					<form wicket:id="addConfigurationItemForm">
+						<input type="text" wicket:id="value" class="inputText" />
+						<input type="submit" value="value" wicket:id="add" class="submitButton" />
+						<input type="submit" value="value" wicket:id="cancel" class="submitButton" />
+					</form>
+				</div>
+				
+				<h1><wicket:message key="plugin_paths_header"/></h1>
+				<!-- The list of plugin paths -->
+				<div wicket:id="pluginPathListContainer" id="pluginPathListContainer">
+					<div class="itemRow" wicket:id="items">
+						<input class="listItem" type="checkbox" wicket:id="check" />
+						<span wicket:id="value"></span>
+					</div>
+				</div>
+				<!-- The control panel for the plugin paths -->
+				<div wicket:id="pluginPathAddConfigurationItemPanel" id="pluginPathAddConfigurationItemPanel">
+					<a wicket:id="showFormLink"><wicket:message key="show_form_label">showFormLink</wicket:message></a>
+					<a wicket:id="removeSelectedLink"><wicket:message key="remove_selected_label">removeSelectedLink</wicket:message></a>
+					<form wicket:id="addConfigurationItemForm">
+						<input type="text" wicket:id="value" class="inputText" />
+						<input type="submit" value="from code" wicket:id="add" class="submitButton" />
+						<input type="submit" value="from code" wicket:id="cancel" class="submitButton" />
+					</form>
+				</div>
+				
+				<h1><wicket:message key="registered_plugins_header"/></h1>
+				<!-- the plugin registrations panel -->
+				<div wicket:id="pluginRegistrationsListPanel"></div>
+			</div>
+			
+			<div id="configurationPageOptions">
+				<h1><wicket:message key="options_header"/></h1>
+				<a href="#" wicket:id="initializeSystemLink"><wicket:message key="initializeSystemLinkLabel"></wicket:message></a> | 
+				<a href="#" wicket:id="goToCalendarLink"><wicket:message key="goToCalendarLinkLabel"></wicket:message></a> | 
+				<a href="#" wicket:id="adminLogoutLink"><wicket:message key="adminLogoutLinkLabel"></wicket:message></a>
+			</div>
+		
+		
+		
+		</div>
+	</div>
+</body>
+</html>

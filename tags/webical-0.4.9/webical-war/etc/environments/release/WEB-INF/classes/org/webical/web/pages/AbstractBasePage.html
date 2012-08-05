@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.sourceforge.net/" xml:lang="en" lang="en">
+<head>
+	<title wicket:id="pageTitle">WebiCal - web based calendar</title>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<script type="text/javascript">
+	 		function addLoadEvent(func) {
+			  var oldonload = window.onload;
+			  if (typeof window.onload != 'function') {
+			    window.onload = func;
+			  } else {
+			    window.onload = function() {
+			      if (oldonload) {
+			        oldonload();
+			      }
+			      func();
+			    }
+			  }
+			}
+			
+			var registerCallHandlers = function() {
+					Wicket.Ajax.registerPreCallHandler(function() {
+			 			document.body.style.cursor='wait'; });
+			        Wicket.Ajax.registerPostCallHandler(function() {
+			 			document.body.style.cursor='auto'; });
+			        Wicket.Ajax.registerFailureHandler(function() {
+			 			document.body.style.cursor='auto'; });
+		 	}
+		 	
+		 	addLoadEvent(registerCallHandlers);
+    </script>
+</head>
+<body>
+	<div id="container">
+		<a style="visibility: hidden; display: none;" wicket:id="enableDisableAjaxLink"><span wicket:id="enableDisableAjaxLinkLabel" >something</span></a>
+		<wicket:panel wicket:id="extensions">
+			<!-- All default extensions are placed here -->
+		</wicket:panel>
+		<wicket:child/>
+	</div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" 
+	xmlns="http://java.sun.com/xml/ns/j2ee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<!--
+		This is the develoment setup.
+		Don't use in production environments
+	-->
+
+	<display-name>Webical</display-name>
+ 	
+ 	<!-- 
+ 		Wicket configuration, the application class is injected by spring 
+ 	-->
+ 	<filter>
+		<filter-name>wicket</filter-name>
+		<filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
+		<init-param>
+			<param-name>applicationFactoryClassName</param-name>
+			<param-value>org.apache.wicket.spring.SpringWebApplicationFactory</param-value>
+		</init-param>
+	    <init-param>
+	        <param-name>configuration</param-name>
+	        <param-value>development</param-value>
+	    </init-param>
+	</filter>	
+
+	<!--
+		WebDav
+	-->
+	<servlet>
+	    <servlet-name>webdav</servlet-name>
+	    <servlet-class>net.sf.webdav.WebdavServlet</servlet-class>
+	    <init-param>
+	        <param-name>ResourceHandlerImplementation</param-name>
+	        <param-value>net.sf.webdav.LocalFileSystemStorage</param-value>
+	    </init-param>
+	    <init-param>
+	        <param-name>rootpath</param-name>
+	        <param-value>etc/webdav_root_intg</param-value>
+	    </init-param>
+	    <init-param>
+	        <param-name>storeDebug</param-name>
+	        <param-value>1</param-value>
+	    </init-param>
+	</servlet>
+
+
+	<!--
+		Mappings
+	--> 	
+	<filter-mapping>
+		<filter-name>wicket</filter-name>
+		<url-pattern>/app/*</url-pattern>
+	</filter-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webdav</servlet-name>
+		<url-pattern>/dav/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- 
+		Spring configuration
+	-->
+	 
+	<!-- Configure the location of the Spring configuration file (multiple files can be used) -->
+	<context-param>
+  		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/applicationContext.xml
+			/WEB-INF/applicationContext-bootstrap.xml
+			/WEB-INF/applicationContext-dev.xml
+		</param-value>
+	</context-param>
+    
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<resource-env-ref>
+		<description>Database Connection</description>
+		<resource-env-ref-name>jdbc/calendarDataBase</resource-env-ref-name>
+		<resource-env-ref-type>javax.sql.DataSource</resource-env-ref-type>
+	</resource-env-ref>
+
+</web-app>

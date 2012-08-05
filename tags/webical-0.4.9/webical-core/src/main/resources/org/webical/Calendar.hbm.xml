@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.webical">
+	<class name="Calendar" table="calendar">
+  
+  		<id name="calendarId" type="java.lang.Long">
+            <column name="calendarId" />
+            <generator class="identity" />
+  		</id>
+
+		<property length="2000000" name="name" not-null="true" />
+		<property length="2000000" name="type" not-null="true" />
+		<property length="2000000" name="url" not-null="true" />
+		<property length="2000000" name="username"/>
+		<!-- Encryption is configured in TypeRegistration.hbm.xml -->
+		<property length="2000000" name="password"  type="encrypted" />
+		<property name="visible"/>
+		<property name="offSetFrom" type="java.lang.Long" />
+		<property name="offSetTo" type="java.lang.Long" />
+		<property name="lastRefreshTimeStamp" type="java.lang.Long" />
+
+		<many-to-one name="user" class="User" column="userId"
+			not-null="true" lazy="false" />
+
+	</class>
+</hibernate-mapping>

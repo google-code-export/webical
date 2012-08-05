@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:wicket="http://wicket.sourceforge.net/">
+<body>
+	<wicket:extend>
+
+		<!-- the main content of the panel -->
+		<wicket:panel wicket:id="listFragment"></wicket:panel>
+
+		<!-- the main fragments -->
+		<wicket:fragment wicket:id="registrationsFragment">
+			<table>
+				<tr wicket:id="pluginRegistrationList">
+					<wicket:panel wicket:id="pluginRegistrationFragment"></wicket:panel>
+				</tr>
+			</table>
+			<wicket:panel wicket:id="pager">(replaced by paging navigator)</wicket:panel>
+		</wicket:fragment>
+
+		<wicket:fragment wicket:id="noRegistrationsFragment">
+			No plugins registered (TODO i18n)
+		</wicket:fragment>
+
+		<!-- The listitem fragments -->
+		<wicket:fragment wicket:id="pluginRegistrationFragment_succesfull">
+			<td><span wicket:id="pluginName"></span></td>
+			<td><span wicket:id="pluginState"></span></td>
+			<td><span wicket:id="pluginVersion"></span></td>
+			<td><span wicket:id="pluginDescription"></span></td>
+		</wicket:fragment>
+
+		<wicket:fragment wicket:id="pluginRegistrationFragment_unsuccesfull">
+			<td><span wicket:id="pluginName"></span></td>
+			<td><span wicket:id="pluginState"></span></td>
+			<td><span wicket:id="message"></span></td>
+		</wicket:fragment>
+	</wicket:extend>
+</body>
+</html>
