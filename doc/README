@@ -76,6 +76,8 @@ Webical README
    It is possible to use a database provider other than MySQL. You have
    to install your own JDBC driver for Tomcat to use in 
    $CATALINA_HOME/common/lib, and change the <Resource> in context.xml.
+   Check the hibernate.dialect property in the applicationContext.xmls in the
+   WEB-INF sub-directory.
 
    * Use a different authentication realm:
    If you want to use a different relational database or an LDAP server
