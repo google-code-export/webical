@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -18,29 +20,17 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.webical.web.pages;
-
-import java.util.ArrayList;
-import java.util.List;
+package org.webical.test.web.pages;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.util.tester.ITestPageSource;
-import org.webical.ApplicationSettings;
-import org.webical.Calendar;
-import org.webical.TestUtils;
-import org.webical.User;
-import org.webical.UserSettings;
-import org.webical.manager.WebicalException;
-import org.webical.manager.impl.mock.MockCalendarManager;
-import org.webical.manager.impl.mock.MockEventManager;
-import org.webical.manager.impl.mock.MockSettingsManager;
-import org.webical.manager.impl.mock.MockUserManager;
-import org.webical.web.WebicalApplicationTest;
-import org.webical.web.app.WebicalSession;
+import org.webical.web.pages.BasePage;
 import org.webical.web.component.HeaderPanel;
-import org.webical.web.component.calendar.CalendarListPanel;
 import org.webical.web.component.calendar.CalendarPanel;
 import org.webical.web.component.settings.SettingsPanelsPanel;
+import org.webical.test.manager.impl.mock.MockCalendarManager;
+import org.webical.test.manager.impl.mock.MockEventManager;
+import org.webical.test.web.WebicalApplicationTest;
 
 /**
  * Tester for the basePage
@@ -49,47 +39,16 @@ import org.webical.web.component.settings.SettingsPanelsPanel;
  */
 public class BasePageTest extends WebicalApplicationTest {
 
-
-
 	/* (non-Javadoc)
-	 * @see org.webical.web.WebicalApplicationTest#setUp()
+	 * @see org.webical.test.test.web.WebicalApplicationTest#setUp()
 	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		ApplicationSettings applicationSettings = new ApplicationSettings();
-		TestUtils.initializeApplicationSettingsFactory(applicationSettings);
 
-		annotApplicationContextMock.putBean("calendarManager", new MockCalendarManager() {
-
-			@Override
-			public List<Calendar> getCalendars(User user) throws WebicalException {
-				return new ArrayList<Calendar>();
-			}
-
-		});
+		annotApplicationContextMock.putBean("calendarManager", new MockCalendarManager());
 		annotApplicationContextMock.putBean("eventManager", new MockEventManager());
-		annotApplicationContextMock.putBean("userManager", new MockUserManager() {
-
-			@Override
-			public User getUser(String userId) throws WebicalException {
-				return webicalSession.getUser();
-			}
-
-		});
-		annotApplicationContextMock.putBean("settingsManager", new MockSettingsManager() {
-
-			@Override
-			public UserSettings getUserSettings(User user) throws WebicalException {
-				UserSettings mockSettings = new UserSettings(user);
-				mockSettings.createDefaultSettings();
-				return mockSettings;
-			}
-
-		});
-
 	}
-
 
 	/**
 	 * Tests if the page renders without errors
@@ -99,14 +58,13 @@ public class BasePageTest extends WebicalApplicationTest {
 		//Set the testPage
 		wicketTester.startPage(getTestPageSource());
 
-		//Assert that the page renders without error messagges
+		//Assert that the page renders without error messages
 		wicketTester.assertNoErrorMessage();
 
 		//Check if all the components are there
 		wicketTester.assertComponent("headerPanel", HeaderPanel.class);
 		wicketTester.assertComponent("contentPanel", SettingsPanelsPanel.class);
 	}
-
 
 	/**
 	 * Tests the navigation links
@@ -123,7 +81,6 @@ public class BasePageTest extends WebicalApplicationTest {
 		//Try the CalendarViews Link
 		wicketTester.clickLink("headerPanel:calendarViewsPanelLink");
 		wicketTester.assertComponent("contentPanel", CalendarPanel.class);
-
 	}
 
 	/**
@@ -136,17 +93,8 @@ public class BasePageTest extends WebicalApplicationTest {
 			private static final long serialVersionUID = 1L;
 
 			public Page getTestPage() {
-				 return new BasePage() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void initSession() {
-						WebicalSession webicalSession = (WebicalSession)getSession();
-						webicalSession.setUser(new User());
-					}
-				 };
+				 return new BasePage();
 			};
 		};
 	}
-
 }

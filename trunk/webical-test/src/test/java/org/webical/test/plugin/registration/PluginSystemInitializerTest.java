@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -18,20 +20,18 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.webical.plugin.registration;
+package org.webical.test.plugin.registration;
 
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.FileSystemResource;
+import junit.framework.TestCase;
 import org.webical.ApplicationSettings;
 import org.webical.Calendar;
-import org.webical.TestUtils;
 import org.webical.dao.EventDao;
 import org.webical.dao.factory.DaoFactory;
 import org.webical.manager.ApplicationSettingsManager;
@@ -48,11 +48,14 @@ import org.webical.plugin.jaxb.Plugin;
 import org.webical.plugin.jaxb.Registrations;
 import org.webical.plugin.jaxb.ResourceFolder;
 import org.webical.plugin.jaxb.ResourceFolders;
+import org.webical.plugin.registration.PluginRegistration;
+import org.webical.plugin.registration.PluginSystemInitializer;
 import org.webical.plugin.xml.PluginManifestReader;
 import org.webical.settings.ApplicationSettingsException;
 import org.webical.settings.ApplicationSettingsFactory;
 import org.webical.web.app.WebicalWebApplication;
 import org.webical.web.event.ExtensionListenerRegistrations;
+import org.webical.test.TestUtils;
 
 /**
  * Tests the PluginIntializer
@@ -65,9 +68,7 @@ public class PluginSystemInitializerTest extends TestCase {
 
 	private static Log log = LogFactory.getLog(PluginSystemInitializerTest.class);
 
-	private static FileSystemResource workdir = new FileSystemResource("workingdirectory");
-
-
+	private static FileSystemResource workingDirectory = new FileSystemResource(TestUtils.WORKINGDIRECTORY + "/" + PluginSystemInitializerTest.class.getSimpleName());
 
 	/**
 	 * Clear the extensionListener map before each run
@@ -76,6 +77,7 @@ public class PluginSystemInitializerTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		if (! workingDirectory.exists()) workingDirectory.getFile().mkdir();
 		ExtensionListenerRegistrations.getExtensionHandlerToExtensionListenersMap().clear();
 	}
 
@@ -88,10 +90,8 @@ public class PluginSystemInitializerTest extends TestCase {
 		WebicalWebApplication webicalWebApplication = new WebicalWebApplication();
 
 		PluginSystemInitializer pluginSystemInitializer = new PluginSystemInitializer() {
-
 			@Override
 			protected void checkRequiredWebicalVersion(Plugin manifestInfo) throws PluginException {}
-
 		};
 
 		pluginSystemInitializer.setDaoFactory(daoFactory);
@@ -99,19 +99,17 @@ public class PluginSystemInitializerTest extends TestCase {
 		pluginSystemInitializer.setPluginRegistrationStore(webicalWebApplication);
 
 		ApplicationSettingsFactory.getInstance().setApplicationSettingsManager(new ApplicationSettingsManager() {
-
 			public ApplicationSettings getApplicationSettings() throws WebicalException {
 				ApplicationSettings applicationSettings = new ApplicationSettings();
 				Set<String> pluginPaths = new HashSet<String>();
-				pluginPaths.add("src/test/resources/org/webical/plugin/registration/valid/");
+				pluginPaths.add(TestUtils.RESOURCE_DIRECTORY + "org/webical/test/plugin/registration/valid/");
 				applicationSettings.setPluginPaths(pluginPaths);
-				applicationSettings.setPluginWorkPath(workdir.getFile().getAbsolutePath());
+				applicationSettings.setPluginWorkPath(workingDirectory.getFile().getAbsolutePath());
 				applicationSettings.setPluginPackageExtension(".zip");
 				return applicationSettings;
 			}
 
 			public void storeApplicationSettings(ApplicationSettings applicationSettings) throws WebicalException { }
-
 		});
 		pluginSystemInitializer.setupPlugins();
 
@@ -136,7 +134,6 @@ public class PluginSystemInitializerTest extends TestCase {
 		assertNotNull(webicalWebApplication.getPluginClassResolver().resolveClass("TestClassInJar1"));
 		assertNotNull(webicalWebApplication.getPluginClassResolver().resolveClass("TestClassInJar2"));
 		assertNotNull(webicalWebApplication.getPluginClassResolver().resolveClass("ResourceLoadingClassInJAr"));
-
 	}
 
 	/**
@@ -150,7 +147,7 @@ public class PluginSystemInitializerTest extends TestCase {
 		pluginSystemInitializer.setPluginManifestReader(getPluginManifestReader());
 
 		Set<String> pluginPaths = new HashSet<String>();
-		pluginPaths.add("src/test/resources/org/webical/plugin/registration/invalid/");
+		pluginPaths.add(TestUtils.RESOURCE_DIRECTORY + "org/webical/test/plugin/registration/invalid/");
 
 		WebicalWebApplication application = new WebicalWebApplication();
 		pluginSystemInitializer.setPluginRegistrationStore(application);
@@ -158,7 +155,7 @@ public class PluginSystemInitializerTest extends TestCase {
 		ApplicationSettings applicationSettings = new ApplicationSettings();
 		applicationSettings.setPluginPackageExtension(".zip");
 		applicationSettings.setPluginPaths(pluginPaths);
-		applicationSettings.setPluginWorkPath(workdir.getFile().getAbsolutePath());
+		applicationSettings.setPluginWorkPath(workingDirectory.getFile().getAbsolutePath());
 		TestUtils.initializeApplicationSettingsFactory(applicationSettings);
 
 		try {
@@ -171,7 +168,6 @@ public class PluginSystemInitializerTest extends TestCase {
 
 		assertEquals(2, application.getPluginRegistrations().size());
 		assertEquals(PluginRegistration.PluginState.NOT_REGISTERED, pluginRegistration1.getPluginState());
-
 	}
 
 	/**
@@ -179,12 +175,10 @@ public class PluginSystemInitializerTest extends TestCase {
 	 */
 	private PluginManifestReader getPluginManifestReader() {
 		return new PluginManifestReader() {
-
 			@Override
 			public Plugin parsePluginManifest(File pluginManifest) throws PluginException {
 				return getPluginManifest();
 			}
-
 		};
 	}
 
@@ -208,7 +202,6 @@ public class PluginSystemInitializerTest extends TestCase {
 		resourceFolder.setFileName("resources");
 		plugin.getResourceFolders().getResourceFolder().add(resourceFolder);
 
-
 		//Class folders
 		ClassFolder classFolder = new ClassFolder();
 		classFolder.setFileName("classfiles");
@@ -231,7 +224,7 @@ public class PluginSystemInitializerTest extends TestCase {
 		FrontendPlugin frontendPlugin = new FrontendPlugin();
 		frontendPlugin.setClassName("SomeExtension");
 		frontendPlugin.setExtendable(true);
-		frontendPlugin.setExtendedClass("org.webical.web.component.HeaderPanel");
+		frontendPlugin.setExtendedClass(TestUtils.WEBICAL_BASE_PACKAGE + ".web.component.HeaderPanel");
 
 		plugin.getRegistrations().getFrontendPlugin().add(frontendPlugin);
 
@@ -245,7 +238,6 @@ public class PluginSystemInitializerTest extends TestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 		cleanup();
-
 	}
 
 	/**
@@ -253,7 +245,7 @@ public class PluginSystemInitializerTest extends TestCase {
 	 */
 	private void cleanup() {
 		log.debug("Cleaning up");
-		FileUtils.cleanupDirectory(workdir.getFile());
+		FileUtils.cleanupDirectory(workingDirectory.getFile());
+		if (workingDirectory.exists()) workingDirectory.getFile().delete();
 	}
-
 }

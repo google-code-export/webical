@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -18,20 +20,16 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.webical.web.component;
+package org.webical.test.web.component;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.util.tester.ITestPageSource;
 import org.webical.User;
-import org.webical.UserSettings;
-import org.webical.manager.WebicalException;
-import org.webical.manager.impl.mock.MockCalendarManager;
-import org.webical.manager.impl.mock.MockSettingsManager;
-import org.webical.manager.impl.mock.MockUserManager;
-import org.webical.web.PanelTestPage;
-import org.webical.web.WebicalApplicationTest;
 import org.webical.web.action.IAction;
 import org.webical.web.component.settings.SettingsPanelsPanel;
+import org.webical.test.TestUtils;
+import org.webical.test.web.PanelTestPage;
+import org.webical.test.web.WebicalApplicationTest;
 
 /**
  * Tests for the SettingsPanelsPanel
@@ -46,38 +44,15 @@ public class SettingsPanelsPanelTest extends WebicalApplicationTest {
 		super.setUp();
 
 		//Prepare the user
-		final User user = new User();
-		user.setFirstName("James");
-		user.setLastName("Gosling");
-		user.setUserId("jag");
-		webicalSession.setUser(user);
-
-		annotApplicationContextMock.putBean("userManager", new MockUserManager() {
-
-			@Override
-			public User getUser(String userId) throws WebicalException {
-				return user;
-			}
-
-		});
+		User user = TestUtils.getJAGUser();
+		getTestSession().createUser(user);
+		getTestSession().getUserSettings();
 	}
 
 	/**
 	 * Test whether the SettingsPanelsPanel Renders correctly with a User
 	 */
 	public void testRenderDefaultMode() {
-
-		annotApplicationContextMock.putBean("calendarManager", new MockCalendarManager());
-		annotApplicationContextMock.putBean("settingsManager", new MockSettingsManager() {
-
-			@Override
-			public UserSettings getUserSettings(User user) throws WebicalException {
-				UserSettings mockSettings = new UserSettings(user);
-				mockSettings.createDefaultSettings();
-				return mockSettings;
-			}
-
-		});
 
 		// Create testpage with a SettingsPanelsPanel
 		wicketTester.startPage(new ITestPageSource() {
@@ -96,5 +71,4 @@ public class SettingsPanelsPanelTest extends WebicalApplicationTest {
 		wicketTester.assertRenderedPage(PanelTestPage.class);
 		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID, SettingsPanelsPanel.class);
 	}
-
 }

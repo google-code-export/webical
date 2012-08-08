@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -18,18 +20,23 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.webical.dao.impl;
+package org.webical.test.dao.impl;
 
-import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import org.webical.Calendar;
 import org.webical.User;
 import org.webical.dao.DaoException;
+import org.webical.dao.CalendarDao;
 import org.webical.dao.factory.DaoFactory;
+import org.webical.dao.hibernateImpl.UserDaoHibernateImpl;
 import org.webical.dao.hibernateImpl.CalendarDaoHibernateImpl;
 import org.webical.dao.hibernateImpl.EventDaoWebDavHibernateBufferedImpl;
-import org.webical.dao.hibernateImpl.UserDaoHibernateImpl;
+
+import org.webical.test.TestUtils;
 
 
 /**
@@ -39,24 +46,29 @@ import org.webical.dao.hibernateImpl.UserDaoHibernateImpl;
  */
 public class UserDaoHibernateImplTest extends DataBaseTest {
 
-	private UserDaoHibernateImpl userDaoHibernateImpl;
+	private static Log log = LogFactory.getLog(UserDaoHibernateImplTest.class);
 
-	private CalendarDaoHibernateImpl calendarDaoHibernateImpl;
+	private UserDaoHibernateImpl userDao = null;
+	private CalendarDao calendarDao = null;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		userDaoHibernateImpl = new UserDaoHibernateImpl();
-		calendarDaoHibernateImpl = new CalendarDaoHibernateImpl();
+
+		DaoFactory.getInstance().getEventDaoRegistrations().clear();
+		DaoFactory.getInstance().addEventDaoRegistration("ical-webdav", new EventDaoWebDavHibernateBufferedImpl());
+		userDao = new UserDaoHibernateImpl();
+		userDao.setCalendarDao(new CalendarDaoHibernateImpl());
+		calendarDao = userDao.getCalendarDao();
 	}
 
 	/**
 	 * Tests the store capability
 	 */
 	public void testStoreUser() {
-		System.out.println("Store user");
+		log.debug("testStoreUser");
 		try {
-			userDaoHibernateImpl.storeUser(getNewUser());
+			userDao.storeUser(TestUtils.getDemoUser());
 		} catch (DaoException e) {
 			fail("Store failed: " + e);
 		}
@@ -66,23 +78,22 @@ public class UserDaoHibernateImplTest extends DataBaseTest {
 	 * Tests the get Functionality
 	 */
 	public void testGetUser() {
-		// Store a User
+		log.debug("testGetUser");
 		try {
-			userDaoHibernateImpl.storeUser(getNewUser());
+			userDao.storeUser(TestUtils.getDemoUser());
 		} catch (DaoException se) {
 			fail("Unable to store user: " + se);
 		}
 
 		User user = null;
-
 		try {
-			user = userDaoHibernateImpl.getUser("demo-user");
+			user = userDao.getUser(TestUtils.getDemoUser().getUserId());
 		} catch (DaoException ge) {
 			fail("Could not retrieve user: " + ge);
 		}
 
 		assertNotNull(user);
-		assertTrue("demo-user".equals(user.getUserId()));
+		assertTrue(TestUtils.USERID_DEMO.equals(user.getUserId()));
 	}
 
 	/**
@@ -92,23 +103,15 @@ public class UserDaoHibernateImplTest extends DataBaseTest {
 	public void testRemoveUser() throws DaoException {
 		//Store a user
 		try {
-			userDaoHibernateImpl.storeUser(getNewUser());
+			userDao.storeUser(TestUtils.getDemoUser());
 		} catch (DaoException e) {
 			fail("Store failed: " + e);
 		}
 
-		userDaoHibernateImpl.setCalendarDao(calendarDaoHibernateImpl);
-
-		//register the eventDao with the daoFactory
-		EventDaoWebDavHibernateBufferedImpl eventDaoWebDavHibernateBufferedImpl = new EventDaoWebDavHibernateBufferedImpl();
-
-		DaoFactory.getInstance().getEventDaoRegistrations().clear();
-		DaoFactory.getInstance().addEventDaoRegistration("ical-webdav", eventDaoWebDavHibernateBufferedImpl);
-
 		//Retrieve the user
 		User user = null;
 		try {
-			user = userDaoHibernateImpl.getUser(getNewUser().getUserId());
+			user = userDao.getUser(TestUtils.getDemoUser().getUserId());
 		} catch (DaoException e) {
 			fail("Get failed: " + e);
 		}
@@ -116,14 +119,14 @@ public class UserDaoHibernateImplTest extends DataBaseTest {
 
 		//Remove the user again
 		try {
-			userDaoHibernateImpl.removeUser(user);
+			userDao.removeUser(user);
 		} catch (DaoException e) {
 			fail("Remove failed: " + e);
 		}
 
 		//Retrieve the user (again)
 		try {
-			user = userDaoHibernateImpl.getUser(getNewUser().getUserId());
+			user = userDao.getUser(TestUtils.getDemoUser().getUserId());
 		} catch (DaoException e) {
 			fail("Get failed: " + e);
 		}
@@ -131,29 +134,21 @@ public class UserDaoHibernateImplTest extends DataBaseTest {
 	}
 
 	/**
-	 * Tests whether the calendars asscociated with a user a removed as well
+	 * Tests whether the calendars associated with a user a removed as well
 	 * @throws DaoException
 	 */
 	public void testRemoveUserCascadeCalendar() throws DaoException {
 		// Store a User
 		try {
-			userDaoHibernateImpl.storeUser(getNewUser());
+			userDao.storeUser(TestUtils.getDemoUser());
 		} catch (DaoException se) {
 			fail("Unable to store user: " + se);
 		}
 
-		userDaoHibernateImpl.setCalendarDao(calendarDaoHibernateImpl);
-
-		//register the eventDao with the daoFactory
-		DaoFactory.getInstance().getEventDaoRegistrations().clear();
-		EventDaoWebDavHibernateBufferedImpl eventDaoWebDavHibernateBufferedImpl = new EventDaoWebDavHibernateBufferedImpl();
-		DaoFactory.getInstance().addEventDaoRegistration("ical-webdav", eventDaoWebDavHibernateBufferedImpl);
-
 		//Retrieve a user
 		User user = null;
-
 		try {
-			user = userDaoHibernateImpl.getUser("demo-user");
+			user = userDao.getUser(TestUtils.getDemoUser().getUserId());
 		} catch (DaoException e) {
 			fail("get user failed: " + e);
 		}
@@ -162,7 +157,7 @@ public class UserDaoHibernateImplTest extends DataBaseTest {
 		//GetCalenders for user
 		List<Calendar> calendarsForUser = null;
 		try {
-			calendarsForUser = calendarDaoHibernateImpl.getCalendars(user);
+			calendarsForUser = calendarDao.getCalendars(user);
 		} catch (Exception e) {
 			fail("could not retrieve calendars: " + e);
 		}
@@ -171,7 +166,7 @@ public class UserDaoHibernateImplTest extends DataBaseTest {
 
 		//Remove user
 		try {
-			userDaoHibernateImpl.removeUser(user);
+			userDao.removeUser(user);
 		} catch (DaoException e) {
 			fail("Remove failed: " + e);
 		}
@@ -179,21 +174,10 @@ public class UserDaoHibernateImplTest extends DataBaseTest {
 		//Check if users Calendars are also removed
 		calendarsForUser = null;
 		try {
-			calendarsForUser = calendarDaoHibernateImpl.getCalendars(user);
+			calendarsForUser = calendarDao.getCalendars(user);
 		} catch (Exception e) {
 			fail("could not retrieve calendars: " + e);
 		}
 		assertEquals(0, calendarsForUser.size());
 	}
-
-	private User getNewUser() {
-		User user = new User();
-		user.setUserId("demo-user");
-		user.setFirstName("James");
-		user.setLastNamePrefix("A");
-		user.setLastName("Gosling");
-		user.setBirthDate(new Date());
-		return user;
-	}
-
 }

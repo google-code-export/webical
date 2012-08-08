@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -18,10 +20,9 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.webical.web.component;
+package org.webical.test.web.component;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.wicket.Page;
@@ -29,12 +30,12 @@ import org.apache.wicket.util.tester.ITestPageSource;
 import org.webical.Calendar;
 import org.webical.User;
 import org.webical.manager.WebicalException;
-import org.webical.manager.impl.mock.MockCalendarManager;
-import org.webical.manager.impl.mock.MockUserManager;
-import org.webical.web.PanelTestPage;
-import org.webical.web.WebicalApplicationTest;
 import org.webical.web.action.IAction;
 import org.webical.web.component.settings.SettingsCalendarListPanel;
+import org.webical.test.TestUtils;
+import org.webical.test.manager.impl.mock.MockCalendarManager;
+import org.webical.test.web.PanelTestPage;
+import org.webical.test.web.WebicalApplicationTest;
 
 /**
  * @author ivo
@@ -45,16 +46,11 @@ public class SettingsCalendarListPanelTest extends WebicalApplicationTest {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		annotApplicationContextMock.putBean("userManager", new MockUserManager());
 
 		//Prepare the user
-		final User user = new User();
-		user.setBirthDate(new Date());
-		user.setFirstName("James");
-		user.setLastName("Gosling");
-		user.setUserId("jag");
-
-		webicalSession.setUser(user);
+		User user = TestUtils.getJAGUser();
+		getTestSession().createUser(user);
+		getTestSession().getUserSettings();
 	}
 
 	/**
@@ -66,6 +62,7 @@ public class SettingsCalendarListPanelTest extends WebicalApplicationTest {
 		// Create testpage with a SettingsCalendarListPanel
 		wicketTester.startPage(new ITestPageSource() {
 			private static final long serialVersionUID = 1L;
+
 			public Page getTestPage() {
 				return new PanelTestPage(new SettingsCalendarListPanel(PanelTestPage.PANEL_MARKUP_ID) {
 					private static final long serialVersionUID = 1L;
@@ -78,29 +75,27 @@ public class SettingsCalendarListPanelTest extends WebicalApplicationTest {
 		// Basic assertions
 		wicketTester.assertRenderedPage(PanelTestPage.class);
 		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID, SettingsCalendarListPanel.class);
-
 	}
 
 	/**
 	 * Test whether the panel renders correctly with calendars
 	 */
-	public void testWithCalendars() {
-		final List<Calendar> calendars = new ArrayList<Calendar>();
+	public void testWithCalendars() throws WebicalException {
+		List<Calendar> calendars = new ArrayList<Calendar>();
 
-		annotApplicationContextMock.putBean("calendarManager", new MockCalendarManager() {
-			@Override
-			public List<Calendar> getCalendars(User user) throws WebicalException {
-				Calendar calendar = new Calendar();
-				calendar.setName("Calendar one");
-				calendars.add(calendar);
-				calendar = new Calendar();
-				calendar.setName("Calendar two");
-				calendars.add(calendar);
+		MockCalendarManager mockCalendarManager = new MockCalendarManager();
+		annotApplicationContextMock.putBean("calendarManager", mockCalendarManager);
 
-				return calendars;
-			}
-
-		});
+		Calendar calendar1 = new Calendar();
+		calendar1.setName("Calendar one");
+		calendar1.setUser(getTestSession().getUser());
+		mockCalendarManager.storeCalendar(calendar1);
+		calendars.add(calendar1);
+		Calendar calendar2 = new Calendar();
+		calendar2.setName("Calendar two");
+		calendar2.setUser(getTestSession().getUser());
+		mockCalendarManager.storeCalendar(calendar2);
+		calendars.add(calendar2);
 
 		// Create testpage with a SettingsCalendarListPanel
 		wicketTester.startPage(new ITestPageSource() {
@@ -121,6 +116,5 @@ public class SettingsCalendarListPanelTest extends WebicalApplicationTest {
 
 		// Assert the number of calendars on the panel
 		wicketTester.assertListView(PanelTestPage.PANEL_MARKUP_ID + ":calendarListView", calendars);
-
 	}
 }

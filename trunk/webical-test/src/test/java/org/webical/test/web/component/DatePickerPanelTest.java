@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -18,7 +20,7 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.webical.web.component;
+package org.webical.test.web.component;
 
 import java.util.GregorianCalendar;
 
@@ -26,13 +28,14 @@ import org.apache.wicket.Page;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.util.tester.FormTester;
 import org.apache.wicket.util.tester.ITestPageSource;
-import org.webical.manager.impl.mock.MockUserManager;
-import org.webical.web.PanelTestPage;
-import org.webical.web.WebicalApplicationTest;
+import org.webical.User;
 import org.webical.web.action.IAction;
 import org.webical.web.component.calendar.DatePickerPanel;
 import org.webical.web.component.calendar.WeekViewPanel;
 import org.webical.web.component.calendar.model.DatePickerModel;
+import org.webical.test.TestUtils;
+import org.webical.test.web.PanelTestPage;
+import org.webical.test.web.WebicalApplicationTest;
 
 /**
  * Small test for the DatePickerPanel
@@ -41,13 +44,19 @@ import org.webical.web.component.calendar.model.DatePickerModel;
  */
 public class DatePickerPanelTest extends WebicalApplicationTest {
 
+	private static final String CALENDAR_WEEK_VIEW_PANEL_TEST_MARKUP_ID = "weekViewPanelTest";
+
 	/* (non-Javadoc)
-	 * @see org.webical.web.WebicalApplicationTest#setUp()
+	 * @see org.webical.test.web.WebicalApplicationTest#setUp()
 	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		annotApplicationContextMock.putBean("userManager", new MockUserManager());
+
+		//Prepare the user
+		User user = TestUtils.getJAGUser();
+		getTestSession().createUser(user);
+		getTestSession().getUserSettings();
 	}
 
 	/**
@@ -55,19 +64,18 @@ public class DatePickerPanelTest extends WebicalApplicationTest {
 	 */
 	public void testDatePickerPanel() {
 
-		
-		final WeekViewPanel weekViewPanel = new WeekViewPanel("weekViewPanelTest", new GregorianCalendar(), 7) {
+		final WeekViewPanel weekViewPanel = new WeekViewPanel(CALENDAR_WEEK_VIEW_PANEL_TEST_MARKUP_ID, 7, new GregorianCalendar()) {
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void onAction(IAction action) { /* NOTHING TO DO */ }
-			
 		};
 		//Create testpage with a DatePickerPanel
-		wicketTester.startPage(new ITestPageSource(){
+		wicketTester.startPage(new ITestPageSource() {
 			private static final long serialVersionUID = 1L;
 
 			public Page getTestPage() {
-				return new PanelTestPage(new DatePickerPanel(PanelTestPage.PANEL_MARKUP_ID, new CompoundPropertyModel(new DatePickerModel(new GregorianCalendar(), weekViewPanel))){
+				return new PanelTestPage(new DatePickerPanel(PanelTestPage.PANEL_MARKUP_ID, new CompoundPropertyModel(new DatePickerModel(new GregorianCalendar(), weekViewPanel))) {
 					private static final long serialVersionUID = 1L;
 					@Override
 					public void onAction(IAction action) { /* NOTHING TO DO */ }
@@ -84,6 +92,5 @@ public class DatePickerPanelTest extends WebicalApplicationTest {
 		pickerFormTester.setValue("changeDateField", "notADate");
 		pickerFormTester.submit();
 		wicketTester.assertErrorMessages(new String[]{"'notADate' is not a valid Date."});
-
 	}
 }

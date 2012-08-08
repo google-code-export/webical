@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -18,13 +20,20 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.webical.plugin.xml;
+package org.webical.test.plugin.xml;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import org.springframework.core.io.FileSystemResource;
+
+import org.webical.plugin.xml.PluginManifestReader;
 import org.webical.plugin.PluginException;
 import org.webical.plugin.jaxb.Plugin;
+
+import org.webical.test.TestUtils;
 
 /**
  * Tests the pluginmanifest reader incl validation
@@ -32,41 +41,40 @@ import org.webical.plugin.jaxb.Plugin;
  *
  */
 public class PluginManifestReaderTest extends TestCase {
-	
-	
+
+	private static Log log = LogFactory.getLog(PluginManifestReaderTest.class);
+
 	/**
 	 * Tests with a valid mainfest
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public void testValidManifest() throws Exception {
-		FileSystemResource validManifest = new FileSystemResource("src/test/resources/org/webical/plugin/xml/valid-manifest.xml");
+		FileSystemResource validManifest = new FileSystemResource(TestUtils.RESOURCE_DIRECTORY + "org/webical/test/plugin/xml/valid-manifest.xml");
 		PluginManifestReader manifestReader = new PluginManifestReader();
 		manifestReader.afterPropertiesSet();
-		
+
 		Plugin plugin = manifestReader.parsePluginManifest(validManifest.getFile());
-		
+
 		assertEquals(1, plugin.getClassFolders().getClassFolder().size());
 		assertEquals(1, plugin.getResourceFolders().getResourceFolder().size());
 		assertEquals(1, plugin.getRegistrations().getBackendPlugin().size());
 		assertEquals(1, plugin.getRegistrations().getFrontendPlugin().size());
-		
 	}
-	
-	
+
 	/**
 	 * Tests with an invalid manifest
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public void testInvalidManifest() throws Exception {
-		FileSystemResource validManifest = new FileSystemResource("src/test/resources/org/webical/plugin/xml/invalid-manifest.xml");
+		FileSystemResource validManifest = new FileSystemResource(TestUtils.RESOURCE_DIRECTORY + "org/webical/test/plugin/xml/invalid-manifest.xml");
 		PluginManifestReader manifestReader = new PluginManifestReader();
 		manifestReader.afterPropertiesSet();
-		
+
 		try {
 			manifestReader.parsePluginManifest(validManifest.getFile());
 			fail("Validation should have complained...");
-		} catch (PluginException e) { }
-		
+		} catch (PluginException e) {
+			log.debug("Expected this exception: " + e.getMessage());
+		}
 	}
-
 }

@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -18,30 +20,27 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.webical.web.component;
+package org.webical.test.web.component;
 
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.wicket.Page;
 import org.apache.wicket.util.tester.ITestPageSource;
-import org.webical.Calendar;
 import org.webical.User;
-import org.webical.manager.WebicalException;
-import org.webical.manager.impl.mock.MockCalendarManager;
-import org.webical.manager.impl.mock.MockEventManager;
-import org.webical.manager.impl.mock.MockUserManager;
-import org.webical.web.PanelTestPage;
-import org.webical.web.WebicalApplicationTest;
+import org.webical.Calendar;
 import org.webical.web.action.IAction;
 import org.webical.web.component.calendar.CalendarListPanel;
 import org.webical.web.component.calendar.CalendarPanel;
 import org.webical.web.component.calendar.DayViewPanel;
 import org.webical.web.component.calendar.MonthViewPanel;
 import org.webical.web.component.calendar.WeekViewPanel;
+import org.webical.test.TestUtils;
+import org.webical.test.manager.impl.mock.MockCalendarManager;
+import org.webical.test.manager.impl.mock.MockEventManager;
+import org.webical.test.web.PanelTestPage;
+import org.webical.test.web.WebicalApplicationTest;
 
 /**
 * Tests for the SettingsPanelsPanel
@@ -55,29 +54,22 @@ public class CalendarPanelTest extends WebicalApplicationTest {
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		// Prepare a User
-		final User user = new User();
-		user.setFirstName("James");
-		user.setLastName("Gossling");
-		user.setUserId("jag");
-		webicalSession.setUser(user);
+		//Prepare the user
+		User user = TestUtils.getJAGUser();
+		getTestSession().createUser(user);
+		getTestSession().getUserSettings();
 
+		MockCalendarManager mockCalendarManager = new MockCalendarManager();
+
+		Calendar calendar1 = new Calendar();
+		calendar1.setName("Calendar one");
+		calendar1.setType("ical-webdav");
+		calendar1.setUrl("http://www.webical.org/calendar1.ics");
+		calendar1.setUser(getTestSession().getUser());
+		mockCalendarManager.storeCalendar(calendar1);
+
+		annotApplicationContextMock.putBean("calendarManager", mockCalendarManager);
 		annotApplicationContextMock.putBean("eventManager", new MockEventManager());
-		annotApplicationContextMock.putBean("userManager", new MockUserManager());
-		annotApplicationContextMock.putBean("calendarManager", new MockCalendarManager() {
-
-			@Override
-			public List<Calendar> getCalendars(User user) throws WebicalException {
-				List<Calendar> calendars = new ArrayList<Calendar>();
-				Calendar calendar = new Calendar();
-				calendar.setName("only_calednar");
-				calendar.setUser(webicalSession.getUser());
-				calendars.add(calendar);
-				return calendars;
-			}
-
-		});
-
 	}
 
 	/**
@@ -85,6 +77,7 @@ public class CalendarPanelTest extends WebicalApplicationTest {
 	 */
 	public void testDefaultRender() {
 
+		log.debug("testDefaultRender");
 		// Create testpage with a CalendarPanel
 		wicketTester.startPage(new ITestPageSource() {
 			private static final long serialVersionUID = 1L;
@@ -109,6 +102,7 @@ public class CalendarPanelTest extends WebicalApplicationTest {
 	 */
 	public void testViewSwitch() {
 
+		log.debug("testViewSwitch");
 		// Create testpage with a CalendarPanel
 		wicketTester.startPage(new ITestPageSource() {
 			private static final long serialVersionUID = 1L;
@@ -126,23 +120,20 @@ public class CalendarPanelTest extends WebicalApplicationTest {
 		wicketTester.assertRenderedPage(PanelTestPage.class);
 		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID, CalendarPanel.class);
 		// Check default view
-		/* XXX mattijs: pointless as they are all subclasses of calendar view?
-		switch(webicalSession.getUser().getDefaultCalendarView()) {
+		switch (getTestSession().getUserSettings().getDefaultCalendarView()) {
 			case CalendarPanel.DAY_VIEW:
-				wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID + ":calendarViewsTabs:panel", DayViewPanel.class);
-			break;
+				wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID + ":calendarViewPanel:panel", DayViewPanel.class);
+				break;
 			case CalendarPanel.WEEK_VIEW:
-				log.debug("Current view is " + CalendarPanel.WEEK_VIEW + " (week)");
-				wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID + ":calendarViewsTabs:panel", WeekViewPanel.class);
-			break;
+				wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID + ":calendarViewPanel:panel", WeekViewPanel.class);
+				break;
 			case CalendarPanel.MONTH_VIEW:
-				wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID + ":calendarViewsTabs:panel", MonthViewPanel.class);
-			break;
+				wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID + ":calendarViewPanel:panel", MonthViewPanel.class);
+				break;
 			case CalendarPanel.AGENDA_VIEW:
-				wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID + ":calendarViewsTabs:panel", WeekViewPanel.class);
-			break;
+				wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID + ":calendarViewPanel:panel", WeekViewPanel.class);
+				break;
 		}
-		*/
 
 		// Click the Day tab
 		wicketTester.clickLink(PanelTestPage.PANEL_MARKUP_ID + ":calendarViewPanel:tabs-container:tabs:0:link");
@@ -159,7 +150,6 @@ public class CalendarPanelTest extends WebicalApplicationTest {
 		// Click the Agenda tab
 		wicketTester.clickLink(PanelTestPage.PANEL_MARKUP_ID + ":calendarViewPanel:tabs-container:tabs:3:link");
 		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID + ":calendarViewPanel:panel", WeekViewPanel.class);
-
 	}
 
 	/**
@@ -167,6 +157,7 @@ public class CalendarPanelTest extends WebicalApplicationTest {
 	 */
 	public void testActionHandling() {
 
+		log.debug("testActionHandling");
 		// Create testpage with a CalendarPanel
 		wicketTester.startPage(new ITestPageSource() {
 			private static final long serialVersionUID = 1L;
@@ -186,6 +177,5 @@ public class CalendarPanelTest extends WebicalApplicationTest {
 
 		// Fire Actions
 		// TODO mattijs: implement this with onAction
-
 	}
 }
