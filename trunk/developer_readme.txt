@@ -11,11 +11,11 @@ To start with webical do the following:
 If using Jetty:
 
 - Check you have a database that matches the database in src/test/resources/jetty.xml
-- Run src/test/org/webical/web/StartWebApplication as a normal java application
+- Run src/test/java/org/webical/test/StartWebApplication as a normal java application
 
 If using tomcat
 
 - Install wtp from http://www.eclipse.org/webtools/
 - Check you have a database that matches the database in src/main/webapp/META-INF/context.xml
 - Edit src/main/webapp/web.xml and alter the webdav servlet's rootPath parameter to use the full path
-- Run webical on a sever configuration
+- Run webical on a server configuration
