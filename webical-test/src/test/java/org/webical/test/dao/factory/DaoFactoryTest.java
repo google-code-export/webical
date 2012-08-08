@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -18,12 +20,13 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.webical.dao.factory;
+package org.webical.test.dao.factory;
 
 import junit.framework.TestCase;
 
 import org.webical.Calendar;
 import org.webical.dao.DaoException;
+import org.webical.dao.factory.DaoFactory;
 import org.webical.dao.hibernateImpl.EventDaoWebDavHibernateBufferedImpl;
 
 /**
@@ -69,7 +72,7 @@ public class DaoFactoryTest extends TestCase {
 	 * @throws DaoException 
 	 */
 	public void testGetEventDaoForCalendarWebdav() throws DaoException {
-		
+
 		daoFactory.addEventDaoRegistration(WEBDAV, new EventDaoWebDavHibernateBufferedImpl());
 	
 		Calendar calendar = new Calendar();

@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -18,16 +20,17 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.webical.plugin.registration;
+package org.webical.test.plugin.registration;
 
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.FileSystemResource;
+
+import junit.framework.TestCase;
+
 import org.webical.plugin.PluginException;
 import org.webical.plugin.file.FileUtils;
 import org.webical.plugin.file.ZipFileExtractor;
@@ -41,6 +44,9 @@ import org.webical.plugin.jaxb.Plugin;
 import org.webical.plugin.jaxb.Registrations;
 import org.webical.plugin.jaxb.ResourceFolder;
 import org.webical.plugin.jaxb.ResourceFolders;
+import org.webical.plugin.registration.PackageValidator;
+
+import org.webical.test.TestUtils;
 
 /**
  * Tests the Package validator
@@ -51,8 +57,13 @@ public class PackageValidatorTest extends TestCase {
 
 	private static Log log = LogFactory.getLog(PackageValidatorTest.class);
 
-	private static FileSystemResource workdir = new FileSystemResource("workingdirectory");
+	private static FileSystemResource workingDirectory = new FileSystemResource(TestUtils.WORKINGDIRECTORY + "/" + PackageValidatorTest.class.getSimpleName());
 
+	protected void setUp() throws Exception
+	{
+		super.setUp();
+		if (! workingDirectory.exists()) workingDirectory.getFile().mkdir();
+	}
 
 	/**
 	 * Tests with a proper Plugin File
@@ -61,9 +72,9 @@ public class PackageValidatorTest extends TestCase {
 	 */
 	public void testProperPluginFile() throws IOException, PluginException {
 		//File to extract
-		File pluginPackage = new FileSystemResource("src/test/resources/org/webical/plugin/registration/valid/valid-test-plugin.zip").getFile();
+		File pluginPackage = new FileSystemResource(TestUtils.RESOURCE_DIRECTORY + "org/webical/test/plugin/registration/valid/valid-test-plugin.zip").getFile();
 		//Name of the extraction directory
-		File extractionDir = new File(workdir.getFile().getAbsolutePath() + File.separator + pluginPackage.getName());
+		File extractionDir = new File(workingDirectory.getFile().getAbsolutePath() + File.separator + pluginPackage.getName());
 		extractionDir.mkdir();
 		ZipFileExtractor.unpackZipFile(pluginPackage.getAbsoluteFile(), extractionDir);
 
@@ -77,9 +88,9 @@ public class PackageValidatorTest extends TestCase {
 	 */
 	public void testPluginFileWithMissingClass() throws IOException {
 		//File to extract
-		File pluginPackage = new FileSystemResource("src/test/resources/org/webical/plugin/registration/invalid/missingfile-test-plugin.zip").getFile();
+		File pluginPackage = new FileSystemResource(TestUtils.RESOURCE_DIRECTORY + "org/webical/test/plugin/registration/invalid/missingfile-test-plugin.zip").getFile();
 		//Name of the extraction directory
-		File extractionDir = new File(workdir.getFile().getAbsolutePath() + File.separator + pluginPackage.getName());
+		File extractionDir = new File(workingDirectory.getFile().getAbsolutePath() + File.separator + pluginPackage.getName());
 		extractionDir.mkdir();
 		ZipFileExtractor.unpackZipFile(pluginPackage.getAbsoluteFile(), extractionDir);
 
@@ -93,14 +104,14 @@ public class PackageValidatorTest extends TestCase {
 	}
 
 	/**
-	 * Tests with a plugin package where a ExtensionListener doesn't implement the rigth interfaces
+	 * Tests with a plugin package where a ExtensionListener doesn't implement the right interfaces
 	 * @throws IOException
 	 */
 	public void testPluginFileWithUnimplementedInterface() throws IOException {
 		//File to extract
-		File pluginPackage = new FileSystemResource("src/test/resources/org/webical/plugin/registration/invalid/incorrectclass-test-plugin.zip").getFile();
+		File pluginPackage = new FileSystemResource(TestUtils.RESOURCE_DIRECTORY + "org/webical/test/plugin/registration/invalid/incorrectclass-test-plugin.zip").getFile();
 		//Name of the extraction directory
-		File extractionDir = new File(workdir.getFile().getAbsolutePath() + File.separator + pluginPackage.getName());
+		File extractionDir = new File(workingDirectory.getFile().getAbsolutePath() + File.separator + pluginPackage.getName());
 		extractionDir.mkdir();
 		ZipFileExtractor.unpackZipFile(pluginPackage.getAbsoluteFile(), extractionDir);
 
@@ -133,7 +144,6 @@ public class PackageValidatorTest extends TestCase {
 		//TODO implement me
 	}
 
-
 	/**
 	 * @return the plugin manifest
 	 */
@@ -153,7 +163,6 @@ public class PackageValidatorTest extends TestCase {
 		ResourceFolder resourceFolder = new ResourceFolder();
 		resourceFolder.setFileName("resources");
 		plugin.getResourceFolders().getResourceFolder().add(resourceFolder);
-
 
 		//Class folders
 		ClassFolder classFolder = new ClassFolder();
@@ -177,13 +186,12 @@ public class PackageValidatorTest extends TestCase {
 		FrontendPlugin frontendPlugin = new FrontendPlugin();
 		frontendPlugin.setClassName("SomeExtension");
 		frontendPlugin.setExtendable(true);
-		frontendPlugin.setExtendedClass("org.webical.web.component.HeaderPanel");
+		frontendPlugin.setExtendedClass(TestUtils.WEBICAL_BASE_PACKAGE + ".web.component.HeaderPanel");
 
 		plugin.getRegistrations().getFrontendPlugin().add(frontendPlugin);
 
 		return plugin;
 	}
-
 
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#tearDown()
@@ -192,7 +200,6 @@ public class PackageValidatorTest extends TestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 		cleanup();
-
 	}
 
 	/**
@@ -200,6 +207,7 @@ public class PackageValidatorTest extends TestCase {
 	 */
 	private void cleanup() {
 		log.debug("Cleaning up");
-		FileUtils.cleanupDirectory(workdir.getFile());
+		FileUtils.cleanupDirectory(workingDirectory.getFile());
+		if (workingDirectory.exists()) workingDirectory.getFile().delete();
 	}
 }

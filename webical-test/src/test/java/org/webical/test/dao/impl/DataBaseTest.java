@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -18,7 +20,7 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.webical.dao.impl;
+package org.webical.test.dao.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,36 +32,41 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import net.sf.webdav.WebdavServlet;
-
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import net.sf.webdav.WebdavServlet;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Environment;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+
+import org.mortbay.jetty.Server;
+import org.mortbay.jetty.servlet.Context;
+import org.mortbay.jetty.servlet.ServletHolder;
+
 import org.dbunit.DatabaseTestCase;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.operation.DatabaseOperation;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Environment;
-import org.mortbay.jetty.Server;
-import org.mortbay.jetty.servlet.Context;
-import org.mortbay.jetty.servlet.ServletHolder;
-import org.springframework.orm.hibernate3.HibernateTemplate;
+
 import org.webical.ApplicationSettings;
+import org.webical.User;
 import org.webical.Calendar;
 import org.webical.Event;
 import org.webical.Option;
 import org.webical.PluginSettings;
 import org.webical.Settings;
-import org.webical.TestUtils;
-import org.webical.User;
 import org.webical.UserPluginSettings;
 import org.webical.dao.encryption.EncryptorFactory;
 import org.webical.dao.hibernateImpl.SessionFactoryUtils;
+
+import org.webical.test.TestUtils;
 
 /**
  * SuperClass used for all Hibernate testclasses
@@ -69,10 +76,8 @@ import org.webical.dao.hibernateImpl.SessionFactoryUtils;
  *
  */
 public abstract class DataBaseTest extends DatabaseTestCase {
-	
-	private static final String DBUNIT_TEST_CONFIGURATION_FILE = "/src/test/resources/dbunit-test-configuration.xml";
 
-	private static final String SYSTEM_USER_DIR = "user.dir";
+	private static final String DBUNIT_TEST_CONFIGURATION_FILE = "dbunit-test-configuration.xml";
 
 	private static final String DATASOURCE_PASSWORD = "datasource.password";
 
@@ -81,53 +86,55 @@ public abstract class DataBaseTest extends DatabaseTestCase {
 	private static final String DATASOURCE_URL = "datasource.url";
 
 	private static final String DATASOURCE_DRIVERCLASS = "datasource.driverclass";
-	
+
 	private static final String DATASOURCE_DIALECT = "datasource.dialect";
 
 	private static final String DATASET_FILE = "dataset-file";
-	
+
 	private static final String WEBDAV_ROOT = "/etc/webdav_root";
 	private static final String WEBDAV_CLEAN = "/etc/webdav_clean";
-	
+
 	private static XMLConfiguration dbunitConfiguration;
-	
+
 	private static String datasetFilename;
-	
+
 	private static Log log = LogFactory.getLog(DataBaseTest.class);
-	
+
 	private org.hibernate.cfg.Configuration hibernateConfiguration = new org.hibernate.cfg.Configuration();
 	private SessionFactory sessionFactory;
 	private Session session;
 	private HibernateTemplate hibernateTemplate;
-	
+
 	private Server server;
-	
-	
+
 	/** Initialize the dbunit configuration */
 	static {
 		try {
-			dbunitConfiguration = new XMLConfiguration(System.getProperty(SYSTEM_USER_DIR) + DBUNIT_TEST_CONFIGURATION_FILE);
-			datasetFilename = System.getProperty(SYSTEM_USER_DIR) + dbunitConfiguration.getString(DATASET_FILE);
+			log.debug(System.getProperty(TestUtils.SYSTEM_USER_DIR));
+			dbunitConfiguration = new XMLConfiguration(System.getProperty(TestUtils.SYSTEM_USER_DIR) + "/" + TestUtils.RESOURCE_DIRECTORY + DBUNIT_TEST_CONFIGURATION_FILE);
+			datasetFilename = System.getProperty(TestUtils.SYSTEM_USER_DIR) + "/" + dbunitConfiguration.getString(DATASET_FILE);
+			log.debug(datasetFilename);
 		} catch (ConfigurationException e) {
 			throw new ExceptionInInitializerError(e);
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		// prepare the application settings
+		log.debug("Setting up the base database testclass");
+
 		ApplicationSettings applicationSettings = new ApplicationSettings();
 		applicationSettings.setPluginPackageExtension(".zip");
 		applicationSettings.setCalendarRefreshTimeMs(3000);
 		TestUtils.initializeApplicationSettingsFactory(applicationSettings);
-		
+
 		//Set up hibernate
 		createHibernateConfiguration();
 		registerPersistedClasses();
-		
+
 		//Set up the sessionFactory and HibernateTemplate
 		sessionFactory = hibernateConfiguration.buildSessionFactory();
 		new SessionFactoryUtils().setSessionFactory(sessionFactory);
@@ -135,66 +142,80 @@ public abstract class DataBaseTest extends DatabaseTestCase {
 
 		//Insert test data
 		insertData();
-		
-		log.debug("Dome setting up the base database testclass");
-		
+
+		log.debug("Done setting up the base database testclass");
+
 		//Start the webdav server
 		prepareWebdavRoot();
 		startWebDavServer();
 	}
-	
+
 	/**
 	 * Starts a webdav server to test against
 	 * @throws Exception
 	 */
 	private void startWebDavServer() throws Exception {
 		log.debug("Starting up the WebDav server");
-		server = new Server(10202);    
+		server = new Server(TestUtils.portNoTest);
 		ServletHolder servletHolder = new ServletHolder(new WebdavServlet());
 		servletHolder.setInitParameter("ResourceHandlerImplementation", "net.sf.webdav.LocalFileSystemStorage");
-		servletHolder.setInitParameter("rootpath", System.getProperty(SYSTEM_USER_DIR) + WEBDAV_ROOT);
+		servletHolder.setInitParameter("rootpath", System.getProperty(TestUtils.SYSTEM_USER_DIR) + WEBDAV_ROOT);
 		servletHolder.setInitParameter("storeDebug", "0");
-		
-		Context root = new Context(server,"/",Context.SESSIONS);
+
+		Context root = new Context(server, "/", Context.SESSIONS);
 		root.addServlet(servletHolder, "/*");
 		server.start();
 	}
-	
+
 	/**
 	 * Stops the server cleanly
 	 * @throws Exception
 	 */
 	protected void stopWebDavServer() throws Exception {
 		log.debug("Stopping the WebDav server");
-		if(server != null) {
+		if (server != null) {
 			server.stop();
 		}
 	}
-	
+
 	/**
 	 * Copies all the resources to the right dir
 	 * @throws IOException
 	 */
 	private void prepareWebdavRoot() throws IOException {
 		log.debug("Preparing the WebDav server's webroot");
-		File[] filesToCopy = new File(System.getProperty(SYSTEM_USER_DIR) + WEBDAV_CLEAN).listFiles();
-		if(filesToCopy != null) {
+		File[] filesToCopy = new File(System.getProperty(TestUtils.SYSTEM_USER_DIR) + WEBDAV_CLEAN).listFiles();
+		if (filesToCopy != null) {
 			for (File file : filesToCopy) {
-				if(file.isFile()) {
-					copyFile(file, new File(System.getProperty(SYSTEM_USER_DIR) + WEBDAV_ROOT + "/" + file.getName()));
+				if (file.isFile()) {
+					copyFile(file, new File(System.getProperty(TestUtils.SYSTEM_USER_DIR) + WEBDAV_ROOT + "/" + file.getName()));
 				}
 			}
 		}
 	}
-	
+
+	/*
+	 * Export DB to file
+	 */
+	public void exportDB() {
+	    // full database export
+		IDatabaseConnection connection;
+		try {
+			connection = new DatabaseConnection(getJDBCConnection());
+			IDataSet fullDataSet = connection.createDataSet();
+		    FlatXmlDataSet.write(fullDataSet, new FileOutputStream(datasetFilename + "-extraction"));
+		    log.info("Wrote dataset to file: " + datasetFilename);
+		} catch (Exception e) {
+			log.error(e);
+		}
+	}
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#tearDown()
 	 */
 	@Override
-	protected final void tearDown() throws Exception {
+	public final void tearDown() throws Exception {
 		//Shut down the server
 		stopWebDavServer();
-		
 		//Reset the encryption passwords
 		EncryptorFactory.setEncryptionPassword(null);
 		EncryptorFactory.setDecryptionPassword(null);
@@ -207,14 +228,14 @@ public abstract class DataBaseTest extends DatabaseTestCase {
 	protected IDatabaseConnection getConnection() throws Exception {
 		return new DatabaseConnection(getJDBCConnection());
 	}
-	
+
 /*	private void setupSession() {
 		//Get the session and bind it to the transactionmanager
 		session = SessionFactoryUtils.getSession(sessionFactory, true);
 		TransactionSynchronizationManager.bindResource(sessionFactory, new SessionHolder(session));
 
 	}*/
-	
+
 	/**
 	 * Configures a jdbc Connection for the dbunit data insertion
 	 * @return a configured Connection
@@ -225,7 +246,7 @@ public abstract class DataBaseTest extends DatabaseTestCase {
 		@SuppressWarnings("unused")
 		Class driverClass = Class.forName(dbunitConfiguration.getString(DATASOURCE_DRIVERCLASS));
 		return DriverManager.getConnection(
-				dbunitConfiguration.getString(DATASOURCE_URL), 
+				dbunitConfiguration.getString(DATASOURCE_URL),
 				dbunitConfiguration.getString(DATASOURCE_USERNAME), 
 				dbunitConfiguration.getString(DATASOURCE_PASSWORD));
 	}
@@ -237,7 +258,7 @@ public abstract class DataBaseTest extends DatabaseTestCase {
 	protected IDataSet getDataSet() throws Exception {
 		return new FlatXmlDataSet(new FileInputStream(datasetFilename));
 	}
-	
+
 	/**
 	 * Sets up hibernates confiuration
 	 */
@@ -255,13 +276,13 @@ public abstract class DataBaseTest extends DatabaseTestCase {
 		hibernateConfiguration.setProperty(Environment.USE_REFLECTION_OPTIMIZER, "false");
 		System.setProperty("hibernate.cglib.use_reflection_optimizer", "false");
 	}
-	
+
 	/**
 	 * Registers all hibernate persisted classes
 	 */
 	private void registerPersistedClasses() {
 		log.debug("Registering hibernate classes and general configuration");
-		hibernateConfiguration.addFile("src/main/resources/org/webical/TypeRegistration.hbm.xml");
+		hibernateConfiguration.addFile("../webical-core/target/classes/org/webical/TypeRegistration.hbm.xml");
 		hibernateConfiguration.addClass(User.class);
 		hibernateConfiguration.addClass(Calendar.class);
 		hibernateConfiguration.addClass(Event.class);
@@ -271,7 +292,7 @@ public abstract class DataBaseTest extends DatabaseTestCase {
 		hibernateConfiguration.addClass(UserPluginSettings.class);
 		hibernateConfiguration.addClass(Option.class);
 	}
-	
+
 	/**
 	 * Inserts data into the test database
 	 * @throws SQLException 
@@ -282,8 +303,7 @@ public abstract class DataBaseTest extends DatabaseTestCase {
 		try {
 			connection = getConnection();
 			DatabaseOperation databaseOperation = DatabaseOperation.CLEAN_INSERT;
-			connection = getConnection();
-			databaseOperation.execute( connection, getDataSet());
+			databaseOperation.execute(connection, getDataSet());
 		} catch (Exception e) {
 			log.error(e);
 		} finally {
@@ -291,9 +311,8 @@ public abstract class DataBaseTest extends DatabaseTestCase {
 				connection.close();
 			}
 		}
-		
 	}
-	
+
 	/**
 	 * Copies source file to derstination file. If the derstination file does not exist, it is created
 	 * @param sourceFile
@@ -305,10 +324,10 @@ public abstract class DataBaseTest extends DatabaseTestCase {
 			return;
 		}
 		log.debug("Copying file : " + sourceFile.getAbsolutePath() + " to: " + destinationFile.getAbsolutePath());
-		
+
         InputStream in = new FileInputStream(sourceFile);
         OutputStream out = new FileOutputStream(destinationFile);
-    
+
         // Transfer bytes from in to out
         byte[] buf = new byte[1024];
         int len;
@@ -318,62 +337,54 @@ public abstract class DataBaseTest extends DatabaseTestCase {
         in.close();
         out.close();
     }
-	
+
 	/**
 	 * @return the configured hibernate template
 	 */
 	public HibernateTemplate getHibernateTemplate() {
 		return hibernateTemplate;
 	}
-	
+
 	/**
 	 * @return the sessionFactory
 	 */
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
-	
+
 	/**
 	 * @return the open session
 	 */
 	public Session getSession() {
 		return session;
 	}
-	
+
 	/**
-	 * Just for testing pruposes, see if the dataset can be inserted correctly
+	 * Just for testing purposes, see if the dataset can be inserted correctly
 	 * @param args
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
 	 */
-	public static void main(String[] args){
-		
-		if(args == null || args.length != 1 || !args[0].equals("extract")) {
-			log.info("inserting");
-			DataBaseTest dataBaseTest = new DataBaseTest() {
+	public static void main(String[] args) {
 
-			};
-			
+//		Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).addHandler(new ConsoleAppender());
+		DataBaseTest dataBaseTest = new DataBaseTest() {};
+		if (args == null || args.length != 1 || !args[0].equals("extract")) {
+			log.info("Inserting");
+
 			try {
 				dataBaseTest.setUp();
+				Thread.sleep(15000);		// sleep 15 seconds
+				dataBaseTest.tearDown();
 			} catch (SQLException e) {
 				log.error(e);
 			} catch (Exception e) {
 				log.error(e);
 			}
-		} else {
-			log.info("extracting");
-	        // full database export
-			IDatabaseConnection connection;
-			try {
-				connection = new DatabaseConnection(getJDBCConnection());
-				IDataSet fullDataSet = connection.createDataSet();
-		        FlatXmlDataSet.write(fullDataSet, new FileOutputStream(datasetFilename + "-extraction"));
-		        log.info("Wrote dataset to file: " + datasetFilename);
-			} catch (Exception e) {
-				log.error(e);
-			}
 		}
+		// Extract db
+		log.info("Extracting");
+	    // full database export
+		dataBaseTest.exportDB();
 	}
-
 }

@@ -20,28 +20,27 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.webical.web.component;
+package org.webical.test.web.component;
 
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.util.tester.ITestPageSource;
 import org.webical.User;
-import org.webical.manager.impl.mock.MockCalendarManager;
-import org.webical.manager.impl.mock.MockEventManager;
-import org.webical.manager.impl.mock.MockUserManager;
 import org.webical.util.CalendarUtils;
-import org.webical.web.PanelTestPage;
-import org.webical.web.WebicalApplicationTest;
 import org.webical.web.action.IAction;
 import org.webical.web.component.calendar.DateSwitcherPanel;
 import org.webical.web.component.calendar.DayViewPanel;
 import org.webical.web.component.calendar.WeekViewPanel;
 import org.webical.web.component.calendar.model.DateSwitcherModel;
+import org.webical.test.TestUtils;
+import org.webical.test.manager.impl.mock.MockCalendarManager;
+import org.webical.test.manager.impl.mock.MockEventManager;
+import org.webical.test.web.PanelTestPage;
+import org.webical.test.web.WebicalApplicationTest;
 
 
 /**
@@ -57,9 +56,14 @@ public class DateSwitcherPanelTest extends WebicalApplicationTest {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		annotApplicationContextMock.putBean("userManager", new MockUserManager());
-		annotApplicationContextMock.putBean("eventManager", new MockEventManager());
+
+		//Prepare the user
+		User user = TestUtils.getJAGUser();
+		getTestSession().createUser(user);
+		getTestSession().getUserSettings();
+
 		annotApplicationContextMock.putBean("calendarManager", new MockCalendarManager());
+		annotApplicationContextMock.putBean("eventManager", new MockEventManager());
 		currentDate = new GregorianCalendar();
 	}
 
@@ -78,17 +82,16 @@ public class DateSwitcherPanelTest extends WebicalApplicationTest {
 
 			@Override
 			public void onAction(IAction action) { /* NOTHING TO DO */ }
-
 		};
 
 		// Create the model for the date switcher to use
 		dateSwitcherModel = new DateSwitcherModel(new GregorianCalendar(), calendarDayViewPanel);
 
-		wicketTester.startPage(new ITestPageSource(){
+		wicketTester.startPage(new ITestPageSource() {
 			private static final long serialVersionUID = 1L;
 
 			public Page getTestPage() {
-				return new PanelTestPage(new DateSwitcherPanel(PanelTestPage.PANEL_MARKUP_ID, dateSwitcherModel){
+				return new PanelTestPage(new DateSwitcherPanel(PanelTestPage.PANEL_MARKUP_ID, dateSwitcherModel) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -106,11 +109,10 @@ public class DateSwitcherPanelTest extends WebicalApplicationTest {
 						GregorianCalendar todayCalendar = new GregorianCalendar();
 						todayLinkClickedDate.setTime(todayCalendar.getTime());
 					}
-
 				});
 			}
-
 		});
+
 		// SimpleDateFormat to format the date
 		SimpleDateFormat sdf = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
 		sdf.applyPattern(calendarDayViewPanel.getViewPeriodFormat());
@@ -130,37 +132,31 @@ public class DateSwitcherPanelTest extends WebicalApplicationTest {
 	 */
 	public void testRangeView() throws Exception {
 
-		// Prepare a User
-		final User user = new User();
-		user.setFirstName("James");
-		user.setLastName("Gossling");
-		user.setUserId("jag");
-		webicalSession.setUser(user);
-
 		GregorianCalendar assumedRangeStartCal = new GregorianCalendar();
-		assumedRangeStartCal.setFirstDayOfWeek(Calendar.SUNDAY);
-		assumedRangeStartCal.setTime(CalendarUtils.getFirstDayOfWeek(assumedRangeStartCal.getTime(), Calendar.SUNDAY));
+		assumedRangeStartCal.setFirstDayOfWeek(GregorianCalendar.SUNDAY);
+		assumedRangeStartCal.setTime(CalendarUtils.getFirstDayOfWeek(assumedRangeStartCal.getTime(), GregorianCalendar.SUNDAY));
 		GregorianCalendar assumedRangeEndCal = new GregorianCalendar();
-		assumedRangeEndCal.setFirstDayOfWeek(Calendar.SUNDAY);
+		assumedRangeEndCal.setFirstDayOfWeek(GregorianCalendar.SUNDAY);
 		assumedRangeEndCal.setTime(assumedRangeStartCal.getTime());
 		assumedRangeEndCal.add(GregorianCalendar.DAY_OF_WEEK, 7 - 1);
 
-		WeekViewPanel calendarWeekViewPanel = new WeekViewPanel("test", 7, new GregorianCalendar()) {
+		final GregorianCalendar currentDate = CalendarUtils.newTodayCalendar(getTestSession().getUserSettings().getFirstDayOfWeek());
+
+		WeekViewPanel calendarWeekViewPanel = new WeekViewPanel("test", 7, currentDate) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void onAction(IAction action) { /* NOTHING TO DO */ }
-
 		};
 
 		// Create the model for the date switcher to use
 		dateSwitcherModel = new DateSwitcherModel(new GregorianCalendar(), calendarWeekViewPanel);
 
-		wicketTester.startPage(new ITestPageSource(){
+		wicketTester.startPage(new ITestPageSource() {
 			private static final long serialVersionUID = 1L;
 
 			public Page getTestPage() {
-				return new PanelTestPage(new DateSwitcherPanel(PanelTestPage.PANEL_MARKUP_ID, dateSwitcherModel){
+				return new PanelTestPage(new DateSwitcherPanel(PanelTestPage.PANEL_MARKUP_ID, dateSwitcherModel) {
 					private static final long serialVersionUID = 1L;
 					@Override
 					public void nextPeriod(AjaxRequestTarget target) { /* NOTHING TO DO */ }
@@ -170,12 +166,10 @@ public class DateSwitcherPanelTest extends WebicalApplicationTest {
 					public void todaySelected(AjaxRequestTarget target) { /* NOTHING TO DO */ }
 				});
 			}
-
 		});
 
 		SimpleDateFormat sdf = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
 		sdf.applyPattern(calendarWeekViewPanel.getViewPeriodFormat());
 		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":rangeLabel", sdf.format(assumedRangeStartCal.getTime())  + " - " + sdf.format(assumedRangeEndCal.getTime()));
 	}
-
 }

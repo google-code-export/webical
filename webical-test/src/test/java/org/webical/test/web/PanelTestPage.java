@@ -20,19 +20,28 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.webical.test.web.annotation;
+package org.webical.test.web;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.panel.Panel;
 
-@Retention (RetentionPolicy.RUNTIME)
-@Target (ElementType.METHOD)
-@Documented
-public @interface Accessibility {
+/**
+ * TestPage to insert ready to be tested panels on  
+ * @author ivo
+ *
+ */
+public class PanelTestPage extends WebPage {
 
-	public boolean accessible() default false;
+	private static final long serialVersionUID = 1L;
 
+	/** The id used in the markup for the panel */
+	public static final String PANEL_MARKUP_ID = "testpanel"; 
+
+	/**
+	 * Constructor, takes a panel to add to the page
+	 * @param panel the panel to add
+	 */
+	public PanelTestPage(Panel panel) {
+		add(panel);
+	}
 }

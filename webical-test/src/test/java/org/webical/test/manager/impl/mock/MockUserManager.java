@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -18,7 +20,7 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.webical.manager.impl.mock;
+package org.webical.test.manager.impl.mock;
 
 import java.util.HashMap;
 
@@ -33,7 +35,7 @@ import org.webical.manager.WebicalException;
  *
  */
 public class MockUserManager implements UserManager {
-	
+
 	private HashMap<String, User> userMap = new HashMap<String, User>();
 
 	/* (non-Javadoc)
@@ -44,17 +46,16 @@ public class MockUserManager implements UserManager {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.webical.manager.UserManager#removeUser(org.webical.User)
-	 */
-	public void removeUser(User user) throws WebicalException {
-		userMap.remove(user.getUserId());
-	}
-
-	/* (non-Javadoc)
 	 * @see org.webical.manager.UserManager#storeUser(org.webical.User)
 	 */
 	public void storeUser(User user) throws WebicalException {
 		userMap.put(user.getUserId(), user);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.webical.manager.UserManager#removeUser(org.webical.User)
+	 */
+	public void removeUser(User user) throws WebicalException {
+		userMap.remove(user.getUserId());
+	}
 }

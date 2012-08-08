@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -18,7 +20,7 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.webical.dao.impl;
+package org.webical.test.dao.impl;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -43,7 +45,7 @@ public class ApplicationSettingsDaoHibernateImplTest extends DataBaseTest {
 
 	/**
 	 * Setup the dao
-	 * @see org.webical.aspect.dao.hibernateImpl.DataBaseTest#setUp()
+	 * @see org.webical.test.aspect.dao.hibernateImpl.DataBaseTest#setUp()
 	 */
 	@Override
 	protected void setUp() throws Exception {

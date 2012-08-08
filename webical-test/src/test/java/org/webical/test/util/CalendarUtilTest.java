@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -18,72 +20,72 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.webical.util;
+package org.webical.test.util;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+
+import org.webical.util.CalendarUtils;
 
 import junit.framework.TestCase;
 
 public class CalendarUtilTest extends TestCase {
 
-	Date compareDate = new GregorianCalendar(2006, Calendar.NOVEMBER, 26).getTime();
-	Date date = new GregorianCalendar(2006, Calendar.NOVEMBER, 26, 3, 30, 20).getTime();
+	Date compareDate = new GregorianCalendar(2006, GregorianCalendar.NOVEMBER, 26).getTime();
+	Date date = new GregorianCalendar(2006, GregorianCalendar.NOVEMBER, 26, 3, 30, 20).getTime();
 
 	/**
 	 * Test retrieval of Local time
 	 */
-	public void testGetLocalTime(){
+	public void testGetLocalTime() {
 		org.webical.util.CalendarUtils.getLocalTime(date, Locale.ENGLISH, false);
 	}
 
 	/**
 	 * Test date calculations
 	 */
-	public void testCalendarUtil(){
+	public void testCalendarUtil() {
 
 		// Date in the first week of December
-		Date date = org.webical.util.CalendarUtils.getFirstDayOfWeekOfMonth(new  GregorianCalendar(2006,Calendar.DECEMBER,6).getTime(),Calendar.SUNDAY);
+		Date date = org.webical.util.CalendarUtils.getFirstDayOfWeekOfMonth(new  GregorianCalendar(2006, GregorianCalendar.DECEMBER,6).getTime(), GregorianCalendar.SUNDAY);
 		assertEquals(compareDate, date);
 
 		// second week of December should be equals the month is still December
-		date = org.webical.util.CalendarUtils.getFirstDayOfWeekOfMonth(new  GregorianCalendar(2006,Calendar.DECEMBER,7).getTime(),Calendar.SUNDAY);
+		date = org.webical.util.CalendarUtils.getFirstDayOfWeekOfMonth(new  GregorianCalendar(2006, GregorianCalendar.DECEMBER,7).getTime(), GregorianCalendar.SUNDAY);
 		assertEquals(compareDate, date);
 
 		// another month, the date should now be the first sunday from the week of Jan the first
-		date = org.webical.util.CalendarUtils.getFirstDayOfWeekOfMonth(new  GregorianCalendar(2006,Calendar.JANUARY,7).getTime(),Calendar.SUNDAY);
+		date = org.webical.util.CalendarUtils.getFirstDayOfWeekOfMonth(new  GregorianCalendar(2006, GregorianCalendar.JANUARY,7).getTime(), GregorianCalendar.SUNDAY);
 		assertNotSame(compareDate, date);
 
-		compareDate = new GregorianCalendar(2006,Calendar.DECEMBER,31).getTime();
+		compareDate = new GregorianCalendar(2006, GregorianCalendar.DECEMBER, 31, 23, 59, 59).getTime();
 
 		// test if the last day of December equals December 31.
-		date = org.webical.util.CalendarUtils.getLastDayOfMonth(new GregorianCalendar(2006,Calendar.DECEMBER,4).getTime());
+		date = org.webical.util.CalendarUtils.getLastDayOfMonth(new GregorianCalendar(2006, GregorianCalendar.DECEMBER,4).getTime());
 		assertEquals(compareDate, date);
 
-		compareDate = new GregorianCalendar(2006,Calendar.DECEMBER,31).getTime();
-		date = org.webical.util.CalendarUtils.getLastWeekDayOfMonth(new GregorianCalendar(2006,Calendar.DECEMBER,31).getTime(), Calendar.MONDAY);
+		compareDate = new GregorianCalendar(2006, GregorianCalendar.DECEMBER, 31, 23, 59, 59).getTime();
+		date = org.webical.util.CalendarUtils.getLastWeekDayOfMonth(new GregorianCalendar(2006, GregorianCalendar.DECEMBER,31).getTime(), GregorianCalendar.MONDAY);
 
 		assertEquals(compareDate, date);
 
-		compareDate = new GregorianCalendar(2006,Calendar.FEBRUARY,5).getTime();
-		date = org.webical.util.CalendarUtils.getLastWeekDayOfMonth(new GregorianCalendar(2006,Calendar.JANUARY,21).getTime(), Calendar.MONDAY);
+		compareDate = new GregorianCalendar(2006, GregorianCalendar.FEBRUARY, 4, 23, 59, 59).getTime();
+		date = org.webical.util.CalendarUtils.getLastWeekDayOfMonth(new GregorianCalendar(2006, GregorianCalendar.JANUARY,21).getTime(), GregorianCalendar.SUNDAY);
 
 		assertEquals(compareDate, date);
 
 		// Assert first day of week
-		date = org.webical.util.CalendarUtils.getFirstDayOfWeek(org.webical.util.CalendarUtils.addDays(GregorianCalendar.getInstance().getTime(), 0),java.util.Calendar.MONDAY);
+		date = org.webical.util.CalendarUtils.getFirstDayOfWeek(org.webical.util.CalendarUtils.addDays(GregorianCalendar.getInstance().getTime(), 0), GregorianCalendar.MONDAY);
 		GregorianCalendar dayCalendar = new GregorianCalendar();
 		dayCalendar.setTime(date);
 
-		assertEquals(java.util.Calendar.MONDAY, dayCalendar.get(java.util.Calendar.DAY_OF_WEEK));
+		assertEquals(GregorianCalendar.MONDAY, dayCalendar.get(GregorianCalendar.DAY_OF_WEEK));
 
-		GregorianCalendar dtStart = new GregorianCalendar(2006, java.util.Calendar.DECEMBER, 1);
-		GregorianCalendar dtEnd = new GregorianCalendar(2006, java.util.Calendar.DECEMBER, 2);
+		GregorianCalendar dtStart = new GregorianCalendar(2006, GregorianCalendar.DECEMBER, 1);
+		GregorianCalendar dtEnd = new GregorianCalendar(2006, GregorianCalendar.DECEMBER, 2);
 
 		int i = CalendarUtils.getDifferenceInDays(dtStart.getTime(), dtEnd.getTime());
-
 		assertEquals(1,i);
 	}
 }

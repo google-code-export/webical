@@ -20,37 +20,30 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.webical.web.component;
-
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
+package org.webical.test.web.component;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.util.tester.ITestPageSource;
+import org.webical.User;
 import org.webical.Calendar;
 import org.webical.Event;
-import org.webical.User;
 import org.webical.ical.Recurrence;
 import org.webical.ical.RecurrenceUtil;
-import org.webical.manager.EventManager;
 import org.webical.manager.WebicalException;
-import org.webical.manager.impl.mock.MockCalendarManager;
-import org.webical.manager.impl.mock.MockEventManager;
-import org.webical.manager.impl.mock.MockUserManager;
 import org.webical.util.CalendarUtils;
-import org.webical.web.PanelTestPage;
-import org.webical.web.WebicalApplicationTest;
 import org.webical.web.action.IAction;
-import org.webical.web.app.WebicalSession;
 import org.webical.web.component.calendar.DayViewPanel;
+import org.webical.test.TestUtils;
+import org.webical.test.manager.impl.mock.MockCalendarManager;
+import org.webical.test.manager.impl.mock.MockEventManager;
+import org.webical.test.web.PanelTestPage;
+import org.webical.test.web.WebicalApplicationTest;
 
 /**
  *
@@ -62,34 +55,42 @@ public class DayViewPanelTest extends WebicalApplicationTest {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		annotApplicationContextMock.putBean("userManager", new MockUserManager());
+
+		//Prepare the user
+		User user = TestUtils.getJAGUser();
+		getTestSession().createUser(user);
+		getTestSession().getUserSettings();
+
+		//Prepare the calendars
+		MockCalendarManager mockCalendarManager = new MockCalendarManager();
+		annotApplicationContextMock.putBean("calendarManager", mockCalendarManager);
+
+		Calendar calendar1 = new Calendar();
+		calendar1.setCalendarId(1L);
+		calendar1.setName("Calendar one");
+		calendar1.setType("ical-webdav");
+		calendar1.setUrl("http://www.webical.org/calendar1.ics");
+		calendar1.setUser(getTestSession().getUser());
+		mockCalendarManager.storeCalendar(calendar1);
+		Calendar calendar2 = new Calendar();
+		calendar2.setCalendarId(2L);
+		calendar2.setName("Calendar two");
+		calendar2.setType("ical-webdav");
+		calendar2.setUrl("http://www.webical.org/calendar2.ics");
+		calendar2.setUser(getTestSession().getUser());
+		mockCalendarManager.storeCalendar(calendar2);
 	}
 
 	/**
 	 * Test whether the panel renders correct without events
 	 */
-	public void testWithoutEvents() {
-		final List<Calendar> calendars = new ArrayList<Calendar>();
-
-		// Add a CalendarManager
-		annotApplicationContextMock.putBean("calendarManager", new MockCalendarManager() {
-			@Override
-			public List<Calendar> getCalendars(User user) throws WebicalException {
-				Calendar calendar = new Calendar();
-				calendar.setName("calendar1");
-				calendars.add(calendar);
-				calendar = new Calendar();
-				calendar.setName("calendar2");
-				calendars.add(calendar);
-				return calendars;
-			}
-		});
+	public void testWithoutEvents() throws WebicalException {
 
 		// Add an EventManager
 		annotApplicationContextMock.putBean("eventManager", new MockEventManager());
 
 		// Create the testpage with with a DayViewPanel
-		wicketTester.startPage(new ITestPageSource(){
+		wicketTester.startPage(new ITestPageSource() {
 			private static final long serialVersionUID = 1L;
 
 			public Page getTestPage() {
@@ -106,9 +107,9 @@ public class DayViewPanelTest extends WebicalApplicationTest {
 		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID, DayViewPanel.class);
 
 		// Assert the heading label
-		DateFormat dateFormat = new SimpleDateFormat("EEEE");
+		DateFormat dateFormat = new SimpleDateFormat("EEEE", getTestSession().getLocale());
 		GregorianCalendar headingDate = new GregorianCalendar();
-		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":dayHeadingLabel", dateFormat.format(headingDate.getTime()));
+		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":dayLink", dateFormat.format(headingDate.getTime()));
 
 		// Assert the number of events rendered
 		wicketTester.assertListView(PanelTestPage.PANEL_MARKUP_ID + ":eventItem", new ArrayList<Event>());
@@ -116,74 +117,72 @@ public class DayViewPanelTest extends WebicalApplicationTest {
 
 	public void testWithEvents() throws WebicalException {
 
-		// Prepare a User
-		final User user = new User();
-		user.setFirstName("James");
-		user.setLastName("Gossling");
-		user.setUserId("jag");
-		webicalSession.setUser(user);
+		// Get the CalendarManager.
+		MockCalendarManager mockCalendarManager = (MockCalendarManager) annotApplicationContextMock.getBean("calendarManager");
+		Calendar calendar1 = mockCalendarManager.getCalendarById("1");
 
-		GregorianCalendar refcal = new GregorianCalendar();
-		refcal.set(java.util.Calendar.HOUR_OF_DAY, 12);
-		refcal.set(java.util.Calendar.MINUTE, 0);
-		refcal.set(java.util.Calendar.SECOND, 0);
+		// Add an EventManager for the test Events.
+		MockEventManager mockEventManager = new MockEventManager();
+		annotApplicationContextMock.putBean("eventManager", mockEventManager);
+
 		GregorianCalendar cal = new GregorianCalendar();
-		
+		GregorianCalendar refcal = new GregorianCalendar();
+		refcal.set(GregorianCalendar.HOUR_OF_DAY, 12);
+		refcal.set(GregorianCalendar.MINUTE, 0);
+		refcal.set(GregorianCalendar.SECOND, 0);
+
 		// Create list with events for the manager
 		final List<Event> events = new ArrayList<Event>();
 		// Add a normal event
 		Event event = new Event();
 		event.setUid("e1");
+		event.setCalendar(calendar1);
 		event.setSummary("Normal Event Summary");
+		event.setLocation("Normal Event Location");
 		event.setDescription("Normal Event Description");
 		event.setDtStart(refcal.getTime());
 		event.setDtEnd(CalendarUtils.addHours(refcal.getTime(), 2));
 		events.add(event);
+		mockEventManager.storeEvent(event);
 
 		// Add a recurring event, starting yesterday, ending tommorrow
 		event = new Event();
 		event.setUid("e2");
+		event.setCalendar(calendar1);
 		event.setSummary("Recurring Event Yesterday Summary");
+		event.setLocation("Recurring Event Location");
 		event.setDescription("Recurring Event Yesterday Description");
 		cal.setTime(refcal.getTime());
-		cal.add(java.util.Calendar.DAY_OF_MONTH, -1);
+		cal.add(GregorianCalendar.DAY_OF_MONTH, -1);
 		event.setDtStart(cal.getTime());
-		cal.add(java.util.Calendar.HOUR_OF_DAY,	2);
+		cal.add(GregorianCalendar.HOUR_OF_DAY,	2);
+		cal.add(GregorianCalendar.DAY_OF_MONTH, 2);
 		event.setDtEnd(cal.getTime());
-		cal.add(java.util.Calendar.DAY_OF_MONTH, 2);
 		RecurrenceUtil.setRecurrenceRule(event, new Recurrence(0, 1, cal.getTime()));
 		events.add(event);
+		mockEventManager.storeEvent(event);
 
 		// Add a recurring event, starting last month, ending next month
 		event = new Event();
 		event.setUid("e3");
+		event.setCalendar(calendar1);
 		event.setSummary("Recurring Event Last Month Summary");
+		event.setLocation("Recurring Event Location");
 		event.setDescription("Recurring Event Last Month Description");
 		cal.setTime(refcal.getTime());
-		cal.add(java.util.Calendar.MONTH, -1);
+		cal.add(GregorianCalendar.MONTH, -1);
 		event.setDtStart(cal.getTime());
-		cal.add(java.util.Calendar.HOUR_OF_DAY,	2);
+		cal.add(GregorianCalendar.HOUR_OF_DAY,	2);
+		cal.add(GregorianCalendar.MONTH, 2);
 		event.setDtEnd(cal.getTime());
-		cal.add(java.util.Calendar.MONTH, 2);
 		RecurrenceUtil.setRecurrenceRule(event, new Recurrence(0, 1, cal.getTime()));
 		events.add(event);
+		mockEventManager.storeEvent(event);
 
 		final GregorianCalendar currentDate = new GregorianCalendar();
-		Date startDate = CalendarUtils.getStartOfDay(currentDate.getTime());
-		Date endDate = CalendarUtils.getEndOfDay(currentDate.getTime());
-
-		// Add an EventManager through EasyMock with the Events.
-		EventManager eventManagerMock = createMock(EventManager.class);
-		annotApplicationContextMock.putBean("eventManager", eventManagerMock);
-		// temporarily set to times(1, 2) because of assertListView second call
-		expect(eventManagerMock.getEventsForPeriod(WebicalSession.getWebicalSession().getUser(), startDate, endDate)).andReturn(events).times(1, 2);
-		replay(eventManagerMock);
-
-		// Add a CalendarManager.
-		annotApplicationContextMock.putBean("calendarManager", new MockCalendarManager());
 
 		// Create the testpage with a DayViewPanel
-		wicketTester.startPage(new ITestPageSource(){
+		wicketTester.startPage(new ITestPageSource() {
 			private static final long serialVersionUID = 1L;
 
 			public Page getTestPage() {
@@ -200,17 +199,11 @@ public class DayViewPanelTest extends WebicalApplicationTest {
 		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID, DayViewPanel.class);
 
 		// Assert the heading label
-		DateFormat dateFormat = new SimpleDateFormat("EEEE");
+		DateFormat dateFormat = new SimpleDateFormat("EEEE", getTestSession().getLocale());
 		GregorianCalendar headingDate = new GregorianCalendar();
-		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":dayHeadingLabel", dateFormat.format(headingDate.getTime()));
+		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":dayLink", dateFormat.format(headingDate.getTime()));
 
 		// Assert the number of events rendered
-		/*
-		 * FIXME assertListView calls the EventManager a second time
-		 * resulting in an error at the EasyMock eventManagerMock.
-		 * Apparently there is a bug in either DayViewPanel or EventsModel. This
-		 * does not seem to happen with a normal run.
-		 */
 		wicketTester.assertListView(PanelTestPage.PANEL_MARKUP_ID + ":eventItem", events);
 	}
 }
