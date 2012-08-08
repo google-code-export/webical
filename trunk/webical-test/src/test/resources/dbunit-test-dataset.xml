@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<dataset>
+	<wcaluser
+		userId="demo-user"
+		firstName="demo"
+		lastNamePrefix="the"
+		lastName="user"
+		birthDate="1980-01-03"/>
+	<wcaluser
+		userId="webical"
+		firstName="webical"
+		lastNamePrefix="webical"
+		lastName="webical"
+		birthDate="1970-11-06"/>
+	<wcaluser
+		userId="jag"
+		firstName="James"
+		lastNamePrefix="A."
+		lastName="Goslinga"
+		birthDate="1960-04-23"/>
+	<calendar
+		name="calendar1_demo-user"
+		type="ical-webdav"
+		url="http://localhost:10202/test-ics.ics"
+		username="paulmweerd"
+		password="paulmweerd"
+		userId="demo-user"
+		visible="true"/>
+	<calendar
+		name="calendar2_demo-user"
+		type="ical-webdav"
+		url="http://localhost:10202/webical.ics"
+		userId="demo-user"
+		visible="false"/>
+	<calendar
+		name="webical"
+		type="ical-webdav"
+		url="http://localhost:10202/webical.ics"
+		userId="webical"
+		visible="true"/>
+	<calendar
+		name="JAG"
+		type="ical-webdav"
+		url="http://localhost:10202/test-ics.ics"
+		userId="jag"
+		visible="true"/>
+</dataset>
