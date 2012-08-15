@@ -68,11 +68,12 @@ public aspect HibernateSessionAspect {
             hbtransact = null;
             throw dax;
         } finally {
-        	SessionFactoryUtils.flushSession();
             if (hbtransact != null) {
             	log.info("Commit Transaction: readOnly " + transaction.readOnly());
+            	SessionFactoryUtils.flushSession();
             	hbtransact.commit();
             }
+            hbtransact = null;
             SessionFactoryUtils.closeSession();
         }
     }
