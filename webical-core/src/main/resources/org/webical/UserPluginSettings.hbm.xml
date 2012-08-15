@@ -1,13 +1,16 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
 <hibernate-mapping package="org.webical">
 	<joined-subclass name="UserPluginSettings" table="user_plugin_settings" extends="Settings">
-		
+
 		<!-- The id column of the superclass -->
-		<key column="id"/>
-		
-		<property name="pluginClass"/>
-		<many-to-one name="user" class="User" />
-  		
+		<key column="settingsId"/>
+
+		<property length="3000" name="pluginClass" type="java.lang.String" />
+
+		<many-to-one name="user" class="User" column="userId"
+			not-null="true" lazy="false" />
+
 	</joined-subclass>
 </hibernate-mapping>

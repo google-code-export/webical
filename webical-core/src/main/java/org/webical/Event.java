@@ -140,8 +140,8 @@ public class Event implements Serializable {
 		}
 		return comment;
 	}
-	public void setComment(Set<String> comment) {
-		this.comment = comment;
+	public void setComment(Set<String> comments) {
+		this.comment = comments;
 	}
 
 	public Set<String> getContact() {
@@ -332,8 +332,8 @@ public class Event implements Serializable {
 	public String getUid() {
 		return uid;
 	}
-	public void setUid(String uid) {
-		this.uid = uid;
+	public void setUid(String wuid) {
+		this.uid = wuid;
 	}
 
 	public String getUrl() {
@@ -381,30 +381,29 @@ public class Event implements Serializable {
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = 1;
-		result = PRIME * result + ((uid == null) ? 0 : uid.hashCode());
+		result = PRIME * result + ((getUid() == null) ? 0 : getUid().hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		if (this == obj) return true;
+
+		if (obj == null) return false;
+
+		if (getClass() != obj.getClass()) return false;
+
 		final Event other = (Event) obj;
-		if (uid == null) {
-			if (other.uid != null)
-				return false;
-		} else if (!uid.equals(other.uid))
-			return false;
+		if (getUid() == null) {
+			if (other.getUid() != null) return false;
+		} else if (!getUid().equals(other.getUid())) return false;
+
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		StringBuffer sbts = new StringBuffer();
+		StringBuilder sbts = new StringBuilder();
 		if (getUid() != null)
 		{
 			sbts.append("UID: ");

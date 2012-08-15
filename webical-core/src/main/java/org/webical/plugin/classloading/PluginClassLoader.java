@@ -90,7 +90,7 @@ public class PluginClassLoader extends ClassLoader {
 	 */
 	@Override
 	public Class<?> findClass(String className) throws ClassNotFoundException {
-		if(StringUtils.isEmpty(className)) {
+		if (StringUtils.isEmpty(className)) {
 			throw new ClassNotFoundException("Cannot load a class without a name: " + className);
 		}
 
@@ -113,12 +113,14 @@ public class PluginClassLoader extends ClassLoader {
 		byte[] classBytes = null;
 
 		//First try the loaded jar files
-		log.debug("Trying to load class: " + className + " from the registered jar files");
+		if (log.isDebugEnabled()) {
+			log.debug("Trying to load class: " + className + " from the registered jar files");
+		}
 		classBytes = (byte[]) classArrays.get(className);
 		if (classBytes != null) {
-			log.debug("Class found in jar file");
+			if (log.isDebugEnabled()) log.debug("Class found in jar file");
 			Class clazz = defineClass(className, classBytes, 0, classBytes.length, null);
-			if(clazz != null) {
+			if (clazz != null) {
 				definedClassesMap.put(className, clazz);
 			}
 			return clazz;
@@ -135,8 +137,8 @@ public class PluginClassLoader extends ClassLoader {
 			log.error("Class does not seem to be readable: " + className + " file: " + classFile.getAbsolutePath());
 			throw new ClassNotFoundException("Class does not seem to be readable: " + className + " file: " + classFile.getAbsolutePath());
 		}
-		FileInputStream classInputStream = null;
 
+		FileInputStream classInputStream = null;
 		try {
 			classInputStream = new FileInputStream(classFile);
 			classBytes = getBytesFromFile(classInputStream, classFile.length());
@@ -212,12 +214,14 @@ public class PluginClassLoader extends ClassLoader {
 	 */
 	@Override
 	public URL findResource(String name) {
-		log.debug("Trying to find resource: " + name);
+		if (log.isDebugEnabled()) log.debug("Trying to find resource: " + name);
 
 		if (!StringUtils.isEmpty(name)) {
 			File file = resourceNameToFileMap.get(name);
 			if (file != null) {
-				log.debug("Found resource: " + name + " in file: " + file.getAbsolutePath() + " readable: " + file.canRead());
+				if (log.isDebugEnabled()) {
+					log.debug("Found resource: " + name + " in file: " + file.getAbsolutePath() + " readable: " + file.canRead());
+				}
 				try {
 					URL url = file.toURI().toURL();
 					log.debug("Returning url:" + url.toString());
@@ -248,7 +252,7 @@ public class PluginClassLoader extends ClassLoader {
 
 	/**
 	 * Reads in all classes in a jar file for later reference
-	 * @param name the ful name and path of the jar file
+	 * @param name the full name and path of the jar file
 	 * @throws PluginException 
 	 */
 	public void readJarFile(File jarFile) throws PluginException {
@@ -269,7 +273,7 @@ public class PluginClassLoader extends ClassLoader {
 			log.error("Jar is not readable: " + jarFile.getAbsolutePath());
 			throw new PluginException("Jar is not readable: " + jarFile.getAbsolutePath());
 		}
-		log.debug("Loading jar file " + jarFile);
+		if (log.isDebugEnabled()) log.debug("Loading jar file " + jarFile);
 
 		FileInputStream fis = null;
 		try {
@@ -338,6 +342,7 @@ public class PluginClassLoader extends ClassLoader {
 	private void loadClassBytes(JarInputStream jis, String className) throws IOException {
 		if (!classArrays.containsKey(className)) {
 			try {
+				log.debug("load " + className);
 				classArrays.put(className, readBytesFromJarEntry(jis));
 			} catch (IOException ioe) {
 				log.error("Error reading entry " + className, ioe);
@@ -361,7 +366,9 @@ public class PluginClassLoader extends ClassLoader {
 		File extractedFile = new File(extactionDir, name);
 		String resourceIdentifier = ClassUtils.fileToClassPathResourceIdentifier(extactionDir, extractedFile);
 
-		log.debug("Extracting jar resource: " + resourceIdentifier + "  it to: " + extractedFile.getAbsolutePath());
+		if (log.isDebugEnabled()) {
+			log.debug("Extracting jar resource: " + resourceIdentifier + "  it to: " + extractedFile.getAbsolutePath());
+		}
 
 		FileUtils.streamToFile(jis, extractedFile, false);
 		resourceNameToFileMap.put(resourceIdentifier, extractedFile);
@@ -398,11 +405,11 @@ public class PluginClassLoader extends ClassLoader {
 	 * @return the bytes
 	 * @throws IOException
 	 */
-	private byte[] readBytesFromJarEntry(JarInputStream jis) throws IOException{
+	private byte[] readBytesFromJarEntry(JarInputStream jis) throws IOException {
 		BufferedInputStream jarBuf = new BufferedInputStream(jis);
 		ByteArrayOutputStream jarOut = new ByteArrayOutputStream();
 		int buffer;
-	
+
 		while ((buffer = jarBuf.read()) != -1) {
 			jarOut.write(buffer);
 		}
@@ -434,15 +441,15 @@ public class PluginClassLoader extends ClassLoader {
 	}
 
 	/**
-	 * Takes a resource identifier (eg. some/package/TheResource.extension) and the associated file to regsiter
+	 * Takes a resource identifier (eg. some/package/TheResource.extension) and the associated file to register
 	 * on the classpath 
 	 * @param resourceIdentifier a resource identifier (eg. some/package/TheResource.extension) 
-	 * @param file the associated file to regsiter
+	 * @param file the associated file to register
 	 * @throws DuplicateClassPathEntryException if a resource with the same identifier was already registered.
 	 */
 	public void addClassPathResourceRegistration(String resourceIdentifier, File file) throws DuplicateClassPathEntryException {
 		if (!StringUtils.isEmpty(resourceIdentifier) && file != null) {
-			if(!resourceNameToFileMap.containsKey(resourceIdentifier)) {
+			if (!resourceNameToFileMap.containsKey(resourceIdentifier)) {
 				log.debug("Registering resource on classpath: " + resourceIdentifier + " with associated file: " + (file!=null?file.getAbsolutePath():null));
 				resourceNameToFileMap.put(resourceIdentifier, file);
 			} else {

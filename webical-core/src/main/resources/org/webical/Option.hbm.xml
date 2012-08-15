@@ -3,15 +3,17 @@
 
 <hibernate-mapping package="org.webical">
 	<class name="Option" table="options">
-	
-		<id name="id" type="java.lang.Long">
-            <column 	name="id" />
-            <generator 	class="identity" />   		
+
+		<id name="optionId" type="java.lang.Long">
+            <column name="optionId" />
+            <generator class="identity" />
   		</id>
-  		
-  		<many-to-one name="settings" class="Settings"/>
-  		<property name="name" type="string" />
+
+  		<property name="name" type="java.lang.String" />
   		<property name="value" type="serializable" />
-  		
+
+  		<many-to-one name="settings" class="Settings" lazy="false"
+  			column="settingsId" not-null="true" />
+
 	</class>
 </hibernate-mapping>

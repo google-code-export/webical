@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id: $
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -29,15 +31,15 @@ import java.io.Serializable;
  */
 public class Option implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	private long id;
-	private Settings settings;
-	private String name;
-	private Serializable value;
-	
+
+	private Long optionId = null;
+	private Settings settings = null;
+	private String name = null;
+	private Serializable value = null;
+
 	public Option() {
 	}
-	
+
 	/**
 	 * @param settings
 	 * @param name
@@ -51,17 +53,18 @@ public class Option implements Serializable {
 	}
 
 	/**
-	 * @return the id
+	 * @return the optionId
 	 */
-	public long getId() {
-		return id;
+	public Long getOptionId() {
+		return optionId;
 	}
 	/**
-	 * @param id the id to set
+	 * @param optionId - the optionId to set
 	 */
-	public void setId(long id) {
-		this.id = id;
+	public void setOptionId(Long optionId) {
+		this.optionId = optionId;
 	}
+
 	/**
 	 * @return the settings
 	 */
@@ -69,10 +72,23 @@ public class Option implements Serializable {
 		return settings;
 	}
 	/**
-	 * @param settings the settings to set
+	 * @param settings - the settings to set
 	 */
 	public void setSettings(Settings settings) {
 		this.settings = settings;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * @param name - the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
@@ -82,24 +98,9 @@ public class Option implements Serializable {
 		return value;
 	}
 	/**
-	 * @param value the value to set
+	 * @param value - the value to set
 	 */
 	public void setValue(Serializable value) {
 		this.value = value;
 	}
-
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	} 
-
 }

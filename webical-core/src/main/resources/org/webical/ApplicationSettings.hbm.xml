@@ -21,21 +21,21 @@
     		configurationPassword - password to log into the configuration page
   		 -->
 
-    	<property length="2000000" name="customPageTitle" />
-		<property length="2000000" name="pluginWorkPath" />
-		<property length="2000000" name="pluginPackageExtension" />
+    	<property length="1000" name="customPageTitle" />
+		<property length="3000" name="pluginWorkPath" />
+		<property length="1000" name="pluginPackageExtension" />
 		<property name="calendarRefreshTimeMs" />
 		<property name="pluginCleanupEnabled" type="boolean" />
-		<property length="2000000" name="configurationUsername" />
-		<property length="2000000" name="configurationPassword" />
+		<property length="1000" name="configurationUsername" />
+		<property length="1000" name="configurationPassword" />
 
-		<set table="application_settings_plugin_paths" cascade="all" name="pluginPaths" lazy="false">
+		<set table="appl_sett_plugin_paths" cascade="all" name="pluginPaths" lazy="false">
         	<key column="applicationSettingsId" not-null="true"/>
-        	<element column="plugin_path" length="2000000" type="java.lang.String"/>
+        	<element column="plugin_path" length="3000" type="java.lang.String"/>
    		</set>
-		<set table="application_settings_resource_paths" cascade="all" name="resourcePaths" lazy="false">
+		<set table="appl_sett_resource_paths" cascade="all" name="resourcePaths" lazy="false">
         	<key column="applicationSettingsId" not-null="true"/>
-        	<element column="resource_path" length="2000000" type="java.lang.String"/>
+        	<element column="resource_path" length="3000" type="java.lang.String"/>
    		</set>
 
 	</class>

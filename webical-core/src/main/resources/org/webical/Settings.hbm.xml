@@ -3,16 +3,16 @@
 
 <hibernate-mapping package="org.webical">
 	<class name="Settings" table="settings">
-		<id name="id" type="java.lang.Long">
-            <column 	name="id" />
-            <generator 	class="identity" />   		
-  		</id>
-  		
-  		
-  		<set name="options" cascade="all" lazy="false">
-  			<key column="settings_id" not-null="true" />
-  			<one-to-many class="Option"/>
-  		</set>
-	</class>
 
+		<id name="settingsId" type="java.lang.Long">
+            <column name="settingsId" />
+            <generator class="identity" />
+  		</id>
+
+		<set name="options" cascade="all" lazy="false" table="options">
+			<key column="settingsId2" not-null="true" />
+			<one-to-many class="Option" />
+		</set>
+
+	</class>
 </hibernate-mapping>
