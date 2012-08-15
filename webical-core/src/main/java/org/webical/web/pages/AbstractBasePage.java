@@ -195,7 +195,7 @@ public abstract class AbstractBasePage extends WebPage implements IAccessibility
 		if (agent == Agent.IE5 || agent == Agent.IE6) {
 			add(HeaderContributor.forCss(CSS_IE6ANDPREV));
 		}
-		if (agent != Agent.IE6 && agent != Agent.GECKO) {
+		else if (agent != Agent.GECKO) {
 			add(HeaderContributor.forCss(String.format(CSS_TEMPLATE, agent.toString())));
 		}
 	}

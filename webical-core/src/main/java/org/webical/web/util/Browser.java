@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -24,7 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class Browser {
 	public enum Agent {
-		GECKO("gecko"), IE5("ie5"), IE6("ie6"), IE7("ie7"), SAFARI("safari");
+		GECKO("gecko"), IE5("ie5"), IE6("ie6"), IE7("ie7"), IEX("iex"), SAFARI("safari"), CHROME("chrome"),
+		FIREFOX("firefox"), OPERA("opera");
 
 		private String value;
 
@@ -37,7 +40,7 @@ public class Browser {
 			return value;
 		}
 	}
-	
+
 	public static Agent sniffBrowser(HttpServletRequest request) {
 		if(request.getHeader("User-Agent") != null) {
 			String userAgent = request.getHeader("User-Agent").toLowerCase();
@@ -47,18 +50,29 @@ public class Browser {
 					return Agent.SAFARI;
 				}
 			}
-			
+
 			if (userAgent.contains("msie 5")) {
 				return Agent.IE5;
 			} else if (userAgent.contains("msie 6")) {
 				return Agent.IE6;
 			} else if (userAgent.contains("msie 7")) {
 				return Agent.IE7;
+			} else if (userAgent.contains("msie ")) {
+				return Agent.IEX;
+			}
+
+			else if (userAgent.contains(Agent.CHROME.toString())) {
+				return Agent.CHROME;
+			}
+			else if (userAgent.contains(Agent.FIREFOX.toString())) {
+				return Agent.FIREFOX;
+			}
+			else if (userAgent.contains(Agent.OPERA.toString())) {
+				return Agent.OPERA;
 			}
 		}
-		
+
 		// XXX: it might as well be a crawler
 		return Agent.GECKO;
 	}
 }
-
