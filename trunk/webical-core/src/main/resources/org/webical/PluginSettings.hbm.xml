@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
 <hibernate-mapping package="org.webical">
 	<joined-subclass name="PluginSettings" table="plugin_settings" extends="Settings">
-		
+
 		<!-- The id column of the superclass -->
-		<key column="id"/>
-		
-		<property name="pluginClass"/>
-  		
+		<key column="settingsId" />
+
+		<property length="3000" name="pluginClass" type="java.lang.String" />
+
 	</joined-subclass>
 </hibernate-mapping>

@@ -2,13 +2,13 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="org.webical">
-	<class name="User" table="user">
+	<class name="User" table="wcaluser">
 
   		<id name="userId"/>
 
-    	<property length="20000" name="firstName" />
-		<property length="20000" name="lastNamePrefix" />
-		<property length="20000" name="lastName" />
+    	<property length="1000" name="firstName" />
+		<property length="1000" name="lastNamePrefix" />
+		<property length="1000" name="lastName" />
 		<property type="date" name="birthDate" />
 
 	</class>

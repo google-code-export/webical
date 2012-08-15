@@ -9,12 +9,12 @@
             <generator class="identity" />
   		</id>
 
-		<property length="2000000" name="name" not-null="true" />
-		<property length="2000000" name="type" not-null="true" />
-		<property length="2000000" name="url" not-null="true" />
-		<property length="2000000" name="username"/>
+		<property length="1000" name="name" not-null="true" />
+		<property length="1000" name="type" not-null="true" />
+		<property length="3000" name="url" not-null="true" />
+		<property length="1000" name="username"/>
 		<!-- Encryption is configured in TypeRegistration.hbm.xml -->
-		<property length="2000000" name="password"  type="encrypted" />
+		<property length="1000" name="password"  type="encrypted" />
 		<property name="visible"/>
 		<property name="offSetFrom" type="java.lang.Long" />
 		<property name="offSetTo" type="java.lang.Long" />

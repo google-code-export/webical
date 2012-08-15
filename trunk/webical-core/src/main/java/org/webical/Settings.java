@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id: $
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -27,34 +29,34 @@ import java.util.Set;
 /**
  * Base class for all kinds of settings 
  * @author ivo
- *
  */
 public abstract class Settings implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	private long id;
-	private Set<Option> options;
-	
+
+	private Long settingsId = null;
+	private Set<Option> options = null;
+
 	public Settings() {
 	}
-	
+
 	/**
 	 * @return the id
 	 */
-	public long getId() {
-		return id;
+	public Long getSettingsId() {
+		return settingsId;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(long id) {
-		this.id = id;
+	public void setSettingsId(Long settingsId) {
+		this.settingsId = settingsId;
 	}
+
 	/**
 	 * @return the options
 	 */
 	public Set<Option> getOptions() {
-		if(options == null) {
+		if (options == null) {
 			options = new HashSet<Option>();
 		}
 		return options;
@@ -65,5 +67,4 @@ public abstract class Settings implements Serializable {
 	public void setOptions(Set<Option> options) {
 		this.options = options;
 	}
-
 }

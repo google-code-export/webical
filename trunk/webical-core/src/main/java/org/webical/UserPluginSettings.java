@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id: $
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -24,28 +26,26 @@ package org.webical;
  * Pluginsettings per user. We're not extending
  * {@link PluginSettings} here because hibernate would'nt have it.
  * @author ivo
- *
  */
 public class UserPluginSettings extends Settings {
 	private static final long serialVersionUID = 1L;
 
-	private User user;
-	
+	private User user = null;
+
 	/**
 	 * The fully qualified classname
 	 */
-	private String pluginClass;
-	
+	private String pluginClass = null;
+
 	public UserPluginSettings() {
 	}
-	
+
 	/**
 	 * @return the pluginClass
 	 */
 	public String getPluginClass() {
 		return pluginClass;
 	}
-
 	/**
 	 * @param pluginClass the pluginClass to set
 	 */
@@ -59,7 +59,6 @@ public class UserPluginSettings extends Settings {
 	public User getUser() {
 		return user;
 	}
-
 	/**
 	 * @param user the user to set
 	 */
