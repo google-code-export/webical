@@ -569,13 +569,11 @@ public class ComponentFactory {
 				propertyList.add(xProperty);
 			}
 		}
-		
-		for(int i = 0; i < propertyList.size(); i++){
-			
+
+		for(int i = 0; i < propertyList.size(); ++ i)
+		{
 			vevent.getProperties().add(propertyList.get(i));
-			
 		}
-		
 		return vevent;
 	}
 }
