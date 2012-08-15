@@ -134,5 +134,4 @@ public abstract class UpdateAndDeleteExceptionPanel extends AbstractBasePanel {
 	public void setEventManager(EventManager eventManager) {
 		this.eventManager = eventManager;
 	}
-
 }

@@ -253,9 +253,9 @@ public class WebDavCalendarSynchronisation {
 		//Convert the list of events
 		try {
 			for (Component component : (List<Component>)ical4jCalendar.getComponents()) {
-				if(component.getName().equals(Component.VEVENT)) {
-					if(component.getProperty(Property.UID) != null && component.getProperty(Property.UID).getValue() != null
-							&& component.getProperty(Property.UID).getValue().equals(updatedEvent.getUid())) {
+				if (component.getName().equals(Component.VEVENT)) {
+					if (component.getProperty(Property.UID) != null && component.getProperty(Property.UID).getValue() != null &&
+						component.getProperty(Property.UID).getValue().equals(updatedEvent.getUid())) {
 						// it is the event that is being modified, so it hasn't been deleted from database
 						status.deletedConflict = false;
 
