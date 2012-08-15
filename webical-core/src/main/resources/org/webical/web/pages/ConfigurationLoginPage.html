@@ -6,26 +6,30 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
-	<wicket:panel wicket:id="errorMessageLabel">(Status message)</wicket:panel>
-	<div wicket:id="feedbackPanel">
-		(listview with feedback messages)
-	</div>
+	<div id="settingsPanel">
+		<div id="settingsPanelContentBlock">
+			<wicket:panel wicket:id="errorMessageLabel">(Status message)</wicket:panel>
+			<div wicket:id="feedbackPanel">
+				(listview with feedback messages)
+			</div>
 
-	<div id="login" class="panelContent">
-		<h1><wicket:message key="login_header_label"/></h1>
-		<form wicket:id="loginForm">
-			<div class="formItem">
-                <label for="username">Username: </label>
-                <span class="formElement"><input type="text" wicket:id="username" /></span>
-            </div>
-			<div class="formItem">
-                <label for="password">Password: </label>
-                <span class="formElement"><input type="password" wicket:id="password" /></span>
-            </div>
-            <div class="formItem">
-                <span class="formElement"><input type="submit" wicket:id="submitButton" class="button" /></span>
-            </div>
-        </form>
+			<div id="login" class="panelContent">
+				<h1><wicket:message key="login_header_label"/></h1>
+				<form wicket:id="loginForm">
+					<div class="formItem">
+						<label for="username">Username: </label>
+						<span class="formElement"><input type="text" wicket:id="username" /></span>
+					</div>
+					<div class="formItem">
+						<label for="password">Password: </label>
+						<span class="formElement"><input type="password" wicket:id="password" /></span>
+					</div>
+					<div class="formItem">
+						<span class="formElement"><input type="submit" wicket:id="submitButton" class="button" /></span>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
 </body>
 </html>
