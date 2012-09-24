@@ -105,7 +105,6 @@ public class WebDavCalendarSynchronisationTest extends DataBaseTest {
 		net.fortuna.ical4j.model.Calendar ical4jCalendar = new net.fortuna.ical4j.model.Calendar();
 		try {
 			ComponentFactory.buildComponentsFromIcal4JCalendar(calendar, ical4jCalendar);
-
 			//refresh the view in the database
 			//eventDao.getAllEvents(calendar).size();
 
