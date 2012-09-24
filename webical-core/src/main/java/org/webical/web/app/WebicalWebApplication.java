@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -19,7 +21,6 @@
  */
 
 package org.webical.web.app;
-
 
 import java.io.File;
 import java.util.ArrayList;
@@ -107,7 +108,6 @@ public class WebicalWebApplication extends WebApplication implements Configurabl
 	 * Returns the homepage
 	 * @see wicket.Application#getHomePage()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public Class getHomePage() {
 		return BasePage.class;
@@ -127,7 +127,6 @@ public class WebicalWebApplication extends WebApplication implements Configurabl
 	 * Adds the aditional resource paths
 	 * @see org.apache.wicket.protocol.http.WebApplication#init()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void init() {
 		super.init();
@@ -190,7 +189,7 @@ public class WebicalWebApplication extends WebApplication implements Configurabl
 	 */
 	public void configurationComplete() {
 		log.debug("System initialization requested");
-		if(initialized) {
+		if (initialized) {
 			log.debug("Hmm, already initialized. Just skipping this one");
 			return;
 		}
@@ -263,7 +262,6 @@ public class WebicalWebApplication extends WebApplication implements Configurabl
 	/* (non-Javadoc)
 	 * @see org.webical.plugin.registration.PluginRegistrationStore#resolvePluginClass(java.lang.String)
 	 */
-	@SuppressWarnings("unchecked")
 	public Class resolvePluginClass(String className) throws ClassNotFoundException {
 		return getPluginClassResolver().resolveClass(className);
 	}
@@ -282,7 +280,7 @@ public class WebicalWebApplication extends WebApplication implements Configurabl
 	 * @see org.webical.plugin.registration.PluginRegistrationStore#getPluginRegistrations()
 	 */
 	public List<PluginRegistration> getPluginRegistrations() {
-		if(pluginRegistrations == null) {
+		if (pluginRegistrations == null) {
 			pluginRegistrations = new ArrayList<PluginRegistration>();
 		}
 		return pluginRegistrations;
@@ -296,7 +294,6 @@ public class WebicalWebApplication extends WebApplication implements Configurabl
 
 		return new WebRequestCycle(WebicalWebApplication.this, (WebRequest)request, (WebResponse)response) {
 
-
 			/**
 			 * Overriden to check for system configuration and initialization
 			 * @see wicket.RequestCycle#onBeginRequest()
@@ -304,27 +301,27 @@ public class WebicalWebApplication extends WebApplication implements Configurabl
 			@Override
 			protected void onBeginRequest() {
 				//Check if the system was initialized already
-				if(!isInitialized()) {
+				if (!isInitialized()) {
 					log.debug("System not initialized yet");
 					//Check if configuration is done and the encryption is setup
-					if(!isConfigured()) {
+					if (!isConfigured()) {
 						log.debug("System not configured yet");
 
 						//If a user path was requested throw an exception and tell 'm the app needs to be configured
-						if(nonConfigurationPageRequested()) {
+						if (nonConfigurationPageRequested()) {
 							throw new RestartResponseException(NotInitializedPage.class);
 						}
 						//else continue normally as the admin pages where reqested
 					} else {
 						log.debug("System already configured");
 						//if auto initialization is setup do so else just show the NotInitializedPage
-						if(autoInitialize) {
+						if (autoInitialize) {
 							log.debug("Auto initialize");
 							configurationComplete();
 						} else {
 							log.debug("Manual initialization required");
 							//If a user path was requested throw an exception and tell 'm the app needs to be initialized
-							if(nonConfigurationPageRequested()) {
+							if (nonConfigurationPageRequested()) {
 								throw new RestartResponseException(NotInitializedPage.class);
 							}
 						}
@@ -340,12 +337,12 @@ public class WebicalWebApplication extends WebApplication implements Configurabl
 			 */
 			@Override
 			public Page onRuntimeException(Page page, RuntimeException e) {
-				if(e.getClass().equals(EncrypterNotSetRuntimeException.class)) {
+				if (e.getClass().equals(EncrypterNotSetRuntimeException.class)) {
 					return new ConfigurationLoginPage();
 				}
 
 				String unauthorizedMessage = getUnAuthorizedExceptionMessage(e);
-				if(unauthorizedMessage != null) {
+				if (unauthorizedMessage != null) {
 					//Wrong login, return to login page
 					PageParameters parameters = new PageParameters();
 					parameters.add(ConfigurationLoginPage.ERROR_MESSAGE_PARAMETER_NAME, unauthorizedMessage);
@@ -365,11 +362,11 @@ public class WebicalWebApplication extends WebApplication implements Configurabl
 			 * @return true if this is the case
 			 */
 			private String getUnAuthorizedExceptionMessage(Throwable throwable) {
-				if(throwable == null) {
+				if (throwable == null) {
 					return null;
 				}
 
-				if(throwable instanceof UnauthorizedException) {
+				if (throwable instanceof UnauthorizedException) {
 					return throwable.getMessage()!=null?throwable.getMessage():"Unexpected UnauthorizedException";
 				} else if(throwable.getCause() != null) {
 					return getUnAuthorizedExceptionMessage(throwable.getCause());
