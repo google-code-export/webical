@@ -6,9 +6,9 @@
 	<packaging>pom</packaging>
 	<version>0.5-SNAPSHOT</version>
 	<name>webical</name>
-	<url>http://webical.org/wiki</url>
+	<url>http://www.webical.org</url>
 
-	<!-- 
+	<!--
 		Our license statements
 	 -->
 	<licenses>
@@ -18,16 +18,16 @@
 		</license>
 	</licenses>
 
-	<!-- 
+	<!--
 		The modules to include in the build
 	 -->
 	<modules>
 		<module>webical-core</module>
+		<module>webical-test</module>
 		<module>webical-war</module>
-		<!-- module>webical-test</module -->
 	</modules>
 
-	<!-- 
+	<!--
 		Our development staff :)
 	 -->
 	<developers>
@@ -98,7 +98,7 @@
 		</notifiers>
 	</ciManagement>
 
-	<!-- 
+	<!--
 		svn connectivity
 		use: mvn scm:update to update the project sources 
 		use: mvn scm:checkin to commit the project sources 
@@ -107,7 +107,7 @@
 		<connection>scm:svn:https://webical.googlecode.com/svn/trunk</connection>
 	</scm>
 
-	<!-- 
+	<!--
 		Used for automatic deploys
 	 -->
 	<distributionManagement>
@@ -118,8 +118,8 @@
 		</repository>
 	</distributionManagement>
 
-	<!-- 
-		Used repositories 
+	<!--
+		Used repositories
 	-->
 	<repositories>
 		<repository>
@@ -155,16 +155,15 @@
 		</repository>
 	</repositories>
 
-	<!-- 
+	<!--
 		Reporting
 	 -->
 	<reporting>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>
-					maven-project-info-reports-plugin
-				</artifactId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.4</version>
 			</plugin>
 		</plugins>
 	</reporting>
