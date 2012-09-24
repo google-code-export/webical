@@ -29,6 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.CacheMode;
 import org.hibernate.Criteria;
 import org.hibernate.LockMode;
+import org.hibernate.LockOptions;
 import org.hibernate.criterion.Restrictions;
 import org.webical.Calendar;
 import org.webical.Event;
@@ -138,7 +139,7 @@ public class CalendarDaoHibernateImpl extends BaseHibernateImpl implements
 		try {
 			log.info("Deleting calendar " + calendar.getName());
 
-			getSession().lock(calendar, LockMode.NONE);
+			getSession().buildLockRequest(new LockOptions(LockMode.NONE)).lock(calendar);
 
 			//Cascade events in the cache
 			EventDao eventDao = DaoFactory.getInstance().getEventDaoForCalendar(calendar);

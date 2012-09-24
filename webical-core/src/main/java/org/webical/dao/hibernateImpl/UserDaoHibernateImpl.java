@@ -27,6 +27,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
+import org.hibernate.LockOptions;
 import org.webical.Calendar;
 import org.webical.User;
 import org.webical.dao.CalendarDao;
@@ -69,7 +70,7 @@ public class UserDaoHibernateImpl extends BaseHibernateImpl implements UserDao {
 		try {
 			log.info("removeUser " + user.getUserId());
 
-			getSession().lock(user, LockMode.NONE);
+			getSession().buildLockRequest(new LockOptions(LockMode.NONE)).lock(user);
 			//Cascade calendars
 			List<Calendar> calendars = calendarDao.getCalendars(user);
 			if (calendars != null && calendars.size() > 0) {

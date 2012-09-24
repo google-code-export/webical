@@ -31,8 +31,8 @@ import java.util.Properties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
 import org.hibernate.LockMode;
+import org.hibernate.LockOptions;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.id.Configurable;
 import org.hibernate.id.UUIDHexGenerator;
@@ -150,7 +150,7 @@ public class EventDaoWebDavHibernateBufferedImpl extends BaseHibernateImpl imple
 			if (log.isDebugEnabled()) log.debug("removeEvent: " + event.toString());
 
 			// Remove the event from the session
-			getSession().lock(event, LockMode.NONE);
+			getSession().buildLockRequest(new LockOptions(LockMode.NONE)).lock(event);
 			delete(event);
 
 			// First refresh the calendar from remote
@@ -164,9 +164,9 @@ public class EventDaoWebDavHibernateBufferedImpl extends BaseHibernateImpl imple
 				}
 			}
 			// 2x ?
-			if (removedEvent != null) {
-
-				getSession().lock(removedEvent, LockMode.NONE);
+			if (removedEvent != null)
+			{
+				getSession().buildLockRequest(new LockOptions(LockMode.NONE)).lock(removedEvent);
 				delete(removedEvent);
 
 				//Synchronize the removed event
@@ -205,6 +205,7 @@ public class EventDaoWebDavHibernateBufferedImpl extends BaseHibernateImpl imple
 			log.debug("Removing all events for calendar: " + calendar.getName());
 		}
 		try {
+			getSession().buildLockRequest(new LockOptions(LockMode.NONE)).lock(calendar);
 			removeAllEvents(getEventsForCalendar(calendar));
 		} catch (Exception e) {
 			log.error(e,e);
@@ -487,7 +488,7 @@ public class EventDaoWebDavHibernateBufferedImpl extends BaseHibernateImpl imple
 		Properties uidprops = new Properties();
 		uidprops.setProperty("separator", "-");
 		uuidGen = new UUIDHexGenerator();
-		((Configurable)uuidGen).configure(Hibernate.STRING, uidprops, null);
+		((Configurable) uuidGen).configure(org.hibernate.type.StandardBasicTypes.STRING, uidprops, null);
 		return uuidGen;
 	}
 }

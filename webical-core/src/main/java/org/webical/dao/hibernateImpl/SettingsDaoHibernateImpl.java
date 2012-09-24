@@ -27,6 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.LockMode;
+import org.hibernate.LockOptions;
 import org.hibernate.criterion.Restrictions;
 import org.webical.PluginSettings;
 import org.webical.Settings;
@@ -113,7 +114,7 @@ public class SettingsDaoHibernateImpl extends BaseHibernateImpl implements Setti
 		}
 
 		try {
-			getSession().lock(settings, LockMode.NONE);
+			getSession().buildLockRequest(new LockOptions(LockMode.NONE)).lock(settings);
 			delete(settings);
 		} catch (Exception exception) {
 			log.error("Could not delete settings: " + settings, exception);
