@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -27,7 +29,6 @@ import java.sql.SQLException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.usertype.UserType;
 import org.hibernate.util.EqualsHelper;
@@ -50,10 +51,10 @@ import org.webical.dao.encryption.EncryptorFactory;
  */
 public class EncryptionUserType implements UserType {
 	private static Log log = LogFactory.getLog(EncryptionUserType.class);
-	
-	private static int sqlType = Hibernate.STRING.sqlType();
+
+	private static int sqlType = org.hibernate.type.StandardBasicTypes.STRING.sqlType();
 	private static int[] sqlTypes = new int[]{ sqlType };
-	  
+
 	/**
 	 * Decrypts the message before returning
 	 * @see org.hibernate.usertype.UserType#nullSafeGet(java.sql.ResultSet, java.lang.String[], java.lang.Object)
@@ -107,7 +108,7 @@ public class EncryptionUserType implements UserType {
 			return (Serializable)deepCopy(value);
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.hibernate.usertype.UserType#deepCopy(java.lang.Object)
 	 */
@@ -164,5 +165,4 @@ public class EncryptionUserType implements UserType {
 	public int[] sqlTypes() {
 		return sqlTypes;
 	}
-
 }

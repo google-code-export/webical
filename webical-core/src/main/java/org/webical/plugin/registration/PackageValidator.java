@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -56,19 +58,19 @@ import org.webical.web.event.ExtensionListener;
  */
 public class PackageValidator {
 	private static Log log = LogFactory.getLog(PackageValidator.class);
-	
+
 	/** ClassLoader used to check the extending classes */
 	private PluginClassLoader pluginClassLoader;
-	
+
 	/** Directory where the plugin package was extracted */
 	private File packageExctractionDir;
-	
+
 	/** The Plugin representation of the manifest file */
 	private Plugin manifestInfo;
-	
+
 	/** Map of classes registered in the manifest file, used to check the front/backend registrations */
 	private Map<String, File> classRegistrations = new HashMap<String, File>();
-	
+
 	/**
 	 * Creates a package validator for the given extgraxtiondirectory and manifest
 	 * @param packageExctractionDir
@@ -77,11 +79,11 @@ public class PackageValidator {
 	public PackageValidator(File packageExctractionDir, Plugin manifestInfo ) {
 		this.packageExctractionDir = packageExctractionDir;
 		this.manifestInfo = manifestInfo;
-		
+
 		//Set up with an empty map. Add the classes to load lateron
 		pluginClassLoader = new PluginClassLoader(Thread.currentThread().getContextClassLoader());
 	}
-	
+
 	/**
 	 * validates the package
 	 * @throws PluginException
@@ -91,18 +93,18 @@ public class PackageValidator {
 			log.error("Plugin manifest info not set");
 			throw new PluginException("Plugin manifest info not set");
 		}
-		
-		if(packageExctractionDir == null || !packageExctractionDir.exists()) {
+
+		if (packageExctractionDir == null || !packageExctractionDir.exists()) {
 			log.error("Plugin extraction directory not set or does not excist");
-			throw new PluginException("Plugin extraction directory not set or does not excist");
+			throw new PluginException("Plugin extraction directory not set or does not exist");
 		}
-		
-		if(log.isDebugEnabled()) {
+
+		if (log.isDebugEnabled()) {
 			log.debug("Validating package from directory: " + packageExctractionDir.getAbsolutePath());
 		}
-		
+
 		//Validate resource folders
-		if(manifestInfo.getResourceFolders() != null 
+		if (manifestInfo.getResourceFolders() != null 
 				&& manifestInfo.getResourceFolders().getResourceFolder() != null 
 				&& manifestInfo.getResourceFolders().getResourceFolder().size() > 0) {
 			validateResourceFolders(manifestInfo.getResourceFolders());
@@ -111,7 +113,7 @@ public class PackageValidator {
 				log.debug("no resource folders registered");
 			}
 		}
-		
+
 		//Validate jar folders
 		if(manifestInfo.getJarFolders() != null
 			&& manifestInfo.getJarFolders().getJarFolder() != null
@@ -123,7 +125,7 @@ public class PackageValidator {
 				log.debug("No class registrations");
 			}
 		}
-		
+
 		//Validate class folders
 		if(manifestInfo.getClassFolders() != null
 			&& manifestInfo.getClassFolders().getClassFolder() != null
@@ -139,7 +141,7 @@ public class PackageValidator {
 				log.debug("No class folders");
 			}
 		}
-		
+
 		//Validate registrations
 		if(manifestInfo.getRegistrations() != null) {
 			validateRegistrations(manifestInfo.getRegistrations());
@@ -149,19 +151,19 @@ public class PackageValidator {
 			}
 		}
 	}
-	
+
 	/**
 	 * Loads all class from the given {@link ClassFolder}s
 	 * @param root the base of the plugin extraction
 	 * @param classFolders the list of {@link ClassFolder}
-	 * @throws RegistrationException 
+	 * @throws RegistrationException
 	 */
 	private void loadClasses(File root, List<ClassFolder> classFolders) throws RegistrationException {
 		log.debug("Loading all class files for validation");
 		for (ClassFolder folder : classFolders) {
 			File classDir = new File(root ,folder.getFileName());
 			List<File> classFiles = FileUtils.traverseTree(classDir, FileUtils.CLASS_FILE_EXTENSION);
-			
+
 			for (File classFile : classFiles) {
 				String fullyQaulifiedClassname = ClassUtils.fileToFullClassName(classDir, classFile);
 				classRegistrations.put(fullyQaulifiedClassname, classFile);
@@ -172,28 +174,25 @@ public class PackageValidator {
 				}
 			}
 		}
-		
-		
 	}
-	
+
 	/**
 	 * @param root
 	 * @param jarFolders
-	 * @throws PluginException 
+	 * @throws PluginException
 	 */
 	private void loadJarFiles(File root, List<JarFolder> jarFolders) throws PluginException {
 		log.debug("Loading all jar files for validation");
 		for (JarFolder folder : jarFolders) {
 			File jarDir = new File(root ,folder.getFileName());
 			List<File> jarFiles = FileUtils.traverseTree(jarDir, FileUtils.JAR_FILE_EXTENSION);
-			
+
 			for (File file : jarFiles) {
 				pluginClassLoader.readJarFile(file);
 			}
-			
 		}
 	}
-	
+
 	/**
 	 * Validates registrations in the Plugin
 	 * @param registrations the registrations to check
@@ -209,18 +208,18 @@ public class PackageValidator {
 				log.debug("No backend plugins registrations");
 			}
 		}
-		
-		if(registrations.getFrontendPlugin() != null) {
-			for(FrontendPlugin frontendPlugin : registrations.getFrontendPlugin()) {
+
+		if (registrations.getFrontendPlugin() != null) {
+			for (FrontendPlugin frontendPlugin : registrations.getFrontendPlugin()) {
 				validateFrontendPlugin(frontendPlugin);
 			}
 		} else {
-			if(log.isDebugEnabled()) {
+			if (log.isDebugEnabled()) {
 				log.debug("No frontend plugins registrationsd");
 			}
 		}
 	}
-	
+
 	/**
 	 * Validates all {@link ResourceFolders}
 	 * @param resourceFolders the {@link ResourceFolders}
@@ -231,7 +230,7 @@ public class PackageValidator {
 			validateResourceFolder(resourceFolder);
 		}
 	}
-	
+
 	/**
 	 * Validates all {@link ClassFolders}
 	 * @param classFolders the {@link ClassFolders}
@@ -242,7 +241,7 @@ public class PackageValidator {
 			validateClassFolder(classFolder);
 		}
 	}
-	
+
 	/**
 	 * Validates all {@link JarFolders}
 	 * @param jarFolders the {@link JarFolders}
@@ -253,7 +252,7 @@ public class PackageValidator {
 			validateJarFolder(jarFolder);
 		}
 	}
-	
+
 	/**
 	 * Validates a {@link JarFolder} entry
 	 * @param jarFolder the {@link JarFolder} to check
@@ -263,10 +262,9 @@ public class PackageValidator {
 		if(log.isDebugEnabled()) {
 			log.debug("Checking jar folder: " + jarFolder.getFileName());
 		}
-		
 		validateFilePresence(jarFolder.getFileName());
 	}
-	
+
 	/**
 	 * Validates a {@link ResourceFolder} entry
 	 * @param resourceFolder the {@link ResourceFolder} to check
@@ -276,10 +274,9 @@ public class PackageValidator {
 		if(log.isDebugEnabled()) {
 			log.debug("Checking resource folder: " + resourceFolder.getFileName());
 		}
-		
 		validateFilePresence(resourceFolder.getFileName());
 	}
-	
+
 	/**
 	 * Validates a {@link ClassFolder} reference
 	 * @param classFolder the {@link ClassFolder} to check
@@ -289,10 +286,9 @@ public class PackageValidator {
 		if(log.isDebugEnabled()) {
 			log.debug("Checking class folder: " + classFolder.getFileName());
 		}
-		
 		validateFilePresence(classFolder.getFileName());
 	}
-	
+
 	/**
 	 * Validates a Backend plugin
 	 * @param backendPlugin the plugin to check
@@ -301,63 +297,58 @@ public class PackageValidator {
 	private void validateBackendPlugin(BackendPlugin backendPlugin) throws PluginException {
 		//Check for the right interface implementation
 		List<Class> implementedInterfaces = new ArrayList<Class>();
-		
-		if(backendPlugin.getDaoType().equals(DaoFactory.EVENT_DAO_TYPE)) {
+
+		if (backendPlugin.getDaoType().equals(DaoFactory.EVENT_DAO_TYPE)) {
 			implementedInterfaces.add(EventDao.class);
 		} else if(backendPlugin.getDaoType().equals(DaoFactory.TASK_DAO_TYPE)) {
 			implementedInterfaces.add(TaskDao.class);
 		} else {
 			throw new PluginException(backendPlugin.getClassName() + " does not implement either the event or task dao interface");
 		}
-		
+
 		File classFile = classRegistrations.get(backendPlugin.getClassName());
 		if(classFile == null) {
 			throw new PluginException("Classfile noted in the backend plugin: " + backendPlugin.getClassName() + " is not in de class-references list");
 		}
-		
 		checkForImplementedInterfaces(backendPlugin.getClassName(), classFile, implementedInterfaces);
 	}
-	
+
 	/**
 	 * Validates a frontend plugin registration
 	 * @param frontendPlugin the Frontend plugin to check
 	 * @throws PluginException
 	 */
-	@SuppressWarnings("unchecked")
 	private void validateFrontendPlugin(FrontendPlugin frontendPlugin) throws PluginException {
 		//Check the extending class for the right interface implementation
 		List<Class> implementedInterfaces = new ArrayList<Class>();
 		implementedInterfaces.add(ExtensionListener.class);
-		
-		if(frontendPlugin.isExtendable()) {
+
+		if (frontendPlugin.isExtendable()) {
 			implementedInterfaces.add(ExtensionHandler.class);
 		}
-		
+
 		File classFile = classRegistrations.get(frontendPlugin.getClassName());
-		if(classFile == null) {
+		if (classFile == null) {
 			throw new PluginException("Classfile noted in the frontendplugin: " + frontendPlugin.getClassName() + " is not in de class-references list");
 		}
-		
 		checkForImplementedInterfaces(frontendPlugin.getClassName(), classFile, implementedInterfaces);
-		
+
 		//Check the extended class for the rigth interface (ExtensionHandler)
-		if(log.isDebugEnabled()) {
+		if (log.isDebugEnabled()) {
 			log.debug("Checking for implementations of ExtensionHandler interface in extended class: " + frontendPlugin.getExtendedClass());
 		}
-		
+
 		implementedInterfaces.clear();
 		implementedInterfaces.add(ExtensionHandler.class);
-		
+
 		try {
 			checkForImplementedInterfaces(Thread.currentThread().getContextClassLoader().loadClass(frontendPlugin.getExtendedClass()), implementedInterfaces);
 		} catch (ClassNotFoundException e) {
 			log.error("Could not find extended class: " + frontendPlugin.getExtendedClass(), e);
 			throw new PluginException(e);
 		}
-		
-		
 	}
-	
+
 	/**
 	 * Checks if a resource/class file exists
 	 * @param fileName the file
@@ -365,14 +356,13 @@ public class PackageValidator {
 	 */
 	private File validateFilePresence(String fileName) throws PluginException {
 		File resourceFile = new File(this.packageExctractionDir.getAbsolutePath() + File.separator +  fileName);
-		if(!resourceFile.exists()) {
+		if (!resourceFile.exists()) {
 			log.error("File in manifest does not excist, expected file: " + resourceFile.getAbsolutePath());
 			throw new PluginException("File in manifest does noet excist, expected file: " + resourceFile.getAbsolutePath());
 		}
-		
 		return resourceFile;
 	}
-	
+
 	/**
 	 * Chacks a raw Class file for the implementation of one or more interfaces
 	 * @param className the name of the Class
@@ -382,22 +372,21 @@ public class PackageValidator {
 	 */
 	private void checkForImplementedInterfaces(String className, File classFile, List<Class> interfaces) throws PluginException {
 		//Use a PluginClassloader to load the class and check the implemented interfaces
-		if(log.isDebugEnabled()) {
+		if (log.isDebugEnabled()) {
 			log.debug("Loading extending class: " + className + " from file: " + classFile.getAbsolutePath());
 		}
-		
-		Class extendingClass = null; 
+
+		Class extendingClass = null;
 		try {
 			extendingClass = pluginClassLoader.loadClass(className);
 		} catch (ClassNotFoundException e) {
 			log.error("Could not load class: " + className + " from file: " + classFile.getAbsolutePath());
 			throw new PluginException("Could not load class: " + className + " from file: " + classFile.getAbsolutePath());
 		}
-		
-		checkForImplementedInterfaces(extendingClass, interfaces);
 
+		checkForImplementedInterfaces(extendingClass, interfaces);
 	}
-	
+
 	/**
 	 * Checks a class for the implementation of one or more interfaces
 	 * @param clazz the Class to check
@@ -406,16 +395,15 @@ public class PackageValidator {
 	 */
 	@SuppressWarnings("unchecked")
 	private void checkForImplementedInterfaces(Class clazz, List<Class> interfaces) throws PluginException {
-		
+
 		for (Class expectedInterface : interfaces) {
-			if(log.isDebugEnabled()) {
+			if (log.isDebugEnabled()) {
 				log.debug("Checking class: " + clazz.getName() + " for interface: " + expectedInterface.getName());
 			}
-			if(!expectedInterface.isAssignableFrom(clazz)) {
+			if (!expectedInterface.isAssignableFrom(clazz)) {
 				log.error("Class: " + clazz.getName() + " does not implement required interface: " + expectedInterface.getName());
 				throw new PluginException("Class: " + clazz.getName() + " does not implement required interface: " + expectedInterface.getName());
 			}
 		}
 	}
-
 }

@@ -123,8 +123,8 @@ public class EventAddEditPanelTest extends WebicalApplicationTest {
 	/**
 	 * Tests the validation in add mode
 	 */
-	public void testAddForm() throws WebicalException {
-
+	public void testAddForm() throws WebicalException
+	{
 		//Create the testpage with our panel
 		wicketTester.startPage(new ITestPageSource() {
 			private static final long serialVersionUID = 1L;

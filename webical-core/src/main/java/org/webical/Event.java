@@ -281,13 +281,13 @@ public class Event implements Serializable {
 	public void setResources(Set<String> resources) {
 		this.resources = resources;
 	}
+
 	public Set<String> getrRule() {
 		if (rRule == null) {
 			rRule = new HashSet<String>();
 		}
 		return rRule;
 	}
-
 	public void setrRule(Set<String> rule) {
 		rRule = rule;
 	}

@@ -133,7 +133,6 @@ public abstract class EventForm extends Form {
 	/**
 	 * A deep copy of the event to exclude it from the range if neccesary
 	 */
-	@SuppressWarnings("unused")
 	private Event oldEvent;
 
 	/**
