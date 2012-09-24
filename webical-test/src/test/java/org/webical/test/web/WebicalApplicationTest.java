@@ -58,8 +58,8 @@ public abstract class WebicalApplicationTest extends TestCase {
 	protected WicketTester wicketTester = null;
 	protected AnnotApplicationContextMock annotApplicationContextMock = null;
 	protected DummyHomePage dummyHomePage = null;
-	protected DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
-	protected DateFormat dateFormatFull = DateFormat.getDateInstance(DateFormat.FULL, Locale.getDefault());
+	protected DateFormat dateFormat = null;
+	protected DateFormat dateFormatFull = null;
 
 	protected WebicalSession webicalSession = null;
 	/** The application context working directory */
@@ -104,6 +104,11 @@ public abstract class WebicalApplicationTest extends TestCase {
 				return WebicalApplicationTest.this.webicalSession;
 			}
 		});
+
+		// Locale for test is en_uk
+		getTestSession().setLocale(Locale.UK);
+		dateFormat = DateFormat.getDateInstance(DateFormat.LONG, getTestSession().getLocale());
+		dateFormatFull = DateFormat.getDateInstance(DateFormat.FULL, getTestSession().getLocale());
 
 		//Couple an Injector to inject the spring beans
 		wicketTester.getApplication().addComponentInstantiationListener(new ComponentInjector());
