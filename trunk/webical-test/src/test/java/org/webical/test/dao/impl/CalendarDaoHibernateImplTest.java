@@ -64,7 +64,6 @@ public class CalendarDaoHibernateImplTest extends DataBaseTest {
 		try {
 			//retrieve Calendars for user
 			calendars = calendarDaoHibernateImpl.getCalendars(TestUtils.getDemoUser());
-
 			assertNotNull(calendars);
 			assertTrue(calendars.size() == 2);
 		} catch (DaoException e) {
