@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping package="org.webical">
+<hibernate-mapping package="org.webical" default-lazy="false">
 	<class name="Event" table="event">
 
   		<id name="eventId" type="java.lang.Long">
@@ -53,7 +53,7 @@
         	<key column="eventId" not-null="true"/>
         	<element column="categories" length="1000" type="java.lang.String"/>
    		</set>
-   		<set table="event_comment" cascade="all" lazy="false" name="comment">
+   		<set table="event_comment" cascade="all" name="comment" lazy="false">
         	<key column="eventId" not-null="true"/>
         	<element column="comments" length="3000" type="java.lang.String"/>
    		</set>
