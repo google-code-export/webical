@@ -393,7 +393,6 @@ public class ApplicationSettingsConfigurationPage extends WebPage {
 		 * Add the StringConfigurationItems to the ApplicationSettings and store it.
 		 * @see wicket.markup.html.form.Form#onSubmit()
 		 */
-		@SuppressWarnings("unchecked")
 		@Override
 		protected void onSubmit() {
 			//add the lists
@@ -693,7 +692,10 @@ public class ApplicationSettingsConfigurationPage extends WebPage {
 		private String value;
 		private boolean checked;
 
-		public StringConfigurationItem() {}
+		public StringConfigurationItem() {
+			value = null;
+			checked = false;
+		}
 
 		public StringConfigurationItem(String value, boolean checked) {
 			this.value = value;

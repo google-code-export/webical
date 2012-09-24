@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -47,6 +49,7 @@ import org.webical.web.event.ExtensionPoint;
  */
 public abstract class AbstractBasePanel extends Panel implements IAccessibilitySwitchingComponent, ExtensionHandler {
 	public static final String EXTENSIONS_MARKUP_ID = "extensions";
+	public static final long serialVersionUID = 1L;
 
 	private static Log log = LogFactory.getLog(AbstractBasePanel.class);
 
@@ -89,7 +92,6 @@ public abstract class AbstractBasePanel extends Panel implements IAccessibilityS
 		//Add the default extension point
 		extensionPoints.put(EXTENSIONS_MARKUP_ID, new ExtensionPoint(defaultExtensionPointComponent, null));
 		add(defaultExtensionPointComponent);
-
 	}
 
 	/**
@@ -111,7 +113,7 @@ public abstract class AbstractBasePanel extends Panel implements IAccessibilityS
 	 */
 	protected void setupComponents() {
 		setupCommonComponents();
-		if(accessible) {
+		if (accessible) {
 			setupAccessibleComponents();
 		} else {
 			setupNonAccessibleComponents();
@@ -127,10 +129,10 @@ public abstract class AbstractBasePanel extends Panel implements IAccessibilityS
 	 */
 	protected void setupExtensions() {
 		//log.info("setupExtensions");
-		if(componentsToAdd.size() > 0) {
+		if (componentsToAdd.size() > 0) {
 			//Add new components
-			for(Extension extension: componentsToAdd) {
-				if(extension.getComponent() != null && extension.getExtensionPoint() != null &&
+			for (Extension extension: componentsToAdd) {
+				if (extension.getComponent() != null && extension.getExtensionPoint() != null &&
 						extension.getExtensionPoint().getExtendingComponent() != null) {
 
 					extension.getExtensionPoint().getExtendingComponent().add(extension.getComponent());
@@ -139,11 +141,10 @@ public abstract class AbstractBasePanel extends Panel implements IAccessibilityS
 					log.error("Invalid extension");
 				}
 			}
-
 		}
 
 		//Replace existing components
-		for(Component component: componentsToReplace) {
+		for (Component component: componentsToReplace) {
 			replace(component);
 		}
 	}
@@ -152,10 +153,10 @@ public abstract class AbstractBasePanel extends Panel implements IAccessibilityS
 	 * Enables the extensionListeners (Plugins) to do their stuff before the panel is setup
 	 */
 	protected void fireExtensionEventBeforeComponentSetup() {
-		if(log.isDebugEnabled()) {
-			//log.debug("Firing events before component setup");
-		}
-		for(ExtensionListener extensionListener: extensionListeners) {
+		//if (log.isDebugEnabled()) {
+		//	log.debug("Firing events before component setup");
+		//}
+		for (ExtensionListener extensionListener: extensionListeners) {
 			extensionListener.addExtensionsBeforeComponentSetup(new ExtensionEvent(this, replaceableComponents, additionalResources, extensionPoints));
 		}
 	}
@@ -164,10 +165,10 @@ public abstract class AbstractBasePanel extends Panel implements IAccessibilityS
 	 * Enables the extensionListeners (Plugins) to do their stuff after the panel components are setup
 	 */
 	protected void fireExtensionEventAfterComponentSetup() {
-		if(log.isDebugEnabled()) {
-			//log.debug("Firing events after component setup");
-		}
-		for(ExtensionListener extensionListener: extensionListeners) {
+		//if (log.isDebugEnabled()) {
+		//	log.debug("Firing events after component setup");
+		//}
+		for (ExtensionListener extensionListener: extensionListeners) {
 			extensionListener.addExtensionsAfterComponentSetup(new ExtensionEvent(this, replaceableComponents, additionalResources, extensionPoints));
 		}
 	}
@@ -217,7 +218,7 @@ public abstract class AbstractBasePanel extends Panel implements IAccessibilityS
 		super.onBeforeRender();
 
 		//Only handle the events on the first render fase
-		if(!eventsHandled) {
+		if (!eventsHandled) {
 			//log.info("Setting up plugins");
 			fireExtensionEventBeforeComponentSetup();
 			setupComponents();
@@ -226,5 +227,4 @@ public abstract class AbstractBasePanel extends Panel implements IAccessibilityS
 			eventsHandled = true;
 		}
 	}
-
 }
