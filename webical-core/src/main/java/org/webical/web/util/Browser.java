@@ -31,7 +31,7 @@ public class Browser {
 
 		private String value;
 
-		Agent(String value) {
+		private Agent(String value) {
 			this.value = value;
 		}
 
