@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -42,35 +44,34 @@ public class PluginRegistrationsListPanel extends AbstractBasePanel {
 	public PluginRegistrationsListPanel(String id) {
 		super(id, PluginRegistrationsListPanel.class);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.webical.web.components.IAccessibilitySwitchingComponent#setupCommonComponents()
 	 */
 	public void setupCommonComponents() {
 		List<PluginRegistration> pluginRegistrations = ((PluginRegistrationStore)getApplication()).getPluginRegistrations();
-		
+
 		//TODO extract comparator for reuse
 		Collections.sort(pluginRegistrations, new Comparator<PluginRegistration>() {
 
 			public int compare(PluginRegistration registration1, PluginRegistration registration2) {
 				return registration1.getPlugin().getPluginName().compareToIgnoreCase(registration2.getPlugin().getPluginName());
 			}
-			
 		});
-		
+
 		Fragment listFragment = null;
-		
-		if(pluginRegistrations == null || pluginRegistrations.size() == 0) {
+
+		if (pluginRegistrations == null || pluginRegistrations.size() == 0) {
 			listFragment = new Fragment("listFragment", "noRegistrationsFragment");
 		} else {
 			listFragment = new Fragment("listFragment", "registrationsFragment");
-			
+
 			PluginRegistrationsList pluginRegistrationsList = new PluginRegistrationsList("pluginRegistrationList", pluginRegistrations, NUMBER_OFF_ITEMS_PER_ROW);
-			
+
 			listFragment.add(pluginRegistrationsList);
 			listFragment.add(new AjaxPagingNavigator("pager", pluginRegistrationsList));
 		}
-		
+
 		add(listFragment);
 	}
 
@@ -80,17 +81,17 @@ public class PluginRegistrationsListPanel extends AbstractBasePanel {
 	public void setupNonAccessibleComponents() {
 		//NOT IMPLEMENTED
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.webical.web.components.IAccessibilitySwitchingComponent#setupAccessibleComponents()
 	 */
 	public void setupAccessibleComponents() {
 		//NOT IMPLEMENTED
 	}
-	
+
 	private class PluginRegistrationsList extends PageableListView {
 		private static final long serialVersionUID = 1L;
-		
+
 		/**
 		 * @param id
 		 * @param pluginRegistrations
@@ -107,8 +108,8 @@ public class PluginRegistrationsListPanel extends AbstractBasePanel {
 		protected void populateItem(ListItem item) {
 			PluginRegistration pluginRegistration = (PluginRegistration) item.getModelObject();
 			Fragment fragment = null;
-			
-			if(pluginRegistration.getPluginState().equals(PluginState.REGISTERED)) {
+
+			if (pluginRegistration.getPluginState().equals(PluginState.REGISTERED)) {
 				//Add items for success
 				fragment = new Fragment("pluginRegistrationFragment", "pluginRegistrationFragment_succesfull");
 				fragment.add(new Label("pluginDescription", "" + pluginRegistration.getPlugin().getPluginDescription()));
@@ -118,14 +119,12 @@ public class PluginRegistrationsListPanel extends AbstractBasePanel {
 				fragment = new Fragment("pluginRegistrationFragment", "pluginRegistrationFragment_unsuccesfull");
 				fragment.add(new Label("message", "" + pluginRegistration.getMessage()));
 			}
-			
+
 			//General items
 			fragment.add(new Label("pluginName", "" + pluginRegistration.getPlugin().getPluginName()));
 			fragment.add(new Label("pluginState", "" + pluginRegistration.getPluginState().toString()));
-			
+
 			item.add(fragment);
 		}
-		
 	}
-
 }

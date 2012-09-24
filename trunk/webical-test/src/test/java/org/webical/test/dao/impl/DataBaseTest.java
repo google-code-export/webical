@@ -51,9 +51,12 @@ import org.mortbay.jetty.servlet.ServletHolder;
 import org.dbunit.DatabaseTestCase;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
+import org.dbunit.database.DatabaseConfig;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.operation.DatabaseOperation;
+import org.dbunit.ext.hsqldb.HsqldbDataTypeFactory;
+// import org.dbunit.ext.mysql.MySqlDataTypeFactory;
 
 import org.webical.ApplicationSettings;
 import org.webical.User;
@@ -202,9 +205,13 @@ public abstract class DataBaseTest extends DatabaseTestCase {
 		IDatabaseConnection connection;
 		try {
 			connection = new DatabaseConnection(getJDBCConnection());
+			connection.getConfig().setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new HsqldbDataTypeFactory());
 			IDataSet fullDataSet = connection.createDataSet();
-		    FlatXmlDataSet.write(fullDataSet, new FileOutputStream(datasetFilename + "-extraction"));
-		    log.info("Wrote dataset to file: " + datasetFilename);
+			StringBuilder exportFileName = new StringBuilder();
+			exportFileName.append(datasetFilename.substring(0, datasetFilename.length() - 4));
+			exportFileName.append("-extraction.xml");
+		    FlatXmlDataSet.write(fullDataSet, new FileOutputStream(exportFileName.toString()));
+		    log.info("Wrote dataset to file: " + exportFileName);
 		} catch (Exception e) {
 			log.error(e);
 		}
@@ -302,6 +309,8 @@ public abstract class DataBaseTest extends DatabaseTestCase {
 		IDatabaseConnection connection = null;
 		try {
 			connection = getConnection();
+			connection.getConfig().setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new HsqldbDataTypeFactory());
+
 			DatabaseOperation databaseOperation = DatabaseOperation.CLEAN_INSERT;
 			databaseOperation.execute(connection, getDataSet());
 		} catch (Exception e) {
@@ -380,6 +389,7 @@ public abstract class DataBaseTest extends DatabaseTestCase {
 				log.error(e);
 			} catch (Exception e) {
 				log.error(e);
+				System.err.println(e);
 			}
 		}
 		// Extract db
