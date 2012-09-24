@@ -131,35 +131,50 @@ public class EventDaoWebDavHibernateBufferedImplTest extends DataBaseTest {
 	 */
 	public void testStoreAndRemoveEventMinimal() throws DaoException {
 		Event event = new Event();
-		String description = "test description!!!";
-		event.setSummary(description);
+		String summary = "testStoreAndRemoveEventMinimal";
+		String description = summary.concat(" description!!!");
+		event.setSummary(summary);
 		event.setDescription(description);
 		event.setCalendar(getCalendarForWebicalUser());
 
 		List<Event> currentEvents = eventDao.getAllEvents(getCalendarForWebicalUser());
-
 		int beforeCount = currentEvents.size();
 
-		eventDao.storeEvent(event);
+		eventDao.storeEvent(event);		// insert
 
 		List<Event> eventsAfter = eventDao.getAllEvents(getCalendarForWebicalUser());
-
 		int afterStore = eventsAfter.size();
+		assertEquals(beforeCount, afterStore - 1);
 
+		event = null;
 		for (Event tempEvent : eventsAfter) {
-			if (tempEvent.getDescription() != null && tempEvent.getDescription().equals(description) &&
-				tempEvent.getSummary() != null && tempEvent.getSummary().equals(description) ) {
+			if (tempEvent.getSummary() != null && tempEvent.getSummary().equals(summary)  &&
+				tempEvent.getDescription() != null && tempEvent.getDescription().equals(description)) {
 				event = tempEvent;
 				break;
 			}
 		}
+		assertNotNull(event);
+		eventDao.storeEvent(event);		// update
 
+		eventsAfter = eventDao.getAllEvents(getCalendarForWebicalUser());
+		afterStore = eventsAfter.size();
+		assertEquals(beforeCount, afterStore - 1);
+
+		event = null;
+		for (Event tempEvent : eventsAfter) {
+			if (tempEvent.getSummary() != null && tempEvent.getSummary().equals(summary)  &&
+				tempEvent.getDescription() != null && tempEvent.getDescription().equals(description)) {
+				event = tempEvent;
+				break;
+			}
+		}
+		assertNotNull(event);
 		eventDao.removeEvent(event);
 
-		int afterCount = eventDao.getAllEvents(getCalendarForWebicalUser()).size();
-
-		assertEquals(beforeCount, afterStore - 1);
-		assertEquals(beforeCount, afterCount);
+		eventsAfter = eventDao.getAllEvents(getCalendarForWebicalUser());
+		int afterRemove = eventsAfter.size();
+		assertEquals(beforeCount, afterRemove);
 	}
 
 	/**
@@ -262,7 +277,7 @@ public class EventDaoWebDavHibernateBufferedImplTest extends DataBaseTest {
 			startDate = org.webical.util.CalendarUtils.addDays(startDate, 3);
 			endDate = org.webical.util.CalendarUtils.getEndOfDay(startDate);
 
-			//the thirth event in the recurrence
+			//the third event in the recurrence
 			events = eventDao.getEventsForPeriod(calendar, startDate, endDate);
 
 			assertEquals(1, events.size());
