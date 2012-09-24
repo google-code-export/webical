@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -44,9 +46,9 @@ public class BaseHibernateImpl {
 	protected Session getSession() throws DaoException {
 		return SessionFactoryUtils.getSession();
 	}
-	
+
 	/**
-	 * Get a persistend object by id
+	 * Get a persistent object by id
 	 * @param clazz the {@link Class} of the Object to retrieve
 	 * @param id the id
 	 * @return the Object or null
@@ -55,10 +57,10 @@ public class BaseHibernateImpl {
 	protected Object get(Class clazz, Serializable id) throws DaoException {
 		return getSession().get(clazz, id);
 	}
-	
+
 	/**
 	 * Convenience method to load all instances of a given class (use with care)
-	 * @param entityClass teh {@link Class} to retrieve
+	 * @param the entityClass {@link Class} to retrieve
 	 * @return
 	 * @throws DaoException
 	 */
@@ -66,7 +68,7 @@ public class BaseHibernateImpl {
 		Criteria criteria = getSession().createCriteria(entityClass);
 		return criteria.list();
 	}
-	
+
 	/**
 	 * Convenience method to store a list of objects
 	 * @param entities
@@ -78,7 +80,7 @@ public class BaseHibernateImpl {
 			getSession().saveOrUpdate(obj);
 		}
 	}
-	
+
 	/**
 	 * Convenience method to delete a list of objects
 	 * @param entities
@@ -87,10 +89,10 @@ public class BaseHibernateImpl {
 	protected void deleteAll(Collection entities) throws DaoException {
 		for (Iterator it = entities.iterator(); it.hasNext();) {
 			Object obj = it.next();
-			getSession().delete(obj);
+			delete(obj);
 		}
 	}
-	
+
 	/**
 	 * Convenience method to store an object
 	 * @param object
@@ -99,11 +101,11 @@ public class BaseHibernateImpl {
 	protected void saveOrUpdate(Object object) throws DaoException {
 		getSession().saveOrUpdate(object);
 	}
-	
+
 	protected void saveOrUpdate(String entityName, Object object) throws DaoException {
 		getSession().saveOrUpdate(entityName, object);
 	}
-	
+
 	/**
 	 * Convenience method to store an object
 	 * @param object
