@@ -53,6 +53,7 @@ import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.operation.DatabaseOperation;
 import org.dbunit.ext.hsqldb.HsqldbDataTypeFactory;
@@ -263,7 +264,8 @@ public abstract class DataBaseTest extends DatabaseTestCase {
 	 */
 	@Override
 	protected IDataSet getDataSet() throws Exception {
-		return new FlatXmlDataSet(new FileInputStream(datasetFilename));
+		FlatXmlDataSetBuilder fxdsb = new FlatXmlDataSetBuilder();
+		return fxdsb.build(new File(datasetFilename));
 	}
 
 	/**
