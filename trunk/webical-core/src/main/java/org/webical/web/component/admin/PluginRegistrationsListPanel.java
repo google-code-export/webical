@@ -62,9 +62,9 @@ public class PluginRegistrationsListPanel extends AbstractBasePanel {
 		Fragment listFragment = null;
 
 		if (pluginRegistrations == null || pluginRegistrations.size() == 0) {
-			listFragment = new Fragment("listFragment", "noRegistrationsFragment");
+			listFragment = new Fragment("listFragment", "noRegistrationsFragment", this);
 		} else {
-			listFragment = new Fragment("listFragment", "registrationsFragment");
+			listFragment = new Fragment("listFragment", "registrationsFragment", this);
 
 			PluginRegistrationsList pluginRegistrationsList = new PluginRegistrationsList("pluginRegistrationList", pluginRegistrations, NUMBER_OFF_ITEMS_PER_ROW);
 
@@ -111,12 +111,12 @@ public class PluginRegistrationsListPanel extends AbstractBasePanel {
 
 			if (pluginRegistration.getPluginState().equals(PluginState.REGISTERED)) {
 				//Add items for success
-				fragment = new Fragment("pluginRegistrationFragment", "pluginRegistrationFragment_succesfull");
+				fragment = new Fragment("pluginRegistrationFragment", "pluginRegistrationFragment_succesfull", this);
 				fragment.add(new Label("pluginDescription", "" + pluginRegistration.getPlugin().getPluginDescription()));
 				fragment.add(new Label("pluginVersion", "" + pluginRegistration.getPlugin().getPluginVersion()));
 			} else {
 				//Add items for failure
-				fragment = new Fragment("pluginRegistrationFragment", "pluginRegistrationFragment_unsuccesfull");
+				fragment = new Fragment("pluginRegistrationFragment", "pluginRegistrationFragment_unsuccesfull", this);
 				fragment.add(new Label("message", "" + pluginRegistration.getMessage()));
 			}
 
