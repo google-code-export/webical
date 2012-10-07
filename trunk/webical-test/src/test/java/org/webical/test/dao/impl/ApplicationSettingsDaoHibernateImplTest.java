@@ -25,6 +25,8 @@ package org.webical.test.dao.impl;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.webical.ApplicationSettings;
 import org.webical.dao.DaoException;
 import org.webical.dao.hibernateImpl.ApplicationSettingsDaoHibernateImpl;
@@ -36,6 +38,7 @@ import org.webical.dao.hibernateImpl.ApplicationSettingsDaoHibernateImpl;
  *
  */
 public class ApplicationSettingsDaoHibernateImplTest extends DataBaseTest {
+	private static Log log = LogFactory.getLog(CalendarDaoHibernateImplTest.class);
 	private static final boolean TEST_CLEANUP_ENABLED = true;
 	private static final int TEST_CALENDAR_REFRESH_TIME = 2000;
 	private static final String TEST_PLUGIN_WORK_PATH = "TEST_PLUGIN_WORK_PATH";
@@ -62,7 +65,7 @@ public class ApplicationSettingsDaoHibernateImplTest extends DataBaseTest {
 		} catch (DaoException e) {
 			fail("Could not retrieve application settings");
 		}
-		
+		log.info("ApplicationSettingsDaoHibernateImplTest:testStore:ClassPath " + System.getenv("CLASSPATH"));
 		try {
 			applicationSettingsDaoHibernateImpl.storeApplicationSettings(getFullApplicationSettings());
 		} catch (DaoException e) {
