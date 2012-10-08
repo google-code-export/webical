@@ -73,7 +73,7 @@
 								<echo>
 									Performing macro replacements
 								</echo>
-								<replace dir="${basedir}/src/main" casesensitive="true" token="@WEBICAL_VERSION@" value="${project.version}">
+								<replace dir="${basedir}/src/test" casesensitive="true" token="@WEBICAL_VERSION@" value="${project.version}">
 									<include name="**/*.xml"/>
 									<include name="**/*.properties"/>
 								</replace>
