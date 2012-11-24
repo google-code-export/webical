@@ -5,17 +5,21 @@
 	<joined-subclass name="UserSettings" table="user_settings" extends="Settings">
 
 		<!-- The id column of the superclass -->
-		<key column="settingsId"/>
+		<key column="settingsId" not-null="true" />
 
-		<property name="defaultCalendarView" type="java.lang.Integer"/>
-		<property name="firstDayOfWeek" type="java.lang.Integer"/>
-		<property name="numberOfAgendaDays" type="java.lang.Integer"/>
+		<property name="defaultCalendarView" type="integer"/>
+		<property name="firstDayOfWeek" type="integer"/>
+		<property name="numberOfAgendaDays" type="integer"/>
 
-		<property name="dateFormat" type="java.lang.String"/>
-		<property name="timeFormat" type="java.lang.String"/>
+		<property name="dateFormat" type="string" length="255">
+			<column name="dateFormat" length="255" />
+		</property>
+		<property name="timeFormat" type="string" length="255">
+			<column name="timeFormat" length="255" />
+		</property>
 
 		<many-to-one name="user" class="User" column="userId"
-			not-null="true" lazy="false" />
+			not-null="true"/>
 
 	</joined-subclass>
 </hibernate-mapping>
