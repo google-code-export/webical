@@ -2,18 +2,24 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="org.webical" default-lazy="false">
-	<class name="Option" table="options">
+	<class name="Option" table="options" optimistic-lock="version">
 
-		<id name="optionId" type="java.lang.Long">
-            <column name="optionId" />
-            <generator class="identity" />
-  		</id>
+		<id name="optionId" type="long">
+			<column name="optionId" not-null="true"/>
+			<generator class="identity"/>
+		</id>
 
-  		<property name="name" type="java.lang.String" />
-  		<property name="value" type="serializable" />
+        <version name="lastUpdateTime" type="timestamp"/>
 
-  		<many-to-one name="settings" class="Settings" lazy="false"
-  			column="settingsId" not-null="true" />
+        <property name="name" type="string" not-null="true" length="255">
+        	<column name="name" length="255" />
+        </property>
+        <property name="value" type="serializable" length="255">
+        	<column name="value" length="255" />
+        </property>
+
+        <many-to-one name="settings" class="Settings"
+			column="settingsId" not-null="true"/>
 
 	</class>
 </hibernate-mapping>
