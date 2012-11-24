@@ -3,13 +3,13 @@
 
 <beans>
 
-	<!-- 
+	<!--
 		Bootstrap the applciation for demo
 	-->
 	<bean id="databaseBootStrapDao" class="org.webical.dao.hibernateImpl.DatabaseBootstrapDao">
 		<property name="objectsToPersist">
 			<list>
-				<!-- 
+				<!--
 					Order is important! 
 					Referenced beans before referers
 				-->
@@ -32,7 +32,7 @@
 		<property name="calendarRefreshTimeMs" value="50000"/>
 	</bean>
 
-	<!-- Add a fixed user for demo -->	
+	<!-- Add a fixed user for demo -->
 	<bean id="demoUser" class="org.webical.User">
 	    <property name="userId" value="webical" />
 	    <property name="firstName" value="Demo"/>
@@ -40,13 +40,13 @@
 	    <property name="lastName" value="User"/>
 	    <property name="birthDate"><ref bean="birthDate" /></property>
 	</bean>
-	
+
     <!-- Birth Date for the demo user -->
     <bean id="birthDate" class="java.util.Date">
 		<constructor-arg><value>January 25, 2008, 00:00:00 GMT</value></constructor-arg>
 		<!-- <constructor-arg><value type="long">60242569200000</value></constructor-arg> -->
 	</bean>
-	
+
 	<!-- A test calendar for demo user -->
 	<bean id="calendar_demoUser" class="org.webical.Calendar">
 		<property name="name" value="Webical Demo Calendar"/>
@@ -55,7 +55,7 @@
 		<property name="visible" value="true"/>
 		<property name="user"><ref bean="demoUser"/></property>
 	</bean>
-	
+
 	<!-- Settings for the fixed user -->
 	<bean id="userSettings_demoUser" class="org.webical.UserSettings">
 		<property name="defaultCalendarView" value="1" />
@@ -65,5 +65,5 @@
 		<property name="timeFormat" value="HH:mm"/>
 		<property name="user"><ref bean="demoUser"/></property>
 	</bean>
-    
+
 </beans>
