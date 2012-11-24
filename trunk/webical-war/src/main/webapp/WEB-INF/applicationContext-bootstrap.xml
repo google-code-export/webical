@@ -9,7 +9,7 @@
 	<bean id="databaseBootStrapDao" class="org.webical.dao.hibernateImpl.DatabaseBootstrapDao">
 		<property name="objectsToPersist">
 			<list>
-				<!-- 
+				<!--
 					Order is important! 
 					Referenced beans before referers
 				-->
@@ -30,7 +30,7 @@
 		<property name="calendarRefreshTimeMs" value="50000"/>
 	</bean>
 
-	<!-- Add a fixed user for development -->	
+	<!-- Add a fixed user for development -->
 	<bean id="fixedUser" class="org.webical.User">
 	    <property name="userId" value="jag" />
 	    <property name="firstName" value="James"/>
@@ -38,22 +38,22 @@
 	    <property name="lastName" value="Gosling"/>
 	    <property name="birthDate"><ref bean="birthDay" /></property>
 	</bean>
-	
+
     <!-- Birth Date for the fixed user -->
     <bean id="birthDay" class="java.util.Date">
 		<constructor-arg><value>May 24, 1977, 00:00:00 GMT</value></constructor-arg>
 		<!-- <constructor-arg><value type="long">60242569200000</value></constructor-arg> -->
 	</bean>
-	
+
 	<!-- A test calendar for fixedUser -->
 	<bean id="calendar_fixedUser" class="org.webical.Calendar">
 		<property name="name" value="local_test_calendar"/>
 		<property name="type" value="ical-webdav"/>
-		<property name="url" value="http://localhost:8888/webical/dav/webical.ics"/>
+		<property name="url" value="http://localhost:10202/webical/dav/webical.ics"/>
 		<property name="visible" value="true"/>
 		<property name="user"><ref bean="fixedUser"/></property>
 	</bean>
-	
+
 	<!-- Settings for the fixed user -->
 	<bean id="userSettings_fixedUser" class="org.webical.UserSettings">
 		<property name="defaultCalendarView" value="1" />
@@ -63,5 +63,5 @@
 		<property name="timeFormat" value="HH:mm"/>
 		<property name="user"><ref bean="fixedUser"/></property>
 	</bean>
-    
+
 </beans>
