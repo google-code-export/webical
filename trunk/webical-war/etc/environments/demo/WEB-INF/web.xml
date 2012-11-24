@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+     version="2.5">
 
 	<!--
 		This is the configuration file for Webical.
@@ -7,8 +10,8 @@
 	-->
 
 	<display-name>Webical</display-name>
- 	
- 	<!-- 
+
+ 	<!--
  		Wicket configuration, the application class is injected by spring 
  	-->
  	<filter>
@@ -23,7 +26,7 @@
         	<param-value>deployment</param-value>
         </init-param>
 	</filter>
- 	
+
 	<filter-mapping>
 		<filter-name>wicket</filter-name>
 		<url-pattern>/app/*</url-pattern>
@@ -55,10 +58,10 @@
 		<url-pattern>/dav/webicaldemo.ics</url-pattern>
 	</servlet-mapping>
 
-	<!-- 
+	<!--
 		Spring configuration
 	-->
-	 
+
 	<!-- Configure the location of the Spring configuration file (multiple files can be used) -->
 	<context-param>
   		<param-name>contextConfigLocation</param-name>
@@ -68,12 +71,12 @@
 			/WEB-INF/applicationContext-demo-bootstrap.xml
 		</param-value>
 	</context-param>
-    
+
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-	<!-- 
+	<!--
 		Security configuration. Choose either FORM or BASIC authentication.
 	 -->
 	<login-config>
@@ -111,8 +114,8 @@
 		CREATE TABLE `_auth_user` ( `username` varchar(250) NOT NULL, `userpass` varchar(250) NOT NULL, PRIMARY KEY  (`username`)  )
 			ENGINE=MyISAM DEFAULT CHARSET=latin1;
 		CREATE TABLE `auth_userrole` ( `username` varchar(250) NOT NULL, `role` varchar(250) NOT NULL, PRIMARY KEY  (`username`,`role`)  )
-			ENGINE=MyISAM DEFAULT CHARSET=latin1; 
-		
+			ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
 		In order to login to webical, you'll need a user. For a user with username 'webical' and password 'webical', issue:
 		INSERT INTO _auth_user (username, userpass) VALUES ("webical", "webical");
 
@@ -144,7 +147,7 @@
 		<description>Webical User</description>
 		<role-name>webicaluser</role-name>
 	</security-role>
-	
+
 	<!--
 		The database connection should be made available as a Resource by the servlet container.
 
@@ -152,14 +155,14 @@
 		For Webical running in the /webical context on localhost, you can find the Context definition in:
 		${tomcat_home}/conf/Catalina/localhost/webical.xml
 
-	   <Resource 
+	   <Resource
 		  name="jdbc/calendarDataBase" 
-		  auth="Container" 
+		  auth="Container"
 		  type="javax.sql.DataSource" 
 		  factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory" 
-		  username="myusername" 
-		  password="mypassword" 
-		  driverClassName="com.mysql.jdbc.Driver" 
+		  username="myusername"
+		  password="mypassword"
+		  driverClassName="com.mysql.jdbc.Driver"
 		  url="jdbc:mysql://localhost:3306/webical?autoReconnect=true" />
 
 		First, configure the Realm as specified above.
