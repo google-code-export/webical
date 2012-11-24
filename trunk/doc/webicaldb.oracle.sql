@@ -46,6 +46,7 @@ Drop Table wcaluser ;
 
 CREATE TABLE application_settings (
   applicationSettingsId NUMBER (19,0) NOT NULL,   -- auto_increment
+  lastUpdateTime TIMESTAMP NOT NULL DEFAULT 0;
   customPageTitle VARCHAR2(1000),
   pluginWorkPath VARCHAR2(3000),
   pluginPackageExtension VARCHAR2(1000),
@@ -88,6 +89,7 @@ CREATE TABLE appl_sett_resource_paths (
 
 CREATE TABLE wcaluser (
   userId VARCHAR2(255) NOT NULL,
+  lastUpdateTime TIMESTAMP NOT NULL DEFAULT 0;
   firstName VARCHAR2(1000),
   lastNamePrefix VARCHAR2(1000),
   lastName VARCHAR2(1000),
@@ -103,6 +105,7 @@ CREATE TABLE wcaluser (
 
 CREATE TABLE calendar (
   calendarId NUMBER (19,0) NOT NULL,   -- auto_increment
+  lastUpdateTime TIMESTAMP NOT NULL DEFAULT 0;
   name VARCHAR2(1000) NOT NULL,
   type VARCHAR2(1000) NOT NULL,
   url VARCHAR2(3000) NOT NULL,
@@ -125,6 +128,7 @@ CREATE TABLE calendar (
 
 CREATE TABLE event (
   eventId NUMBER (19,0) NOT NULL,   -- auto_increment
+  lastUpdateTime TIMESTAMP NOT NULL DEFAULT 0;
   calendarId NUMBER (19,0) NOT NULL,
   clazz VARCHAR2(1000),
   description VARCHAR2(3000),
@@ -314,6 +318,7 @@ CREATE TABLE event_xProps (
 
 CREATE TABLE settings (
   settingsId NUMBER (19,0) NOT NULL,   -- auto_increment
+  lastUpdateTime TIMESTAMP NOT NULL DEFAULT 0;
   PRIMARY KEY (settingsId)
 ) ;
 
@@ -325,6 +330,7 @@ CREATE TABLE settings (
 
 CREATE TABLE options (
   optionId NUMBER (19,0) NOT NULL,   -- auto_increment
+  lastUpdateTime TIMESTAMP NOT NULL DEFAULT 0;
   name VARCHAR2(255) NOT NULL,
   value RAW(255) DEFAULT NULL,
   settingsId NUMBER (19,0) NOT NULL,
