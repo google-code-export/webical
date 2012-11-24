@@ -55,7 +55,7 @@ public class FileUtils {
 	 */
 	public static void cleanupDirectory(File directory)
 	{
-		if (directory.exists() && directory.isDirectory())
+		if (directory != null && directory.exists() && directory.isDirectory())
 		{
 			File[] filesToDelete = directory.listFiles();
 			for (File file : filesToDelete)
@@ -76,6 +76,8 @@ public class FileUtils {
      */
     public static boolean deleteFileRecursively(File file)
     {
+        if (file == null) return false;
+
         if (file.isDirectory())
         {
             String[] children = file.list();
