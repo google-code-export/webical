@@ -4,7 +4,7 @@
  *
  *    This file is part of Webical.
  *
- *    $Id: $
+ *    $Id$
  *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
@@ -23,8 +23,11 @@
 package org.webical;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.Version;
 
 /**
  * Base class for all kinds of settings 
@@ -34,6 +37,12 @@ public abstract class Settings implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long settingsId = null;
+
+	/**
+	 * Last update time of this record
+	 */
+	private Date lastUpdateTime = null;
+
 	private Set<Option> options = null;
 
 	public Settings() {
@@ -66,5 +75,20 @@ public abstract class Settings implements Serializable {
 	 */
 	public void setOptions(Set<Option> options) {
 		this.options = options;
+	}
+
+	/**
+	 * @return last update time of this record
+	 */
+	@Version
+	public Date getLastUpdateTime() {
+		return lastUpdateTime;
+	}
+	/**
+	 * @param lastUpdateTime - last update time of this record
+	 */
+	@Version
+	public void setLastUpdateTime(Date lastUpdateTime) {
+		this.lastUpdateTime = lastUpdateTime;
 	}
 }

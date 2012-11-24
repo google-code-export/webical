@@ -4,7 +4,7 @@
  *
  *    This file is part of Webical.
  *
- *    $Id: $
+ *    $Id$
  *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
@@ -23,6 +23,9 @@
 package org.webical;
 
 import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Version;
 
 /**
  * Calendar
@@ -42,12 +45,17 @@ public class Calendar implements Serializable {
 	private Boolean visible = Boolean.TRUE;
 
 	//timezone
-	private Long offSetFrom = -1L;
-	private Long offSetTo = 0L;
+	private Integer offSetFrom = -1;
+	private Integer offSetTo = 0;
 
 	private Long lastRefreshTimeStamp = null;
 
 	private User user = null;
+
+	/**
+	 * Last update time of this record
+	 */
+	private Date lastUpdateTime = null;
 
 	/*Getters & Setters*/
 	public Long getCalendarId() {
@@ -102,17 +110,17 @@ public class Calendar implements Serializable {
 		this.visible = selected;
 	}
 
-	public Long getOffSetFrom() {
+	public Integer getOffSetFrom() {
 		return offSetFrom;
 	}
-	public void setOffSetFrom(Long offSetFrom) {
+	public void setOffSetFrom(Integer offSetFrom) {
 		this.offSetFrom = offSetFrom;
 	}
 
-	public Long getOffSetTo() {
+	public Integer getOffSetTo() {
 		return offSetTo;
 	}
-	public void setOffSetTo(Long offSetTo) {
+	public void setOffSetTo(Integer offSetTo) {
 		this.offSetTo = offSetTo;
 	}
 
@@ -128,6 +136,21 @@ public class Calendar implements Serializable {
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	/**
+	 * @return last update time of this record
+	 */
+	@Version
+	public Date getLastUpdateTime() {
+		return lastUpdateTime;
+	}
+	/**
+	 * @param lastUpdateTime - last update time of this record
+	 */
+	@Version
+	public void setLastUpdateTime(Date lastUpdateTime) {
+		this.lastUpdateTime = lastUpdateTime;
 	}
 
 	@Override

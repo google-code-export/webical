@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -21,8 +23,11 @@
 package org.webical;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.Date;
 import java.util.Set;
+import java.util.HashSet;
+
+import javax.persistence.Version;
 
 /**
  * Holder class for the application wide settings
@@ -36,51 +41,56 @@ public class ApplicationSettings implements Serializable {
 	 * The id used in the database 
 	 */
 	private Long applicationSettingsId;
-	
+
 	/**
 	 * A list of paths to include when searching for additional resources (html/css/etc)
 	 */
 	private Set<String> resourcePaths;
-	
+
     /**
      * The title to use on the pages
      */
 	private String customPageTitle;
-	
+
     /**
      * A list of paths to look for plugin packages
      */
 	private Set<String> pluginPaths;
-	
+
     /**
      * The location of a writeable directory to extract the plugin packages
      */
 	private String pluginWorkPath;
-	
+
     /**
      * The file extension used for the plugins
      */
 	private String pluginPackageExtension;
-	
+
     /**
      * The timeout between calendar refreshes 
 	 */
 	private int calendarRefreshTimeMs;
-	
+
 	/**
 	 * Determines if the plugin directory is to be emptied on context shutdown
 	 */
 	private boolean pluginCleanupEnabled;
-	
+
 	/**
 	 * username to log into the configuration page
 	 */
 	private String configurationUsername;
-	
+
 	/**
 	 * password to log into the configuration page
 	 */
 	private String configurationPassword;
+
+	/**
+	 * Last update time of this record
+	 */
+	private Date lastUpdateTime;
 
 	/**
 	 * @return the calendarRefreshTimeMs
@@ -88,7 +98,6 @@ public class ApplicationSettings implements Serializable {
 	public int getCalendarRefreshTimeMs() {
 		return calendarRefreshTimeMs;
 	}
-
 	/**
 	 * @param calendarRefreshTimeMs the calendarRefreshTimeMs to set
 	 */
@@ -102,7 +111,6 @@ public class ApplicationSettings implements Serializable {
 	public String getCustomPageTitle() {
 		return customPageTitle;
 	}
-
 	/**
 	 * @param customPageTitle the customPageTitle to set
 	 */
@@ -116,7 +124,6 @@ public class ApplicationSettings implements Serializable {
 	public String getPluginPackageExtension() {
 		return pluginPackageExtension;
 	}
-
 	/**
 	 * @param pluginPackageExtension the pluginPackageExtension to set
 	 */
@@ -133,7 +140,6 @@ public class ApplicationSettings implements Serializable {
 		}
 		return pluginPaths;
 	}
-
 	/**
 	 * @param pluginPaths the pluginPaths to set
 	 */
@@ -147,7 +153,6 @@ public class ApplicationSettings implements Serializable {
 	public String getPluginWorkPath() {
 		return pluginWorkPath;
 	}
-
 	/**
 	 * @param pluginWorkPath the pluginWorkPath to set
 	 */
@@ -164,7 +169,6 @@ public class ApplicationSettings implements Serializable {
 		}
 		return resourcePaths;
 	}
-
 	/**
 	 * @param resourcePaths the resourcePaths to set
 	 */
@@ -178,7 +182,6 @@ public class ApplicationSettings implements Serializable {
 	public Long getApplicationSettingsId() {
 		return applicationSettingsId;
 	}
-
 	/**
 	 * @param applicationSettingsId the applicationSettingsId to set
 	 */
@@ -192,7 +195,6 @@ public class ApplicationSettings implements Serializable {
 	public boolean isPluginCleanupEnabled() {
 		return pluginCleanupEnabled;
 	}
-
 	/**
 	 * @param pluginCleanupEnabled the pluginCleanupEnabled to set
 	 */
@@ -206,7 +208,6 @@ public class ApplicationSettings implements Serializable {
 	public String getConfigurationPassword() {
 		return configurationPassword;
 	}
-
 	/**
 	 * @param configurationPassword the configurationPassword to set
 	 */
@@ -220,12 +221,25 @@ public class ApplicationSettings implements Serializable {
 	public String getConfigurationUsername() {
 		return configurationUsername;
 	}
-
 	/**
 	 * @param configurationUsername the configurationUsername to set
 	 */
 	public void setConfigurationUsername(String configurationUsername) {
 		this.configurationUsername = configurationUsername;
 	}
-	
+
+	/**
+	 * @return last update time of this record
+	 */
+	@Version
+	public Date getLastUpdateTime() {
+		return lastUpdateTime;
+	}
+	/**
+	 * @param lastUpdateTime - last update time of this record
+	 */
+	@Version
+	public void setLastUpdateTime(Date lastUpdateTime) {
+		this.lastUpdateTime = lastUpdateTime;
+	}
 }
