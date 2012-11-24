@@ -3,7 +3,7 @@
 <head>
 	<title>Webical Demo-site login</title>
 	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
-	<link href="http://demo.webical.org/css/style.css" rel="stylesheet" type="text/css" /> 
+	<link href="http://demo.webical.org/css/style.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
