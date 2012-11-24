@@ -141,7 +141,7 @@ public abstract class EventForm extends Form {
 	private GregorianCalendar selectedDate;
 
 	/**
-	 * Wheter this is an edit form or not
+	 * Whether this is an edit form or not
 	 */
 	private boolean editForm;
 
@@ -585,7 +585,7 @@ public abstract class EventForm extends Form {
 	private void alterAllEventInstances() {
 		if(overruleCalendarTimeZone && !eventWrapper.getEvent().isAllDay()){
 			//Display dtstart and dtend in usertimezone
-			Long offSetCalendar = eventWrapper.getEvent().getCalendar().getOffSetFrom();
+			Integer offSetCalendar = eventWrapper.getEvent().getCalendar().getOffSetFrom();
 
 			if(offSetCalendar != null){
 				float difference = offSetUser.floatValue() - offSetCalendar.floatValue();
@@ -600,7 +600,6 @@ public abstract class EventForm extends Form {
 
 		eventWrapper.storeRecurrence();
 
-		
 		/*if(eventWrapper.getFrequency() != null && eventWrapper.getInterval() != null) {
 			if(eventWrapper.getCount() == null){
 				RecurrenceUtil.setRecurrenceRule(storeEvent, new Recurrence(eventWrapper.getFrequency(), eventWrapper.getInterval(), eventWrapper.getUntil()));

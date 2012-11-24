@@ -271,9 +271,9 @@ public class WebDavCalendarSynchronisation {
 					}
 					events.add(ComponentFactory.buildEventFromComponent(calendar,component));
 				} else if(component.getName().equals(Component.VTIMEZONE)) {
-					Long offSet = ComponentFactory.buildOffSetFromIcal4JTimeZone((VTimeZone)component);
+					Integer offSet = ComponentFactory.buildOffSetFromIcal4JTimeZone((VTimeZone)component);
 					calendar.setOffSetFrom(offSet);
-					calendar.setOffSetTo(offSet + 1);
+					calendar.setOffSetTo(offSet.intValue() + 1);
 				}
 			}
 		} catch (ParseException exception) {
