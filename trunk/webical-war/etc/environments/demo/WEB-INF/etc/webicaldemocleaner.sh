@@ -27,7 +27,7 @@ echo ${result}
 if [[ "${result:0:4}" == "FAIL" ]] ; then
 	echo "context not started yet, starting up"
 	/usr/bin/wget -q --user=$tomcat_user --password=$tomcat_pass $url/manager/start?path=$context_path -O -
-fi	
+fi
 
 echo "inserting private data"
 /usr/bin/mysql -u$db_user -p$db_pass $db < $insert_script
