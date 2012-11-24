@@ -4,7 +4,7 @@
  *
  *    This file is part of Webical.
  *
- *    $Id: $
+ *    $Id$
  *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
@@ -23,6 +23,9 @@
 package org.webical;
 
 import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Version;
 
 /**
  * An option to be used in {@link Settings}
@@ -36,6 +39,11 @@ public class Option implements Serializable {
 	private Settings settings = null;
 	private String name = null;
 	private Serializable value = null;
+
+	/**
+	 * Last update time of this record
+	 */
+	private Date lastUpdateTime = null;
 
 	public Option() {
 	}
@@ -102,5 +110,20 @@ public class Option implements Serializable {
 	 */
 	public void setValue(Serializable value) {
 		this.value = value;
+	}
+
+	/**
+	 * @return last update time of this record
+	 */
+	@Version
+	public Date getLastUpdateTime() {
+		return lastUpdateTime;
+	}
+	/**
+	 * @param lastUpdateTime - last update time of this record
+	 */
+	@Version
+	public void setLastUpdateTime(Date lastUpdateTime) {
+		this.lastUpdateTime = lastUpdateTime;
 	}
 }

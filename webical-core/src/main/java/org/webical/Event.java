@@ -29,6 +29,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.Version;
+
 
 /**
  * Class representing one Event
@@ -72,6 +74,11 @@ public class Event implements Serializable {
 	private Date dtEnd = null;
 	private String duration = null;
 
+	/**
+	 * Last update time of this record
+	 */
+	private Date lastUpdateTime = null;
+
 	//May occur more than once
 	private Set<String> attach = null;
 	private Set<String> attendee = null;
@@ -90,6 +97,13 @@ public class Event implements Serializable {
 	private Set<String> exRule = null;
 
 	/** Getters & Setters */
+	public Long getEventId() {
+		return eventId;
+	}
+	public void setEventId(Long eventId) {
+		this.eventId = eventId;
+	}
+
 	public Boolean isAllDay() {
 		return allDay;
 	}
@@ -370,11 +384,19 @@ public class Event implements Serializable {
 		xProps.put(key, value);
 	}
 
-	public Long getEventId() {
-		return eventId;
+	/**
+	 * @return last update time of this record
+	 */
+	@Version
+	public Date getLastUpdateTime() {
+		return lastUpdateTime;
 	}
-	public void setEventId(Long eventId) {
-		this.eventId = eventId;
+	/**
+	 * @param lastUpdateTime - last update time of this record
+	 */
+	@Version
+	public void setLastUpdateTime(Date lastUpdateTime) {
+		this.lastUpdateTime = lastUpdateTime;
 	}
 
 	@Override

@@ -25,6 +25,8 @@ package org.webical;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Version;
+
 /**
  * User
  * @author ivo
@@ -38,8 +40,12 @@ public class User implements Serializable {
 	private String lastName = null;
 	private Date birthDate = null;
 
-	/** Getters and setters */
+	/**
+	 * Last update time of this record
+	 */
+	private Date lastUpdateTime = null;
 
+	/** Getters and setters */
 	public String getUserId() {
 		return userId;
 	}
@@ -73,6 +79,21 @@ public class User implements Serializable {
 	}
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
+	}
+
+	/**
+	 * @return last update time of this record
+	 */
+	@Version
+	public Date getLastUpdateTime() {
+		return lastUpdateTime;
+	}
+	/**
+	 * @param lastUpdateTime - last update time of this record
+	 */
+	@Version
+	public void setLastUpdateTime(Date lastUpdateTime) {
+		this.lastUpdateTime = lastUpdateTime;
 	}
 
 	@Override
