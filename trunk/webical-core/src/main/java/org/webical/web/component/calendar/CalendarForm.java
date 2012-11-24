@@ -113,12 +113,12 @@ public abstract class CalendarForm extends Form {
 		if((this.editCalendar != null) && (this.editCalendar.getUrl() != null)) {
 			
 			//Use the offset (timezone) to calculate the offsetto (daylight saving)
-			long offSetFromTemp = new Long(0);
-			long offSetToTemp = new Long(1);
+			Integer offSetFromTemp = new Integer(0);
+			Integer offSetToTemp = new Integer(1);
 			if(editCalendar.getOffSetFrom() != null) {
 				// overwrite the offset values from above
 				offSetFromTemp = editCalendar.getOffSetFrom();
-				offSetToTemp = new Long(editCalendar.getOffSetFrom().intValue() + 1);
+				offSetToTemp = new Integer(editCalendar.getOffSetFrom().intValue() + 1);
 			}
 			if(editCalendar.getOffSetTo() != null){
 				// overwrite the offSetTo as it allready exists in the calendar
@@ -223,17 +223,17 @@ public abstract class CalendarForm extends Form {
 	}
 
 	/**
-	 * Creates a dropdown for the timzone
+	 * Creates a dropdown for the timezone
 	 */
 	private DropDownChoice createTimeZoneDropDown(String markupId) {
-		List<Long> timeZoneList = new ArrayList<Long>();
+		List<Integer> timeZoneList = new ArrayList<Integer>();
 
 		String[] id = TimeZone.getAvailableIDs();
 
-		for(String s : id){
-			Long timeZone = TimeZone.getTimeZone(s).getRawOffset() / CalendarUtils.getHourInMs();
+		for (String s : id) {
+			Integer timeZone = (int) (TimeZone.getTimeZone(s).getRawOffset() / CalendarUtils.getHourInMs());
 			//Filter out general GMT time
-			if(s.contains("GMT") && !timeZoneList.contains(timeZone)){
+			if (s.contains("GMT") && !timeZoneList.contains(timeZone)) {
 				timeZoneList.add(timeZone);
 			}
 		}
@@ -245,43 +245,40 @@ public abstract class CalendarForm extends Form {
 			// Gets the display value that is visible to the end user.
 	        public String getDisplayValue(Object object) {
 
-	            Long offSet = ((Long) object) ;
+	        	Integer offSet = (Integer) object;
 
 	            int rawOffset = (int) ((offSet.floatValue() * CalendarUtils.getHourInMs()) / 60000);
 	            int hours = rawOffset / 60;
 	            int minutes = Math.abs(rawOffset) % 60;
 	            String hrStr = "";
 
-						if (Math.abs(hours) < 10) {
-							if (hours < 0) {
-								hrStr = "-0" + Math.abs(hours);
-							} else {
-								hrStr = "0" + Math.abs(hours);
-							}
-						} else {
-							hrStr = Integer.toString(hours);
-						}
-
-						String minStr = (minutes < 10) ? ("0" + Integer
-								.toString(minutes)) : Integer.toString(minutes);
-						String str = "GMT " + ((offSet >= 0) ? "+" : "")
-								+ hrStr + ":" + minStr;
-
-						return str;
+				if (Math.abs(hours) < 10) {
+					if (hours < 0) {
+						hrStr = "-0" + Math.abs(hours);
+					} else {
+						hrStr = "0" + Math.abs(hours);
 					}
+				} else {
+					hrStr = Integer.toString(hours);
+				}
 
-					// Gets the value that is invisble to the end user, and that is
-				// used as the selection id.
-					public String getIdValue(Object object, int index) {
-						return ((Long) object).toString();
-					}
-				});
+				String minStr = (minutes < 10) ? ("0" + Integer.toString(minutes)) : Integer.toString(minutes);
+				String str = "GMT " + ((offSet >= 0) ? "+" : "") + hrStr + ":" + minStr;
+
+				return str;
+			}
+
+			// Gets the value that is invible to the end user, and that is
+			// used as the selection id.
+			public String getIdValue(Object object, int index) {
+				return ((Integer) object).toString();
+			}
+		});
 		return timeZoneDropDownChoice;
 	}
 
 	/**
-	 * Implementing class must define this method to handle the redirect of the
-	 * discard button
+	 * Implementing class must define this method to handle the redirect of the discard button
 	 */
 	protected abstract void onDiscard();
 
