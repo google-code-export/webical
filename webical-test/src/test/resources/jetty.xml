@@ -16,7 +16,9 @@
 
 	<!--
 		Configure DataSource
-	 -->
+
+        See also WEB-INF/applicationContext.xml for the hibernate database dialect
+    -->
 	<New id="calendarDataBase" class="org.mortbay.jetty.plus.naming.Resource">
 		<Arg>jdbc/calendarDataBase</Arg>
 		<Arg>
@@ -27,6 +29,17 @@
 			</New>
 		</Arg>
 	</New>
+    <!-- New id="calendarDataBase" class="org.mortbay.jetty.plus.naming.Resource">
+        <Arg>jdbc/calendarDataBase</Arg>
+        <Arg>
+            <New class="org.apache.commons.dbcp.BasicDataSource">
+                <Set name="driverClassName">org.apache.derby.jdbc.ClientDriver</Set>
+                <Set name="url">jdbc:derby://localhost:1527/derby.db</Set>
+                <Set name="username">webical</Set>
+                <Set name="password">webical</Set>
+            </New>
+        </Arg>
+    </New -->
 
 	<!--
 		Set some other usefull stuff
