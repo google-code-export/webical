@@ -64,7 +64,7 @@ h1 {
   font-weight: normal;
 }
 
-.button, .datatable .button, #todayButton {
+.button, .datatable .button {
   width: auto;
   line-height: 160%;
   margin: .5em .5em 0 0;
@@ -252,7 +252,7 @@ a.button {
   background: #E9E9EE url(../img/topbar2.png) repeat-x top;
   font-size: 1.2em;
   font-weight: bold;
-  z-index: 9;
+  z-index: 10;
 }
 
 #headerPanel ul {
@@ -299,12 +299,12 @@ a.button {
 
 #logoPanel {
   position: absolute;
-  top: 30px;
+  top: 27px;
   width: 18em;   /* size of left hand side of page */
   height: 52px;   /* height of webicallogo.gif */
   overflow: hidden;
   /*background: url(../img/webicallogo.png) no-repeat 0px -4px;*/
-  z-index: 10;
+  z-index: 15;
 }
 
 .smallpanel {
@@ -339,7 +339,7 @@ a.button {
   position: absolute;
   left: 6px;
   bottom: 10px;
-  z-index: 100;
+  z-index: 15;
   visibility: hidden;
   display: none;
 }
@@ -376,7 +376,7 @@ a.button {
   border-top: 0 none transparent;
   /* border-right: 1px solid #B3B3B3; */
   background-color: #fff;
-  z-index: 5;
+  z-index: 15;
 }
 
 #datePickerCalendar h1 {
@@ -487,7 +487,7 @@ a.button {
   top: 300px;
   left: -18em;
   margin-left: 3px;
-  z-index: 100;
+  z-index: 15;
 }
 
 #calendarPanel ul, #calendarPanel li {
@@ -545,8 +545,6 @@ a.button {
 #dateSwitcher {
   position: absolute;
   left: 2em;
-/*  top: 0px;*/   /* see .tab-row */
-/*  margin: 0; */
   padding: 1px;
   list-style: none;
   list-style-position: outside;
@@ -579,6 +577,12 @@ a.button {
 #previousLink span, #nextLink span {
   line-height: 1px;
   visibility: hidden;
+}
+
+#dateSwitcher li #todayButton {
+  display: inline;
+  float: none;
+  line-height: 160%;
 }
 
 #dateSwitcher #rangeLabel {
@@ -615,23 +619,36 @@ a.button {
   position: absolute;
   top: 0px;
   right: 2em;
-  z-index: 100;
+  height: 39px;   /* calendarViewPanel starts at 39px */
+  margin: 0;
+  padding: 0;
+  border: 0px none transparent;
+  vertical-align: bottom;
+  z-index: 25;
 }
 
 .tab-row ul {
+  height: 17px;
+  margin: 11px 0 11px 0;
+  padding: 0;
   list-style: none;
   list-style-position: outside;
 }
 
 .tab-row li {
+  margin: 0 6px 0 0;
+  padding: 0;
   float: left;
-  margin-right: 6px;
 }
 
 .tab-row li a {
   display: block;
+  min-width: 6em;
+  height: 17px;
+  margin: 0 3px 0 3px;
+  padding: 5px 3px 5px 3px;
   border: 1px solid #829DAD;
-  border-bottom-color: #51636A;
+  border-bottom: 0px none transparent;
   color: #666;
   background-color: #D5D6DB;
   text-decoration: none;
@@ -639,9 +656,6 @@ a.button {
 
 .tab-row li a span {
   display: block;
-  min-width: 6em;
-  margin: 0 .4em;
-  padding: .5em 0;
   text-align: center;
   cursor: pointer;
 }
@@ -651,11 +665,8 @@ a.button {
 }
 
 .tab-row li.selected a {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  padding-bottom: 0px;
   border: 1px solid #51636A;
-  border-bottom: 3px solid #fff;
+  border-bottom: 2px solid transparent;
   background: #fff;
   font-weight: bold;
   cursor: default;
@@ -671,7 +682,7 @@ a.button {
   bottom: 9px;
   width: 100%;
   clear: both;
-  z-index: 0;
+  z-index: 20;
 }
 
 #calendarViewPanel li.today {
@@ -923,7 +934,7 @@ a.button {
   background: url("../img/icoPlus.gif") no-repeat 0 .6em;
   font-weight: bold;
   line-height: 180%;
-  z-index: 100;
+  z-index: 15;
 }
 
 .addEventLink span {
