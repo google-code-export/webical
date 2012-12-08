@@ -35,7 +35,7 @@ import org.hibernate.LockMode;
 import org.hibernate.LockOptions;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.id.Configurable;
-import org.hibernate.id.UUIDHexGenerator;
+import org.hibernate.id.UUIDGenerator;
 import org.webical.Calendar;
 import org.webical.Event;
 import org.webical.dao.DaoException;
@@ -57,7 +57,7 @@ public class EventDaoWebDavHibernateBufferedImpl extends BaseHibernateImpl imple
 
 	private static Log log = LogFactory.getLog(EventDaoWebDavHibernateBufferedImpl.class);
 
-	private UUIDHexGenerator uuidGen = null;
+	private UUIDGenerator uuidGen = null;
 
 	///////////////////
 	/// API METHODS ///
@@ -479,15 +479,15 @@ public class EventDaoWebDavHibernateBufferedImpl extends BaseHibernateImpl imple
 
 	/**
 	 * Uses the hibernate uid generator
-	 * @return a UUIDHexGenerator
+	 * @return a UUIDGenerator
 	 */
-	private UUIDHexGenerator getUuidGen()
+	private UUIDGenerator getUuidGen()
 	{
 		if (uuidGen != null) return uuidGen;
 
 		Properties uidprops = new Properties();
 		uidprops.setProperty("separator", "-");
-		uuidGen = new UUIDHexGenerator();
+		uuidGen = new UUIDGenerator();
 		((Configurable) uuidGen).configure(org.hibernate.type.StandardBasicTypes.STRING, uidprops, null);
 		return uuidGen;
 	}
