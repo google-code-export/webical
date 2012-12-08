@@ -24,8 +24,12 @@ package org.webical.test;
 
 import java.util.GregorianCalendar;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.webical.ApplicationSettings;
 import org.webical.User;
+import org.webical.dao.DaoException;
+import org.webical.dao.hibernateImpl.UserDaoHibernateImpl;
 import org.webical.manager.ApplicationSettingsManager;
 import org.webical.manager.WebicalException;
 import org.webical.settings.ApplicationSettingsFactory;
@@ -60,6 +64,8 @@ public class TestUtils {
 	public static final String USERID_DEMO = "demo-user";
 	public static final String USERID_JAG = "jag";
 
+	private static Log log = LogFactory.getLog(TestUtils.class);
+
 	/** Initialize the log4j configuration */
 	static {
 		System.setProperty("log4j.configuration", System.getProperty(SYSTEM_USER_DIR) + "/" + RESOURCE_DIRECTORY + LOG4J_CONFIGURATION_FILE);
@@ -77,33 +83,44 @@ public class TestUtils {
 		});
 	}
 
+	/**
+	 * Retrieve a user from the database
+	 *
+	 * @param userId - userId to retrieve
+	 *
+	 * @return user corresponding to userId, null if not found
+	 */
+	public static final User retrieveUser(String userId) {
+		UserDaoHibernateImpl userDao = new UserDaoHibernateImpl();
+		User user = null;
+		try {
+			user = userDao.getUser(userId);
+		} catch (Exception e) {
+			log.error(e,e);
+		}
+		return user;
+	}
+
 	/** get the webical user */
 	public static final User getWebicalUser() {
-		User user = new User();
-		user.setUserId(TestUtils.USERID_WEBICAL);
-		user.setFirstName(TestUtils.USERID_WEBICAL);
-		user.setLastName(TestUtils.USERID_WEBICAL);
-		user.setBirthDate(new GregorianCalendar(1970, GregorianCalendar.NOVEMBER, 6).getTime());
-		return user;
+		return retrieveUser(TestUtils.USERID_WEBICAL);
 	}
 	/** get the demo user */
 	public static final User getDemoUser() {
-		User user = new User();
-		user.setUserId(USERID_DEMO);
-		user.setFirstName("demo");
-		user.setLastNamePrefix("the");
-		user.setLastName("user");
-		user.setBirthDate(new GregorianCalendar(1980, GregorianCalendar.JANUARY, 3).getTime());
-		return user;
+		return retrieveUser(TestUtils.USERID_DEMO);
 	}
 	/** get the jag user */
 	public static final User getJAGUser() {
-		User user = new User();
-		user.setUserId(USERID_JAG);
-		user.setFirstName("James");
-		user.setLastNamePrefix("A.");
-		user.setLastName("Goslinga");
-		user.setBirthDate(new GregorianCalendar(1960, GregorianCalendar.APRIL, 23).getTime());
+		User user = retrieveUser(TestUtils.USERID_JAG);
+		if (user == null)
+		{
+			user = new User();
+			user.setUserId(USERID_JAG);
+			user.setFirstName("James");
+			user.setLastNamePrefix("A.");
+			user.setLastName("Goslinga");
+			user.setBirthDate(new GregorianCalendar(1960, GregorianCalendar.APRIL, 23).getTime());
+		}
 		return user;
 	}
 }

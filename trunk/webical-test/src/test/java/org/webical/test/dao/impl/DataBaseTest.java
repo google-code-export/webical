@@ -315,6 +315,8 @@ public abstract class DataBaseTest extends DatabaseTestCase {
 
 			DatabaseOperation databaseOperation = DatabaseOperation.CLEAN_INSERT;
 			databaseOperation.execute(connection, getDataSet());
+
+			SessionFactoryUtils.flushSession();
 		} catch (Exception e) {
 			log.error(e);
 		} finally {

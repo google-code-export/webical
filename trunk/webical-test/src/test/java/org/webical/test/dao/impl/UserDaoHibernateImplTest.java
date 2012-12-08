@@ -126,7 +126,7 @@ public class UserDaoHibernateImplTest extends DataBaseTest {
 
 		//Retrieve the user (again)
 		try {
-			user = userDao.getUser(TestUtils.getDemoUser().getUserId());
+			user = userDao.getUser(TestUtils.USERID_DEMO);
 		} catch (DaoException e) {
 			fail("Get failed: " + e);
 		}
