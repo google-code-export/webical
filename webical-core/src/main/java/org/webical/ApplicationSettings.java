@@ -93,6 +93,23 @@ public class ApplicationSettings implements Serializable {
 	private Date lastUpdateTime;
 
 	/**
+	 * Construct
+	 */
+	public ApplicationSettings() {
+		this.applicationSettingsId = null;
+		this.resourcePaths = null;
+		this.customPageTitle = null;
+		this.pluginPaths = null;
+		this.pluginWorkPath = null;
+		this.pluginPackageExtension = null;
+		this.calendarRefreshTimeMs = 60000;
+		this.pluginCleanupEnabled = true;
+		this.configurationUsername = null;
+		this.configurationPassword = null;
+		this.lastUpdateTime = null;
+	}
+
+	/**
 	 * @return the calendarRefreshTimeMs
 	 */
 	public int getCalendarRefreshTimeMs() {

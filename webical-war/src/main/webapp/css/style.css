@@ -192,19 +192,20 @@ a.button {
 }
 
 #configurationPageContentPanel label {
-  width: 24em;
+  width: 30em;
 }
 
-.formControls {
-  margin-top: 1em;
-  margin-left: 30em;
+#configurationPageLeftColumn .formControls {
   width: auto;
+  text-align: right;
+  vertical-align: bottom;
 }
 
 #configurationPageOptions {
   clear: both;
   width: 100%;
-  padding-top: 1em;
+  padding-top: 0.1em;
+  padding-bottom: 2em;
   font-size: 1.2em;
 }
 
@@ -975,7 +976,7 @@ a.button {
 /* Form styles */
 
 .formItem {
-  /*width: 100%;*/
+  /* width: 100%; */
   margin-bottom: .3em;
   vertical-align: middle;
   clear: both;

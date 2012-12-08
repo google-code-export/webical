@@ -127,8 +127,7 @@ public class WebDavCalendarSynchronisationTest extends DataBaseTest {
 	}
 
 	private Calendar getCalendar(String userId) {
-		User user = new User();
-		user.setUserId(userId);
+		User user = TestUtils.retrieveUser(userId);
 		try {
 			return calendarDao.getCalendars(user).get(0);
 		} catch (DaoException e) {
@@ -146,13 +145,12 @@ public class WebDavCalendarSynchronisationTest extends DataBaseTest {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		eventDao = new EventDaoWebDavHibernateBufferedImpl();
-
 		ApplicationSettings applicationSettings = new ApplicationSettings();
-		applicationSettings.setCalendarRefreshTimeMs(300);
+		applicationSettings.setCalendarRefreshTimeMs(60000);
 		TestUtils.initializeApplicationSettingsFactory(applicationSettings);
 
 		calendarDao = new CalendarDaoHibernateImpl();
+		eventDao = new EventDaoWebDavHibernateBufferedImpl();
 	}
 
 	/**
