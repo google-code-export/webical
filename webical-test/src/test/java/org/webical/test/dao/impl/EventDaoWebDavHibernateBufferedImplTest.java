@@ -52,8 +52,8 @@ public class EventDaoWebDavHibernateBufferedImplTest extends DataBaseTest {
 
 	private static Log log = LogFactory.getLog(EventDaoWebDavHibernateBufferedImplTest.class);
 
-	private EventDaoWebDavHibernateBufferedImpl eventDao;
 	private CalendarDaoHibernateImpl calendarDao;
+	private EventDaoWebDavHibernateBufferedImpl eventDao;
 
 	/**
 	 * Sets up the dao for each test
@@ -63,13 +63,13 @@ public class EventDaoWebDavHibernateBufferedImplTest extends DataBaseTest {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		eventDao = new EventDaoWebDavHibernateBufferedImpl();
 		calendarDao = new CalendarDaoHibernateImpl();
+		eventDao = new EventDaoWebDavHibernateBufferedImpl();
 	}
 
 	public Event getEvent(String userId) {
 		Event event = new Event();
-		event.setCalendar(getFirstUserCalendar(userId));
+		event.setCalendar(getFirstUserCalendar(TestUtils.retrieveUser(userId)));
 		event.setAttach(new HashSet<String>(Arrays.asList(new String[]{"attach"})));
 		event.setAttendee(new HashSet<String>(Arrays.asList(new String[]{"attendee"})));
 		event.setCategories(new HashSet<String>(Arrays.asList(new String[]{"category"})));
@@ -135,6 +135,7 @@ public class EventDaoWebDavHibernateBufferedImplTest extends DataBaseTest {
 		String description = summary.concat(" description!!!");
 		event.setSummary(summary);
 		event.setDescription(description);
+
 		event.setCalendar(getCalendarForWebicalUser());
 
 		List<Event> currentEvents = eventDao.getAllEvents(getCalendarForWebicalUser());
@@ -300,7 +301,7 @@ public class EventDaoWebDavHibernateBufferedImplTest extends DataBaseTest {
 
 	private Calendar getCalendarForWebicalUser()
 	{
-		return getFirstUserCalendar(TestUtils.USERID_WEBICAL);
+		return getFirstUserCalendar(TestUtils.retrieveUser(TestUtils.USERID_WEBICAL));
 	}
 
 	/**
@@ -308,9 +309,7 @@ public class EventDaoWebDavHibernateBufferedImplTest extends DataBaseTest {
 	 * @param userId the user to get a Calendar for
 	 * @return a Calendar or null
 	 */
-	public Calendar getFirstUserCalendar(String userId) {
-		User user = new User();
-		user.setUserId(userId);
+	public Calendar getFirstUserCalendar(User user) {
 		try {
 			return calendarDao.getCalendars(user).get(0);
 		} catch (DaoException e) {
