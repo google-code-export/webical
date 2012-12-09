@@ -18,15 +18,15 @@
 	  Make sure the rolenames are the same as the <role-name> in 'tomcat/webapps/webical/WEB-INF/web.xml'
 	 -->
 	<Realm className="org.apache.catalina.realm.JDBCRealm"
-		debug="4"
-        driverName="com.mysql.jdbc.Driver"
+		<!-- debug="4" -->
+		driverName="com.mysql.jdbc.Driver"
 		connectionName="webical"
 		connectionPassword="webical"
 		connectionURL="jdbc:mysql://localhost:3306/webical?autoReconnect=true"
-        userTable="_auth_user"
+		userTable="_auth_user"
 		userNameCol="username"
 		userCredCol="userpass"
-        userRoleTable="_auth_userrole"
+		userRoleTable="_auth_userrole"
 		roleNameCol="role"/>
 
 	<!--

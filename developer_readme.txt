@@ -2,7 +2,7 @@ To start with webical do the following:
 
 1. Check the versionnumber in src/main/webapp/WEB-INF/applicationContext-dev.xml
 
-2. Run maven: mvn -Dwtpversion1.0 eclipse:eclipse
+2. Run maven: mvn -Dwtpversion2.0 eclipse:eclipse
 
 3. Install the aspectJ developer tools from http://www.eclipse.org/ajdt/ and configure aspectj for the project (right-click -> AspectJ Tools -> Configure...).
 

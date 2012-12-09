@@ -51,7 +51,7 @@
             	<value>org/webical/Calendar.hbm.xml</value>
             	<value>org/webical/Event.hbm.xml</value>
             	<value>org/webical/ApplicationSettings.hbm.xml</value>
-				<value>org/webical/Option.hbm.xml</value>
+            	<value>org/webical/Option.hbm.xml</value>
             	<value>org/webical/Settings.hbm.xml</value>
             	<value>org/webical/PluginSettings.hbm.xml</value>
             	<value>org/webical/UserPluginSettings.hbm.xml</value>
@@ -69,7 +69,7 @@
                 <prop key="hibernate.format_sql">true</prop>
                 <prop key="hibernate.max_fetch_depth">1</prop>
                 <!-- set to validate for production -->
-  				<prop key="hibernate.hbm2ddl.auto">create</prop>
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
                 <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
             </props>
         </property>
@@ -105,7 +105,7 @@
     </bean>
 
     <bean id="encryptionManager" singleton="true" class="org.webical.manager.impl.EncryptionManagerImpl">
-		<property name="passphraseFile"><value>WEB-INF/pp</value></property>
+		<property name="passphraseFile"><value>WEB-INF/pphf</value></property>
 		<property name="encryptingDaos">
 			<list>
             	<ref bean="calendarDao"/>
@@ -120,33 +120,29 @@
 	<!--
 		Daos
 	 -->
-	 <bean  id="applicationSettingsDao" class="org.webical.dao.hibernateImpl.ApplicationSettingsDaoHibernateImpl" />
+    <bean  id="applicationSettingsDao" class="org.webical.dao.hibernateImpl.ApplicationSettingsDaoHibernateImpl" />
+    <bean  id="calendarDao" class="org.webical.dao.hibernateImpl.CalendarDaoHibernateImpl" />
+    <bean  id="userDao" class="org.webical.dao.hibernateImpl.UserDaoHibernateImpl" >
+        <property name="calendarDao"><ref bean="calendarDao" /></property>
+    </bean>
+    <bean id="eventDaoWebDavHibernateBufferedImpl" class="org.webical.dao.hibernateImpl.EventDaoWebDavHibernateBufferedImpl" />
+    <bean id="settingsDao" class="org.webical.dao.hibernateImpl.SettingsDaoHibernateImpl" />
 
-	 <bean  id="calendarDao" class="org.webical.dao.hibernateImpl.CalendarDaoHibernateImpl" />
+    <!--
+        DaoFactory, can be initialized with an initial list of Dao registrations
+    -->
 
-	 <bean  id="userDao" class="org.webical.dao.hibernateImpl.UserDaoHibernateImpl" >
-	 	<property name="calendarDao"><ref bean="calendarDao" /></property>
-	 </bean>
+    <bean id="daoFactory" singleton="true" class="org.webical.dao.factory.DaoFactory">
+        <property name="eventDaoRegistrations">
+            <map>
+                <entry key="ical-webdav" value-ref="eventDaoWebDavHibernateBufferedImpl" />
+            </map>
+        </property>
+    </bean>
 
-	 <bean id="eventDaoWebDavHibernateBufferedImpl" class="org.webical.dao.hibernateImpl.EventDaoWebDavHibernateBufferedImpl" />
-
-	 <bean id="settingsDao" class="org.webical.dao.hibernateImpl.SettingsDaoHibernateImpl" />
-
-	 <!--
-	 	DaoFactory, can be initialized with an initial list of Dao registrations
-	  -->
-
-	  <bean id="daoFactory" singleton="true" class="org.webical.dao.factory.DaoFactory">
-	  	<property name="eventDaoRegistrations">
-	  		<map>
-	  			<entry key="ical-webdav" value-ref="eventDaoWebDavHibernateBufferedImpl" />
-	  		</map>
-	  	</property>
-	  </bean>
-
-	<!--
-	  	ApplicationSettingsFactory - Global configuration factory
-	 -->
+    <!--
+        ApplicationSettingsFactory - Global configuration factory
+    -->
     <bean id="applicationSettingsFactory" class="org.webical.settings.ApplicationSettingsFactory" >
     	<property name="applicationSettingsManager"><ref bean="applicationSettingsManager" /></property>
     </bean>
