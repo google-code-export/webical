@@ -10,8 +10,8 @@ Webical README
 
 1. Requirements
    To run Webical, you require the following:
-    - Java 1.5 (http://java.sun.com/javase/downloads/index.jsp)
-    - Tomcat 5.5 (http://tomcat.apache.org/)
+    - Java 1.6 (http://java.sun.com/javase/downloads/index.jsp)
+    - Tomcat 6.0 or higher (http://tomcat.apache.org/)
     - MySQL 5 (http://dev.mysql.com/downloads/mysql/5.0.html#downloads)
     - MySQL Connector/J (http://dev.mysql.com/downloads/connector/j/)
 
@@ -85,11 +85,14 @@ Webical README
    context.xml file. An LDAP authentication example is included within
    the file.
 
+   * Check the logging properties in the log4j.properties file
+   in the WEB-INF/classes directory
+
 ---------------------------
 
 3. More information
 
-   For more information see http://www.webical.org/.
+   For more information see http://http://code.google.com/p/webical/.
 
    If you find any bugs, or have any feature requests, please use our
    issue tracker: http://code.google.com/p/webical/issues/
