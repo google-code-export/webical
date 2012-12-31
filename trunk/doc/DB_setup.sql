@@ -42,12 +42,13 @@ DROP TABLE IF EXISTS `wcaluser`;
 
 --
 -- Table structure for table `application_settings`
+--      (why does hibernate want longtexts?)
 --
 
 CREATE TABLE IF NOT EXISTS `application_settings` (
   `applicationSettingsId` bigint NOT NULL auto_increment,
-  `lastUpdateTime` datetime NOT NULL default 0;
-  `customPageTitle` longtext,         -- why does hibernate want longtexts?
+  `lastUpdateTime` datetime NOT NULL default 0,
+  `customPageTitle` longtext,
   `pluginWorkPath` longtext,
   `pluginPackageExtension` longtext,
   `calendarRefreshTimeMs` integer default NULL,
@@ -89,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `appl_sett_resource_paths` (
 
 CREATE TABLE IF NOT EXISTS `wcaluser` (
   `userId` varchar(255) NOT NULL,
-  `lastUpdateTime` datetime NOT NULL default 0;
+  `lastUpdateTime` datetime NOT NULL default 0,
   `firstName` longtext,
   `lastNamePrefix` longtext,
   `lastName` longtext,
@@ -105,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `wcaluser` (
 
 CREATE TABLE IF NOT EXISTS `calendar` (
   `calendarId` bigint NOT NULL auto_increment,
-  `lastUpdateTime` datetime NOT NULL default 0;
+  `lastUpdateTime` datetime NOT NULL default 0,
   `name` longtext NOT NULL,
   `type` longtext NOT NULL,
   `url` longtext NOT NULL,
@@ -128,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `calendar` (
 
 CREATE TABLE IF NOT EXISTS `event` (
   `eventId` bigint NOT NULL auto_increment,
-  `lastUpdateTime` datetime NOT NULL default 0;
+  `lastUpdateTime` datetime NOT NULL default 0,
   `calendarId` bigint NOT NULL,
   `clazz` longtext,
   `description` longtext,
@@ -318,7 +319,7 @@ CREATE TABLE IF NOT EXISTS `event_xProps` (
 
 CREATE TABLE IF NOT EXISTS `settings` (
   `settingsId` bigint NOT NULL auto_increment,
-  `lastUpdateTime` datetime NOT NULL default 0;
+  `lastUpdateTime` datetime NOT NULL default 0,
   PRIMARY KEY (`settingsId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -330,7 +331,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
 
 CREATE TABLE IF NOT EXISTS `options` (
   `optionId` bigint NOT NULL auto_increment,
-  `lastUpdateTime` datetime NOT NULL default 0;
+  `lastUpdateTime` datetime NOT NULL default 0,
   `name` varchar(255) NOT NULL,
   `value`tinyblob default NULL,
   `settingsId` bigint NOT NULL,
