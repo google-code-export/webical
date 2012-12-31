@@ -14,14 +14,14 @@
 		lastNamePrefix="webical"
 		lastName="webical"
 		birthDate="1970-11-06"
-        lastUpdateTime="2000-01-01"/>
+		lastUpdateTime="2000-01-01"/>
 	<wcaluser
 		userId="jag"
 		firstName="James"
 		lastNamePrefix="A."
 		lastName="Goslinga"
 		birthDate="1960-04-23"
-        lastUpdateTime="2000-01-01"/>
+		lastUpdateTime="2000-01-01"/>
 	<calendar
 		name="calendar1_demo-user"
 		type="ical-webdav"
@@ -30,26 +30,34 @@
 		password="paulmweerd"
 		userId="demo-user"
 		visible="true"
-        lastUpdateTime="2000-01-01"/>
+		offSetFrom="2"
+		offSetTo="1"
+		lastUpdateTime="2000-01-01"/>
 	<calendar
 		name="calendar2_demo-user"
 		type="ical-webdav"
 		url="http://localhost:10202/webical.ics"
 		userId="demo-user"
 		visible="false"
-        lastUpdateTime="2000-01-01"/>
+		offSetFrom="2"
+		offSetTo="1"
+		lastUpdateTime="2000-01-01"/>
 	<calendar
 		name="webical"
 		type="ical-webdav"
 		url="http://localhost:10202/webical.ics"
 		userId="webical"
 		visible="true"
-        lastUpdateTime="2000-01-01"/>
+		offSetFrom="2"
+		offSetTo="1"
+		lastUpdateTime="2000-01-01"/>
 	<calendar
 		name="JAG"
 		type="ical-webdav"
 		url="http://localhost:10202/test-ics.ics"
 		userId="jag"
 		visible="true"
-        lastUpdateTime="2000-01-01"/>
+		offSetFrom="2"
+		offSetTo="1"
+		lastUpdateTime="2000-01-01"/>
 </dataset>
