@@ -4,7 +4,7 @@
 <beans>
 
 	<!-- 
-		Bootstrap the applciation for development
+		Bootstrap the application for development
 	-->
 	<bean id="databaseBootStrapDao" class="org.webical.dao.hibernateImpl.DatabaseBootstrapDao">
 		<property name="objectsToPersist">
@@ -27,7 +27,7 @@
 		<property name="pluginCleanupEnabled" value="false"/>
 		<property name="configurationUsername" value="admin"/>
 		<property name="configurationPassword" value="admin"/>
-		<property name="calendarRefreshTimeMs" value="50000"/>
+		<property name="calendarRefreshTimeMs" value="60000"/>
 	</bean>
 
 	<!-- Add a fixed user for development -->
@@ -51,6 +51,8 @@
 		<property name="type" value="ical-webdav"/>
 		<property name="url" value="http://localhost:10202/webical/dav/webical.ics"/>
 		<property name="visible" value="true"/>
+		<property name="offSetFrom" value="2"/>
+		<property name="offSetTo" value="1"/>
 		<property name="user"><ref bean="fixedUser"/></property>
 	</bean>
 

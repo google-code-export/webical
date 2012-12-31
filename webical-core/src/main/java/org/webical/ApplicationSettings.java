@@ -102,7 +102,7 @@ public class ApplicationSettings implements Serializable {
 		this.pluginPaths = null;
 		this.pluginWorkPath = null;
 		this.pluginPackageExtension = null;
-		this.calendarRefreshTimeMs = 60000;
+		this.calendarRefreshTimeMs = 300000;
 		this.pluginCleanupEnabled = true;
 		this.configurationUsername = null;
 		this.configurationPassword = null;
