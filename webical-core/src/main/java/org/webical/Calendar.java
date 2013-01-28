@@ -44,9 +44,10 @@ public class Calendar implements Serializable {
 	private String password = null;
 	private Boolean visible = Boolean.TRUE;
 
-	//timezone
-	private Integer offSetFrom = -1;
-	private Integer offSetTo = 0;
+	// offSetFrom: local time offset (hours) from GMT when daylight saving time is in operation
+	private Integer offSetFrom = 2;
+	// offSetFrom: local time offset (hours) from GMT when when standard time is in operation
+	private Integer offSetTo = 1;
 
 	private Long lastRefreshTimeStamp = null;
 
