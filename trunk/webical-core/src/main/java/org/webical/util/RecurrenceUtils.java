@@ -42,7 +42,8 @@ import org.webical.Event;
  * @author ivo
  *
  */
-public class RecurrenceUtils {
+public class RecurrenceUtils
+{
 	private static Log log = LogFactory.getLog(RecurrenceUtils.class);
 
 	private RecurrenceUtils() {}
@@ -72,7 +73,8 @@ public class RecurrenceUtils {
 	{
 		if (event.getDtStart() == null) return false;
 
-		if (isRecurrent(event)) {
+		if (isRecurrent(event))
+		{
 			if (log.isDebugEnabled()) log.debug("isApplicableForDateRange:Recurrent " + event.getSummary());
 
 			//Property: RRULE
@@ -101,9 +103,9 @@ public class RecurrenceUtils {
 				datesFromRecur.add(date);
 			}
 
-			if (datesFromRecur.size() > 0) {
-				//Property: EXDATE
-				for (Iterator i = event.getExDate().iterator(); i.hasNext(); ) {
+			if (datesFromRecur.size() > 0)
+			{	//Property: EXDATE
+				for (Iterator<Date> i = event.getExDate().iterator(); i.hasNext(); ) {
 					Date datum = (Date) i.next();
 					if (startDate.equals(new net.fortuna.ical4j.model.Date(datum.getTime()))) {
 						return false;
@@ -128,11 +130,12 @@ public class RecurrenceUtils {
 				return true;
 			}
 		} else if (	(event.getDtStart().before(startDate) && event.getDtEnd().before(startDate)) ||
-					(event.getDtStart().after(endDate) && event.getDtEnd().after(endDate)) ) {
-				// Event is not in daterange
-				return false;
+					(event.getDtStart().after(endDate) && event.getDtEnd().after(endDate)) )
+		{
+			// Event is not in daterange
+			return false;
 		} else {
-				return true;
+			return true;
 		}
 		return false;
 	}

@@ -48,8 +48,12 @@ import org.webical.manager.WebicalException;
  * @author Ivo van Dongen
  * @author Mattijs Hoitink
  *
+ * @author Harm-Jan Zwinderman, Cebuned
+ * @see <a href="http://www.kanzaki.com/docs/ical/rrule.html">This</a> may be informative 
+ *
  */
-public class RecurrenceUtil {
+public class RecurrenceUtil
+{
 	private static Log log = LogFactory.getLog(RecurrenceUtil.class);
 
 	/**
@@ -57,14 +61,16 @@ public class RecurrenceUtil {
 	 * @param event the event to update
 	 * @param recurrence the recurrence information to set on the event
 	 */
-	public static void setRecurrenceRule(Event event, Recurrence recurrence) {
+	public static void setRecurrenceRule(Event event, Recurrence recurrence)
+	{
 		if (event == null || recurrence == null) {
 			return;
 		}
 
 		if (recurrence.getFrequency() > 0 && recurrence.getInterval() > 0) {
 			//Remove the recurrence to update
-			if (event.getrRule().size() > 0) {
+			if (event.getrRule().size() > 0)
+			{
 				List<String> rrules = new ArrayList<String>(event.getrRule());
 				rrules.remove(0);
 				event.setrRule(new HashSet<String>(rrules));
@@ -75,7 +81,7 @@ public class RecurrenceUtil {
 			if (recurrence.getCount() != null && recurrence.getCount() > 0) {
 				recur = new Recur(getFrequentcyString(recurrence.getFrequency()), recurrence.getCount());
 			} else if (recurrence.getEndDay() != null) {
-				recur = new Recur(getFrequentcyString(recurrence.getFrequency()), new Date(recurrence.getEndDay()));
+				recur = new Recur(getFrequentcyString(recurrence.getFrequency()), new DateTime(recurrence.getEndDay()));
 			} else {
 				recur = new Recur(getFrequentcyString(recurrence.getFrequency()), null);
 			}
@@ -90,10 +96,12 @@ public class RecurrenceUtil {
 	 * @param event the event to update
 	 * @param recurrence the recurrence information to set on the event
 	 */
-	public static void setExclusionRule(Event event, Recurrence recurrence) {
-		if (recurrence.getFrequency() > 0 && recurrence.getInterval() > 0) {
-			//Remove the recurrence to update
-			if (event.getrRule().size() > 0) {
+	public static void setExclusionRule(Event event, Recurrence recurrence)
+	{
+		if (recurrence.getFrequency() > 0 && recurrence.getInterval() > 0)
+		{	//Remove the recurrence to update
+			if (event.getrRule().size() > 0)
+			{
 				List<String> exrules = new ArrayList<String>(event.getExRule());
 				exrules.remove(0);
 				event.setrRule(new HashSet<String>(exrules));
@@ -116,7 +124,8 @@ public class RecurrenceUtil {
 	 * Clears the event of Recurrence information
 	 * @param event the event to clean
 	 */
-	public static void clearRecurrence(Event event) {
+	public static void clearRecurrence(Event event)
+	{
 		//Clear all recurrence attributes
 		/*event.getrDate().clear();
 		event.getrRule().clear();
@@ -136,7 +145,8 @@ public class RecurrenceUtil {
 	 * @return a Recurrence
 	 * @throws WebicalException with wrapped exception
 	 */
-	public static Recurrence getRecurrenceFromRecurrenceRuleSet(Set<String> recurrenceRules) throws WebicalException {
+	public static Recurrence getRecurrenceFromRecurrenceRuleSet(Set<String> recurrenceRules) throws WebicalException
+	{
 		if (recurrenceRules == null || recurrenceRules.size() == 0) {
 			return null;
 		}
@@ -162,14 +172,15 @@ public class RecurrenceUtil {
 	 * @param frequency the frequency
 	 * @return
 	 */
-	private static String getFrequentcyString(int frequency) {
+	private static String getFrequentcyString(int frequency)
+	{
 		switch (frequency) {
 			case Recurrence.DAILY : return Recur.DAILY;
 			case Recurrence.WEEKLY : return Recur.WEEKLY;
 			case Recurrence.MONTHLY : return Recur.MONTHLY;
 			case Recurrence.YEARLY : return Recur.YEARLY;
-			default: return "";
 		}
+		return "";
 	}
 
 	/**
@@ -177,7 +188,8 @@ public class RecurrenceUtil {
 	 * @param frequency
 	 * @return
 	 */
-	private static int getFrequency(String frequency) {
+	private static int getFrequency(String frequency)
+	{
 		if (Recur.DAILY.equals(frequency)) {
 			return Recurrence.DAILY;
 		} else if (Recur.WEEKLY.equals(frequency)) {
@@ -195,14 +207,15 @@ public class RecurrenceUtil {
 	 * @param frequency The frequency identifier
 	 * @return the @see java.util.Calendar} field identifier
 	 */
-	private static int getCalendarIdentifierForFrequency(int frequency) {
+	private static int getCalendarIdentifierForFrequency(int frequency)
+	{
 		switch (frequency) {
 		case Recurrence.DAILY : return GregorianCalendar.DAY_OF_YEAR;
 		case Recurrence.WEEKLY : return GregorianCalendar.WEEK_OF_YEAR;
 		case Recurrence.MONTHLY : return GregorianCalendar.MONTH;
 		case Recurrence.YEARLY : return GregorianCalendar.YEAR;
-		default: return -1;
 		}
+		return -1;
 	}
 
 	/**
@@ -210,8 +223,9 @@ public class RecurrenceUtil {
 	 * @param event the {@link Event} to check
 	 * @return true if the {@link Event} is recurrent
 	 */
-	public static boolean isRecurrent(Event event) {
-		if (!event.getrRule().isEmpty() || !event.getrDate().isEmpty()){
+	public static boolean isRecurrent(Event event)
+	{
+		if (! (event.getrRule().isEmpty() && event.getrDate().isEmpty())) {
 			return true;
 		}
 		return false;
@@ -227,8 +241,10 @@ public class RecurrenceUtil {
 	 */
 	public static boolean isApplicableForDateRange(Event event, java.util.Date startDate, java.util.Date endDate) throws ParseException
 	{
-		if (event.getDtStart() != null) {
-			if (isRecurrent(event)) {
+		if (event.getDtStart() != null)
+		{
+			if (isRecurrent(event))
+			{
 				//Property: RRULE
 				Recur recur = null;
 				try {
@@ -255,17 +271,19 @@ public class RecurrenceUtil {
 					datesFromRecur.add(date);
 				}
 
-				if (datesFromRecur.size() > 0) {
-
+				if (datesFromRecur.size() > 0)
+				{
 					//Property: EXDATE
-					for (Iterator i = event.getExDate().iterator(); i.hasNext(); ) {
+					for (Iterator<java.util.Date> i = event.getExDate().iterator(); i.hasNext(); )
+					{
 						if (startDate.equals(new Date(((java.util.Date)i.next()).getTime()))) {
 							return false;
 						}
 					}
 
 					//PROPERTY: EXRULE
-					if (event.getExRule().iterator().hasNext()) {
+					if (event.getExRule().iterator().hasNext())
+					{
 						Recur exRecur;
 						try {
 							exRecur = new Recur(event.getExRule().iterator().next());
@@ -274,14 +292,15 @@ public class RecurrenceUtil {
 							throw e;
 						}
 
-						DateList datesFromExRule = exRecur.getDates(fromDate, dtStart, dtEnd,Value.DATE_TIME);
+						DateList datesFromExRule = exRecur.getDates(fromDate, dtStart, dtEnd, Value.DATE_TIME);
 						if (datesFromExRule.size() > 0) {
 							return false;
 						}
 					}
 					return true;
 				}
-			} else if ((event.getDtStart().before(startDate) && event.getDtEnd().before(startDate)) || (event.getDtStart().after(endDate) && event.getDtEnd().after(endDate)))
+			} else if ((event.getDtStart().before(startDate) && event.getDtEnd().before(startDate)) ||
+						(event.getDtStart().after(endDate) && event.getDtEnd().after(endDate))  )
 			{
 				//Event is not in daterange
 				return false;
@@ -327,15 +346,17 @@ public class RecurrenceUtil {
 		eventWithRange.getExDate().add(dateToExclude);
 	}
 
-	public static java.util.Date getNextOccurrenceDate(Event event, java.util.Date occurrenceDate) throws WebicalException, ParseException {
-		if (event == null || !isRecurrent(event)) {
+	public static java.util.Date getNextOccurrenceDate(Event event, java.util.Date occurrenceDate) throws WebicalException, ParseException
+	{
+		if (! (event != null && isRecurrent(event))) {
 			throw new WebicalException("This event is not recurrent: " + event);
 		}
 
 		Recurrence recurrence = getRecurrenceFromRecurrenceRuleSet(event.getrRule());
-		if (recurrence != null) {
-			// Check for use of count to determine the end date
-			if (recurrence.getCount() > 0 && recurrence.getInterval() > 0) {
+		if (recurrence != null)
+		{	// Check for use of count to determine the end date
+			if (recurrence.getCount() > 0 && recurrence.getInterval() > 0)
+			{
 				GregorianCalendar endDateCalendar = new GregorianCalendar();
 
 				endDateCalendar.setTime(event.getDtStart());
@@ -353,7 +374,7 @@ public class RecurrenceUtil {
 
 	public static java.util.Date getPreviousOccurrenceDate(Event event, java.util.Date occurrenceDate) throws WebicalException
 	{
-		if (event == null || !isRecurrent(event)) {
+		if (! (event != null && isRecurrent(event))) {
 			throw new WebicalException("This event is not recurrent: " + event);
 		} else if (occurrenceDate == null) {
 			throw new WebicalException("The occurence date can not be null");
@@ -363,19 +384,20 @@ public class RecurrenceUtil {
 
 	public static java.util.Date getLastOccurrenceDate(Event event) throws WebicalException
 	{
-		if (event == null || !isRecurrent(event)) {
+		if (! (event != null && isRecurrent(event))) {
 			throw new WebicalException("This event is not recurrent: " + event);
 		}
 
 		Recurrence recurrence = getRecurrenceFromRecurrenceRuleSet(event.getrRule());
-		if (recurrence != null) {
-			// Check if the recurrence end date is set. Use this as last date value
+		if (recurrence != null)
+		{	// Check if the recurrence end date is set. Use this as last date value
 			if (recurrence.getEndDay() != null) {
 				return recurrence.getEndDay();
 			}
 
 			// Check for use of count to determine the end date
-			if (recurrence.getCount() >= 1 && recurrence.getInterval() >= 1) {
+			if (recurrence.getCount() >= 1 && recurrence.getInterval() >= 1)
+			{
 				GregorianCalendar endDateCalendar = new GregorianCalendar();
 				endDateCalendar.setTime(event.getDtStart());
 				int amountToAdd = (recurrence.getCount() * recurrence.getInterval());
