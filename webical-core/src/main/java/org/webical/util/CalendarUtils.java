@@ -33,10 +33,12 @@ import java.util.Locale;
  * @author Mattijs Hoitink
  *
  */
-public abstract class CalendarUtils {
+public class CalendarUtils {
 
-	private static long dayInMs = (60 * 60 * 24 * 1000);
-	private static long hourInMs = (60 * 60 * 1000);
+	public final static long dayInMs = (60 * 60 * 24 * 1000);
+	public final static long hourInMs = (60 * 60 * 1000);
+	public final static long minuteInMs = (60 * 1000);
+	public final static long secondInMs = 1000;
 
 	/**
 	 * Create a new GregorianCalendar for today taking into account first day of the week.
@@ -95,7 +97,7 @@ public abstract class CalendarUtils {
 	}
 
 	/**
-	 * Returns the number of ms in a day
+	 * Number of ms in a day
 	 * @return the number of ms in a day
 	 */
 	public static long getHourInMs() {
@@ -113,6 +115,7 @@ public abstract class CalendarUtils {
 		calendar.set(GregorianCalendar.HOUR, 11);
 		calendar.set(GregorianCalendar.MINUTE, 59);
 		calendar.set(GregorianCalendar.SECOND, 59);
+		calendar.set(GregorianCalendar.MILLISECOND, 0);
 		calendar.set(GregorianCalendar.AM_PM, GregorianCalendar.PM);
 
 		return calendar.getTime();
@@ -133,7 +136,6 @@ public abstract class CalendarUtils {
 
 		int diff = currentDay - firstDay;
 
-		long dayInMs = (60 * 60 * 24 * 1000);
 		long l = dayInMs * diff;
 
 		if (diff >= 0) {
@@ -212,7 +214,7 @@ public abstract class CalendarUtils {
 	}
 
 	public static Date addHours(Date day, float amount) {
-		int rawOffset = (int) ((amount * getHourInMs()) / 60000);
+		int rawOffset = (int) ((amount * getHourInMs()) / minuteInMs);
 		int hours = rawOffset / 60;
 		int minutes = Math.abs(rawOffset) % 60;
 
@@ -250,7 +252,7 @@ public abstract class CalendarUtils {
 		long endL = gcEnd.getTimeInMillis()+ gcEnd.getTimeZone().getOffset( gcEnd.getTimeInMillis() );
 		long startL = gcStart.getTimeInMillis()+ gcStart.getTimeZone().getOffset( gcStart.getTimeInMillis() );
 
-		int i = (int) Math.ceil((endL-startL)/dayInMs);
+		int i = (int) Math.ceil((endL-startL) / dayInMs);
 
 		return Math.abs(i);
 	}
@@ -329,5 +331,28 @@ public abstract class CalendarUtils {
 			eventDate.add(GregorianCalendar.HOUR_OF_DAY, diff);
 		}
 		return eventDate.getTime();
+	}
+
+	/**
+	 * Checks whether the time span between dateFrom to dateTo can be considered as one whole day 00:00 to 00:00
+	 *
+	 * @param dateFrom - date from
+	 * @param dateTo   - date to
+	 * @return true if a whole day
+	 */
+	public static boolean isOneWholeDay(Date dateFrom, Date dateTo)
+	{
+		GregorianCalendar calFrom = new GregorianCalendar();
+		calFrom.setTime(dateFrom);
+		if (calFrom.get(GregorianCalendar.HOUR_OF_DAY) > 0) return false;
+		if (calFrom.get(GregorianCalendar.MINUTE) > 0) return false;
+
+		GregorianCalendar calTo = new GregorianCalendar();
+		calTo.setTime(dateTo);
+
+		long millis = calTo.getTimeInMillis() - calFrom.getTimeInMillis();
+		if (millis <= (dayInMs - minuteInMs)) return false;
+		if (millis >= (dayInMs + minuteInMs)) return false;
+		return true;		// implicit all day event
 	}
 }
