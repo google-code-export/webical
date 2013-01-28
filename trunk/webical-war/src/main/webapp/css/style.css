@@ -768,6 +768,8 @@ a.button {
 }
 
 #weekView thead {
+  height: 2.7%;
+  padding: 3px 0px;
   font-size: 1.2em;
   text-align: center;
   vertical-align: middle;
@@ -777,9 +779,14 @@ a.button {
   width: 2%;
 }
 
+#weekView tbody {
+  height: 97%;
+  margin: 0;
+  padding: 0;
+}
+
 .weekRow {
   width: 100%;
-  height: 97%;
   vertical-align: top;
 }
 
@@ -840,7 +847,7 @@ a.button {
 }
 
 #monthView thead {
-  height: 2.5%;
+  height: 2.7%;
   padding: 3px 0px;
   font-size: 1.2em;
   text-align: center;
@@ -849,6 +856,18 @@ a.button {
 
 #monthView th.first {
   width: 1.8%;
+}
+
+#monthView tbody {
+  height: 97%;
+  margin: 0;
+  padding: 0;
+}
+
+.monthList {
+  height: 16.6%;
+  min-height: 16.6%;
+  max-height: 20%;
 }
 
 #monthView td {
@@ -898,10 +917,10 @@ a.button {
 }
 
 .dayItemMonth {
-  height: 19.2%;
   width: 14.25%;
   border: 0px;
   border-right: 1px solid #B3B3B3;
+  vertical-align: top;
   overflow: hidden;
 }
 
@@ -948,7 +967,6 @@ a.button {
 
 .calendarTopHeaders {
   width: 100%;
-  height: 3%;
   vertical-align: middle;
 }
 
