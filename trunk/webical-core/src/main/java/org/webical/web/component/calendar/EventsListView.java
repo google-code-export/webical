@@ -33,6 +33,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
 import org.webical.Event;
 import org.webical.util.CalendarUtils;
+import org.webical.util.RecurrenceUtils;
 import org.webical.web.action.EventSelectedAction;
 import org.webical.web.action.IAction;
 import org.webical.web.app.WebicalSession;
@@ -84,19 +85,41 @@ public abstract class EventsListView extends ListView {
 	@Override
 	protected void populateItem(ListItem item) {
 		final Event currentEvent = (Event) item.getModelObject();
-		final GregorianCalendar currentDate = CalendarUtils.newTodayCalendar(listDate.getFirstDayOfWeek());
-		currentDate.setTime(currentEvent.getDtStart());
+
+		GregorianCalendar itemStart = CalendarUtils.duplicateCalendar(listDate);
+		GregorianCalendar itemEnd = CalendarUtils.duplicateCalendar(listDate);
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat(WebicalSession.getWebicalSession().getUserSettings().getTimeFormat(), getLocale());
 
-		StringBuilder timeLabelText = new StringBuilder();
-		if (!currentEvent.isAllDay()) {
-			//timeLabelText += dateFormat.format(CalendarUtils.getCalendarTimeZoneCorrectedDate(currentEvent.getDtStart(), currentEvent.getCalendar()));
-			timeLabelText.append(dateFormat.format(currentEvent.getDtStart()));
+		boolean allDay = currentEvent.isAllDay();
+		if (! allDay)
+		{
+			if (RecurrenceUtils.isRecurrent(currentEvent))
+			{
+				itemStart.setTime(currentEvent.getDtStart());
+				itemEnd.setTime(currentEvent.getDtEnd());
+				allDay = CalendarUtils.isOneWholeDay(itemStart.getTime(), itemEnd.getTime());
+			}
+			else
+			{	// events spanning more than one day?
+				itemStart.setTime(CalendarUtils.getStartOfDay(itemStart.getTime()));
+				if (itemStart.getTime().compareTo(currentEvent.getDtStart()) < 0) itemStart.setTime(currentEvent.getDtStart());
+
+				itemEnd.setTime(CalendarUtils.getEndOfDay(itemEnd.getTime()));
+				if (itemEnd.getTime().compareTo(currentEvent.getDtEnd()) > 0) itemEnd.setTime(currentEvent.getDtEnd());
+
+				allDay = CalendarUtils.isOneWholeDay(itemStart.getTime(), itemEnd.getTime());
+			}
 		}
-		if (showEndTime && !currentEvent.isAllDay()) {
+		StringBuilder timeLabelText = new StringBuilder();
+		if (! allDay)
+		{
+			//timeLabelText += dateFormat.format(CalendarUtils.getCalendarTimeZoneCorrectedDate(currentEvent.getDtStart(), currentEvent.getCalendar()));
+			timeLabelText.append(dateFormat.format(itemStart.getTime()));
+		}
+		if (showEndTime && ! allDay) {
 			//timeLabelText += " - " + dateFormat.format(CalendarUtils.getCalendarTimeZoneCorrectedDate(currentEvent.getDtEnd(), currentEvent.getCalendar()));
-			timeLabelText.append(" - ").append(dateFormat.format(currentEvent.getDtEnd()));
+			timeLabelText.append(" - ").append(dateFormat.format(itemEnd.getTime()));
 		}
 
 		timeLabel = new Label(EVENT_TIME_LABEL_MARKUP_ID, timeLabelText.toString());
@@ -108,6 +131,7 @@ public abstract class EventsListView extends ListView {
 				EventsListView.this.onAction(new EventSelectedAction(currentEvent, listDate));
 			}
 		};
+
 		StringBuilder eventLabelText = new StringBuilder(currentEvent.getSummary());
 		if (longEventDescription)
 		{
@@ -125,7 +149,7 @@ public abstract class EventsListView extends ListView {
 		eventLink.add(new Label(EVENT_TITLE_LABEL_MARKUP_ID, eventLabelText.toString()));
 		eventLink.addOrReplace(timeLabel);
 
-		if (currentEvent.isAllDay()) {
+		if (allDay) {
 			item.add(new AttributeAppender("class", true, new Model("allDay"), " "));
 		}
 
