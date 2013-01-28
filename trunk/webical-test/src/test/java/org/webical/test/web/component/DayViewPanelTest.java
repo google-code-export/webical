@@ -24,10 +24,12 @@ package org.webical.test.web.component;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.ArrayList;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.wicket.Page;
 import org.apache.wicket.util.tester.ITestPageSource;
 import org.webical.User;
@@ -50,11 +52,15 @@ import org.webical.test.web.WebicalApplicationTest;
  * @author jochem
  *
  */
-public class DayViewPanelTest extends WebicalApplicationTest {
+public class DayViewPanelTest extends WebicalApplicationTest
+{
+	private static Log log = LogFactory.getLog(DayViewPanelTest.class);
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+
+		log.debug("setUp");
 
 		//Prepare the user
 		User user = TestUtils.getJAGUser();
@@ -81,6 +87,11 @@ public class DayViewPanelTest extends WebicalApplicationTest {
 		mockCalendarManager.storeCalendar(calendar2);
 	}
 
+	public int getFirstDayOfWeek()
+	{
+		return getTestSession().getUserSettings().getFirstDayOfWeek();
+	}
+
 	/**
 	 * Test whether the panel renders correct without events
 	 */
@@ -89,12 +100,14 @@ public class DayViewPanelTest extends WebicalApplicationTest {
 		// Add an EventManager
 		annotApplicationContextMock.putBean("eventManager", new MockEventManager());
 
+		final GregorianCalendar currentDate = CalendarUtils.newTodayCalendar(getFirstDayOfWeek());
+
 		// Create the testpage with with a DayViewPanel
 		wicketTester.startPage(new ITestPageSource() {
 			private static final long serialVersionUID = 1L;
 
 			public Page getTestPage() {
-				return new PanelTestPage(new DayViewPanel(PanelTestPage.PANEL_MARKUP_ID, 1, new GregorianCalendar()) {
+				return new PanelTestPage(new DayViewPanel(PanelTestPage.PANEL_MARKUP_ID, 1, currentDate) {
 					private static final long serialVersionUID = 1L;
 					@Override
 					public void onAction(IAction action) { /* NOTHING TO DO */ }
@@ -108,8 +121,7 @@ public class DayViewPanelTest extends WebicalApplicationTest {
 
 		// Assert the heading label
 		DateFormat dateFormat = new SimpleDateFormat("EEEE", getTestSession().getLocale());
-		GregorianCalendar headingDate = new GregorianCalendar();
-		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":dayLink", dateFormat.format(headingDate.getTime()));
+		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":dayLink", dateFormat.format(currentDate.getTime()));
 
 		// Assert the number of events rendered
 		wicketTester.assertListView(PanelTestPage.PANEL_MARKUP_ID + ":eventItem", new ArrayList<Event>());
@@ -125,8 +137,10 @@ public class DayViewPanelTest extends WebicalApplicationTest {
 		MockEventManager mockEventManager = new MockEventManager();
 		annotApplicationContextMock.putBean("eventManager", mockEventManager);
 
-		GregorianCalendar cal = new GregorianCalendar();
-		GregorianCalendar refcal = new GregorianCalendar();
+		final GregorianCalendar currentDate = CalendarUtils.newTodayCalendar(getFirstDayOfWeek());
+
+		GregorianCalendar cal = CalendarUtils.duplicateCalendar(currentDate);
+		GregorianCalendar refcal = CalendarUtils.duplicateCalendar(currentDate);
 		refcal.set(GregorianCalendar.HOUR_OF_DAY, 12);
 		refcal.set(GregorianCalendar.MINUTE, 0);
 		refcal.set(GregorianCalendar.SECOND, 0);
@@ -142,6 +156,7 @@ public class DayViewPanelTest extends WebicalApplicationTest {
 		event.setDescription("Normal Event Description");
 		event.setDtStart(refcal.getTime());
 		event.setDtEnd(CalendarUtils.addHours(refcal.getTime(), 2));
+		log.debug("Adding event: " + event.getDescription() + " -> " + event.getDtStart() + " - " + event.getDtEnd());
 		events.add(event);
 		mockEventManager.storeEvent(event);
 
@@ -159,6 +174,7 @@ public class DayViewPanelTest extends WebicalApplicationTest {
 		cal.add(GregorianCalendar.DAY_OF_MONTH, 2);
 		event.setDtEnd(cal.getTime());
 		RecurrenceUtil.setRecurrenceRule(event, new Recurrence(0, 1, cal.getTime()));
+		log.debug("Adding event: " + event.getDescription() + " -> " + event.getDtStart() + " - " + event.getDtEnd());
 		events.add(event);
 		mockEventManager.storeEvent(event);
 
@@ -175,13 +191,30 @@ public class DayViewPanelTest extends WebicalApplicationTest {
 		cal.add(GregorianCalendar.HOUR_OF_DAY,	2);
 		cal.add(GregorianCalendar.MONTH, 2);
 		event.setDtEnd(cal.getTime());
-		RecurrenceUtil.setRecurrenceRule(event, new Recurrence(0, 1, cal.getTime()));
+		RecurrenceUtil.setRecurrenceRule(event, new Recurrence(0, 1, CalendarUtils.getEndOfDay(cal.getTime())));
+		log.debug("Adding event: " + event.getDescription() + " -> " + event.getDtStart() + " - " + event.getDtEnd());
 		events.add(event);
 		mockEventManager.storeEvent(event);
 
-		final GregorianCalendar currentDate = new GregorianCalendar();
+		// Add a (pseudo) all day event, starting today 00:00 hours, ending today 00:00 hours
+		event = new Event();
+		event.setUid("e4");
+		event.setCalendar(calendar1);
+		event.setSummary("Pseudo All Day Event");
+		event.setLocation("All Day Event Location");
+		event.setDescription("Starting yesterday midnight, ending today 00:00 hours");
+		cal.setTime(refcal.getTime());
+		cal.set(GregorianCalendar.HOUR_OF_DAY, 0);
+		cal.set(GregorianCalendar.MINUTE, 0);
+		cal.set(GregorianCalendar.SECOND, 0);
+		event.setDtStart(cal.getTime());
+		cal.add(GregorianCalendar.DAY_OF_MONTH, 1);
+		event.setDtEnd(cal.getTime());
+		log.debug("Adding event: " + event.getDescription() + " -> " + event.getDtStart() + " - " + event.getDtEnd());
+		events.add(event);
+		mockEventManager.storeEvent(event);
 
-		// Create the testpage with a DayViewPanel
+		// Create the test page with a DayViewPanel
 		wicketTester.startPage(new ITestPageSource() {
 			private static final long serialVersionUID = 1L;
 
@@ -200,10 +233,10 @@ public class DayViewPanelTest extends WebicalApplicationTest {
 
 		// Assert the heading label
 		DateFormat dateFormat = new SimpleDateFormat("EEEE", getTestSession().getLocale());
-		GregorianCalendar headingDate = new GregorianCalendar();
-		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":dayLink", dateFormat.format(headingDate.getTime()));
+		wicketTester.assertLabel(PanelTestPage.PANEL_MARKUP_ID + ":dayLink", dateFormat.format(currentDate.getTime()));
 
 		// Assert the number of events rendered
-		wicketTester.assertListView(PanelTestPage.PANEL_MARKUP_ID + ":eventItem", events);
+		String panelPath = PanelTestPage.PANEL_MARKUP_ID + ":eventItem";
+		wicketTester.assertListView(panelPath, events);
 	}
 }
