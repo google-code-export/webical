@@ -22,9 +22,9 @@
 
 package org.webical.web.component.calendar.model;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
+import java.util.Collections;
 
 import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -91,16 +91,16 @@ public class EventsModel extends LoadableDetachableModel {
 		InjectorHolder.getInjector().inject(this);
 
 		// Get a list of Events from the DAO for the specified range
+		List<Event> eventsList = null;
 		try {
-			List<Event> eventsList = eventManager.getEventsForPeriod(WebicalSession.getWebicalSession().getUser(), startDate, endDate);
-			if (eventsList != null && eventsList.size() > 0) {
+			eventsList = eventManager.getEventsForPeriod(WebicalSession.getWebicalSession().getUser(), getStartDate(), getEndDate());
+			if (eventsList != null) {
 				Collections.sort(eventsList, new EventStartTimeComparator(EventStartTimeComparator.CompareMode.FULL_DATE));
 			}
-
-			return eventsList;
 		} catch (WebicalException e) {
 			throw new WebicalWebAplicationException("Could not load events for user " + WebicalSession.getWebicalSession().getUser().getUserId() + " in period " + startDate + " - " + endDate, e);
 		}
+		return eventsList;
 	}
 
 	/**

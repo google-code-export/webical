@@ -25,12 +25,14 @@ package org.webical.web.component.calendar.model;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Date;
 
 import org.webical.Event;
 import org.webical.comparator.EventStartTimeComparator;
 import org.webical.ical.RecurrenceUtil;
+import org.webical.util.CalendarUtils;
 
 /**
  * Model to put on top of an EventsModel or another WrappingEventsModel.
@@ -65,19 +67,40 @@ public class WrappingEventsModel extends EventsModel {
 		List<Event> allEvents = (List<Event>) getEventsModel().getObject();
 		List<Event> eventsInRange = new ArrayList<Event>();
 
-		if (allEvents != null) {
-			for (Event currentEvent : allEvents) {
+		if (allEvents != null && allEvents.size() > 0)
+		{
+			boolean oneDay = (CalendarUtils.getDifferenceInDays(getStartDate(), getEndDate()) < 2);
+
+			GregorianCalendar periodStart = CalendarUtils.newTodayCalendar(getFirstDayOfWeek());
+			periodStart.setTime(CalendarUtils.getStartOfDay(getStartDate()));
+			GregorianCalendar periodEnd = CalendarUtils.duplicateCalendar(periodStart);
+			periodEnd.setTime(CalendarUtils.getEndOfDay(getEndDate()));
+			for (Event currentEvent : allEvents)
+			{
 				// Get the events for this range, including recurrent events
 				try {
-					if (RecurrenceUtil.isApplicableForDateRange(currentEvent, getStartDate(), getEndDate())) {
-						eventsInRange.add(currentEvent);
+					if (RecurrenceUtil.isApplicableForDateRange(currentEvent, getStartDate(), getEndDate()))
+					{
+						long millis = CalendarUtils.hourInMs;
+						if (oneDay && ! currentEvent.isAllDay())
+						{
+							if (! RecurrenceUtil.isRecurrent(currentEvent))
+							{
+								GregorianCalendar evtStart = CalendarUtils.duplicateCalendar(periodStart);
+								GregorianCalendar evtEnd = CalendarUtils.duplicateCalendar(periodEnd);
+								if (evtStart.getTime().compareTo(currentEvent.getDtStart()) < 0) evtStart.setTime(currentEvent.getDtStart());
+								if (evtEnd.getTime().compareTo(currentEvent.getDtEnd()) > 0) evtEnd.setTime(currentEvent.getDtEnd());
+								millis = evtEnd.getTimeInMillis() - evtStart.getTimeInMillis() + CalendarUtils.secondInMs;
+							}
+						}
+						if (millis > CalendarUtils.minuteInMs) eventsInRange.add(currentEvent);
 					}
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 			}
 		}
-		if (eventsInRange != null && eventsInRange.size() > 0) {
+		if (eventsInRange != null) {
 			Collections.sort(eventsInRange, new EventStartTimeComparator(EventStartTimeComparator.CompareMode.TIME));
 		}
 		return eventsInRange;
