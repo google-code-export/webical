@@ -46,6 +46,7 @@ import org.webical.dao.annotation.Transaction;
 import org.webical.dao.util.WebDavCalendarSynchronisation;
 import org.webical.ical.RecurrenceUtil;
 import org.webical.settings.ApplicationSettingsFactory;
+import org.webical.util.CalendarUtils;
 
 /**
  *
@@ -228,8 +229,8 @@ public class EventDaoWebDavHibernateBufferedImpl extends BaseHibernateImpl imple
 		try {
 			Criteria criteria = getSession().createCriteria(Event.class);
 			criteria.add(Restrictions.eq(Calendar.CALENDAR_PROPERTY_NAME, calendar));
-			criteria.add(Restrictions.lt("dtStart", new Date(dtEnd.getTime()+1000)));
-			criteria.add(Restrictions.gt("dtEnd", new Date(dtStart.getTime()-1000)));
+			criteria.add(Restrictions.lt("dtStart", new Date(dtEnd.getTime() + CalendarUtils.secondInMs)));
+			criteria.add(Restrictions.gt("dtEnd", new Date(dtStart.getTime() - CalendarUtils.secondInMs)));
 			if (log.isDebugEnabled()) log.debug(criteria.toString() + " " + calendar.getName());
 
 			List<Event> events = criteria.list();
