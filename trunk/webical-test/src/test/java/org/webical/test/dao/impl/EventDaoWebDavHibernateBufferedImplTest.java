@@ -187,12 +187,15 @@ public class EventDaoWebDavHibernateBufferedImplTest extends DataBaseTest {
 		List<Event> events = eventDao.getAllEvents(getCalendarForWebicalUser());
 		assertNotNull(events);
 
-		assertEquals(47, events.size());
+		assertEquals(48, events.size());
 
+		int allDayEvents = 0;
 		Long calendarId = getCalendarForWebicalUser().getCalendarId();
 		for (Event event: events) {
 			assertEquals(calendarId, event.getCalendar().getCalendarId());
+			if (event.isAllDay()) ++ allDayEvents;
 		}
+		assertEquals(3, allDayEvents);
 	}
 
 	/**

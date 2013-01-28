@@ -28,7 +28,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.webical.ApplicationSettings;
 import org.webical.User;
-import org.webical.dao.DaoException;
 import org.webical.dao.hibernateImpl.UserDaoHibernateImpl;
 import org.webical.manager.ApplicationSettingsManager;
 import org.webical.manager.WebicalException;
