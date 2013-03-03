@@ -112,6 +112,7 @@ CREATE TABLE IF NOT EXISTS `calendar` (
   `url` longtext NOT NULL,
   `username` longtext,
   `password` longtext,
+  `readOnly` bit(1) DEFAULT 0,
   `visible` bit(1) DEFAULT 1,
   `offSetFrom` integer DEFAULT 0,
   `offSetTo` integer DEFAULT 0,

@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -95,7 +96,7 @@ public abstract class EventForm extends Form {
 	private static final String ALLDAY_BUTTON_MARKUP_ID 				= "alldayButton";
 	private static final String DISCARD_BUTTON_MARKUP_ID 				= "discardButton";
 	private static final String SUBMIT_BUTTON_MARKUP_ID 				= "submitButton";
-	
+
 	// Resource ID's
 	private static final String ADD_EVENT_HEADING_RESOURCE_ID			= "add.heading";
 	private static final String EDIT_EVENT_HEADING_RESOURCE_ID			= "edit.heading";
@@ -113,25 +114,25 @@ public abstract class EventForm extends Form {
 	private RequiredTextField summaryTextField;
 	private TextField locationTextField, repeatIntervalTextField, repeatCountTextField, repeatUntilTextField;
 	private TextArea descriptionTextArea;
-	
+
 	/**
 	 * Used by Spring to set the Calendar Manager
 	 */
 	@SpringBean(name="calendarManager")
 	private CalendarManager calendarManager;
-	
+
 	/**
 	 * The Event for this form
 	 */
 	private Event formEvent;
-	
+
 	/**
 	 * The event wrapper for the Event
 	 */
 	private EventWrapper eventWrapper;
 
 	/**
-	 * A deep copy of the event to exclude it from the range if neccesary
+	 * A deep copy of the event to exclude it from the range if necessary
 	 */
 	private Event oldEvent;
 
@@ -151,7 +152,7 @@ public abstract class EventForm extends Form {
 	//False: show events in ics dtstart, so calendar offset
 	private boolean overruleCalendarTimeZone = false;
 	private Long offSetUser = new Long(1);
-	
+
 	private SimpleDateFormat dateFormat, timeFormat;
 
 	/**
@@ -175,11 +176,11 @@ public abstract class EventForm extends Form {
 				log.error("could not clone event: " + formEvent.getUid(), e);
 				throw new WebicalWebAplicationException(e);
 			}
-			
+
 			// Create a new empty ExtendedEvent
 			this.eventWrapper = new EventWrapper(formEvent);
 			this.editForm = true;
-			
+
 			// Check if the event is recurring
 			/* Disabled for milestone 0.4
 			 if(RecurrenceUtil.isRecurrent(eventWrapper.getEvent())) {
@@ -187,7 +188,7 @@ public abstract class EventForm extends Form {
 				eventWrapper.setEventStartDate(selectedDate.getTime());
 				eventWrapper.setEventEndDate(selectedDate.getTime());
 			}*/
-			
+
 			// XXX mattijs: leave this comment here until extensive testing has been done
 			/*if(eventWrapper.getrRule().size() != 0){
 
@@ -216,7 +217,7 @@ public abstract class EventForm extends Form {
 					}
 				}
 			}*/
-			
+
 		} else {
 			// create a new event
 			this.editForm = false;
@@ -225,7 +226,7 @@ public abstract class EventForm extends Form {
 
 		// Set up the Form
 		createFormElements();
-		if(this.editForm) {
+		if (this.editForm) {
 			alterFormForEditing();
 		}
 		addFormElements();
@@ -255,7 +256,7 @@ public abstract class EventForm extends Form {
 		endDateTextField = (DateTextField) new DateTextField(EVENT_END_DATE_TEXTFIELD_MARKUP_ID, new PropertyModel(eventWrapper, "eventEndDate"), dateFormat.toLocalizedPattern()).setRequired(true);
 		endTimeTextField = (DateTextField) new DateTextField(EVENT_END_TIME_TEXTFIELD_MARKUP_ID, new PropertyModel(eventWrapper, "eventEndTime"), timeFormat.toLocalizedPattern());
 		endTimeTextField.setRequired(true);
-		
+
 		// All Day Button
 		allDayButton = new Button(ALLDAY_BUTTON_MARKUP_ID, new StringResourceModel(ALLDAY_BUTTON_RESOURCE_ID, EventForm.this, new Model("All day"))) {
 			private static final long serialVersionUID = 1L;
@@ -265,14 +266,12 @@ public abstract class EventForm extends Form {
 			 */
 			@Override
 			public void onSubmit() {
-				if(eventWrapper.isAllDay()) {
+				if (eventWrapper.isAllDay()) {
 					setNormalDayEventFields();
-				}
-				else {
+				} else {
 					setAllDayEventFields();
 				}
 			}
-
 		};
 		allDayButton.setDefaultFormProcessing(false);
 
@@ -281,7 +280,7 @@ public abstract class EventForm extends Form {
 		// Calendar
 		List<Calendar> availableCalendars = getAvailableCalendars(WebicalSession.getWebicalSession().getUser());
 		calendarDropDownChoice = (DropDownChoice) new DropDownChoice(EVENT_CALENDAT_DROPDOWN_MARKUP_ID, new PropertyModel(eventWrapper, "calendar"), availableCalendars).setRequired(true);
-		if(availableCalendars.size() > 0) {
+		if (availableCalendars.size() > 0) {
 			if (! editForm) eventWrapper.setCalendar(availableCalendars.get(0));
 		}
 		// Description
@@ -320,19 +319,18 @@ public abstract class EventForm extends Form {
 			}
 
 			public String getIdValue(Object object, int index) {
-				if(index >= 0){
+				if (index >= 0) {
 					return String.valueOf((index));
 				}
 				return null;
 			}
-			
 		});
-		if(!editForm || eventWrapper.getFrequency() == null) {
+		if (!editForm || eventWrapper.getFrequency() == null) {
 			eventWrapper.setFrequency(0);
 		}
-		
+
 		// Clear frequency button
-		clearRecurrenceButton = new Button(CLEAR_FREQUENCY_BUTTON_MARKUP_ID, new StringResourceModel(CLEAR_FREQUENCY_BUTTON_RESOURCE_ID, EventForm.this, new Model("Clear"))){
+		clearRecurrenceButton = new Button(CLEAR_FREQUENCY_BUTTON_MARKUP_ID, new StringResourceModel(CLEAR_FREQUENCY_BUTTON_RESOURCE_ID, EventForm.this, new Model("Clear"))) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -346,13 +344,12 @@ public abstract class EventForm extends Form {
 				repeatCountTextField.modelChanged();
 				eventWrapper.setUntil(null);
 				repeatUntilTextField.modelChanged();
-				
+
 				super.onSubmit();
 			}
-			
 		};
 		clearRecurrenceButton.setDefaultFormProcessing(false);
-		
+
 		// Interval
 		repeatIntervalTextField = new TextField(REPEAT_INTERVAL_TEXTFIELD_MARKUP_ID, new PropertyModel(eventWrapper, "interval"), Integer.class);
 		// Count
@@ -360,7 +357,7 @@ public abstract class EventForm extends Form {
 		// Until
 		repeatUntilTextField = new DateTextField(REPEAT_UNTIL_TEXTFIELD_MARKUP_ID, new PropertyModel(eventWrapper, "until"), WebicalSession.getWebicalSession().getUserSettings().getDateFormat());
 		untilFormatLabel = new Label(REPEAT_UNTIL_FORMAT_LABEL_MARKUP_ID, WebicalSession.getWebicalSession().getUserSettings().getDateFormat());
-		
+
 		discardButton = new Button(DISCARD_BUTTON_MARKUP_ID) {
 			private static final long serialVersionUID = 1L;
 
@@ -368,7 +365,6 @@ public abstract class EventForm extends Form {
 			public void onSubmit() {
 				EventForm.this.onAction(new ShowCalendarAction());
 			}
-			
 		};
 		discardButton.setDefaultFormProcessing(false);
 
@@ -386,7 +382,7 @@ public abstract class EventForm extends Form {
 		submitButton.setModel(new StringResourceModel(EDIT_BUTTON_RESOURCE_ID, EventForm.this, new Model("Edit")));
 		// set the correct calendar for the drop down choice
 		calendarDropDownChoice.setModel(new PropertyModel(eventWrapper, "calendar"));
-		if(this.eventWrapper.isAllDay()) {
+		if (this.eventWrapper.isAllDay()) {
 			setAllDayEventFields();
 		}
 	}
@@ -442,7 +438,7 @@ public abstract class EventForm extends Form {
 	 */
 	public void setAllDayEventFields() {
 		eventWrapper.setAllDay();
-		
+
 		// Replace the DateTextField
 		replaceFormDateComponents(true);
 	}
@@ -462,7 +458,7 @@ public abstract class EventForm extends Form {
 	 * @param allDay wheter the form is used for an all day event
 	 */
 	public void replaceFormDateComponents(boolean allDay) {
-		if(allDay) {
+		if (allDay) {
 			allDayButton.setModel(new StringResourceModel("AllDay_label_False", this, null));
 			startTimeTextField.setEnabled(false);
 			startTimeTextField.setVisible(false);
@@ -479,7 +475,7 @@ public abstract class EventForm extends Form {
 		addOrReplace(startTimeTextField);
 		addOrReplace(endTimeTextField);
 	}
-	
+
 	/**
 	 * Show confirmation panel when editing a recurring event 
 	 */
@@ -493,12 +489,12 @@ public abstract class EventForm extends Form {
 			public void onCancel() {
 				this.replaceWith(parent);
 			}
-			
+
 			@Override
 			public void onConfirmThis() {
 				EventForm.this.alterThisEventInstance();
 			}
-				
+
 			@Override
 			public void onConfirmAll() {
 				// Update all the event instances
@@ -509,23 +505,22 @@ public abstract class EventForm extends Form {
 			public void onConfirmFollowing() {
 				EventForm.this.alterFollowingEventInstances();
 			}
-
 		});
 	}
-	
+
 	/**
 	 * Stores a new event and excludes it from the old range.
 	 */
 	private void alterThisEventInstance() {
 		// Exclude the new event from the recurrence rule
 		RecurrenceUtil.excludeEventFromRecurrenceRule(eventWrapper.getEvent(), oldEvent, true);
-		
+
 		// set the UID from the new event to null so it will be saved as a new event
 		eventWrapper.getEvent().setUid(null);
-		
+
 		// set the eventId to null so hibernate won't override the old event
 		eventWrapper.getEvent().setEventId(null);
-		
+
 		// Store the events
 		EventForm.this.onAction(new StoreEventAction(Arrays.asList(new Event[] {oldEvent, eventWrapper.getEvent()})));
 	}
@@ -535,19 +530,24 @@ public abstract class EventForm extends Form {
 	}
 
 	/**
-	 * Get a list of calendars accesible to this user
+	 * Get a list of calendars accessible to this user
 	 * @param user the User
 	 * @return List<Calendar> the list with user calendars
 	 */
 	private List<Calendar> getAvailableCalendars(User user) {
-		List<Calendar> availableCalendars = null;
+		List<Calendar> availableCalendars = new ArrayList<Calendar>();
 		try {
-			availableCalendars = calendarManager.getCalendars(user);
-			if(availableCalendars == null){
-				availableCalendars = new ArrayList<Calendar>();
+			List<Calendar> userCalendars = calendarManager.getCalendars(user);
+			if (userCalendars != null) {
+				Iterator<Calendar> calIt = userCalendars.iterator();
+				while (calIt.hasNext())
+				{
+					Calendar calendar = calIt.next();
+					if (! calendar.getReadOnly()) availableCalendars.add(calendar);
+				}
 			}
-		} catch (WebicalException e) {
-			availableCalendars = new ArrayList<Calendar>();
+		} catch (WebicalException we) {
+			log.error("getAvailableCalendars:Retrieving User Calendars", we);
 		}
 		return availableCalendars;
 	}
@@ -560,22 +560,20 @@ public abstract class EventForm extends Form {
 		// Do some checks to see if the dates are filled in correct
 		if(eventWrapper.getDtEnd().before(eventWrapper.getDtStart())) {
 			error(new StringResourceModel("Exception.endbeforestart", this, null).getString());
-		} 
-		else if(!eventWrapper.isAllDay() && eventWrapper.getDtEnd().equals(eventWrapper.getDtStart())){
+		}
+		else if(!eventWrapper.isAllDay() && eventWrapper.getDtEnd().equals(eventWrapper.getDtStart())) {
 			error(new StringResourceModel("Exception.endbeforestart", this, null).getString());
-		} 
-		else if(findSubmittingButton().equals(submitButton)) {
-
+		}
+		else if (findSubmittingButton().equals(submitButton)) {
 			// Check if we are editing a recurring event
-			if(editForm && RecurrenceUtil.isRecurrent(eventWrapper.getEvent())) {
+			if (editForm && RecurrenceUtil.isRecurrent(eventWrapper.getEvent())) {
 				// Editing specific events in a recurrence rule is disabled for milestone 0.4
 				//showConfirmation();
 				alterAllEventInstances();
-			} else { 
+			} else {
 				// Store the event as normal
 				alterAllEventInstances();
 			}
-			
 		}
 	}
 
@@ -583,16 +581,16 @@ public abstract class EventForm extends Form {
 	 * Stores all the event instances
 	 */
 	private void alterAllEventInstances() {
-		if(overruleCalendarTimeZone && !eventWrapper.getEvent().isAllDay()){
-			//Display dtstart and dtend in usertimezone
+		if (overruleCalendarTimeZone && !eventWrapper.getEvent().isAllDay()) {
+			//Display dtstart and dtend in user timezone
 			Integer offSetCalendar = eventWrapper.getEvent().getCalendar().getOffSetFrom();
 
-			if(offSetCalendar != null){
+			if (offSetCalendar != null) {
 				float difference = offSetUser.floatValue() - offSetCalendar.floatValue();
-				if(eventWrapper.getEvent().getDtStart() != null){
+				if (eventWrapper.getEvent().getDtStart() != null) {
 					eventWrapper.getEvent().setDtStart(CalendarUtils.addHours(eventWrapper.getEvent().getDtStart(), - difference));
 				}
-				if(eventWrapper.getEvent().getDtEnd() != null){
+				if (eventWrapper.getEvent().getDtEnd() != null) {
 					eventWrapper.getEvent().setDtEnd(CalendarUtils.addHours(eventWrapper.getEvent().getDtEnd(), - difference));
 				}
 			}
@@ -622,29 +620,27 @@ public abstract class EventForm extends Form {
 		//Save the event
 		/*
 		try {
-			//If the is a gCalendar than put this remove this event from its serie
-			if(excludeFromRange){
+			//If the is a gCalendar than put this remove this event from its series
+			if (excludeFromRange) {
 				oldEvent.getExDate().add(date.getTime());
 				eventManager.storeEvent(oldEvent);
 			}
 			eventManager.storeEvent(storeEvent);
 
-			if(log.isDebugEnabled()) {
+			if (log.isDebugEnabled()) {
 				log.debug("Event saved: " + storeEvent.getSummary() + " for calendar: " + storeEvent.getCalendar().getName());
 			}
 
 			//Change back to the list
 			EventAddEditPanel.this.onAction(new FormFinishedAction(null));
-
-
 		} catch (WebicalException e) {
-			if(e.getCause().getClass() == UpdateConflictException.class){
-				if(log.isDebugEnabled()){
+			if (e.getCause().getClass() == UpdateConflictException.class) {
+				if (log.isDebugEnabled()) {
 					log.debug("update exception");
 				}
 				eventSelectionListener.eventUpdateandDeleteException(storeEvent, storeCalendar, true);
-			} else if(e.getCause().getClass() == DeleteConflictException.class){
-				if(log.isDebugEnabled()){
+			} else if (e.getCause().getClass() == DeleteConflictException.class) {
+				if (log.isDebugEnabled()) {
 					log.debug("delete exception");
 				}
 				eventSelectionListener.eventUpdateandDeleteException(storeEvent, storeCalendar, false);

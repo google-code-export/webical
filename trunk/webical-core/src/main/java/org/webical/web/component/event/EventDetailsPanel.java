@@ -85,7 +85,7 @@ public abstract class EventDetailsPanel extends AbstractBasePanel
 		this.selectedEventDate = selectedEventDate;
 
 		// Override the event date with the date of the day the selected event is on if the event is recurring
-		if(RecurrenceUtil.isRecurrent(event)) {
+		if (RecurrenceUtil.isRecurrent(event)) {
 			this.overrideEventDate = true;
 		}
 	}
@@ -99,7 +99,7 @@ public abstract class EventDetailsPanel extends AbstractBasePanel
 		SimpleDateFormat dateFormatter = new SimpleDateFormat(WebicalSession.getWebicalSession().getUserSettings().getDateFormat(), getLocale());
 		SimpleDateFormat timeFormatter = new SimpleDateFormat(WebicalSession.getWebicalSession().getUserSettings().getTimeFormat(), getLocale());
 
-		// Wrap the event so we can handle the event date and time seperately
+		// Wrap the event so we can handle the event date and time separately
 		EventWrapper eventWrapper = new EventWrapper(event);
 
 		Date startDate, endDate;
@@ -151,6 +151,7 @@ public abstract class EventDetailsPanel extends AbstractBasePanel
 				EventDetailsPanel.this.onAction(new EditEventAction(event, selectedEventDate));
 			}
 		};
+		editLink.setEnabled(! event.getCalendar().getReadOnly());
 
 		//Add link to remove the event
 		deleteLink = new Link(DELETE_LINK_MARKUP_ID) {
@@ -170,6 +171,7 @@ public abstract class EventDetailsPanel extends AbstractBasePanel
 				}
 			}
 		};
+		deleteLink.setEnabled(! event.getCalendar().getReadOnly());
 
 		// Return to calendar link
 		backLink = new Link(BACK_LINK_MARKUP_ID) {

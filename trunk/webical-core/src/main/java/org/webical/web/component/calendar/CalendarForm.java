@@ -35,6 +35,7 @@ import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
@@ -73,6 +74,8 @@ public abstract class CalendarForm extends Form {
 	private static final String USERNAME_TEXTFIELD_MARKUP_ID = "username";
 	private static final String PASSWORD_TEXTFIELD_MARKUPID = "password";
 	private static final String TIMEZONE_DROPDOWNCHOICE_MARKUP_ID = "offSetFrom";
+	private static final String READ_ONLY_CALENDAR_MARKUP_ID = "readOnlyCalendar";
+	private static final String VISIBLE_CALENDAR_MARKUP_ID = "visibleCalendar";
 	private static final String DISCARD_LINK_MARKUP_ID = "discardLink";
 	private static final String SUBMIT_BUTTON_MARKUP_ID = "calendarSubmitButton";
 
@@ -90,6 +93,7 @@ public abstract class CalendarForm extends Form {
 	private DropDownChoice typeDropDownChoice, timeZoneDropDownChoice;
 	private TextField usernameTextField;
 	private PasswordTextField passwordTextField;
+	private CheckBox cb_readOnly, cb_visible;
 	private Link discardLink;
 	private Button submitButton;
 
@@ -110,17 +114,17 @@ public abstract class CalendarForm extends Form {
 		this.user = WebicalSession.getWebicalSession().getUser();
 
 		// Check if we are editing a calendar. If editCalendar is a calendar, set up the edit form
-		if((this.editCalendar != null) && (this.editCalendar.getUrl() != null)) {
-			
+		if ((this.editCalendar != null) && (this.editCalendar.getUrl() != null))
+		{
 			//Use the offset (timezone) to calculate the offsetto (daylight saving)
 			Integer offSetFromTemp = new Integer(0);
 			Integer offSetToTemp = new Integer(1);
-			if(editCalendar.getOffSetFrom() != null) {
+			if (editCalendar.getOffSetFrom() != null) {
 				// overwrite the offset values from above
 				offSetFromTemp = editCalendar.getOffSetFrom();
 				offSetToTemp = new Integer(editCalendar.getOffSetFrom().intValue() + 1);
 			}
-			if(editCalendar.getOffSetTo() != null){
+			if (editCalendar.getOffSetTo() != null) {
 				// overwrite the offSetTo as it allready exists in the calendar
 				offSetToTemp = editCalendar.getOffSetTo();
 			}
@@ -140,7 +144,7 @@ public abstract class CalendarForm extends Form {
 
 		// create the form elements, edit them if nessecary and add them to the form
 		createFormElements();
-		if(this.editForm) {
+		if (this.editForm) {
 			alterFormForEditing();
 		}
 		addFormElements();
@@ -161,6 +165,8 @@ public abstract class CalendarForm extends Form {
 		add(usernameTextField);
 		add(passwordTextField);
 		add(timeZoneDropDownChoice);
+		add(cb_readOnly);
+		add(cb_visible);
 		add(discardLink);
 		add(submitButton);
 	}
@@ -182,7 +188,6 @@ public abstract class CalendarForm extends Form {
 	private Calendar createEmptyCalendar() {
 		this.editCalendar = new Calendar();
 		this.editCalendar.setUser(user);
-		this.editCalendar.setVisible(true);
 		return this.editCalendar;
 	}
 
@@ -209,15 +214,17 @@ public abstract class CalendarForm extends Form {
 		passwordTextField.setResetPassword(false);
 
 		timeZoneDropDownChoice = this.createTimeZoneDropDown(TIMEZONE_DROPDOWNCHOICE_MARKUP_ID);
-		discardLink = new Link(DISCARD_LINK_MARKUP_ID){
 
+		cb_readOnly = new CheckBox(READ_ONLY_CALENDAR_MARKUP_ID, new PropertyModel(calendarModel.getObject(), "readOnly"));
+		cb_visible = new CheckBox(VISIBLE_CALENDAR_MARKUP_ID, new PropertyModel(calendarModel.getObject(), "visible"));
+
+		discardLink = new Link(DISCARD_LINK_MARKUP_ID) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void onClick() {
 				onDiscard();
 			}
-
 		};
 		submitButton = new Button(SUBMIT_BUTTON_MARKUP_ID, new StringResourceModel(SUBMIT_BUTTON_ADD_MODE_RESOURCE_ID, this, null));
 	}
@@ -228,9 +235,10 @@ public abstract class CalendarForm extends Form {
 	private DropDownChoice createTimeZoneDropDown(String markupId) {
 		List<Integer> timeZoneList = new ArrayList<Integer>();
 
-		String[] id = TimeZone.getAvailableIDs();
+		String[] ids = TimeZone.getAvailableIDs();
 
-		for (String s : id) {
+		for (String s : ids)
+		{
 			Integer timeZone = (int) (TimeZone.getTimeZone(s).getRawOffset() / CalendarUtils.getHourInMs());
 			//Filter out general GMT time
 			if (s.contains("GMT") && !timeZoneList.contains(timeZone)) {
@@ -238,41 +246,40 @@ public abstract class CalendarForm extends Form {
 			}
 		}
 
-		timeZoneDropDownChoice = new DropDownChoice(markupId, new PropertyModel((Calendar)this.calendarModel.getObject(), "offSetTo"), timeZoneList, new IChoiceRenderer() {
+		timeZoneDropDownChoice = new DropDownChoice(markupId, new PropertyModel((Calendar)this.calendarModel.getObject(), "offSetTo"), timeZoneList,
+										new IChoiceRenderer() {
+				private static final long serialVersionUID = 1L;
 
-			private static final long serialVersionUID = 1L;
+				// Gets the display value that is visible to the end user.
+				public String getDisplayValue(Object object) {
 
-			// Gets the display value that is visible to the end user.
-	        public String getDisplayValue(Object object) {
+					Integer offSet = (Integer) object;
 
-	        	Integer offSet = (Integer) object;
+					int rawOffset = (int) ((offSet.floatValue() * CalendarUtils.getHourInMs()) / 60000);
+					int hours = rawOffset / 60;
+					int minutes = Math.abs(rawOffset) % 60;
+					String hrStr = "";
 
-	            int rawOffset = (int) ((offSet.floatValue() * CalendarUtils.getHourInMs()) / 60000);
-	            int hours = rawOffset / 60;
-	            int minutes = Math.abs(rawOffset) % 60;
-	            String hrStr = "";
-
-				if (Math.abs(hours) < 10) {
-					if (hours < 0) {
-						hrStr = "-0" + Math.abs(hours);
+					if (Math.abs(hours) < 10) {
+						if (hours < 0) {
+							hrStr = "-0" + Math.abs(hours);
+						} else {
+							hrStr = "0" + Math.abs(hours);
+						}
 					} else {
-						hrStr = "0" + Math.abs(hours);
+						hrStr = Integer.toString(hours);
 					}
-				} else {
-					hrStr = Integer.toString(hours);
+
+					String minStr = (minutes < 10) ? ("0" + Integer.toString(minutes)) : Integer.toString(minutes);
+					String str = "GMT " + ((offSet >= 0) ? "+" : "") + hrStr + ":" + minStr;
+
+					return str;
 				}
-
-				String minStr = (minutes < 10) ? ("0" + Integer.toString(minutes)) : Integer.toString(minutes);
-				String str = "GMT " + ((offSet >= 0) ? "+" : "") + hrStr + ":" + minStr;
-
-				return str;
-			}
-
-			// Gets the value that is invible to the end user, and that is
-			// used as the selection id.
-			public String getIdValue(Object object, int index) {
-				return ((Integer) object).toString();
-			}
+				// Gets the value that is invible to the end user, and that is
+				// used as the selection id.
+				public String getIdValue(Object object, int index) {
+					return ((Integer) object).toString();
+				}
 		});
 		return timeZoneDropDownChoice;
 	}

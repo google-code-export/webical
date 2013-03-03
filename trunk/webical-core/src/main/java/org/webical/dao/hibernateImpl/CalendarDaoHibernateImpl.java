@@ -46,9 +46,8 @@ import org.webical.dao.util.WebDavCalendarSynchronisation;
  * @author jochem
  * 
  */
-public class CalendarDaoHibernateImpl extends BaseHibernateImpl implements
-		CalendarDao {
-
+public class CalendarDaoHibernateImpl extends BaseHibernateImpl implements CalendarDao
+{
 	///////////////////////////
 	/// CalendarDao methods ///
 	///////////////////////////
@@ -170,6 +169,15 @@ public class CalendarDaoHibernateImpl extends BaseHibernateImpl implements
 			calendar =  (Calendar)criteria.uniqueResult();
 		}
 		return calendar;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.webical.aspect.dao.CalendarDao#refreshCalendar(org.webical.Calendar)
+	 */
+	@Transaction(readOnly=true)
+	public void refreshCalendar(Calendar calendar) throws DaoException {
+		getSession().refresh(calendar);
 	}
 
 	////////////////////////////

@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -85,4 +87,11 @@ public interface CalendarManager {
 	 * @throws WebicalException
 	 */
 	public Calendar getCalendarById(String id) throws WebicalException;
+
+	/**
+	 * Refresh a calendar record from storage
+	 * @param calendar - calendar record to refresh
+	 * @throws WebicalException
+	 */
+	public void refreshCalendar(Calendar calendar) throws WebicalException;
 }

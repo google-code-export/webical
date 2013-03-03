@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -40,7 +42,7 @@ import org.webical.manager.WebicalException;
  * CalendarManagerImpl
  * @author paul
  */
-public class CalendarManagerImpl implements CalendarManager,InitializingBean {
+public class CalendarManagerImpl implements CalendarManager, InitializingBean {
 
 	private static final String CALENDAR_MANAGER_IMPL_NEEDS_CALENDAR_DAO = "CalendarManagerImpl needs a CalendarDao";
 
@@ -69,7 +71,6 @@ public class CalendarManagerImpl implements CalendarManager,InitializingBean {
 		} catch (DaoException e) {
 			throw new WebicalException("Could not remove calendar",e);
 		}
-
 	}
 
 	/* (non-Javadoc)
@@ -101,7 +102,7 @@ public class CalendarManagerImpl implements CalendarManager,InitializingBean {
 	public List<Calendar> getCalendars(User user) throws WebicalException {
 		try {
 			return calendarDao.getCalendars(user);
-		}catch(DaoException e) {
+		}catch (DaoException e) {
 			throw new WebicalException("Could not retrieve calendars",e);
 		}
 	}
@@ -113,7 +114,7 @@ public class CalendarManagerImpl implements CalendarManager,InitializingBean {
 		Set<String> calendarTypes = new HashSet<String>();
 
 		Set<String> eventDaoRegistrationKeys = daoFactory.getEventDaoRegistrations().keySet();
-		if(eventDaoRegistrationKeys != null) {
+		if (eventDaoRegistrationKeys != null) {
 			calendarTypes.addAll(eventDaoRegistrationKeys);
 		}
 
@@ -122,11 +123,25 @@ public class CalendarManagerImpl implements CalendarManager,InitializingBean {
 		return calendarTypes;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.webical.manager.CalendarManager#getCalendarById(java.lang.String)
+	 */
 	public Calendar getCalendarById(String id) throws WebicalException {
 		try {
 			return  calendarDao.getCalendarById(id);
 		} catch (DaoException e) {
-			throw new WebicalException("Could not find calendar",e);
+			throw new WebicalException("Could not find calendar", e);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.webical.manager.CalendarManager#refreshCalendar(org.webical.Calendar)
+	 */
+	public void refreshCalendar(Calendar calendar) throws WebicalException {
+		try {
+			calendarDao.refreshCalendar(calendar);
+		} catch (DaoException e) {
+			throw new WebicalException("Could not find calendar", e);
 		}
 	}
 
@@ -135,13 +150,13 @@ public class CalendarManagerImpl implements CalendarManager,InitializingBean {
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
 	public void afterPropertiesSet() throws Exception {
-		if(calendarDao == null) {
+		if (calendarDao == null) {
 			throw new ExceptionInInitializerError(CALENDAR_MANAGER_IMPL_NEEDS_CALENDAR_DAO);
-		} else if(log.isDebugEnabled()) {
+		} else if (log.isDebugEnabled()) {
 			log.debug("Class of CalendarDao set by Spring: " + calendarDao.getClass());
 		}
 
-		if(daoFactory == null) {
+		if (daoFactory == null) {
 			throw new ExceptionInInitializerError("CalendarManagerImpl needs a DaoFactory");
 		}
 	}
@@ -182,5 +197,4 @@ public class CalendarManagerImpl implements CalendarManager,InitializingBean {
 	public void setCalendarDao(CalendarDao calendarDao) {
 		this.calendarDao = calendarDao;
 	}
-
 }

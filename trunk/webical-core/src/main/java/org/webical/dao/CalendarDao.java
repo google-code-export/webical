@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -32,9 +34,8 @@ import org.webical.User;
  * 
  */
 
-
 public interface CalendarDao extends EncryptingDao {
-	
+
 	/**
 	 * Retrieves the calendar for a given event
 	 * @param event the event to retrieve the calendar for
@@ -42,14 +43,14 @@ public interface CalendarDao extends EncryptingDao {
 	 * @throws DaoException
 	 */
 	public Calendar getCalendarForEvent(Event event) throws DaoException;
-	
+
 	/**
 	 * Stores or updates a Calendar
 	 * @param calendar the calendar to store. User may not be null
 	 * @throws DaoException
 	 */
 	public void storeCalendar(Calendar calendar) throws DaoException;
-	
+
 	/**
 	 *Updates a Calendar and writes it a remote ics file
 	 * @param calendar the calendar to store. User may not be null
@@ -57,14 +58,14 @@ public interface CalendarDao extends EncryptingDao {
 	 * @throws DaoException
 	 */
 	public void storeCalendar(Calendar calendar, List<Event> events) throws DaoException;
-	
+
 	/**
 	 * Removes a Calendar
 	 * @param calendar the calendar to remove
 	 * @throws DaoException
 	 */
 	public void removeCalendar(Calendar calendar) throws DaoException;
-	
+
 	/**
 	 * Retrieves all Calendars for a given User
 	 * @param user the user to retrieve the calendars for
@@ -72,7 +73,7 @@ public interface CalendarDao extends EncryptingDao {
 	 * @throws DaoException
 	 */
 	public List<Calendar> getCalendars(User user) throws DaoException;
-	
+
 	/**
 	 * Retrieve a calendar by its unique id
 	 * @param id the unique identifier
@@ -80,4 +81,11 @@ public interface CalendarDao extends EncryptingDao {
 	 * @throws DaoException
 	 */
 	public Calendar getCalendarById(String id) throws DaoException;
+
+	/**
+	 * Refresh a calendar record from storage
+	 * @param calendar - calendar record to refresh
+	 * @throws DaoException
+	 */
+	public void refreshCalendar(Calendar calendar) throws DaoException;
 }

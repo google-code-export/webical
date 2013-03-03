@@ -97,6 +97,30 @@ public class MockCalendarManager implements CalendarManager {
 		storeCalendar(calendar);
 	}
 
+	public void refreshCalendar(Calendar calendar) throws WebicalException
+	{
+		Long idl = calendar.getCalendarId();
+		if (! m_calendarMap.containsKey(idl))
+		{
+			throw new WebicalException("Calendar not found");
+		}
+		Calendar mapCalendar = m_calendarMap.get(idl);
+		// copy the calendar data
+		calendar.setCalendarId(mapCalendar.getCalendarId());
+		calendar.setName(mapCalendar.getName());
+		calendar.setType(mapCalendar.getType());
+		calendar.setUrl(mapCalendar.getUrl());
+		calendar.setUsername(mapCalendar.getUsername());
+		calendar.setPassword(mapCalendar.getPassword());
+		calendar.setReadOnly(mapCalendar.getReadOnly());
+		calendar.setVisible(mapCalendar.getVisible());
+		calendar.setOffSetFrom(mapCalendar.getOffSetFrom());
+		calendar.setOffSetTo(mapCalendar.getOffSetTo());
+		calendar.setLastRefreshTimeStamp(mapCalendar.getLastRefreshTimeStamp());
+		calendar.setUser(mapCalendar.getUser());
+		calendar.setLastUpdateTime(mapCalendar.getLastUpdateTime());
+	}
+
 	private Long m_maxId = new Long(0L);
 	private HashMap<Long, Calendar> m_calendarMap = new HashMap<Long, Calendar>();
 }
