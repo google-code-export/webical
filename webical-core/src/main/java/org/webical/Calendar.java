@@ -42,6 +42,7 @@ public class Calendar implements Serializable {
 	private String url = null;
 	private String username = null;
 	private String password = null;
+	private Boolean readOnly = Boolean.FALSE;
 	private Boolean visible = Boolean.TRUE;
 
 	// offSetFrom: local time offset (hours) from GMT when daylight saving time is in operation
@@ -101,14 +102,24 @@ public class Calendar implements Serializable {
 		this.password = password;
 	}
 
+	public Boolean getReadOnly() {
+		if (readOnly == null) {
+			readOnly = Boolean.TRUE;
+		}
+		return readOnly;
+	}
+	public void setReadOnly(Boolean readOnly) {
+		this.readOnly = readOnly;
+	}
+
 	public Boolean getVisible() {
 		if (visible == null) {
 			visible = Boolean.FALSE;
 		}
 		return visible;
 	}
-	public void setVisible(Boolean selected) {
-		this.visible = selected;
+	public void setVisible(Boolean visible) {
+		this.visible = visible;
 	}
 
 	public Integer getOffSetFrom() {

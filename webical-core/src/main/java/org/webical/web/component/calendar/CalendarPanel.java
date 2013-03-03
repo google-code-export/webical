@@ -346,7 +346,9 @@ public abstract class CalendarPanel extends AbstractBasePanel {
 				SwitchCalendarVisibilityAction switchCalendarVisibilityAction = (SwitchCalendarVisibilityAction) action;
 				try {
 					org.webical.Calendar selectedCalendar = switchCalendarVisibilityAction.getCalendar();
-					selectedCalendar.setVisible(!selectedCalendar.getVisible());
+					boolean visible = ! selectedCalendar.getVisible();
+					calendarManager.refreshCalendar(selectedCalendar);
+					selectedCalendar.setVisible(visible);
 					calendarManager.storeCalendar(selectedCalendar);
 				} catch (WebicalException e) {
 					throw new WebicalWebAplicationException("Could not store calendar", e);

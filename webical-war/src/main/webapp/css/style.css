@@ -79,7 +79,7 @@ h1 {
   cursor: pointer;
 }
 
-a.button {
+a.button, span.button {
   display: block;
   float: left;
   color: #666;

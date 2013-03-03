@@ -27,6 +27,7 @@
 		<property name="password" type="encrypted" length="1000">
 			<column name="password" length="1000" />
 		</property>
+		<property name="readOnly" type="boolean"/>
 		<property name="visible" type="boolean"/>
 		<property name="offSetFrom" type="integer"/>
 		<property name="offSetTo" type="integer"/>

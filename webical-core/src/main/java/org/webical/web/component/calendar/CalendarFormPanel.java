@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -69,15 +71,15 @@ public abstract class CalendarFormPanel extends AbstractBasePanel {
 	// remember this because if you change the url you dont want update the ics (which happens
 	// because the timezone can be changed). After the new ics is parsed the timezone is
 	// updated anyway.
-	private String oldUrl;
+	private String oldUrl = null;
 
 	/**
 	 * Constructor
 	 * @param markupId the id used in the markup
 	 * @param calendar the Calendar to be edited or null when a new caledar is edited
 	 */
-	public CalendarFormPanel(String markupId, Calendar calendar) {
-
+	public CalendarFormPanel(String markupId, Calendar calendar)
+	{
 		super(markupId, CalendarFormPanel.class);
 		this.calendar = calendar;
 		if(this.calendar != null) {
@@ -85,7 +87,8 @@ public abstract class CalendarFormPanel extends AbstractBasePanel {
 		}
 	}
 
-	public void setupCommonComponents() {
+	public void setupCommonComponents()
+	{
 		// Create an ArrayList with calendar types for use in the form
 		ArrayList<String> calendarTypes;
 		try {
@@ -95,8 +98,8 @@ public abstract class CalendarFormPanel extends AbstractBasePanel {
 		}
 
 		// Create the Calendar Form
-		CalendarForm calendarForm = new CalendarForm(CALENDAR_ADD_EDIT_FORM_MARKUP_ID, calendar, calendarTypes) {
-
+		CalendarForm calendarForm = new CalendarForm(CALENDAR_ADD_EDIT_FORM_MARKUP_ID, calendar, calendarTypes)
+		{
 			private static final long serialVersionUID = 1L;
 
 			/* (non-Javadoc)
@@ -116,16 +119,17 @@ public abstract class CalendarFormPanel extends AbstractBasePanel {
 				try {
 					List<Event> events = null;
 
-					boolean urlChanged;
+					boolean urlChanged = false;
 
-					if(oldUrl != null && oldUrl.equals(storeCalendar.getUrl())){
+					if (oldUrl != null && oldUrl.equals(storeCalendar.getUrl()))
+					{
 						urlChanged = false;
 						events = eventManager.getAllEvents(storeCalendar);
 					} else {
 						urlChanged = true;
 					}
 
-					if(events != null && !urlChanged){
+					if (events != null && !urlChanged) {
 						//TODO this shouldn't be done here, but in the dao.
 						log.debug("Storing calendar with events.");
 						calendarManager.storeCalendar(storeCalendar, events);
@@ -134,19 +138,18 @@ public abstract class CalendarFormPanel extends AbstractBasePanel {
 						calendarManager.storeCalendar(storeCalendar);
 					}
 
-					if(log.isDebugEnabled()) {
+					if (log.isDebugEnabled()) {
 						log.debug("Calendar saved: " + storeCalendar.getName() + " for user: " + storeCalendar.getUser().getUserId());
 					}
 
 					// Let the parent know we are finished with the form
 					CalendarFormPanel.this.onAction(new ShowSettingsAction(SettingsPanelsPanel.CALENDAR_SETTINGS_TAB_INDEX));
 
-				} catch (WebicalException e){
+				} catch (WebicalException e) {
 					error("Could not store the calendar");
 					throw new WebicalWebAplicationException("Calendar could not be saved: " + storeCalendar.getName() + " for user: " + storeCalendar.getUser().getUserId(), e);
 				}
 			}
-
 		};
 		// Add validation to the form
 		calendarForm.add(new FormComponentValidationStyleBehavior());
@@ -188,5 +191,4 @@ public abstract class CalendarFormPanel extends AbstractBasePanel {
 	public void setEventManager(EventManager eventManager) {
 		this.eventManager = eventManager;
 	}
-
 }

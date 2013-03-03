@@ -4,6 +4,8 @@
  *
  *    This file is part of Webical.
  *
+ *    $Id$
+ *
  *    This program is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
@@ -27,8 +29,12 @@ import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.webical.Calendar;
+import org.webical.manager.CalendarManager;
+import org.webical.manager.WebicalException;
 import org.webical.web.action.IAction;
+import org.webical.web.app.WebicalWebAplicationException;
 import org.webical.web.component.AbstractBasePanel;
 
 /**
@@ -44,6 +50,10 @@ public abstract class SettingsPanelsPanel extends AbstractBasePanel {
 	private static final String CALENDAR_SETTINGS_TAB_LABEL = "Calendar_settings_tab_label";
 	private static final String USER_SETTINGS_TAB_LABEL = "User_settings_tab_label";
 	private static final String SETTINGS_TABS_MARKUP_ID = "settingsTabs";
+
+	/** Used by Spring to inject the Calendar Manager. */
+	@SpringBean(name="calendarManager")
+	private CalendarManager calendarManager;
 
 	private TabbedPanel tabbedPanel;
 	private List<AbstractTab> tabs = new ArrayList<AbstractTab>();
@@ -78,11 +88,10 @@ public abstract class SettingsPanelsPanel extends AbstractBasePanel {
 					public void onAction(IAction action) {
 						SettingsPanelsPanel.this.onAction(action);
 					}
-
 				};
 			}
-
 		});
+
 		// Setup the calendars tab
 		tabs.add(new AbstractTab(new StringResourceModel(CALENDAR_SETTINGS_TAB_LABEL, this, null)) {
 			private static final long serialVersionUID = 1L;
@@ -92,7 +101,7 @@ public abstract class SettingsPanelsPanel extends AbstractBasePanel {
 			 */
 			@Override
 			public Panel getPanel(String markupId) {
-				return new CalendarSettingsPanel(markupId, getCalendar()){
+				return new CalendarSettingsPanel(markupId, getCalendar()) {
 					private static final long serialVersionUID = 1L;
 
 					/* (non-Javadoc)
@@ -115,14 +124,14 @@ public abstract class SettingsPanelsPanel extends AbstractBasePanel {
 		tabbedPanel = new TabbedPanel(SETTINGS_TABS_MARKUP_ID, tabs ) {
 			private static final long serialVersionUID = 1L;
 		};
-		if(selectedTab != 0) {
+		if (selectedTab != 0) {
 			tabbedPanel.setSelectedTab(selectedTab);
 		}
 		addOrReplace(tabbedPanel);
 	}
 
 	public void setupNonAccessibleComponents() {
-
+		// NOT IMPLEMENTED
 	}
 
 	/**
@@ -137,12 +146,12 @@ public abstract class SettingsPanelsPanel extends AbstractBasePanel {
 	 * @param panelArguments arguments to pass on to the tab
 	 */
 	public void setSelectedTab(int panelTabIndex, Object ... panelArguments ) {
-		if(panelTabIndex < 0 || panelTabIndex >= tabs.size()) {
+		if (panelTabIndex < 0 || panelTabIndex >= tabs.size()) {
 			throw new IllegalArgumentException("Wrong tab index: " + panelTabIndex + " is larger than the total number of tabs (" + tabs.size() + ")");
 		}
 		this.panelArguments = panelArguments;
 
-		if(tabbedPanel != null) {
+		if (tabbedPanel != null) {
 			tabbedPanel.setSelectedTab(panelTabIndex);
 		} else {
 			this.selectedTab = panelTabIndex;
@@ -150,16 +159,30 @@ public abstract class SettingsPanelsPanel extends AbstractBasePanel {
 	}
 
 	/**
+	 * Used by spring to set the Calendar Manager.
+	 * @param calendarManager The Calendar Manager
+	 */
+	public void setCalendarManager(CalendarManager calendarManager) {
+		this.calendarManager = calendarManager;
+	}
+
+	/**
 	 * Returns the calendar instance when the tab is pressed
 	 * @return Calendar
 	 */
-	private Calendar getCalendar() {
-		if(panelArguments != null && panelArguments.length > 0 && panelArguments[0] instanceof Calendar) {
+	private Calendar getCalendar() throws WebicalWebAplicationException
+	{
+		if (panelArguments != null && panelArguments.length > 0 && (panelArguments[0] instanceof Calendar)) {
 			Calendar retCal = (Calendar) panelArguments[0];
+			try {
+				calendarManager.refreshCalendar(retCal);
+			}
+			catch (WebicalException we) {
+				throw new WebicalWebAplicationException("Could not refresh calendar", we);
+			}
 			panelArguments[0] = null;
 			return retCal;
-		} else {
-			return null;
 		}
+		return null;
 	}
 }

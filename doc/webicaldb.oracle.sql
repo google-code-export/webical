@@ -111,6 +111,7 @@ CREATE TABLE calendar (
   url VARCHAR2(3000) NOT NULL,
   username VARCHAR2(1000),
   password VARCHAR2(1000),
+  readOnly NUMBER(1) DEFAULT 0,
   visible NUMBER(1) DEFAULT 1,
   offSetFrom NUMBER (10,0) DEFAULT 0,
   offSetTo NUMBER (10,0) DEFAULT 0,
