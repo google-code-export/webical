@@ -106,7 +106,7 @@
 	<scm>
 		<connection>scm:svn:http://webical.googlecode.com/svn/trunk</connection>
 		<developerConnection>scm:svn:https://webical.googlecode.com/svn/trunk</developerConnection>
-		<url>http://code.google.com/p/webical/source/browse/#svn%2Ftrunk</url>
+		<url>http://webical.googlecode.com/svn/trunk</url>
 	</scm>
 
 	<!--
