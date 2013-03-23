@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.webical" default-lazy="false">
+	<class name="Event" table="event" optimistic-lock="version">
+
+		<id name="eventId" type="long">
+			<column name="eventId" not-null="true"/>
+			<generator class="identity" />
+		</id>
+
+        <version name="lastUpdateTime" type="timestamp"/>
+
+		<!-- Strings -->
+		<property name="clazz" type="string" length="1000">
+			<column name="clazz" length="1000" />
+		</property>
+		<property name="description" type="string" length="1000">
+			<column name="description" length="3000" />
+		</property>
+		<property name="geo" type="string" length="1000">
+			<column name="geo" length="1000" />
+		</property>
+		<property name="location" type="string" length="1000">
+			<column name="location" length="1000" />
+		</property>
+		<property name="organizer" type="string" length="1000">
+			<column name="organizer" length="1000" />
+		</property>
+		<property name="status" type="string" length="1000">
+			<column name="status" length="1000" />
+		</property>
+		<property name="summary" type="string" length="1000">
+			<column name="summary" length="1000" />
+		</property>
+		<property name="transp" type="string" length="1000">
+			<column name="transp" length="1000" />
+		</property>
+		<property name="uid" type="string" length="1000">
+			<column name="wuid" length="1000" />
+		</property>
+		<property name="url" type="string" length="3000">
+			<column name="url" length="3000" />
+		</property>
+
+		<property name="allDay" type="boolean"/>
+
+		<!-- Dates -->
+		<property name="created" type="timestamp"/>
+		<property name="dtStart" type="timestamp"/>
+		<property name="lastMod" type="timestamp"/>
+		<property name="dtStamp" type="timestamp"/>
+
+		<!-- ints -->
+		<!-- <property type="integer" name="priority"/> -->
+		<property name="seq" type="integer"/>
+
+		<!-- Optional, but not both -->
+		<property name="dtEnd" type="timestamp"/>
+		<property name="duration" type="string" length="255">
+			<column name="duration" length="255" />
+		</property>
+
+		<!-- Required -->
+        <many-to-one name="calendar" class="Calendar"
+            column="calendarId" not-null="true"/>
+
+		<!-- Optional Sets -->
+		<!-- Strings -->
+		<set table="event_attach" cascade="all" name="attach">
+			<key column="eventId" not-null="true"/>
+			<element type="string" length="1000">
+				<column name="attach" length="1000" />
+			</element>
+		</set>
+		<set table="event_attendee" cascade="all" name="attendee">
+			<key column="eventId" not-null="true"/>
+			<element type="string" length="1000">
+				<column name="attendee" length="1000" />
+			</element>
+		</set>
+		<set table="event_categories" cascade="all" name="categories">
+			<key column="eventId" not-null="true"/>
+			<element type="string" length="1000">
+				<column name="categories" length="1000" />
+			</element>
+		</set>
+		<set table="event_comment" cascade="all" name="comment">
+			<key column="eventId" not-null="true"/>
+			<element type="string" length="3000">
+				<column name="comments" length="3000" />
+			</element>
+		</set>
+		<set table="event_contact" cascade="all" name="contact">
+			<key column="eventId" not-null="true"/>
+			<element type="string" length="1000">
+				<column name="contact" length="1000" />
+			</element>
+		</set>
+		<set table="event_rStatus" cascade="all" name="rStatus">
+			<key column="eventId" not-null="true"/>
+			<element type="string" length="1000">
+				<column name="rStatus" length="1000" />
+			</element>
+		</set>
+		<set table="event_related" cascade="all" name="related">
+			<key column="eventId" not-null="true"/>
+			<element type="string" length="1000">
+				<column name="related" length="1000" />
+			</element>
+		</set>
+		<set table="event_resources" cascade="all" name="resources">
+			<key column="eventId" not-null="true"/>
+			<element type="string" length="1000">
+				<column name="resources" length="1000" />
+			</element>
+		</set>
+		<set table="event_rRule" cascade="all" name="rRule">
+			<key column="eventId" not-null="true"/>
+			<element type="string" length="1000">
+				<column name="rRule" length="1000" />
+			</element>
+		</set>
+		<set table="event_exRule" cascade="all" name="exRule">
+			<key column="eventId" not-null="true"/>
+			<element type="string" length="1000">
+				<column name="exRule" length="1000" />
+			</element>
+		</set>
+
+		<!-- Dates -->
+		<set table="event_exDate" cascade="all" name="exDate">
+			<key column="eventId" not-null="true"/>
+			<element column="exDate" type="timestamp"/>
+		</set>
+		<set table="event_rDate" cascade="all" name="rDate">
+			<key column="eventId" not-null="true"/>
+			<element column="rDate" type="timestamp"/>
+		</set>
+
+		<!-- Optional Maps -->
+		<map name="xProps" cascade="all" table="event_xProps"
+			order-by="xprop_name">
+			<key column="eventId" not-null="true"/>
+			<map-key column="xprop_name" type="string" length="255"/>
+			<element type="string" length="1000">
+				<column name="xprop_value" length="1000" />
+			</element>
+		</map>
+
+	</class>
+</hibernate-mapping>

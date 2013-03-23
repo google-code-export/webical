@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.webical" default-lazy="false">
+	<class name="User" table="wcaluser" optimistic-lock="version">
+
+		<id name="userId" type="string" length="255">
+			<column name="userId" length="255" not-null="true" ></column>
+		</id>
+
+		<version name="lastUpdateTime" type="timestamp"/>
+
+		<property name="firstName" type="string" length="1000">
+			<column name="firstName" length="1000" />
+		</property>
+		<property name="lastNamePrefix" type="string" length="1000">
+			<column name="lastNamePrefix" length="1000" />
+		</property>
+		<property name="lastName" type="string" length="1000">
+			<column name="lastName" length="1000" />
+		</property>
+		<property name="birthDate" type="date"/>
+
+	</class>
+</hibernate-mapping>
