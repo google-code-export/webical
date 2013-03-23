@@ -4,7 +4,7 @@
 	<groupId>org.webical.calendar</groupId>
 	<artifactId>webical-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>0.5</version>
+	<version>0.5-SNAPSHOT</version>
 	<name>webical</name>
 	<url>http://www.webical.org</url>
 
@@ -104,21 +104,21 @@
 		use: mvn scm:checkin to commit the project sources 
 	-->
 	<scm>
-		<connection>scm:svn:http://webical.googlecode.com/svn/tags/webical-0.5</connection>
-		<developerConnection>scm:svn:https://webical.googlecode.com/svn/tags/webical-0.5</developerConnection>
-		<url>http://code.google.com/p/webical/source/browse/#svn%2Ftrunk/tags/webical-0.5</url>
+		<connection>scm:svn:http://webical.googlecode.com/svn/trunk</connection>
+		<developerConnection>scm:svn:https://webical.googlecode.com/svn/trunk</developerConnection>
+		<url>http://code.google.com/p/webical/source/browse/#svn%2Ftrunk</url>
 	</scm>
 
 	<!--
 		Used for automatic deploys
 	 -->
-	<distributionManagement>
+	<!-- distributionManagement>
 		<repository>
 			<id>maven.webical.org</id>
 			<name>Webical snapshot repository</name>
 			<url>http://maven.webical.org</url>
 		</repository>
-	</distributionManagement>
+	</distributionManagement -->
 
 	<!--
 		Used repositories
