@@ -5,13 +5,13 @@
 	<parent>
 		<artifactId>webical-parent</artifactId>
 		<groupId>org.webical.calendar</groupId>
-		<version>0.5</version>
+		<version>0.5-SNAPSHOT</version>
 	</parent>
 
 	<groupId>org.webical.calendar</groupId>
 	<artifactId>webical-war</artifactId>
 	<name>webical-war</name>
-	<version>0.5</version>
+	<version>0.5-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<url>http://www.webical.org</url>
 
