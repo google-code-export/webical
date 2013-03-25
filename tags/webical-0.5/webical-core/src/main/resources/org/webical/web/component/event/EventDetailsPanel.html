@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:wicket="http://wicket.sourceforge.net/">
+<body>
+	<wicket:extend>
+		<div id="calendarViewPanel">
+			<div id="calendarViewPanelContentBlock">
+				<div class="panelContent">
+					<table class="datatable" cellpadding="0" cellspacing="0">
+						<tr>
+							<td class="label"><wicket:message key="What.label">What</wicket:message></td>
+							<td class="value"><span class="infoField" id="what" wicket:id="whatLabel">(What)</span></td>
+						</tr>
+						<tr>
+							<td class="label"><wicket:message key="When.label">When</wicket:message></td>
+							<td class="value"><span class="infoField" id="when" wicket:id="whenLabel">(When)</span></td>
+						</tr>
+						<tr>
+							<td class="label"><wicket:message key="Where.label">Where</wicket:message></td>
+							<td class="value"><span class="infoField" id="where" wicket:id="whereLabel">(Where)</span></td>
+						</tr>
+						<tr>
+							<td class="label"><wicket:message key="Calendar.label">Calendar</wicket:message></td>
+							<td class="value"><span class="infoField" id="calendar" wicket:id="calendarLabel">(Calendar)</span></td>
+						</tr>
+						<tr>
+							<td class="label"><wicket:message key="Description.label">Description</wicket:message></td>
+							<td class="value"><span class="infoField" id="description" wicket:id="descriptionLabel">(Description)</span></td>
+						</tr>
+						<tr><td colspan="2"> &nbsp; </td></tr>
+						<tr>
+							<td colspan="2"> &nbsp;
+								<a wicket:id="editLink" class="button"><wicket:message key="Editevent.label">Edit event</wicket:message></a> &nbsp;
+								<a wicket:id="deleteLink" class="button"><wicket:message key="Removeevent.label">Remove event</wicket:message></a> &nbsp;
+								<a wicket:id="backLink" class="button"><wicket:message key="Backtocalendar.label">Back to calendar</wicket:message></a>				
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</wicket:extend>
+</body>
+</html>

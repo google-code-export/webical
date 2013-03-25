@@ -1,0 +1,24 @@
+<html xmlns:wicket="http://wicket.sourceforge.net/">
+<body>
+	<wicket:extend>
+		<!--  div id="panelContentHeaderBlock"> IE6? </div -->
+		<div id="calendarViewPanel" class="dayViewContainer">
+			<div id="calendarViewPanelContentBlock">
+				<div id="dayViewPanelContent">
+					<h1 wicket:id="dayLink">Monday</h1>
+					<a wicket:id="addEventLink" class="addEventLink"><wicket:message key="addevent.label">Add event</wicket:message></a>
+					<div class="clr"></div>
+					<ul class="events">
+						<li class="eventItem" wicket:id="eventItem">
+							<a href="" wicket:id="eventLink">
+								<span wicket:id="eventTime">00:00</span>
+								<span wicket:id="eventTitle">event</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</wicket:extend>
+</body>
+</html>

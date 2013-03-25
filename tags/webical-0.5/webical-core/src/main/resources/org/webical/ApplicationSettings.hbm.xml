@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.webical" default-lazy="false">
+	<class name="ApplicationSettings" table="application_settings"
+		optimistic-lock="version">
+
+		<id name="applicationSettingsId" type="long">
+			<column name="applicationSettingsId" not-null="true" />
+			<generator class="identity" />
+		</id>
+
+		<!-- 
+			resourcePaths - A list of paths to include when searching for additional resources (html/css/etc)
+			customPageTitle - The title to use on the pages
+			pluginPaths - A list of paths to look for plugin packages
+			pluginWorkPath - The location of a writeable directory to extract the plugin packages
+			pluginPackageExtension - The file extension used for the plugins
+			calendarRefreshTimeMs - The timeout between calendar refreshes
+			pluginCleanupEnabled - Determines if the plugin directory is to be emptied on context shutdown
+			configurationUsername - username to log into the configuration page
+			configurationPassword - password to log into the configuration page
+		-->
+
+		<version name="lastUpdateTime" type="timestamp"/>
+
+		<property name="customPageTitle" type="string" length="1000">
+			<column name="customPageTitle" length="1000" />
+		</property>
+		<property name="pluginWorkPath" type="string" length="3000">
+			<column name="pluginWorkPath" length="3000" />
+		</property>
+		<property name="pluginPackageExtension" type="string"
+			length="1000">
+			<column name="pluginPackageExtension" length="1000" />
+		</property>
+		<property name="calendarRefreshTimeMs" type="integer"/>
+		<property name="pluginCleanupEnabled" type="boolean"/>
+		<property name="configurationUsername" type="string"
+			length="1000">
+			<column name="configurationUsername" length="1000" />
+		</property>
+		<property name="configurationPassword" type="string"
+			length="1000">
+			<column name="configurationPassword" length="1000" />
+		</property>
+
+		<set table="appl_sett_plugin_paths" cascade="all"
+			name="pluginPaths">
+			<key column="applicationSettingsId" not-null="true"/>
+			<element type="string" length="3000">
+				<column name="plugin_path" length="3000" />
+			</element>
+		</set>
+		<set table="appl_sett_resource_paths" cascade="all"
+			name="resourcePaths">
+			<key column="applicationSettingsId" not-null="true"/>
+			<element type="string" length="3000">
+				<column name="resource_path" length="3000" />
+			</element>
+		</set>
+
+	</class>
+</hibernate-mapping>
