@@ -112,13 +112,15 @@
 	<!--
 		Used for automatic deploys
 	 -->
-	<!-- distributionManagement>
+	<distributionManagement>
 		<repository>
 			<id>maven.webical.org</id>
 			<name>Webical snapshot repository</name>
-			<url>http://maven.webical.org</url>
+			<url>file:/Data/Temp</url>
+			<!-- url>scp://code.google.com/p/webical/downloads</url -->
+			<!-- status>none</status -->
 		</repository>
-	</distributionManagement -->
+	</distributionManagement>
 
 	<!--
 		Used repositories
@@ -166,6 +168,14 @@
 				<configuration>
 					<tagNameFormat>@{project-version}</tagNameFormat>
 					<autoversionsubmodules>true</autoversionsubmodules>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-plugin</artifactId>
+				<version>1.8.1</version>
+				<configuration>
+					<connectionType>developerConnection</connectionType>
 				</configuration>
 			</plugin>
 		</plugins>
