@@ -135,11 +135,13 @@ public class MonthViewPanelTest extends WebicalApplicationTest
 		// Set the correct dates to find the first and last day of the month
 		GregorianCalendar monthFirstDayDate = CalendarUtils.duplicateCalendar(currentDate);
 		monthFirstDayDate.setTime(CalendarUtils.getFirstDayOfWeekOfMonth(currentDate.getTime(), getFirstDayOfWeek()));
+		log.debug("testRenderingWithoutEvents:monthFirstDayDate " + monthFirstDayDate.getTime());
 		// Assert the first day in the view
 		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID + ":monthRowRepeater:week" + monthFirstDayDate.get(GregorianCalendar.WEEK_OF_YEAR) +":monthDayRepeater:day" + monthFirstDayDate.get(GregorianCalendar.DAY_OF_YEAR), MonthDayPanel.class);
 
 		GregorianCalendar monthLastDayDate = CalendarUtils.duplicateCalendar(currentDate);
 		monthLastDayDate.setTime(CalendarUtils.getLastWeekDayOfMonth(currentDate.getTime(), getFirstDayOfWeek()));
+		log.debug("testRenderingWithoutEvents:monthLastDayDate " + monthLastDayDate.getTime());
 		// Assert the last day in the view
 		wicketTester.assertComponent(PanelTestPage.PANEL_MARKUP_ID + ":monthRowRepeater:week" + monthLastDayDate.get(GregorianCalendar.WEEK_OF_YEAR) +":monthDayRepeater:day" + monthLastDayDate.get(GregorianCalendar.DAY_OF_YEAR), MonthDayPanel.class);
 	}
