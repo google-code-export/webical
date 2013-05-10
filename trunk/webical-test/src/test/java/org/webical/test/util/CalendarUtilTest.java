@@ -30,23 +30,24 @@ import org.webical.util.CalendarUtils;
 
 import junit.framework.TestCase;
 
-public class CalendarUtilTest extends TestCase {
-
+public class CalendarUtilTest extends TestCase
+{
 	Date compareDate = new GregorianCalendar(2006, GregorianCalendar.NOVEMBER, 26).getTime();
 	Date date = new GregorianCalendar(2006, GregorianCalendar.NOVEMBER, 26, 3, 30, 20).getTime();
 
 	/**
 	 * Test retrieval of Local time
 	 */
-	public void testGetLocalTime() {
+	public void testGetLocalTime()
+	{
 		org.webical.util.CalendarUtils.getLocalTime(date, Locale.ENGLISH, false);
 	}
 
 	/**
 	 * Test date calculations
 	 */
-	public void testCalendarUtil() {
-
+	public void testCalendarUtil()
+	{
 		// Date in the first week of December
 		Date date = org.webical.util.CalendarUtils.getFirstDayOfWeekOfMonth(new  GregorianCalendar(2006, GregorianCalendar.DECEMBER,6).getTime(), GregorianCalendar.SUNDAY);
 		assertEquals(compareDate, date);
@@ -81,6 +82,19 @@ public class CalendarUtilTest extends TestCase {
 		dayCalendar.setTime(date);
 
 		assertEquals(GregorianCalendar.MONDAY, dayCalendar.get(GregorianCalendar.DAY_OF_WEEK));
+
+		// Test change of daylight saving time happening at March 31 2 AM
+		// first day of the week
+		dayCalendar.set(2013, GregorianCalendar.APRIL, 3, 12, 59, 45);
+		compareDate = org.webical.util.CalendarUtils.getFirstDayOfWeek(dayCalendar.getTime(), GregorianCalendar.SUNDAY);
+		GregorianCalendar compareCal = org.webical.util.CalendarUtils.newTodayCalendar(GregorianCalendar.SUNDAY);
+		compareCal.setTime(compareDate);
+		assertEquals(GregorianCalendar.SUNDAY, compareCal.get(GregorianCalendar.DAY_OF_WEEK));
+
+		// last day of the week
+		compareDate = org.webical.util.CalendarUtils.getLastDayOfWeek(dayCalendar.getTime(), GregorianCalendar.SUNDAY);
+		compareCal.setTime(compareDate);
+		assertEquals(GregorianCalendar.SATURDAY, compareCal.get(GregorianCalendar.DAY_OF_WEEK));
 
 		GregorianCalendar dtStart = new GregorianCalendar(2006, GregorianCalendar.DECEMBER, 1);
 		GregorianCalendar dtEnd = new GregorianCalendar(2006, GregorianCalendar.DECEMBER, 2);
