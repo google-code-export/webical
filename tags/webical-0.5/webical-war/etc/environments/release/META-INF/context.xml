@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+  Context for WebiCal
+-->
+<Context override="true" antiJARLocking="false" antiResourceLocking="false" reloadable="false" crossContext="false" privileged="false" cookies="true">
+
+	<!--
+	  Realm Authentication with MySQL
+
+	  If you want to use a different database, replace 'localhost:3306/webical' in the 'connectionUrl' String with your database.
+	  The format is: host:port/database_name
+
+	  If you want to use different tables for the authentication usernames and user roles,
+	  change the 'userTable' string with the table you store your users in
+	  and change 'userNameCol' and 'userCredCol' to the table fields the username and password are stored in
+	  Change 'userRoleTable' to the table you store the realm user roles in and change the 'roleNameCol'
+	  to the table field the role name is stored in.
+	  Make sure the rolenames are the same as the <role-name> in 'tomcat/webapps/webical/WEB-INF/web.xml'
+	 -->
+	<Realm className="org.apache.catalina.realm.JDBCRealm"
+		<!-- debug="4" -->
+		driverName="com.mysql.jdbc.Driver"
+		connectionName="webical"
+		connectionPassword="webical"
+		connectionURL="jdbc:mysql://localhost:3306/webical?autoReconnect=true"
+		userTable="_auth_user"
+		userNameCol="username"
+		userCredCol="userpass"
+		userRoleTable="_auth_userrole"
+		roleNameCol="role"/>
+
+	<!--
+	  Realm Authentication with LDAP
+	  You can leave this commented if you are not using LDAP as authentication for Tomcat
+
+	  If you want to use LDAP for Tomcat authentication, comment out the above realm configuration
+	  and uncomment the configuration below.
+	  Replace the settings with your own.
+	 -->
+	<!--
+        <Realm className="org.apache.catalina.realm.JNDIRealm"
+	                debug="4"
+	                connectionURL="ldaps://ldap.webical.org"
+	                secure="true"
+	                connectionName="ou=System,dc=webical,dc=file:///usr/share/ubuntu-artwork/home/index.htmlorg"
+	                connectionPassword=""
+	                userPattern="uid={0},ou=Users,dc=webical,dc=org"
+	                roleBase="ou=Groups,dc=webical,dc=org"
+	                roleName="cn"
+	                roleSearch="(memberUid={1})"/>
+	-->
+
+	<!-- Webical database resource
+
+	  If you want to use a different database, replace 'localhost:3306/webical' in the 'url' String with your database.
+	  The format is: host:port/database_name
+
+	  If you have a different database user,
+	  change username 'webical' and password 'webical' to your credentials
+	-->
+	<Resource
+		name="jdbc/calendarDataBase"
+		auth="Container"
+		type="javax.sql.DataSource"
+		factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
+		username="webical"
+		password="webical"
+		driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://localhost:3306/webical?autoReconnect=true" />
+
+</Context>

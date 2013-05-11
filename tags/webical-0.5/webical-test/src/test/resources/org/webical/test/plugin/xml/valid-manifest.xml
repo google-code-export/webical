@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webical:plugin 
+	xmlns:webical="http://www.webical.org/plugin" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.webical.org/plugin http://www.webical.org/xsd/plugin.xsd">
+
+	<webical:plugin-name>Test plugin</webical:plugin-name>
+	<webical:plugin-description>A valid plugin to test with (includes a jar file with resources and a class that wants to load it)</webical:plugin-description>
+	<webical:plugin-version>0.1-SNAPSHOT</webical:plugin-version>
+	<webical:webical-version>0.3-SNAPSHOT</webical:webical-version>
+	
+	
+	<webical:resource-folders>
+		<webical:resource-folder>
+			<webical:file-name>resources</webical:file-name>
+		</webical:resource-folder>
+	</webical:resource-folders>
+	
+	<webical:class-folders>
+		<webical:class-folder>
+			<webical:file-name>classfiles</webical:file-name>
+		</webical:class-folder>
+	</webical:class-folders>
+	
+	<webical:jar-folders>
+		<webical:jar-folder>
+			<webical:file-name>jarfiles</webical:file-name>
+		</webical:jar-folder>
+	</webical:jar-folders>
+	
+	<!-- List of plugin registrations -->
+	<webical:registrations>
+		
+		<!-- A backend plugin -->
+		<webical:backend-plugin>
+			<webical:class-name>SomeClass</webical:class-name>
+			<webical:calendar-type>some-strange-calendar</webical:calendar-type>
+			<webical:dao-type>Event</webical:dao-type>
+		</webical:backend-plugin>
+		
+		<!-- A frontend plugin -->
+		<webical:frontend-plugin>
+			<webical:class-name>SomeExtension</webical:class-name>
+			<webical:extended-class>org.webical.web.components.HeaderPanel</webical:extended-class>
+			<webical:extendable>true</webical:extendable>
+		</webical:frontend-plugin>
+		
+	</webical:registrations>
+</webical:plugin>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.webical.org/plugin" 
+	xmlns:webical="http://www.webical.org/plugin"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	jaxb:extensionBindingPrefixes="xjc"
+	jaxb:version="2.0"
+	elementFormDefault="qualified"
+	attributeFormDefault="qualified">
+	
+	<!-- 
+		some magic to make jaxb add implements Serializable to the generated classes
+	-->
+	<annotation>
+	   <appinfo>
+	      <jaxb:globalBindings 
+	         generateIsSetMethod="true"
+	         choiceContentProperty="true" >
+	
+	           <xjc:serializable uid="12343"/>
+	      </jaxb:globalBindings>
+	   </appinfo>
+	</annotation>
+			
+	<!-- 
+		Types
+	 -->
+
+	<complexType name="jar-folder">
+		<annotation>
+			<documentation>a folder to load jars from</documentation>
+		</annotation>
+		<sequence>
+			<element name="file-name" type="webical:non-empty-string">
+				<annotation>
+					<documentation>The name of the folder (full path from the plugin's root)</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	
+	<complexType name="class-folder">
+		<annotation>
+			<documentation>a folder to load classes from</documentation>
+		</annotation>
+		<sequence>
+			<element name="file-name" type="webical:non-empty-string">
+				<annotation>
+					<documentation>The name of the folder (full path from the plugin's root)</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	
+	<complexType name="resource-folder">
+			<annotation>
+				<documentation>A resource folder entry to register in the wicket lookup path</documentation>
+			</annotation>	
+		<sequence>
+			<element name="file-name" type="webical:non-empty-string">
+				<annotation>
+					<documentation>The name of the folder (full path from the plugin's root)</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	
+	<!-- developer -->
+	<complexType name="developer">
+		<annotation>
+			<documentation>Props to the developer</documentation>
+		</annotation>
+		<sequence>
+			<element name="name" type="webical:non-empty-string"/>
+			<element name="email" type="webical:non-empty-string" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	
+	<!-- support type for non-empty strings -->
+	<simpleType name='non-empty-string'>
+		<restriction base='string'>
+			<minLength value='1'/>
+		</restriction>
+	</simpleType>
+	
+	<!-- 
+		Elements
+	 -->
+	 
+	 <!-- list of developers -->
+	 <complexType name="developers">
+	 	<sequence>
+			<element name="developer" type="webical:developer"/>
+		</sequence>
+	 </complexType>
+		
+	<element name="class-folders">
+		<annotation>
+			<documentation>A list of folders to load classes from</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element name="class-folder" type="webical:class-folder" minOccurs="1" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="jar-folders">
+		<annotation>
+			<documentation>A list of folders to load jar files from</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element name="jar-folder" type="webical:jar-folder" minOccurs="1" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="resource-folders">
+		<annotation>
+			<documentation>A list of resource folders to include in the wicket search path</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element name="resource-folder" type="webical:resource-folder" minOccurs="1" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+	</element>
+	
+	<!-- a list of front and backend plugins -->
+	<element name="registrations">
+		<complexType>
+			<sequence>
+				<element ref="webical:backend-plugin" minOccurs="0" maxOccurs="unbounded" />
+				<element ref="webical:frontend-plugin" minOccurs="0" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+	</element>
+	
+	<!-- a backend plugin to register with the DaoFactory -->
+	<element name="backend-plugin">
+		<complexType>
+			<sequence>
+				<element name="class-name" type="webical:non-empty-string">
+					<annotation>
+						<documentation>The fully qualified class name. (eg some.package.Class)</documentation>
+					</annotation>
+				</element>
+				<element name="calendar-type" type="webical:non-empty-string">
+					<annotation>
+						<documentation>
+							The identifier that will be used in webical to differentiate between plugins.
+							The standard ical over webdav daos use ical-webdav for example
+						</documentation>
+					</annotation>
+				</element>
+				<element name="dao-type">
+					<simpleType>
+  						<restriction base="string">
+    						<enumeration value="Event"/>
+    						<enumeration value="Task"/>
+  						</restriction>
+					</simpleType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<!-- a frontend plugin to register with the extended-class (must implement ExtensionListener) -->
+	<element name="frontend-plugin">
+		<complexType>
+			<sequence>
+				<element name="class-name" type="webical:non-empty-string" >
+					<annotation>
+						<documentation>The fully qualified class name. (eg some.package.Class)</documentation>
+					</annotation>
+				</element>
+				<element name="extended-class" type="webical:non-empty-string" >
+					<annotation>
+						<documentation>The fully qualified class name. (eg some.package.Class)</documentation>
+					</annotation>
+				</element>
+				<element name="extendable" type="boolean">
+					<annotation>
+						<documentation>Does this plugin over its own extension point?</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="plugin">
+		<complexType>
+			<sequence>
+				<!-- Required elements -->
+				<element name="plugin-name" type="webical:non-empty-string"/>
+				<element name="plugin-description" type="webical:non-empty-string"/>
+				<element name="plugin-version" type="webical:non-empty-string"/>
+				<element name="webical-version" type="webical:non-empty-string"/>
+				
+				<!-- Optional elements -->
+				<element name="developers" type="webical:developers" minOccurs="0"/>
+				<element name="plugin-info-page" type="webical:resource-folder" minOccurs="0"/>
+				<element name="global-configuration-class" type="webical:non-empty-string" minOccurs="0">
+					<annotation>
+						<documentation>The fully qualified class name. (eg some.package.Class)</documentation>
+					</annotation>
+				</element>
+				<element name="user-configuration-class" type="webical:class-folder" minOccurs="0">
+					<annotation>
+						<documentation>The fully qualified class name. (eg some.package.Class)</documentation>
+					</annotation>		
+				</element>
+				<element ref="webical:resource-folders" minOccurs="0"/>
+				<element ref="webical:class-folders" minOccurs="0"/>
+				<element ref="webical:jar-folders" minOccurs="0"/>
+				<element ref="webical:registrations" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

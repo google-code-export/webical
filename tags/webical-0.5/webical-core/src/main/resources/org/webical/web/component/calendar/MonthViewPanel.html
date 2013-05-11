@@ -1,0 +1,28 @@
+<html xmlns:wicket="http://wicket.sourceforge.net/">
+<body>
+	<wicket:extend>
+		<!-- <div id="datePickerPanel" wicket:id="monthViewDatePickerPanel"></div>
+		<div id="dateSwitcherPanel" wicket:id="monthViewDateSwitcherPanel"></div> -->
+
+		<div id="calendarViewPanel" class="monthViewContainer">
+			<div id="calendarViewPanelContentBlock">
+				<div id="calendarViewPanelContentNoMargin">
+
+					<table id="monthView">
+						<thead>
+							<tr class="calendarTopHeaders">
+								<th class="first">&nbsp;</th>
+								<th wicket:id="monthHeaderRepeater"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr wicket:id="monthRowRepeater" class="monthList"></tr>
+						</tbody>
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</wicket:extend>
+</body>
+</html>
