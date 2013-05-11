@@ -3,14 +3,14 @@
 	<parent>
 		<artifactId>webical-parent</artifactId>
 		<groupId>org.webical.calendar</groupId>
-		<version>0.6-SNAPSHOT</version>
+		<version>0.5-SNAPSHOT</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.webical.calendar</groupId>
 	<artifactId>webical-test</artifactId>
 	<name>webical-test</name>
-	<version>0.6-SNAPSHOT</version>
+	<version>0.5-SNAPSHOT</version>
 	<url>http://www.webical.org</url>
 
 	<distributionManagement>
@@ -74,8 +74,8 @@
 									Performing macro replacements
 								</echo>
 								<replace dir="${basedir}/src/test" casesensitive="true" token="@WEBICAL_VERSION@" value="${project.version}">
-									<include name="**/*.xml" />
-									<include name="**/*.properties" />
+									<include name="**/*.xml"/>
+									<include name="**/*.properties"/>
 								</replace>
 							</tasks>
 						</configuration>
