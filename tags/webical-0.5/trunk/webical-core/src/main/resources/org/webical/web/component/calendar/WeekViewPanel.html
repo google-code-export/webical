@@ -1,0 +1,26 @@
+<html xmlns:wicket="http://wicket.sourceforge.net/">
+<body>
+	<wicket:extend>
+		<div id="calendarViewPanel" class="weekViewContainer">
+			<div id="calendarViewPanelContentBlock">
+				<div id="calendarViewPanelContent">
+					<table id="weekView">
+						<thead>
+							<tr class="calendarTopHeaders">
+								<th class="first" wicket:id="weekHeadingHeadContainer">&nbsp;</th>
+								<th wicket:id="dayHeadingRepeater"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="weekRow">
+								<td class="weekHeader"><span wicket:id="weekHeadingBodyContainer"></span>&nbsp;</td>
+								<td wicket:id="weekColumnRepeater"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</wicket:extend>
+</body>
+</html>

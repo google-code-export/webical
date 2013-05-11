@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.webical" default-lazy="false">
+	<class name="Settings" table="settings" optimistic-lock="version">
+
+		<id name="settingsId" type="long">
+			<column name="settingsId" not-null="true"/>
+			<generator class="identity" />
+		</id>
+
+        <version name="lastUpdateTime" type="timestamp"/>
+
+		<set name="options" cascade="all" table="options">
+			<key column="settingsId2" not-null="true"/>
+			<one-to-many class="Option"/>
+		</set>
+
+	</class>
+</hibernate-mapping>

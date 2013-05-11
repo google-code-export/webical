@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.webical" default-lazy="false">
+	<class name="Calendar" table="calendar" optimistic-lock="version">
+
+		<id name="calendarId" type="long">
+			<column name="calendarId" not-null="true" />
+			<generator class="identity" />
+		</id>
+
+		<version name="lastUpdateTime" type="timestamp"/>
+
+		<property name="name" type="string" not-null="true" length="1000">
+			<column name="name" length="1000" />
+		</property>
+		<property name="type" type="string" not-null="true" length="1000">
+			<column name="type" length="1000" />
+		</property>
+		<property name="url" type="string" not-null="true" length="3000">
+			<column name="url" length="3000" />
+		</property>
+		<property name="username" type="string" length="1000">
+			<column name="username" length="1000" />
+		</property>
+		<!-- Encryption is configured in TypeRegistration.hbm.xml -->
+		<property name="password" type="encrypted" length="1000">
+			<column name="password" length="1000" />
+		</property>
+		<property name="readOnly" type="boolean"/>
+		<property name="visible" type="boolean"/>
+		<property name="offSetFrom" type="integer"/>
+		<property name="offSetTo" type="integer"/>
+		<property name="lastRefreshTimeStamp" type="long"/>
+
+		<many-to-one name="user" class="User" column="userId"
+			not-null="true"/>
+
+	</class>
+</hibernate-mapping>
