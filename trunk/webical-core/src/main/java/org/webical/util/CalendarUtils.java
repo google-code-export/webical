@@ -204,7 +204,7 @@ public class CalendarUtils
 	{
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime(day);
-		calendar.setTimeInMillis(calendar.getTimeInMillis() + (amount * dayInMs));
+		calendar.add(GregorianCalendar.DAY_OF_MONTH, amount);
 		return calendar.getTime();
 	}
 

@@ -339,11 +339,11 @@ public class WeekViewPanelTest extends WebicalApplicationTest
 				else assertEquals(0, bhvs.size());
 
 				if (evt.getUid().equals("e5"))
-				{
+				{	// e5: Fri 14:00 to Sat 16:00
 					String timePath = item.getPageRelativePath() + ":eventLink:eventTime";
 					String timeLabelText = null;
 					if (weekDay == GregorianCalendar.FRIDAY) timeLabelText = dateFormat.format(evt.getDtStart());
-					else timeLabelText = dateFormat.format(midWeek);
+					else timeLabelText = dateFormat.format(midWeek);	// time 00:00
 					wicketTester.assertLabel(timePath, timeLabelText);
 				}
 			}
