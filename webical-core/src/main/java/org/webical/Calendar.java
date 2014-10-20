@@ -36,28 +36,28 @@ public class Calendar implements Serializable {
 
 	public static final String CALENDAR_PROPERTY_NAME = "calendar";
 
-	private Long calendarId = null;
-	private String name = null;
-	private String type = null;
-	private String url = null;
-	private String username = null;
-	private String password = null;
-	private Boolean readOnly = Boolean.FALSE;
-	private Boolean visible = Boolean.TRUE;
+	Long calendarId;
+	String name;
+	String type;
+	String url;
+	String username;
+	String password;
+	Boolean readOnly = Boolean.FALSE;
+	Boolean visible = Boolean.TRUE;
 
 	// offSetFrom: local time offset (hours) from GMT when daylight saving time is in operation
-	private Integer offSetFrom = 2;
+	Integer offSetFrom = 2;
 	// offSetFrom: local time offset (hours) from GMT when when standard time is in operation
-	private Integer offSetTo = 1;
+	Integer offSetTo = 1;
 
-	private Long lastRefreshTimeStamp = null;
+	Long lastRefreshTimeStamp;
 
-	private User user = null;
+	User user;
 
 	/**
 	 * Last update time of this record
 	 */
-	private Date lastUpdateTime = null;
+	Date lastUpdateTime;
 
 	/*Getters & Setters*/
 	public Long getCalendarId() {
