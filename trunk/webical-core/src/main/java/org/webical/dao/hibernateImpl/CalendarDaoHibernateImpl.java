@@ -177,7 +177,7 @@ public class CalendarDaoHibernateImpl extends BaseHibernateImpl implements Calen
 	 */
 	@Transaction(readOnly=true)
 	public void refreshCalendar(Calendar calendar) throws DaoException {
-		getSession().refresh(calendar);
+		if (calendar.getCalendarId() != null) getSession().refresh(calendar);
 	}
 
 	////////////////////////////
