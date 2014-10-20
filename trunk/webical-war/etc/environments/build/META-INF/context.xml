@@ -2,7 +2,7 @@
 <!--
   Context for WebiCal
 -->
-<Context path="" override="true" antiJARLocking="false" antiResourceLocking="false" reloadable="false" crossContext="false" privileged="false" cookies="true">
+<Context path="" override="true" antiResourceLocking="false" reloadable="false" crossContext="false" privileged="false" cookies="true">
 
 	<!-- Authentication realm -->	
 	<!--<Realm className="org.apache.catalina.realm.MemoryRealm"/>-->
