@@ -2,7 +2,7 @@
 <!--
   Context for WebiCal
 -->
-<Context override="true" antiJARLocking="false" antiResourceLocking="false" reloadable="false" crossContext="false" privileged="false" cookies="true">
+<Context override="true" antiResourceLocking="false" reloadable="false" crossContext="false" privileged="false" cookies="true">
 
 	<!--
 	  Realm Authentication with MySQL
