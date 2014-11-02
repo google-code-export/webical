@@ -1,6 +1,11 @@
 #labels User,Developer,Resource,Featured
 (checkout the [Roadmap] for what lies ahead)
 
+== Webical 0.5 ==
+ * Numerous bug fixes
+ * Read only calendar
+ * Moved download webical.war to repositiry in webical-war sub project
+
 == Webical 0.4.1 ==
   * Calendar on/off toggle in calendar settings screen
   * All day event background color
