@@ -4,16 +4,10 @@
 
 /*  -------- Selectors in alphabetical order!  ------- */
 
-/* Calendar Views Tabs */
-
-.calendarView .tab-row, #contentPanel_calendarViewsTabs .tab-row, .tab-row {
-  top: 8px;
-}
-
 /* Month view */
 
 #calendarViewPanel .eventsInMonth, #calendarViewPanel .eventsInList {
-  height: 85%;
+	height: 85%;
 	position: absolute;
  	width: 14%;
 }
