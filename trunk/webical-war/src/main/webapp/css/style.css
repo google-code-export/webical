@@ -342,7 +342,7 @@ a.button, span.button {
   bottom: 10px;
   z-index: 15;
   visibility: hidden;
-  display: none;
+  display: block;
 }
 
 /* Add Event Panel */
@@ -546,18 +546,16 @@ a.button, span.button {
 #dateSwitcher {
   position: absolute;
   left: 2em;
-  padding: 1px;
+  margin: 0;
+  padding: 0;
   list-style: none;
   list-style-position: outside;
+  font-weight: normal;
 }
 
 #dateSwitcher li {
-  display: block;
   float: left;
-  height: 100%;
-  padding-top: 6px;
-  margin-right: .5em;
-  vertical-align: middle;
+  margin: 1.4em 0.5em 1px 0px;
 }
 
 #previousLink, #nextLink {
@@ -576,14 +574,13 @@ a.button, span.button {
 }
 
 #previousLink span, #nextLink span {
-  line-height: 1px;
   visibility: hidden;
 }
 
 #dateSwitcher li #todayButton {
   display: inline;
   float: none;
-  line-height: 160%;
+  vertical-align: middle;
 }
 
 #dateSwitcher #rangeLabel {
@@ -598,7 +595,7 @@ a.button, span.button {
   /*border: 1px solid #51636A;
    border-width: 1px 0;*/
   position: absolute;
-  top: 27px;
+  top: 27px;   /* height of topbar2.png */
   left: 0;
   bottom: 0;
   width: 100%;
@@ -618,46 +615,39 @@ a.button, span.button {
 
 .tab-row {
   position: absolute;
-  top: 0px;
+  top: 0;
   right: 2em;
-  height: 39px;   /* calendarViewPanel starts at 39px */
-  margin: 0;
-  padding: 0;
-  border: 0px none transparent;
-  vertical-align: bottom;
+  height: 3.5em;
+  font-weight: normal;
   z-index: 25;
 }
 
 .tab-row ul {
-  height: 17px;
-  margin: 11px 0 11px 0;
-  padding: 0;
+  margin: 0;
   list-style: none;
   list-style-position: outside;
 }
 
 .tab-row li {
-  margin: 0 6px 0 0;
-  padding: 0;
   float: left;
+  margin: 1em 0.6em 0 0;
+  vertical-align: bottom;
 }
 
 .tab-row li a {
-  display: block;
-  min-width: 6em;
-  height: 17px;
-  margin: 0 3px 0 3px;
-  padding: 5px 3px 5px 3px;
+  display: inline-block;
+  min-width: 6.5em;
+  margin: 0px 3px 0px 3px;
+  padding: 0.5em 0 0.4em 0;
   border: 1px solid #829DAD;
-  border-bottom: 0px none transparent;
+  border-bottom: 1px none transparent;
   color: #666;
   background-color: #D5D6DB;
+  text-align: center;
   text-decoration: none;
 }
 
 .tab-row li a span {
-  display: block;
-  text-align: center;
   cursor: pointer;
 }
 
@@ -679,7 +669,7 @@ a.button, span.button {
 
 #calendarViewPanel {
   position: absolute;
-  top: 39px;
+  top: 3.5em;
   bottom: 9px;
   width: 100%;
   clear: both;
